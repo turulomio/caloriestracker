@@ -2,8 +2,8 @@ CREATE TABLE companies (
 	id serial,
 	name text,
 	countries_id integer,
-	start timestamp with time zone,
-	end timestamp with time zone
+	starts timestamp with time zone,
+	ends timestamp with time zone
 );
 ALTER TABLE companies ADD CONSTRAINT companies_pk PRIMARY KEY(id);
 CREATE TABLE countries (
@@ -19,8 +19,8 @@ CREATE TABLE products (
 	protein numeric(10, 2),
 	carbohydrate numeric(10, 2),
 	companies_id integer,
-	end timestamp with time zone,
-	start timestamp with time zone,
+	ends timestamp with time zone,
+	starts timestamp with time zone,
 	personalproducts_id integer,
 	countries_id integer
 );
@@ -29,16 +29,16 @@ CREATE TABLE formats (
 	id serial,
 	name text,
 	amount numeric(10, 2),
-	start date,
-	end date,
+	starts date,
+	ends date,
 	products_id integer
 );
 ALTER TABLE formats ADD CONSTRAINT formats_id PRIMARY KEY(id);
 CREATE TABLE users (
 	id serial,
 	name text,
-	start timestamp with time zone,
-	end timestamp with time zone
+	starts timestamp with time zone,
+	ends timestamp with time zone
 );
 ALTER TABLE users ADD CONSTRAINT users_id PRIMARY KEY(id);
 CREATE TABLE meals (
@@ -61,12 +61,12 @@ CREATE TABLE products_in_personalproducts (
 	amount numeric(10, 2),
 	personalproducts_id integer
 );
-ALTER TABLE products_in_personalproducts ADD CONSTRAINT products_in_personalproducts PRIMARY KEY(id);
+ALTER TABLE products_in_personalproducts ADD CONSTRAINT products_in_personalproducts_pk PRIMARY KEY(id);
 CREATE TABLE biometrics (
 	id serial,
 	name text,
-	start timestamp with time zone,
-	end timestamp with time zone,
+	starts timestamp with time zone,
+	ends timestamp with time zone,
 	weight numeric(10, 2),
 	height numeric(10, 2),
 	users_id integer
@@ -81,3 +81,9 @@ ALTER TABLE meals ADD CONSTRAINT meals_products_fk FOREIGN KEY (products_id) REF
 ALTER TABLE meals ADD CONSTRAINT meals_users_fk FOREIGN KEY (products_id) REFERENCES users(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE products ADD CONSTRAINT products_personalproducts_fk FOREIGN KEY (personalproducts_id) REFERENCES personalproducts(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE products ADD CONSTRAINT products_countries_fk FOREIGN KEY (countries_id) REFERENCES countries(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+CREATE TABLE globals (
+	id serial,
+	name text,
+	value text
+);
+INSERT INTO public.globals(id,name,value) values (1, 'Database version', 0);
