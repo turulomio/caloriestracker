@@ -1,9 +1,16 @@
-<mat-menu #appMenu="matMenu">
-        <button mat-menu-item>Settings</button>
-        <button mat-menu-item>Help</button>
+
+<button mat-button [matMenuTriggerFor]="menProfile">Profile</button>
+<mat-menu #menProfile="matMenu" yPosition="below">
+        <button mat-menu-item><mat-icon>person</mat-icon>User</button>
+        <button mat-menu-item><mat-icon>flag</mat-icon>Language</button>
+      </mat-menu>
+<button mat-button [matMenuTriggerFor]="menProducts">Products</button>
+<mat-menu #menProducts="matMenu" yPosition="below">
+  <button mat-menu-item><mat-icon>home</mat-icon>Companies</button>
+  <button mat-menu-item><mat-icon>person_pin</mat-icon>Personal products</button>
 </mat-menu>
-      
-<button mat-icon-button [matMenuTriggerFor]="appMenu">
-<mat-icon>more_vert</mat-icon>
-</button>
-<p>mal</p>
+
+<button mat-button [matMenuTriggerFor]="menMeals">Meals</button>
+<mat-menu #menMeals="matMenu" yPosition="below">
+  <button mat-menu-item><mat-icon>favorite</mat-icon>Add a meal</button>
+</mat-menu>

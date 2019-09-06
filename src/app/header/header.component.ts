@@ -1,5 +1,4 @@
 import { Component, OnInit , NgModule} from '@angular/core';
-import {MenuComponent} from '../menu/menu.component'
 
 @Component({
   selector: 'app-header',
