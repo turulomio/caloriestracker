@@ -68,6 +68,11 @@ class Meals(ObjectManager_With_IdDatetime):
         for meal in self.arr:
             r=r+meal.meal_salt()
         return r
+    def grams(self):
+        r=Decimal(0)
+        for meal in self.arr:
+            r=r+meal.meal_amount
+        return r
     def max_name_len(self):
         r=0
         for meal in self.arr:
@@ -165,28 +170,19 @@ where products.id=meals.products_id and datetime::date=%s and user_id=%s""",(arg
 
 con.disconnect()
 
-print("Hi {}, you are {} old with {} Kg and {} cm tall".format(user.name, user.age(), user.weight, user.height))
-print("Your BMR is {}".format(user.bmr()))
-
-print("This is your meal for {}:".format(args.date))
-for meal in meals.arr:
-    print("{} {}. Fat {}. Protein {}, Carbohydrate {}".format(meal.datetime, meal.name, meal.meal_fat(), meal.meal_protein(), meal.meal_carbohydrate()))
-
-
-
 maxname=meals.max_name_len()
-maxlength=5+2+maxname+2+6+2+6+2+6
+maxlength=5+2+maxname+2+6+2+6+2+6+2+6
 print (Style.BRIGHT+ "="*(maxlength) + Style.RESET_ALL)
-print (Style.BRIGHT+ "{} MEALS AT {}".format(meals.length(), args.date).center(maxlength," ") + Style.RESET_ALL)
+print (Style.BRIGHT+ "{} REPORT AT {}".format(user.name.upper(), args.date).center(maxlength," ") + Style.RESET_ALL)
+print (Style.BRIGHT+ "{} Kg. {} cm. {} years <==> BMR: {} Calories".format(user.weight, user.height, user.age(), user.bmr()).center(maxlength," ") + Style.RESET_ALL)
 print (Style.BRIGHT+ "="*(maxlength) + Style.RESET_ALL)
 
-print (Style.BRIGHT+ "{}  {}  {}  {}  {}".format(" HOUR".center(5,' '),"NAME".center(maxname," "),"CAL".center(6,' '), "FAT".center(6,' '), "PRO".center(6,' ')) + Style.RESET_ALL)
+print (Style.BRIGHT+ "{}  {}  {}  {}  {}  {}".format(" HOUR".center(5,' '),"NAME".center(maxname," "),"GRAMS".center(6,' '), "CAL".center(6,' '), "FAT".center(6,' '), "PRO".center(6,' ')) + Style.RESET_ALL)
 for meal in meals.arr:
-    print (Style.BRIGHT + "{}  {}  {}  {}  {}".format(meal.meal_hour(), meal.name.ljust(maxname), a2s(meal.meal_calories()), a2s(meal.meal_fat()), a2s(meal.meal_protein())) + Style.RESET_ALL)
+    print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}".format(meal.meal_hour(), meal.name.ljust(maxname), a2s(meal.meal_amount),a2s(meal.meal_calories()), a2s(meal.meal_fat()), a2s(meal.meal_protein())) + Style.RESET_ALL)
 #    print ("{}  {}  {}  {}  {}".format(h.ip.ljust(16), h.type.name.ljust(maxtype),  mac.center(17),   Style.BRIGHT+Fore.YELLOW +  alias.ljust(maxalias), Style.NORMAL+Fore.WHITE+ h.oui.ljust(maxoui)) + Style.RESET_ALL)
 print (Style.BRIGHT+ "-"*(maxlength) + Style.RESET_ALL)
-print (Style.BRIGHT + "TOTAL  {}  {}  {}  {}".format("".ljust(maxname), a2s(meals.calories()), a2s(meals.fat()), a2s(meals.protein())) + Style.RESET_ALL)
+total="{} MEALS WITH THIS TOTALS".format(meals.length())
+print (Style.BRIGHT + "{}  {}  {}  {}  {}".format(total.ljust(maxname+7), a2s(meals.grams()), a2s(meals.calories()), a2s(meals.fat()), a2s(meals.protein())) + Style.RESET_ALL)
 
 print (Style.BRIGHT + "="*(maxlength) + Style.RESET_ALL)
-
-print ("Calories {} of {}".format(meals.calories(),user.bmr()))
