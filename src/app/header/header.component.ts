@@ -1,10 +1,6 @@
 import { Component, OnInit , NgModule} from '@angular/core';
 import {MenuComponent} from '../menu/menu.component'
-@NgModule({
-  imports: [
-    MenuComponent
-  ],
-})
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
