@@ -112,7 +112,7 @@ class Product:
         pass
 ## amount2string
 def a2s(amount):
-    return str(round(amount, 2)).rjust(6)
+    return str(round(amount, 2)).rjust(7)
 
 
 def string2date(iso, type=1):
@@ -136,7 +136,7 @@ parser=ArgumentParser(prog='calories', description=_('Report of calories'), epil
 argparse_connection_arguments_group(parser, default_db="caloriestracker")
 group = parser.add_argument_group("productrequired=True")
 group.add_argument('--date', help=_('Date to show'), action="store", default=str(date.today()))
-group.add_argument('--user_id', help=_('User id'), action="store", default=1)
+group.add_argument('--users_id', help=_('User id'), action="store", default=1)
 args=parser.parse_args()
 
 con=Connection()
@@ -148,9 +148,9 @@ con.get_password()
 con.connect()
 
 args.date=string2date(args.date)
-args.user_id=int(args.user_id)
+args.users_id=int(args.users_id)
 
-user=User().init__from_db(args.user_id)
+user=User().init__from_db(args.users_id)
 
 meals=Meals().init__from_db(con.mogrify("""
 select
@@ -166,23 +166,23 @@ select
 from 
     meals, 
     products 
-where products.id=meals.products_id and datetime::date=%s and user_id=%s""",(args.date, args.user_id)))
+where products.id=meals.products_id and datetime::date=%s and users_id=%s order by datetime""",(args.date, args.users_id)))
 
 con.disconnect()
 
 maxname=meals.max_name_len()
-maxlength=5+2+maxname+2+6+2+6+2+6+2+6
+maxlength=5+2+maxname+2+7+2+7+2+7+2+7+2+7
 print (Style.BRIGHT+ "="*(maxlength) + Style.RESET_ALL)
 print (Style.BRIGHT+ "{} REPORT AT {}".format(user.name.upper(), args.date).center(maxlength," ") + Style.RESET_ALL)
 print (Style.BRIGHT+ "{} Kg. {} cm. {} years <==> BMR: {} Calories".format(user.weight, user.height, user.age(), user.bmr()).center(maxlength," ") + Style.RESET_ALL)
 print (Style.BRIGHT+ "="*(maxlength) + Style.RESET_ALL)
 
-print (Style.BRIGHT+ "{}  {}  {}  {}  {}  {}".format(" HOUR".center(5,' '),"NAME".center(maxname," "),"GRAMS".center(6,' '), "CAL".center(6,' '), "FAT".center(6,' '), "PRO".center(6,' ')) + Style.RESET_ALL)
+print (Style.BRIGHT+ "{}  {}  {}  {}  {}  {}  {}".format("HOUR ","NAME".ljust(maxname," "),"GRAMS".rjust(7,' '), "CALORIE".rjust(7,' '), "FAT".rjust(7,' '), "PROTEIN".rjust(7,' '), "CARBOHY".rjust(7,' ')) + Style.RESET_ALL)
 for meal in meals.arr:
-    print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}".format(meal.meal_hour(), meal.name.ljust(maxname), a2s(meal.meal_amount),a2s(meal.meal_calories()), a2s(meal.meal_fat()), a2s(meal.meal_protein())) + Style.RESET_ALL)
-#    print ("{}  {}  {}  {}  {}".format(h.ip.ljust(16), h.type.name.ljust(maxtype),  mac.center(17),   Style.BRIGHT+Fore.YELLOW +  alias.ljust(maxalias), Style.NORMAL+Fore.WHITE+ h.oui.ljust(maxoui)) + Style.RESET_ALL)
+    print ( "{}  {}  {}  {}  {}  {}  {}".format(meal.meal_hour(), meal.name.ljust(maxname), a2s(meal.meal_amount),a2s(meal.meal_calories()), a2s(meal.meal_fat()), a2s(meal.meal_protein()), a2s(meal.meal_carbohydrate())) + Style.RESET_ALL)
+
 print (Style.BRIGHT+ "-"*(maxlength) + Style.RESET_ALL)
 total="{} MEALS WITH THIS TOTALS".format(meals.length())
-print (Style.BRIGHT + "{}  {}  {}  {}  {}".format(total.ljust(maxname+7), a2s(meals.grams()), a2s(meals.calories()), a2s(meals.fat()), a2s(meals.protein())) + Style.RESET_ALL)
+print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}".format(total.ljust(maxname+7), a2s(meals.grams()), a2s(meals.calories()), a2s(meals.fat()), a2s(meals.protein()), a2s(meals.carbohydrate())) + Style.RESET_ALL)
 
 print (Style.BRIGHT + "="*(maxlength) + Style.RESET_ALL)
