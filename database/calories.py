@@ -20,6 +20,8 @@ class Meal:
         self.product_carbohydrate=row['carbohydrate']
         self.product_salt=row['salt']
         self.meal_amount=row['m_amount']
+        self.personalproducts_id=row['personalproducts_id']
+        self.companies_id=row['companies']
         return self
     def meal_calories(self):
         return self.meal_amount * self.product_calories/self.product_amount
@@ -34,6 +36,16 @@ class Meal:
 
     def meal_hour(self):
         return str(self.datetime.time())[0:5]
+
+    def product_type(self):
+        if self.personalproducts_id==None and self.companies_id==None:
+            return "Basic"
+        elif self.personalproducts_id!=None:
+            return "Personal"
+        elif self.companies_id!=None:
+            return "Manufactured"
+        else:
+            return "Rare"
 
 class Meals(ObjectManager_With_IdDatetime):
     def __init__(self):
@@ -89,17 +101,35 @@ class User:
         self.name=row['name']
         self.male=row['male']
         self.birthday=row['birthday']
-        row=con.cursor_one_row("select * from biometrics where id=%s order by datetime desc limit 1",(self.id,))
+        row=con.cursor_one_row("select * from biometrics where users_id=%s order by datetime desc limit 1",(self.id,))
         self.height=row['height']
         self.weight=row['weight']
+        # 0 TMB x 1,2: Poco o ningún ejercicio
+        # 1 TMB x 1,375: Ejercicio ligero (1 a 3 días a la semana)
+        # 2 TMB x 1,55: Ejercicio moderado (3 a 5 días a la semana)
+        # 3 TMB x 1,72: Deportista (6 -7 días a la semana)
+        # 4 TMB x 1,9: Atleta (Entrenamientos mañana y tarde)
+
+        self.activity=row['activity']
         return self 
 
     ##basal metabolic rate
     def bmr(self):
+        if self.activity==0:
+            mult=Decimal(1.2)
+        elif self.activity==1:
+            mult=Decimal(1.375)
+        elif self.activity==2:
+            mult=Decimal(1.55)
+        elif self.activity==3:
+            mult=Decimal(1.72)
+        elif self.activity==4:
+            mult=Decimal(1.9)
+
         if self.male==True:
-            return Decimal(10)*self.weight + Decimal(6.25)*self.height - Decimal(5)*self.age() + 5
+            return mult*(Decimal(10)*self.weight + Decimal(6.25)*self.height - Decimal(5)*self.age() + 5)
         else: #female
-            return Decimal(10)*self.weight + Decimal(6.25)*self.height - Decimal(5)*self.age() - 161
+            return mult*(Decimal(10)*self.weight + Decimal(6.25)*self.height - Decimal(5)*self.age() - 161)
 
     def age(self):
         return (date.today() - self.birthday) // timedelta(days=365.2425)
@@ -154,6 +184,8 @@ user=User().init__from_db(args.users_id)
 
 meals=Meals().init__from_db(con.mogrify("""
 select
+    products.personalproducts_id,
+    products.companies_id,
     products.calories,
     products.name,
     products.fat,
@@ -171,10 +203,13 @@ where products.id=meals.products_id and datetime::date=%s and users_id=%s order 
 con.disconnect()
 
 maxname=meals.max_name_len()
+if maxname<17:#For empty tables totals
+    maxname=17
 maxlength=5+2+maxname+2+7+2+7+2+7+2+7+2+7
+
 print (Style.BRIGHT+ "="*(maxlength) + Style.RESET_ALL)
 print (Style.BRIGHT+ "{} REPORT AT {}".format(user.name.upper(), args.date).center(maxlength," ") + Style.RESET_ALL)
-print (Style.BRIGHT+ "{} Kg. {} cm. {} years <==> BMR: {} Calories".format(user.weight, user.height, user.age(), user.bmr()).center(maxlength," ") + Style.RESET_ALL)
+print (Style.BRIGHT+ "{} Kg. {} cm. {} years <=> BMR: {} Cal.".format(user.weight, user.height, user.age(), round(user.bmr(),2)).center(maxlength," ") + Style.RESET_ALL)
 print (Style.BRIGHT+ "="*(maxlength) + Style.RESET_ALL)
 
 print (Style.BRIGHT+ "{}  {}  {}  {}  {}  {}  {}".format("HOUR ","NAME".ljust(maxname," "),"GRAMS".rjust(7,' '), "CALORIE".rjust(7,' '), "FAT".rjust(7,' '), "PROTEIN".rjust(7,' '), "CARBOHY".rjust(7,' ')) + Style.RESET_ALL)

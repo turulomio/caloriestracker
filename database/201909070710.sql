@@ -1,0 +1,2 @@
+ALTER TABLE biometrics ADD CONSTRAINT biometrics_users_fk FOREIGN KEY (users_id) REFERENCES users(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
