@@ -19,9 +19,10 @@ class Meal:
         self.product_amount=row['p_amount']
         self.product_carbohydrate=row['carbohydrate']
         self.product_salt=row['salt']
+        self.product_fiber=row['fiber']
         self.meal_amount=row['m_amount']
         self.personalproducts_id=row['personalproducts_id']
-        self.companies_id=row['companies']
+        self.companies_id=row['companies_id']
         return self
     def meal_calories(self):
         return self.meal_amount * self.product_calories/self.product_amount
@@ -32,7 +33,9 @@ class Meal:
     def meal_carbohydrate(self):
         return self.meal_amount * self.product_carbohydrate/self.product_amount
     def meal_salt(self):
-        return self.meal_amount * self.product_salt/self.product_amount
+        return self.meal_amount * self.product_salt/self.product_amoun
+    def meal_fiber(self):
+        return self.meal_amount * self.product_fiber/self.product_amount
 
     def meal_hour(self):
         return str(self.datetime.time())[0:5]
@@ -80,6 +83,11 @@ class Meals(ObjectManager_With_IdDatetime):
         for meal in self.arr:
             r=r+meal.meal_salt()
         return r
+    def fiber(self):
+        r=Decimal(0)
+        for meal in self.arr:
+            r=r+meal.meal_fiber()
+        return r
     def grams(self):
         r=Decimal(0)
         for meal in self.arr:
@@ -104,6 +112,10 @@ class User:
         row=con.cursor_one_row("select * from biometrics where users_id=%s order by datetime desc limit 1",(self.id,))
         self.height=row['height']
         self.weight=row['weight']
+        #0 Loss weight   
+        #1 Mantein widght 45H 35P 20G
+        #2 Gain weight
+        #self.dietwish=row['dietwish']
         # 0 TMB x 1,2: Poco o ningún ejercicio
         # 1 TMB x 1,375: Ejercicio ligero (1 a 3 días a la semana)
         # 2 TMB x 1,55: Ejercicio moderado (3 a 5 días a la semana)
@@ -131,6 +143,40 @@ class User:
         else: #female
             return mult*(Decimal(10)*self.weight + Decimal(6.25)*self.height - Decimal(5)*self.age() - 161)
 
+    ##    https://www.healthline.com/nutrition/how-much-protein-per-day#average-needs
+    ## If you’re at a healthy weight, don't lift weights and don't exercise much, then aiming for 0.36–0.6 grams per pound (0.8–1.3 gram per kg) is a reasonable estimate.
+    ##
+    ##This amounts to:
+    ##
+    ##56–91 grams per day for the average male.
+    ##46–75 grams per day for the average female.
+    ##
+    ## But given that there is no evidence of harm and a significant evidence of benefit, it’s likely better for most people to err on the side of more protein rather than less.
+    def protein(self):
+        return self.bmr()*Decimal(0.175)/Decimal(4)
+
+
+    ## The Mediterranean diet includes a wide variety of plant and animal foods such as fish, meat, eggs, dairy, extra virgin olive oil, fruits, vegetables, legumes and whole grains.
+    ## 
+    ## It typically provides 35–40% of calories from fat, including plenty of monounsaturated fat from olive oil.
+    ##
+    ## Here are a few examples of suggested daily fat ranges for a Mediterranean diet, based on different calorie goals:
+    ##
+    ##     1,500 calories: About 58–67 grams of fat per day.
+    ##     2,000 calories: About 78–89 grams of fat per day.
+    ##     2,500 calories: About 97–111 grams of fat per day.
+    ## Segun https://www.tuasaude.com/es/calorias-de-los-alimentos/ cada gramo grasa tiene 9 calorias
+    ## 60% hidratos, 17.5% proteínas y 22.5% de grasas. SERA SELECCIONABLE
+    def fat(self):
+        return self.bmr()*Decimal(0.225)/Decimal(9)
+
+    def carbohydrate(self):
+        return self.bmr()*Decimal(0.60)/Decimal(4)
+
+
+    def fiber(self):
+        return Decimal(25)
+
     def age(self):
         return (date.today() - self.birthday) // timedelta(days=365.2425)
 
@@ -143,6 +189,15 @@ class Product:
 ## amount2string
 def a2s(amount):
     return str(round(amount, 2)).rjust(7)
+
+def ca2s(amount,limit):
+    if amount <= limit:
+        return Fore.GREEN + a2s(amount) + Fore.RESET
+    else:
+        return Fore.RED + a2s(amount) + Style.RESET_ALL
+## None2string
+def n2s():
+    return str("").rjust(7)
 
 
 def string2date(iso, type=1):
@@ -193,6 +248,7 @@ select
     products.carbohydrate,
     products.amount as p_amount,
     products.salt,
+    products.fiber,
     meals.amount as m_amount,
     meals.datetime 
 from 
@@ -205,19 +261,20 @@ con.disconnect()
 maxname=meals.max_name_len()
 if maxname<17:#For empty tables totals
     maxname=17
-maxlength=5+2+maxname+2+7+2+7+2+7+2+7+2+7
+maxlength=5+2+maxname+2+7+2+7+2+7+2+7+2+7+2+7
 
 print (Style.BRIGHT+ "="*(maxlength) + Style.RESET_ALL)
-print (Style.BRIGHT+ "{} REPORT AT {}".format(user.name.upper(), args.date).center(maxlength," ") + Style.RESET_ALL)
-print (Style.BRIGHT+ "{} Kg. {} cm. {} years <=> BMR: {} Cal.".format(user.weight, user.height, user.age(), round(user.bmr(),2)).center(maxlength," ") + Style.RESET_ALL)
+print (Style.BRIGHT+ "{} NUTRICIONAL REPORT AT {}".format(user.name.upper(), args.date).center(maxlength," ") + Style.RESET_ALL)
+print (Style.BRIGHT+ Fore.YELLOW + "{} Kg. {} cm. {} years".format(user.weight, user.height, user.age()).center(maxlength," ") + Style.RESET_ALL)
 print (Style.BRIGHT+ "="*(maxlength) + Style.RESET_ALL)
 
-print (Style.BRIGHT+ "{}  {}  {}  {}  {}  {}  {}".format("HOUR ","NAME".ljust(maxname," "),"GRAMS".rjust(7,' '), "CALORIE".rjust(7,' '), "FAT".rjust(7,' '), "PROTEIN".rjust(7,' '), "CARBOHY".rjust(7,' ')) + Style.RESET_ALL)
+print (Style.BRIGHT+ "{}  {}  {}  {}  {}  {}  {}  {}".format("HOUR ","NAME".ljust(maxname," "),"GRAMS".rjust(7,' '), "CALORIE".rjust(7,' '), "CARBOHY".rjust(7,' '), "PROTEIN".rjust(7,' '), "FAT".rjust(7,' '), "FIBER".rjust(7,' ')) + Style.RESET_ALL)
 for meal in meals.arr:
-    print ( "{}  {}  {}  {}  {}  {}  {}".format(meal.meal_hour(), meal.name.ljust(maxname), a2s(meal.meal_amount),a2s(meal.meal_calories()), a2s(meal.meal_fat()), a2s(meal.meal_protein()), a2s(meal.meal_carbohydrate())) + Style.RESET_ALL)
+    print ( "{}  {}  {}  {}  {}  {}  {}  {}".format(meal.meal_hour(), meal.name.ljust(maxname), a2s(meal.meal_amount),a2s(meal.meal_calories()), a2s(meal.meal_carbohydrate()), a2s(meal.meal_protein()), a2s(meal.meal_fat()),a2s(meal.meal_fiber())) + Style.RESET_ALL)
 
 print (Style.BRIGHT+ "-"*(maxlength) + Style.RESET_ALL)
 total="{} MEALS WITH THIS TOTALS".format(meals.length())
-print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}".format(total.ljust(maxname+7), a2s(meals.grams()), a2s(meals.calories()), a2s(meals.fat()), a2s(meals.protein()), a2s(meals.carbohydrate())) + Style.RESET_ALL)
-
+print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}  {}".format(total.ljust(maxname+7), a2s(meals.grams()), ca2s(meals.calories(),user.bmr()), ca2s(meals.carbohydrate(),user.carbohydrate()), ca2s(meals.protein(), user.protein()), ca2s(meals.fat(),user.fat()), ca2s(meals.fiber(),user.fiber())) + Style.RESET_ALL)
+recomendations="RECOMMENDATIONS"
+print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}  {}".format(recomendations.ljust(maxname+7), n2s(), a2s(user.bmr()), a2s(user.carbohydrate()), a2s(user.protein()), a2s(user.fat()), a2s(user.fiber())) + Style.RESET_ALL)
 print (Style.BRIGHT + "="*(maxlength) + Style.RESET_ALL)
