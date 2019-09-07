@@ -4,6 +4,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material/menu'; 
 import { MatIconModule } from '@angular/material/icon'; 
 
+import { ApolloModule } from 'apollo-angular';
+import { HttpLinkModule } from 'apollo-angular-link-http';
+import { HttpClientModule } from '@angular/common/http';
+
+
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { MenuComponent } from './menu/menu.component';
@@ -19,7 +24,10 @@ import { MenuComponent } from './menu/menu.component';
     BrowserModule,
     BrowserAnimationsModule,
     MatMenuModule,
-    MatIconModule
+    MatIconModule,    
+    ApolloModule,
+    HttpLinkModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

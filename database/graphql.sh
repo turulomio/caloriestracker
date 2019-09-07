@@ -1,1 +1,1 @@
-DEBUG="graphile-build:warn" postgraphile -c postgres://postgres:$PGPASSWORD@localhost/caloriestracker --enhance-graphiql
+DEBUG="graphile-build:warn" postgraphile --cors -c postgres://postgres:$PGPASSWORD@localhost/caloriestracker --enhance-graphiql
