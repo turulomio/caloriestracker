@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material/menu'; 
 import { MatIconModule } from '@angular/material/icon'; 
+import {MatSelectModule} from '@angular/material/select'; 
 
 import { ApolloModule } from 'apollo-angular';
 import { HttpLinkModule } from 'apollo-angular-link-http';
@@ -24,6 +25,7 @@ import { MenuComponent } from './menu/menu.component';
     BrowserModule,
     BrowserAnimationsModule,
     MatMenuModule,
+    MatSelectModule,
     MatIconModule,    
     ApolloModule,
     HttpLinkModule,
