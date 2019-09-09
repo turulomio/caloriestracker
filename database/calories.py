@@ -12,8 +12,12 @@ class Meal:
     def __init__(self):
         pass
     def init__from_row(self,row):
+        self.id=row['id']
+        self.companies_id=row['companies_id']
+        if self.companies_id!=None:
+            self.companies_name=con.cursor_one_field("select name from companies where id=%s",(self.companies_id,))
         self.datetime=row['datetime']
-        self.name=row['name']
+        self._name=row['name']
         self.product_calories=row['calories']
         self.product_fat=row['fat']
         self.product_protein=row['protein']
@@ -23,8 +27,17 @@ class Meal:
         self.product_fiber=row['fiber']
         self.meal_amount=row['m_amount']
         self.personalproducts_id=row['personalproducts_id']
-        self.companies_id=row['companies_id']
         return self
+
+    def name(self):
+        if self.companies_id==None:
+            return "{}".format(self._name)
+        else:
+            return "{} ({})".format(self._name, self.companies_name)
+
+    def __repr__(self):
+        return "{}. #{}".format(self.name(),self.id)
+
     def meal_calories(self):
         return self.meal_amount * self.product_calories/self.product_amount
     def meal_fat(self):
@@ -97,8 +110,8 @@ class Meals(ObjectManager_With_IdDatetime):
     def max_name_len(self):
         r=0
         for meal in self.arr:
-            if len(meal.name)>r:
-                r=len(meal.name)
+            if len(meal.name())>r:
+                r=len(meal.name())
         return r
 
 class User:
@@ -195,7 +208,7 @@ def ca2s(amount,limit):
     if amount <= limit:
         return Fore.GREEN + a2s(amount) + Fore.RESET
     else:
-        return Fore.RED + a2s(amount) + Style.RESET_ALL
+        return Fore.RED + a2s(amount) + Fore.RESET
 ## None2string
 def n2s():
     return str("").rjust(7)
@@ -218,12 +231,84 @@ def string2date(iso, type=1):
         d=iso.split("/")
         return date(date.today().year, int(d[1]),  int(d[0]))
 
+
+
+def input_decimal(text, default=None):
+    while True:
+        if default==None:
+            res=input(Style.BRIGHT+text+": ")
+        else:
+            print(Style.BRIGHT+ Fore.WHITE+"{} [{}]: ".format(text, Fore.GREEN+str(default)+Fore.WHITE), end="")
+            res=input()
+        try:
+            if res==None or res=="":
+                res=default
+            res=Decimal(res)
+            return res
+        except:
+            pass
+            
+
+def input_int(text, default=None):
+    while True:
+        if default==None:
+            res=input(Style.BRIGHT+text+": ")
+        else:
+            print(Style.BRIGHT+ Fore.WHITE+"{} [{}]: ".format(text, Fore.GREEN+str(default)+Fore.WHITE), end="")
+            res=input()
+        try:
+            if res==None or res=="":
+                res=default
+            res=int(res)
+            return res
+        except:
+            pass
+            
+
+def input_YN(pregunta, default="Y"):
+    ansyes=_("Y")
+    ansno=_("N")
+    
+    bracket="{}|{}".format(ansyes.upper(), ansno.lower()) if default.upper()==ansyes else "{}|{}".format(ansyes.lower(), ansno.upper())
+    while True:
+        print(Style.BRIGHT+ Fore.WHITE+"{} [{}]: ".format(pregunta,  Fore.GREEN+bracket+Fore.WHITE), end="")
+        user_input = input().strip().upper()
+        if not user_input or user_input=="":
+            user_input=default
+        if user_input == ansyes:
+                return True
+        elif user_input == ansno:
+                return False
+        else:
+                print (_("Please enter '{}' or '{}'".format(ansyes, ansno)))
+
+def input_string(text,default=None):
+    while True:
+        if default==None:
+            res=input(Style.BRIGHT+text+": ")
+        else:
+            print(Style.BRIGHT+ Fore.WHITE+"{} [{}]: ".format(text, Fore.GREEN+str(default)+Fore.WHITE), end="")
+            res=input()
+        try:
+            if res==None or res=="":
+                res=default
+            res=str(res)
+            return res
+        except:
+            pass
+
+
+
 parser=ArgumentParser(prog='calories', description=_('Report of calories'), epilog=_("Developed by Mariano Muñoz 2012-{}".format(datetime.now().year)), formatter_class=RawTextHelpFormatter)
 argparse_connection_arguments_group(parser, default_db="caloriestracker")
 group = parser.add_argument_group("productrequired=True")
 group.add_argument('--date', help=_('Date to show'), action="store", default=str(date.today()))
 group.add_argument('--users_id', help=_('User id'), action="store", default=1)
 group.add_argument('--find', help=_('Find data'), action="store", default=None)
+group.add_argument('--add_company', help=_("Adds a company"), action="store_true", default=False)
+group.add_argument('--add_product', help=_("Adds a product"), action="store_true", default=False)
+group.add_argument('--add_meal', help=_("Adds a company"), action="store_true", default=False)
+
 args=parser.parse_args()
 
 con=Connection()
@@ -251,11 +336,47 @@ if args.find!=None:
             print (r)
     exit(0)
 
+if args.add_company==True:
+    name=input_string("Name of the company: ")
+    id=con.cursor_one_field("insert into companies(name,starts) values (%s, now()) returning id",(name,))
+    con.commit()
+    print("Company added with id={}".format(id))
+    exit(0)
+if args.add_meal==True:
+    users_id=input_int("Add a user: ",1)
+    print("Selected:", con.cursor_one_field("select name from users where id=%s",(users_id,)))
+    products_id=input_int("Add the product id: ")
+    print("Selected:", con.cursor_one_field("select name from products where id=%s",(products_id,)))
+    amount=input_decimal("Add the product amount: ")
+    dt=input_string("Add the time: ", str(datetime.now()))
+    id=con.cursor_one_field("insert into meals(users_id, amount, products_id, datetime) values (%s, %s,%s,%s) returning id",(users_id,amount, products_id,dt))
+    con.commit()
+    print("Meal added with id={}".format(id))
+    exit(0)
+if args.add_product==True:
+    name=input_string("Add a name: ")
+    company_id=input_string("Add a company: ", "")
+    if company_id=="":
+        company_id=None
+    else:
+        company_id=int(company_id)
+        print("Selected:", con.cursor_one_field("select name from companies where id=%s",(company_id,)))
+    amount=input_decimal("Add the product amount: ", 100)
+    carbohydrate=input_decimal("Add carbohydrate amount: ",0)
+    protein=input_decimal("Add protein amount: ",0)
+    fat=input_decimal("Add fat amount: ",0)
+    fiber=input_decimal("Add fiber amount: ",0)
+    calories=input_decimal("Add calories amount: ",0)
+    id=con.cursor_one_field("insert into products(name, amount, fat, protein, carbohydrate, starts, calories, fiber, companies_id) values(%s, %s,%s,%s,%s,now(),%s,%s,%s) returning id",(name, amount, fat, protein, carbohydrate, calories, fiber, company_id))
+    con.commit()
+    print("Meal added with id={}".format(id))
+    exit(0)
 
 user=User().init__from_db(args.users_id)
 
 meals=Meals().init__from_db(con.mogrify("""
 select
+    products.id,
     products.personalproducts_id,
     products.companies_id,
     products.calories,
@@ -287,7 +408,7 @@ print (Style.BRIGHT+ "="*(maxlength) + Style.RESET_ALL)
 
 print (Style.BRIGHT+ "{}  {}  {}  {}  {}  {}  {}  {}".format("HOUR ","NAME".ljust(maxname," "),"GRAMS".rjust(7,' '), "CALORIE".rjust(7,' '), "CARBOHY".rjust(7,' '), "PROTEIN".rjust(7,' '), "FAT".rjust(7,' '), "FIBER".rjust(7,' ')) + Style.RESET_ALL)
 for meal in meals.arr:
-    print ( "{}  {}  {}  {}  {}  {}  {}  {}".format(meal.meal_hour(), meal.name.ljust(maxname), a2s(meal.meal_amount),a2s(meal.meal_calories()), a2s(meal.meal_carbohydrate()), a2s(meal.meal_protein()), a2s(meal.meal_fat()),a2s(meal.meal_fiber())) + Style.RESET_ALL)
+    print ( "{}  {}  {}  {}  {}  {}  {}  {}".format(meal.meal_hour(), meal.name().ljust(maxname), a2s(meal.meal_amount),a2s(meal.meal_calories()), a2s(meal.meal_carbohydrate()), a2s(meal.meal_protein()), a2s(meal.meal_fat()),a2s(meal.meal_fiber())) + Style.RESET_ALL)
 
 print (Style.BRIGHT+ "-"*(maxlength) + Style.RESET_ALL)
 total="{} MEALS WITH THIS TOTALS".format(meals.length())
