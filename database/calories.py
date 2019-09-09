@@ -5,6 +5,7 @@ from datetime import datetime, date, timedelta
 from decimal import Decimal
 from glob import glob
 from libmanagers import ObjectManager_With_IdDatetime
+from sys import exit
 _=str
 
 class Meal:
@@ -222,6 +223,7 @@ argparse_connection_arguments_group(parser, default_db="caloriestracker")
 group = parser.add_argument_group("productrequired=True")
 group.add_argument('--date', help=_('Date to show'), action="store", default=str(date.today()))
 group.add_argument('--users_id', help=_('User id'), action="store", default=1)
+group.add_argument('--find', help=_('Find data'), action="store", default=None)
 args=parser.parse_args()
 
 con=Connection()
@@ -234,6 +236,21 @@ con.connect()
 
 args.date=string2date(args.date)
 args.users_id=int(args.users_id)
+
+if args.find!=None:
+    result=[]
+    rows=con.cursor_rows("select products.name || ' (' || companies.name || '). #' || products.id from products, companies where products.companies_id=companies.id")
+    for row in rows:
+        result.append(row[0])
+    rows=con.cursor_rows("select products.name || '. #' || products.id from products where products.companies_id is Null")
+    for row in rows:
+        result.append(row[0])
+    result.sort()
+    for r in result:
+        if r.upper().find(args.find.upper())!=-1:
+            print (r)
+    exit(0)
+
 
 user=User().init__from_db(args.users_id)
 
