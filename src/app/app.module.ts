@@ -5,21 +5,21 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon'; 
 import {MatSelectModule} from '@angular/material/select'; 
 
-import { ApolloModule } from 'apollo-angular';
-import { HttpLinkModule } from 'apollo-angular-link-http';
+import { ApolloModule,Apollo } from 'apollo-angular';
+import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 import { HttpClientModule } from '@angular/common/http';
 
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { MenuComponent } from './menu/menu.component';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    MenuComponent,
-    
+    MenuComponent
   ],
   imports: [
     BrowserModule,
@@ -34,4 +34,15 @@ import { MenuComponent } from './menu/menu.component';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(
+    apollo: Apollo,
+    httpLink: HttpLink
+  ){
+    apollo.create({
+      link: httpLink.create({uri: 'http://localhost:5000/graphiql/'}),
+      cache: new InMemoryCache()
+
+    })
+  }
+}
