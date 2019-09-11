@@ -760,15 +760,14 @@ class SettingsDB:
             return 22
         return None
 
-class MemSources:
-    def __init__(self):
+
+class MemConsole():
+    def __init__(self, con):
+        self.con=con
         self.data=DBData(self)
-        
-        self.countries=CountryManager(self)
-        self.countries.load_all()
-        
-        self.zones=ZoneManager(self)
-        self.zones.load_all()
+        self.data.load(progress=False)
+
+      
         #self.localzone=self.zones.find_by_name(self.settingsdb.value("mem/localzone", "Europe/Madrid"))
        
         
@@ -1010,11 +1009,11 @@ class Meal:
         self.amount=row['amount']
         return self
 
-    def name(self):
-        if self.companies_id==None:
-            return "{}".format(self._name)
+    def fullName(self):
+        if self.product.company==None:
+            return "{}".format(self.product.name)
         else:
-            return "{} ({})".format(self._name, self.companies_name)
+            return "{} ({})".format(self.product.name, self.product.company.name)
 
     def __repr__(self):
         return "{}. #{}".format(self.name(),self.id)
@@ -1033,7 +1032,7 @@ class Meal:
         return self.amount * self.product.fiber/self.product.amount
 
     def meal_hour(self):
-        return str(self.time())[0:5]
+        return str(self.datetime.time())[0:5]
 
     def product_type(self):
         if self.personalproducts_id==None and self.companies_id==None:
@@ -1059,43 +1058,43 @@ class MealManager(QObject, ObjectManager_With_IdDatetime):
     def calories(self):
         r=Decimal(0)
         for meal in self.arr:
-            r=r+meal.meal_calories()
+            r=r+meal.calories()
         return r
     def fat(self):
         r=Decimal(0)
         for meal in self.arr:
-            r=r+meal.meal_fat()
+            r=r+meal.fat()
         return r
     def protein(self):
         r=Decimal(0)
         for meal in self.arr:
-            r=r+meal.meal_protein()
+            r=r+meal.protein()
         return r
     def carbohydrate(self):
         r=Decimal(0)
         for meal in self.arr:
-            r=r+meal.meal_carbohydrate()
+            r=r+meal.carbohydrate()
         return r
     def salt(self):
         r=Decimal(0)
         for meal in self.arr:
-            r=r+meal.meal_salt()
+            r=r+meal.salt()
         return r
     def fiber(self):
         r=Decimal(0)
         for meal in self.arr:
-            r=r+meal.meal_fiber()
+            r=r+meal.fiber()
         return r
     def grams(self):
         r=Decimal(0)
         for meal in self.arr:
-            r=r+meal.meal_amount
+            r=r+meal.amount
         return r
     def max_name_len(self):
         r=0
         for meal in self.arr:
-            if len(meal.name())>r:
-                r=len(meal.name())
+            if len(meal.fullName())>r:
+                r=len(meal.fullName())
         return r
     def qtablewidget(self, table):        
         table.setColumnCount(8)

@@ -3,6 +3,7 @@
 from PyQt5.QtCore import Qt,  QLocale
 from PyQt5.QtGui import QIcon,  QColor
 from PyQt5.QtWidgets import QTableWidgetItem,  QWidget,  QMessageBox, QApplication, QCheckBox, QHBoxLayout
+from colorama import Fore, Style
 from decimal import Decimal
 from os import path, makedirs, remove
 import datetime
@@ -17,6 +18,8 @@ import socket
 from xulpymoney.version import __version__, __versiondate__
 from xulpymoney.libxulpymoneytypes import eDtStrings
 
+
+_=str
 ## Sets debug sustem, needs
 ## @param args It's the result of a argparse     args=parser.parse_args()        
 def addDebugSystem(args):
@@ -600,3 +603,82 @@ def setReadOnly(wdg, boolean):
         wdg.blockSignals(boolean)
         wdg.setAttribute(Qt.WA_TransparentForMouseEvents)
         wdg.setFocusPolicy(Qt.NoFocus)
+## amount2string
+def a2s(amount):
+    return str(round(amount, 2)).rjust(7)
+
+def ca2s(amount,limit):
+    if amount <= limit:
+        return Fore.GREEN + a2s(amount) + Fore.RESET
+    else:
+        return Fore.RED + a2s(amount) + Fore.RESET
+## None2string
+def n2s():
+    return str("").rjust(7)
+
+
+
+
+def input_decimal(text, default=None):
+    while True:
+        if default==None:
+            res=input(Style.BRIGHT+text+": ")
+        else:
+            print(Style.BRIGHT+ Fore.WHITE+"{} [{}]: ".format(text, Fore.GREEN+str(default)+Fore.WHITE), end="")
+            res=input()
+        try:
+            if res==None or res=="":
+                res=default
+            res=Decimal(res)
+            return res
+        except:
+            pass
+            
+
+def input_int(text, default=None):
+    while True:
+        if default==None:
+            res=input(Style.BRIGHT+text+": ")
+        else:
+            print(Style.BRIGHT+ Fore.WHITE+"{} [{}]: ".format(text, Fore.GREEN+str(default)+Fore.WHITE), end="")
+            res=input()
+        try:
+            if res==None or res=="":
+                res=default
+            res=int(res)
+            return res
+        except:
+            pass
+            
+
+def input_YN(pregunta, default="Y"):
+    ansyes=_("Y")
+    ansno=_("N")
+    
+    bracket="{}|{}".format(ansyes.upper(), ansno.lower()) if default.upper()==ansyes else "{}|{}".format(ansyes.lower(), ansno.upper())
+    while True:
+        print(Style.BRIGHT+ Fore.WHITE+"{} [{}]: ".format(pregunta,  Fore.GREEN+bracket+Fore.WHITE), end="")
+        user_input = input().strip().upper()
+        if not user_input or user_input=="":
+            user_input=default
+        if user_input == ansyes:
+                return True
+        elif user_input == ansno:
+                return False
+        else:
+                print (_("Please enter '{}' or '{}'".format(ansyes, ansno)))
+
+def input_string(text,default=None):
+    while True:
+        if default==None:
+            res=input(Style.BRIGHT+text+": ")
+        else:
+            print(Style.BRIGHT+ Fore.WHITE+"{} [{}]: ".format(text, Fore.GREEN+str(default)+Fore.WHITE), end="")
+            res=input()
+        try:
+            if res==None or res=="":
+                res=default
+            res=str(res)
+            return res
+        except:
+            pass

@@ -218,18 +218,10 @@ with open('README.md', encoding='utf-8') as f:
 #entry_points
 entry_points={
         'console_scripts': [
-            'caloriestracker_bolsamadrid_client=caloriestracker.sources.bolsamadrid_client:main',
-            'caloriestracker_google_client=caloriestracker.sources.google_client:main',
-            'caloriestracker_infobolsa_client=caloriestracker.sources.infobolsa_client:main',
-            'caloriestracker_morningstar_client=caloriestracker.sources.morningstar_client:main',
-            'caloriestracker_quefondos_client=caloriestracker.sources.quefondos_client:main',
-            'caloriestracker_run_client=caloriestracker.sources.run_client:main',
-            'caloriestracker_yahoo_client=caloriestracker.sources.yahoo_client:main',
-            'caloriestracker_reports_smm=caloriestracker.reports.smm:main',
+            'caloriestracker_console=caloriestracker.caloriestracker_console:main',
         ],
         'gui_scripts':  [
             'caloriestracker=caloriestracker.caloriestracker:main',
-            'caloriestracker_init=caloriestracker.caloriestracker_init:main',
         ],
     }
 if platform.system()=="Windows":
