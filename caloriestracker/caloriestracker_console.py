@@ -2,8 +2,9 @@ from argparse import ArgumentParser, RawTextHelpFormatter
 from colorama import Fore, Style
 from datetime import datetime, date
 from caloriestracker.connection_pg import Connection, argparse_connection_arguments_group
-from caloriestracker.libcaloriestracker import MemConsole, User, MealManager
+from caloriestracker.libcaloriestracker import MemConsole,  MealManager, Company, Meal, Product
 from caloriestracker.libcaloriestrackerfunctions import a2s, ca2s, input_decimal, input_int, input_string, string2date, n2s
+from caloriestracker.database_update import database_update
 from logging import critical
 from signal import signal, SIGINT
 from sys import exit
@@ -36,6 +37,8 @@ def main():
     con.get_password()
     con.connect()
     
+    database_update(con)
+    
     mem=MemConsole(con)
 
     args.date=string2date(args.date)
@@ -45,43 +48,45 @@ def main():
         mem.data.products.order_by_name()
         for o in mem.data.products.arr:
             if o.fullName().upper().find(args.find.upper())!=-1:
-                print (o.fullName())
+                print (o.fullName(True))
         exit(0)
 
     if args.add_company==True:
         name=input_string("Name of the company: ")
-        id=mem.con.cursor_one_field("insert into companies(name,starts) values (%s, now()) returning id",(name,))
+        o=Company(mem, name, datetime.now(), None, None)
+        o.save()
         mem.con.commit()
-        print("Company added with id={}".format(id))
+        print("Company added with id={}".format(o.id))
         exit(0)
     if args.add_meal==True:
         users_id=input_int("Add a user: ",1)
+        user=mem.data.users.find_by_id(users_id)
         print("Selected:", mem.con.cursor_one_field("select name from users where id=%s",(users_id,)))
         products_id=input_int("Add the product id: ")
-        print("Selected:",  mem.data.products.find_by_id(products_id))
+        product=mem.data.products.find_by_id(products_id)
+        print("Selected:",  product)
         amount=input_decimal("Add the product amount: ")
         dt=input_string("Add the time: ", str(datetime.now()))
-        id=mem.con.cursor_one_field("insert into meals(users_id, amount, products_id, datetime) values (%s, %s,%s,%s) returning id",(users_id,amount, products_id,dt))
+        o=Meal(mem, dt, product, None, amount, user, None)
+        o.save()
         mem.con.commit()
-        print("Meal added with id={}".format(id))
+        print("Meal added with id={}".format(o.id))
         exit(0)
     if args.add_product==True:
         name=input_string("Add a name: ")
         company_id=input_string("Add a company: ", "")
-        if company_id=="":
-            company_id=None
-        else:
-            company_id=int(company_id)
-            print("Selected:", mem.con.cursor_one_field("select name from companies where id=%s",(company_id,)))
+        company=mem.data.companies.find_by_id(company_id)
+        print("Selected:", company)
         amount=input_decimal("Add the product amount: ", 100)
         carbohydrate=input_decimal("Add carbohydrate amount: ",0)
         protein=input_decimal("Add protein amount: ",0)
         fat=input_decimal("Add fat amount: ",0)
         fiber=input_decimal("Add fiber amount: ",0)
         calories=input_decimal("Add calories amount: ",0)
-        id=mem.con.cursor_one_field("insert into products(name, amount, fat, protein, carbohydrate, starts, calories, fiber, companies_id) values(%s, %s,%s,%s,%s,now(),%s,%s,%s) returning id",(name, amount, fat, protein, carbohydrate, calories, fiber, company_id))
+        o=Product(mem, name, amount, fat, protein, carbohydrate, company, None, datetime.now(), None, None, calories, None, None, None, None, fiber, None, None, None)
+        o.save()
         mem.con.commit()
-        print("Meal added with id={}".format(id))
+        print("Meal added with id={}".format(o.id))
         exit(0)
 
     if args.add_biometrics==True:
@@ -99,9 +104,10 @@ def main():
 
 
 
-    user=User(mem).init__from_db(args.users_id)
+    user=mem.data.users.find_by_id(args.users_id)
+    user.load_last_biometrics()
 
-    meals=MealManager(mem).init__from_db(mem.con.mogrify("select * from meals where datetime::date=%s", (args.date,))) 
+    meals=MealManager(mem, mem.con.mogrify("select * from meals where datetime::date=%s and users_id=%s", (args.date, user.id))) 
     mem.con.disconnect()
 
     maxname=meals.max_name_len()
@@ -111,7 +117,7 @@ def main():
 
     print (Style.BRIGHT+ "="*(maxlength) + Style.RESET_ALL)
     print (Style.BRIGHT+ "{} NUTRICIONAL REPORT AT {}".format(user.name.upper(), args.date).center(maxlength," ") + Style.RESET_ALL)
-    print (Style.BRIGHT+ Fore.YELLOW + "{} Kg. {} cm. {} years".format(user.weight, user.height, user.age()).center(maxlength," ") + Style.RESET_ALL)
+    print (Style.BRIGHT+ Fore.YELLOW + "{} Kg. {} cm. {} years".format(user.last_biometrics.weight, user.last_biometrics.height, user.age()).center(maxlength," ") + Style.RESET_ALL)
     print (Style.BRIGHT+ Fore.BLUE + "IMC: {} ==> {}".format(round(user.imc(),2),user.imc_comment()).center(maxlength," ") + Style.RESET_ALL)
     print (Style.BRIGHT+ "="*(maxlength) + Style.RESET_ALL)
 

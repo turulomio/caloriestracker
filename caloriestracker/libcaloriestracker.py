@@ -7,7 +7,6 @@ from PyQt5.QtWidgets import QTableWidgetItem, QApplication,   qApp,  QProgressDi
 
 from datetime import date,  timedelta, datetime
 import logging
-import pytz
 import sys
 import argparse
 import getpass
@@ -16,7 +15,7 @@ from decimal import Decimal
 from caloriestracker.connection_pg_qt import ConnectionQt
 from caloriestracker.github import get_file_modification_dtaware
 from caloriestracker.libcaloriestrackerfunctions import str2bool, dtaware2string, list2string, dirs_create, package_filename, is_there_internet, qtime, qleft, qright
-from caloriestracker.libmanagers import Object_With_IdName, ObjectManager_With_Id_Selectable,  ManagerSelectionMode, ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime
+from caloriestracker.libmanagers import  ObjectManager_With_Id_Selectable,  ManagerSelectionMode, ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime
 from officegenerator import OpenPyXL
 
 class Percentage:
@@ -138,14 +137,14 @@ class CompanyManager(QObject, ObjectManager_With_IdName_Selectable):
             pd.setModal(True)
             pd.setWindowTitle(self.tr("Loading companies..."))
             pd.forceShow()
-        for rowms in cur:
+        for row in cur:
             if progress==True:
                 pd.setValue(cur.rownumber)
                 pd.update()
                 QApplication.processEvents()
                 
-            inv=Company(self.mem).init__db_row(rowms)
-            self.append(inv)
+            o=Company(self.mem, row)
+            self.append(o)
         cur.close()
         
 ## Clase parar trabajar con las opercuentas generadas automaticamente por los movimientos de las inversiones
@@ -177,8 +176,8 @@ class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
                 pd.update()
                 QApplication.processEvents()
                 
-            inv=Product(self.mem).init__db_row(rowms)
-            self.append(inv)
+            oo=Product(self.mem, rowms)
+            self.append(oo)
         cur.close()
         
 
@@ -427,50 +426,6 @@ class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
         self.mem.data.load()
 
 
-class CountryManager(QObject, ObjectManager_With_IdName_Selectable):
-    def __init__(self, mem):
-        QObject.__init__(self)
-        ObjectManager_With_IdName_Selectable.__init__(self)
-        self.mem=mem   
-        
-    def load_all(self):
-        self.append(Country("es",self.tr("Spain")))
-        self.append(Country("be",self.tr("Belgium")))
-        self.append(Country("cn",self.tr("China")))
-        self.append(Country("de",self.tr("Germany")))
-        self.append(Country("earth",self.tr("Earth")))
-        self.append(Country("en",self.tr("United Kingdom")))
-        self.append(Country("eu",self.tr("Europe")))
-        self.append(Country("fi",self.tr("Finland")))
-        self.append(Country("fr",self.tr("France")))
-        self.append(Country("ie",self.tr("Ireland")))
-        self.append(Country("it",self.tr("Italy")))
-        self.append(Country("jp",self.tr("Japan")))
-        self.append(Country("nl",self.tr("Netherlands")))
-        self.append(Country("pt",self.tr("Portugal")))
-        self.append(Country("us",self.tr("United States of America")))
-        self.append(Country("ro",self.tr("Romanian")))
-        self.append(Country("ru",self.tr("Rusia")))
-        self.append(Country("lu",self.tr("Luxembourg")))
-        self.order_by_name()
-
-    def qcombobox(self, combo,  country=None):
-        """Función que carga en un combo pasado como parámetro y con un AccountManager pasado como parametro
-        Se ordena por nombre y se se pasa el tercer parametro que es un objeto Account lo selecciona""" 
-        for cu in self.arr:
-            combo.addItem(cu.qicon(), cu.name, cu.id)
-
-        if country!=None:
-                combo.setCurrentIndex(combo.findData(country.id))
-
-    def qcombobox_translation(self, combo,  country=None):
-        """Función que carga en un combo pasado como parámetro con los pa´ises que tienen traducción""" 
-        for cu in [self.find_by_id("es"),self.find_by_id("fr"),self.find_by_id("ro"),self.find_by_id("ru"),self.find_by_id("en") ]:
-            combo.addItem(cu.qicon(), cu.name, cu.id)
-
-        if country!=None:
-                combo.setCurrentIndex(combo.findData(country.id))
-
 class DBData:
     def __init__(self, mem):
         self.mem=mem
@@ -482,46 +437,137 @@ class DBData:
         
         self.products=ProductManager(self.mem)
         self.products.load_from_db("select * from products", progress)
+        
+        self.users=UserManager(self.mem, "select * from users", progress)
+        self.users.load_last_biometrics()
+        
         logging.debug("DBData took {}".format(datetime.now()-start))
 
+class Biometrics:    
+    ##Biometrics(mem)
+    ##Biometrics(mem,rows)
+    ##Biometrics(mem,dt, height, weight, user, activity, id):
+    def __init__(self, *args):        
+        def init__create(dt, height, weight, user, activity, id):
+            self.datetime=dt
+            self.height=height
+            self.weight=weight
+            self.user=user
+            self.activity=activity
+            self.id=id
+        # #########################################
+        self.mem=args[0]
+        if len(args)==1:#Biometrics(mem)
+            init__create(*[None]*6)
+        elif len(args)==2:#Biometrics(mem,rows)
+            user=self.mem.data.users.find_by_id(args[1]['users_id'])
+            init__create(args[1]['datetime'], args[1]['height'], args[1]['weight'], user, args[1]['activity'],  args[1]['id'])
+        elif len(args)==5:#Biometrics(mem,dt, height, weight, user, activity, id):
+            init__create(args[1], args[2], args[3], args[4])
+    
+    def __repr__(self):
+        return "{} {}".format(self.height, self.weight)
+class BiometricsManager(QObject, ObjectManager_With_IdName_Selectable):
+    ##Biometrics(mem)
+    ##Biometrics(mem,sql, progress)
+    def __init__(self, *args ):
+        QObject.__init__(self)
+        ObjectManager_With_IdName_Selectable.__init__(self)
+        self.mem=args[0]
+        if len(args)==3:
+            self.load_from_db(*args[1:])
 
+    def load_from_db(self, sql,  progress=False):
+        self.clean()
+        cur=self.mem.con.cursor()
+        cur.execute(sql)#"select * from products where id in ("+lista+")" 
+        if progress==True:
+            pd= QProgressDialog(self.tr("Loading {0} biometrics from database").format(cur.rowcount),None, 0,cur.rowcount)
+            pd.setWindowIcon(QIcon(":/caloriestracker/coins.png"))
+            pd.setModal(True)
+            pd.setWindowTitle(self.tr("Loading biometrics..."))
+            pd.forceShow()
+        for row in cur:
+            if progress==True:
+                pd.setValue(cur.rownumber)
+                pd.update()
+                QApplication.processEvents()
+                
+            o=Biometrics(self.mem, row)
+            self.append(o)
+        cur.close()
 
 class Company:
-    def __init__(self, mem):
-        self.mem=mem
-        self.name=None
-        self.id=None
-                
-    def init__db_row(self, row):
-        self.name=row['name']
-        self.id=row['id']
-        return self
+    ##Company(mem)
+    ##Company(mem,rows)
+    ##Company(mem,name,starts,ends,id)
+    def __init__(self, *args):        
+        def init__create(name,  starts, ends, id):
+            self.name=name
+            self.starts=starts
+            self.ends=ends
+            self.id=id
+            return self
+        # #########################################
+        self.mem=args[0]
+        if len(args)==1:#Company(mem)
+            init__create(*[None]*4)
+        elif len(args)==2:#Company(mem,rows)
+            init__create(args[1]['name'], args[1]['starts'], args[1]['ends'], args[1]['id'])
+        elif len(args)==5:#Company(mem,name,starts,ends,id)
+            init__create(args[1], args[2], args[3], args[4])
+
         
+    def __repr__(self):
+        return "{}. #{}".format(self.name, self.id)
+        
+    def save(self):
+        if self.id==None:
+            self.id=self.mem.con.cursor_one_field("insert into companies(name,starts,ends) values (%s, %s, %s) returning id", (self.name, self.starts, self.ends))
+        else:
+            self.mem.con.cursor_one_field("update companies set name=%s,starts=%s, ends=%s where id=%s", (self.name, self.starts, self.ends, self.id))
+
+
 class Product:
-    def __init__(self, mem):
-        self.mem=mem
-        self.name=None
-        self.id=None
-        
+    ##Product(mem)
+    ##Product(mem,rows) #Uses products_id and users_id in row
+    ##Product(mem,datetime,product,name,amount,users_id,id)
+    def __init__(self, *args):        
+        def init__create( name, amount, fat, protein, carbohydrate, company, ends, starts, personalproducts_id, languages_id, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat, id):
+            self.name=name
+            self.amount=amount
+            self.fat=fat
+            self.protein=protein
+            self.carbohydrate=carbohydrate
+            self.company=company
+            self.ends=ends
+            self.starts=starts
+            self.personalproducts_id=personalproducts_id
+            self.languages=languages_id
+            self.calories=calories
+            self.salt=salt
+            self.cholesterol=cholesterol
+            self.sodium=sodium
+            self.potassium=potassium
+            self.fiber=fiber
+            self.sugars=sugars
+            self.saturated_fat=saturated_fat
+            self.id=id
+            return self
+        # #########################################
+        self.mem=args[0]
+        if len(args)==1:#Product(mem)
+            init__create(*[None]*19)
+        elif len(args)==2:#Product(mem,rows)
+            company=self.mem.data.companies.find_by_id(args[1]['companies_id'])
+            init__create(args[1]['name'], args[1]['amount'], args[1]['fat'], args[1]['protein'], args[1]['carbohydrate'], company, 
+            args[1]['ends'], args[1]['starts'], args[1]['personalproducts_id'], args[1]['languages'], args[1]['calories'], args[1]['salt'], 
+            args[1]['cholesterol'], args[1]['sodium'], args[1]['potassium'], args[1]['fiber'], args[1]['sugars'], args[1]['saturated_fat'], args[1]['id'])
+        elif len(args)==20:#Product(mem,datetime,product,name,amount,users_id,id)
+            init__create(*args[1:])
 
     def __repr__(self):
         return self.fullName(True)
-                
-    def init__db_row(self, row):
-        if row['companies_id']==None:
-            self.company=None
-        else:
-            self.company=self.mem.data.companies.find_by_id(row['companies_id']) 
-        self.name=row['name']
-        self.id=row['id']
-        self.calories=row['calories']
-        self.fat=row['fat']
-        self.protein=row['protein']
-        self.amount=row['amount']
-        self.carbohydrate=row['carbohydrate']
-        self.salt=row['salt']
-        self.fiber=row['fiber']
-        return self
 
 
     def fullName(self,  with_id=False):
@@ -543,26 +589,18 @@ class Product:
         return self.init__db_row(row)
 
     def save(self):
-        """
-            Esta función inserta una inversión manua
-            Los arrays deberan pasarse como parametros ARRAY[1,2,,3,] o None
-        """
-        
-        cur=self.mem.con.cursor()
+        companies_id=None if self.company==None else self.company.id
         if self.id==None:
-            cur.execute("select min(id)-1 from products")
-            id=cur.fetchone()[0]
-            if id>=0:
-                id=-1
-            cur.execute("insert into products (id, name,  isin,  currency,  type,  agrupations,   web, address,  phone, mail, percentage, pci,  leveraged, decimals, stockmarkets_id, tickers, comment, obsolete, high_low) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",  (id, self.name,  self.isin,  self.currency.id,  self.type.id,  self.agrupations.dbstring(), self.web, self.address,  self.phone, self.mail, self.percentage, self.mode.id,  self.leveraged.id, self.decimals, self.stockmarket.id, self.tickers, self.comment, self.obsolete, self.high_low))
-            self.id=id
+            self.id=self.mem.con.cursor_one_field("""insert into products (name, amount, fat, protein, carbohydrate, companies_id, ends, starts, 
+                    personalproducts_id, languages, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat
+                    )values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning id""",  
+                    (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.ends, self.starts, 
+                    self.personalproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat))
         else:
-            cur.execute("update products set name=%s, isin=%s,currency=%s,type=%s, agrupations=%s, web=%s, address=%s, phone=%s, mail=%s, percentage=%s, pci=%s, leveraged=%s, decimals=%s, stockmarkets_id=%s, tickers=%s, comment=%s, obsolete=%s,high_low=%s where id=%s", ( self.name,  self.isin,  self.currency.id,  self.type.id,  self.agrupations.dbstring(),  self.web, self.address,  self.phone, self.mail, self.percentage, self.mode.id,  self.leveraged.id, self.decimals, self.stockmarket.id, self.tickers, self.comment, self.obsolete, self.high_low,  self.id))
-        cur.close()
-    
-    
-
-
+            self.mem.con.cursor_one_field("""update products set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, ends=%s, starts=%s, 
+            personalproducts_id=%s, languages=%s, calories=%s, salt=%s, cholesterol=%s, sodium=%s, potassium=%s, fiber=%s, sugars=%s, saturated_fat=%s where id=%s""", 
+            (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.ends, self.starts, 
+            self.personalproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat,  self.id))
 
     def is_system(self):
         """Returns if the product is a system product or a user product"""
@@ -591,7 +629,7 @@ class LanguageManager(ObjectManager_With_IdName_Selectable):
         """Selected is the object"""
         self.order_by_name()
         for l in self.arr:
-            combo.addItem(self.mem.countries.find_by_id(l.id).qicon(), l.name, l.id)
+            combo.addItem(l.name, l.id)
         if selected!=None:
                 combo.setCurrentIndex(combo.findData(selected.id))
 
@@ -715,16 +753,16 @@ class MemCaloriestracker:
         self.inittime=datetime.now()#Tiempo arranca el config
         self.dbinitdate=None#Fecha de inicio bd.
         self.con=None#Conexión        
-        
-        #Loading data in code
-        self.countries=CountryManager(self)
-        self.countries.load_all()
+#        
+#        #Loading data in code
+#        self.countries=CountryManager(self)
+#        self.countries.load_all()
         self.languages=LanguageManager(self)
         self.languages.load_all()
         
         #Mem variables not in database
         self.language=self.languages.find_by_id(self.settings.value("mem/language", "en"))
-        
+#        
         self.frmMain=None #Pointer to mainwidget
         self.closing=False#Used to close threads
         self.url_wiki="https://github.com/turulomio/caloriestracker/wiki"
@@ -776,13 +814,14 @@ class MemCaloriestracker:
     def load_db_data(self, progress=True, load_data=True):
         """Esto debe ejecutarse una vez establecida la conexión"""
         inicio=datetime.now()
-
-        self.zones=ZoneManager(self)
-        self.zones.load_all()
+#
+#        self.zones=ZoneManager(self)
+#        self.zones.load_all()
 
         if load_data:
             self.data=DBData(self)
             self.data.load(progress)
+            self.user=self.data.users.find_by_id(1)
 
         logging.info("Loading db data took {}".format(datetime.now()-inicio))
         
@@ -804,157 +843,129 @@ class MemCaloriestracker:
         icon.addPixmap(QPixmap(":/caloriestracker/admin.png"), QIcon.Normal, QIcon.Off)
         return icon
 
-class Country(Object_With_IdName):
-    def __init__(self, *args):
-        Object_With_IdName.__init__(self, *args)
-            
-    def qicon(self):
-        icon=QIcon()
-        icon.addPixmap(self.qpixmap(), QIcon.Normal, QIcon.Off)    
-        return icon 
-        
-    def qpixmap(self):
-        if self.id=="be":
-            return QPixmap(":/countries/belgium.gif")
-        elif self.id=="cn":
-            return QPixmap(":/countries/china.gif")
-        elif self.id=="fr":
-            return QPixmap(":/countries/france.gif")
-        elif self.id=="ie":
-            return QPixmap(":/countries/ireland.gif")
-        elif self.id=="it":
-            return QPixmap(":/countries/italy.gif")
-        elif self.id=="earth":
-            return QPixmap(":/countries/earth.png")
-        elif self.id=="es":
-            return QPixmap(":/countries/spain.gif")
-        elif self.id=="eu":
-            return QPixmap(":/countries/eu.gif")
-        elif self.id=="de":
-            return QPixmap(":/countries/germany.gif")
-        elif self.id=="fi":
-            return QPixmap(":/countries/finland.gif")
-        elif self.id=="nl":
-            return QPixmap(":/countries/nethland.gif")
-        elif self.id=="en":
-            return QPixmap(":/countries/uk.gif")
-        elif self.id=="jp":
-            return QPixmap(":/countries/japan.gif")
-        elif self.id=="pt":
-            return QPixmap(":/countries/portugal.gif")
-        elif self.id=="us":
-            return QPixmap(":/countries/usa.gif")
-        elif self.id=="ro":
-            return QPixmap(":/countries/rumania.png")
-        elif self.id=="ru":
-            return QPixmap(":/countries/rusia.png")
-        elif self.id=="lu":
-            return QPixmap(":/countries/luxembourg.png")
-        else:
-            return QPixmap(":/caloriestracker/star.gif")
-            
-## Class to manage datetime timezone and its methods
-class Zone:
-    ## Constructor with the following attributes combination
-    ## 1. Zone(mem). Create a Zone with all attributes set to None, except mem
-    ## 2. Zone(mem, id, name, country). Create account passing all attributes
-    ## @param mem MemXulpymoney object
-    ## @param id Integer that represents the Zone Id
-    ## @param name Zone Name
-    ## @param country Country object asociated to the timezone
-    def __init__(self, *args):
-        def init__create(id, name, country):
-            self.id=id
-            self.name=name
-            self.country=country
-            return self
-        self.mem=args[0]
-        if len(args)==1:
-            init__create(None, None, None)
-        if len(args)==4:
-            init__create(args[1], args[2], args[3])
-
-    ## Returns a pytz.timezone
-    def timezone(self):
-        return pytz.timezone(self.name)
-        
-    ## Datetime aware with the pyttz.timezone
-    def now(self):
-        return datetime.now(pytz.timezone(self.name))
-        
-    ## Internal __repr__ function
-    def __repr__(self):
-        return "Zone ({}): {}".format(str(self.id), str(self.name))            
-
-    ## Not all zones names are in pytz zone names. Sometimes we need a conversión
-    ##
-    ## It's a static method you can invoke with Zone.zone_name_conversion(name)
-    ## @param name String with zone not in pytz
-    ## @return String with zone name already converted if needed
-    @staticmethod
-    def zone_name_conversion(name):
-        if name=="CEST":
-            return "Europe/Berlin"
-        if name.find("GMT")!=-1:
-            return "Etc/{}".format(name)
-        return name
-
-class ZoneManager(ObjectManager_With_IdName_Selectable):
-    def __init__(self, mem):
-        ObjectManager_With_IdName_Selectable.__init__(self)
-        self.mem=mem
-        
-    def load_all(self):
-        self.append(Zone(self.mem,1,'Europe/Madrid', self.mem.countries.find_by_id("es")))
-        self.append(Zone(self.mem,2,'Europe/Lisbon', self.mem.countries.find_by_id("pt")))
-        self.append(Zone(self.mem,3,'Europe/Rome', self.mem.countries.find_by_id("it")))
-        self.append(Zone(self.mem,4,'Europe/London', self.mem.countries.find_by_id("en")))
-        self.append(Zone(self.mem,5,'Asia/Tokyo', self.mem.countries.find_by_id("jp")))
-        self.append(Zone(self.mem,6,'Europe/Berlin', self.mem.countries.find_by_id("de")))
-        self.append(Zone(self.mem,7,'America/New_York', self.mem.countries.find_by_id("us")))
-        self.append(Zone(self.mem,8,'Europe/Paris', self.mem.countries.find_by_id("fr")))
-        self.append(Zone(self.mem,9,'Asia/Hong_Kong', self.mem.countries.find_by_id("cn")))
-        self.append(Zone(self.mem,10,'Europe/Brussels', self.mem.countries.find_by_id("be")))
-        self.append(Zone(self.mem,11,'Europe/Amsterdam', self.mem.countries.find_by_id("nl")))
-        self.append(Zone(self.mem,12,'Europe/Dublin', self.mem.countries.find_by_id("ie")))
-        self.append(Zone(self.mem,13,'Europe/Helsinki', self.mem.countries.find_by_id("fi")))
-        self.append(Zone(self.mem,14,'Europe/Lisbon', self.mem.countries.find_by_id("pt")))
-        self.append(Zone(self.mem,15,'Europe/Luxembourg', self.mem.countries.find_by_id("lu")))
-        
-    def qcombobox(self, combo, zone=None):
-        """Carga entidades bancarias en combo"""
-        combo.clear()
-        for a in self.arr:
-            combo.addItem(a.country.qicon(), a.name, a.id)
-
-        if zone!=None:
-            combo.setCurrentIndex(combo.findText(zone.name))
+#            
+### Class to manage datetime timezone and its methods
+#class Zone:
+#    ## Constructor with the following attributes combination
+#    ## 1. Zone(mem). Create a Zone with all attributes set to None, except mem
+#    ## 2. Zone(mem, id, name, country). Create account passing all attributes
+#    ## @param mem MemXulpymoney object
+#    ## @param id Integer that represents the Zone Id
+#    ## @param name Zone Name
+#    ## @param country Country object asociated to the timezone
+#    def __init__(self, *args):
+#        def init__create(id, name, country):
+#            self.id=id
+#            self.name=name
+#            self.country=country
+#            return self
+#        self.mem=args[0]
+#        if len(args)==1:
+#            init__create(None, None, None)
+#        if len(args)==4:
+#            init__create(args[1], args[2], args[3])
+#
+#    ## Returns a pytz.timezone
+#    def timezone(self):
+#        return pytz.timezone(self.name)
+#        
+#    ## Datetime aware with the pyttz.timezone
+#    def now(self):
+#        return datetime.now(pytz.timezone(self.name))
+#        
+#    ## Internal __repr__ function
+#    def __repr__(self):
+#        return "Zone ({}): {}".format(str(self.id), str(self.name))            
+#
+#    ## Not all zones names are in pytz zone names. Sometimes we need a conversión
+#    ##
+#    ## It's a static method you can invoke with Zone.zone_name_conversion(name)
+#    ## @param name String with zone not in pytz
+#    ## @return String with zone name already converted if needed
+#    @staticmethod
+#    def zone_name_conversion(name):
+#        if name=="CEST":
+#            return "Europe/Berlin"
+#        if name.find("GMT")!=-1:
+#            return "Etc/{}".format(name)
+#        return name
+#
+#class ZoneManager(ObjectManager_With_IdName_Selectable):
+#    def __init__(self, mem):
+#        ObjectManager_With_IdName_Selectable.__init__(self)
+#        self.mem=mem
+#        
+#    def load_all(self):
+#        self.append(Zone(self.mem,1,'Europe/Madrid', self.mem.countries.find_by_id("es")))
+#        self.append(Zone(self.mem,2,'Europe/Lisbon', self.mem.countries.find_by_id("pt")))
+#        self.append(Zone(self.mem,3,'Europe/Rome', self.mem.countries.find_by_id("it")))
+#        self.append(Zone(self.mem,4,'Europe/London', self.mem.countries.find_by_id("en")))
+#        self.append(Zone(self.mem,5,'Asia/Tokyo', self.mem.countries.find_by_id("jp")))
+#        self.append(Zone(self.mem,6,'Europe/Berlin', self.mem.countries.find_by_id("de")))
+#        self.append(Zone(self.mem,7,'America/New_York', self.mem.countries.find_by_id("us")))
+#        self.append(Zone(self.mem,8,'Europe/Paris', self.mem.countries.find_by_id("fr")))
+#        self.append(Zone(self.mem,9,'Asia/Hong_Kong', self.mem.countries.find_by_id("cn")))
+#        self.append(Zone(self.mem,10,'Europe/Brussels', self.mem.countries.find_by_id("be")))
+#        self.append(Zone(self.mem,11,'Europe/Amsterdam', self.mem.countries.find_by_id("nl")))
+#        self.append(Zone(self.mem,12,'Europe/Dublin', self.mem.countries.find_by_id("ie")))
+#        self.append(Zone(self.mem,13,'Europe/Helsinki', self.mem.countries.find_by_id("fi")))
+#        self.append(Zone(self.mem,14,'Europe/Lisbon', self.mem.countries.find_by_id("pt")))
+#        self.append(Zone(self.mem,15,'Europe/Luxembourg', self.mem.countries.find_by_id("lu")))
+#        
+#    def qcombobox(self, combo, zone=None):
+#        """Carga entidades bancarias en combo"""
+#        combo.clear()
+#        for a in self.arr:
+#            combo.addItem(a.country.qicon(), a.name, a.id)
+#
+#        if zone!=None:
+#            combo.setCurrentIndex(combo.findText(zone.name))
 
 class Meal:
-    def __init__(self, mem):
-        self.mem=mem
-    def init__from_row(self,row):
-        self.id=row['id']
-        self.product=self.mem.data.products.find_by_id(row['products_id']) or None
-        self.datetime=row['datetime']
-        self.name=row['name']
-        self.amount=row['amount']
-        return self
+    ##Meal(mem)
+    ##Meal(mem,rows) #Uses products_id and users_id in row
+    ##Meal(mem,datetime,product,name,amount,users_id,id)
+    def __init__(self, *args):        
+        def init__create( dt, product, name, amount, user, id):
+            self.datetime=dt
+            self.product=product
+            self.name=name
+            self.amount=amount
+            self.user=user
+            self.id=id
+            return self
+        # #########################################
+        self.mem=args[0]
+        if len(args)==1:#Meal(mem)
+            init__create(*[None]*6)
+        elif len(args)==2:#Meal(mem,rows)
+            product=self.mem.data.products.find_by_id(args[1]['products_id'])
+            user=self.mem.data.users.find_by_id(args[1]['users_id'])
+            init__create(args[1]['datetime'], product, args[1]['name'], args[1]['amount'], user, args[1]['id'])
+        elif len(args)==7:#Meal(mem,datetime,product,name,amount,users_id,id)
+            init__create(*args[1:])
 
     def fullName(self,  with_id=False):
         if self.name==None:
             return self.product.fullName(with_id)
+        else:
+            return self.name + "MEAL NAME"
 
     def calories(self):
         return self.amount * self.product.calories/self.product.amount
+        
     def fat(self):
         return self.amount * self.product.fat/self.product.amount
+
     def protein(self):
         return self.amount * self.product.protein/self.product.amount
+
     def carbohydrate(self):
         return self.amount * self.product.carbohydrate/self.product.amount
+
     def salt(self):
         return self.amount * self.product.salt/self.product.amoun
+
     def fiber(self):
         return self.amount * self.product.fiber/self.product.amount
 
@@ -970,18 +981,30 @@ class Meal:
             return "Manufactured"
         else:
             return "Rare"
+            
+    def save(self):
+        if self.id==None:
+            self.id=self.mem.con.cursor_one_field("insert into meals(datetime,products_id,name, amount, users_id) values (%s, %s,%s,%s,%s) returning id",(self.datetime, self.product.id, self.name, self.amount, self.user.id))
+        else:
+            self.mem.con.cursor_one_field("update from meals set datetime=%s,products_id=%s,name=%s,amount=%s,users_id=%s where id=%s", (self.datetime, self.product.id, self.name, self.amount, self.user.id, self.id))
+
 
 class MealManager(QObject, ObjectManager_With_IdDatetime):
-    def __init__(self, mem):
+    ##MealManager(mem)
+    ##MealManager(mem,sql, progress)
+    def __init__(self, *args ):
         QObject.__init__(self)
-        ObjectManager_With_IdDatetime.__init__(self)
-        self.mem=mem
+        ObjectManager_With_IdName_Selectable.__init__(self)
+        self.mem=args[0]
+        if len(args)==2:
+            self.load_db_data(*args[1:])
 
-    def init__from_db(self, sql):
+    def load_db_data(self, sql):
         rows=self.mem.con.cursor_rows(sql)
         for row in rows:
-            self.append(Meal(self.mem).init__from_row(row))
+            self.append(Meal(self.mem, row))
         return self
+
     def calories(self):
         r=Decimal(0)
         for meal in self.arr:
@@ -1017,12 +1040,14 @@ class MealManager(QObject, ObjectManager_With_IdDatetime):
         for meal in self.arr:
             r=r+meal.amount
         return r
+
     def max_name_len(self):
         r=0
         for meal in self.arr:
             if len(meal.fullName())>r:
                 r=len(meal.fullName())
         return r
+
     def qtablewidget(self, table):        
         table.setColumnCount(8)
         table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Hour")))
@@ -1048,48 +1073,56 @@ class MealManager(QObject, ObjectManager_With_IdDatetime):
             table.setItem(i, 7, qright(o.fiber()))
         
 class User:
-    def __init__(self, mem):
-        self.mem=mem
-        
-    def init__from_db(self,id):
-        row=self.mem.con.cursor_one_row("select * from users where id=%s",(id,))
-        self.id=row['id']
-        self.name=row['name']
-        self.male=row['male']
-        self.birthday=row['birthday']
-        row=self.mem.con.cursor_one_row("select * from biometrics where users_id=%s order by datetime desc limit 1",(self.id,))
-        self.height=row['height']
-        self.weight=row['weight']
-        #0 Loss weight   
-        #1 Mantein widght 45H 35P 20G
-        #2 Gain weight
-        #self.dietwish=row['dietwish']
-        # 0 TMB x 1,2: Poco o ningún ejercicio
-        # 1 TMB x 1,375: Ejercicio ligero (1 a 3 días a la semana)
-        # 2 TMB x 1,55: Ejercicio moderado (3 a 5 días a la semana)
-        # 3 TMB x 1,72: Deportista (6 -7 días a la semana)
-        # 4 TMB x 1,9: Atleta (Entrenamientos mañana y tarde)
-
-        self.activity=row['activity']
-        return self 
+    ##User(mem)
+    ##User(mem,rows) #Uses products_id and users_id in row
+    ##User( name, male, birthday, starts, ends, dietwish, id):
+    def __init__(self, *args):        
+        def init__create( name, male, birthday, starts, ends, dietwish, id):
+            self.name=name
+            self.male=male
+            self.birthday=birthday
+            self.starts=starts
+            self.ends=ends
+            self.dietwish=dietwish
+            self.id=id
+        # #########################################
+        self.mem=args[0]
+        if len(args)==1:#User(mem)
+            init__create(*[None]*7)
+        elif len(args)==2:#User(mem,rows)
+            init__create(args[1]['name'], args[1]['male'], args[1]['birthday'], args[1]['starts'],  args[1]['ends'],  args[1]['dietwish'],  args[1]['id'])
+        elif len(args)==8:#User( name, male, birthday, starts, ends, dietwish, id):
+            init__create(*args[1:])
+    
+    ##Must be loaded later becaouse usermanager searches in users and is not yet loaded
+    def load_last_biometrics(self):
+        #Loads biometrics
+        if self.id==None:
+            self.last_biometrics=Biometrics(self.mem)
+        else:
+            biometrics=BiometricsManager(self.mem, self.mem.con.mogrify("select * from biometrics where users_id= %s order by datetime desc limit 1", (self.id, )), False)
+            if biometrics.length()==1:
+                self.last_biometrics=biometrics.first()
+            else:
+                self.last_biometrics=Biometrics(self.mem)
 
     ##basal metabolic rate
     def bmr(self):
-        if self.activity==0:
+        if self.last_biometrics.activity==0:
             mult=Decimal(1.2)
-        elif self.activity==1:
+        elif self.last_biometrics.activity==1:
             mult=Decimal(1.375)
-        elif self.activity==2:
+        elif self.last_biometrics.activity==2:
             mult=Decimal(1.55)
-        elif self.activity==3:
+        elif self.last_biometrics.activity==3:
             mult=Decimal(1.72)
-        elif self.activity==4:
+        elif self.last_biometrics.activity==4:
             mult=Decimal(1.9)
 
         if self.male==True:
-            return mult*(Decimal(10)*self.weight + Decimal(6.25)*self.height - Decimal(5)*self.age() + 5)
+            return mult*(Decimal(10)*self.last_biometrics.weight + Decimal(6.25)*self.last_biometrics.height - Decimal(5)*self.age() + 5)
         else: #female
-            return mult*(Decimal(10)*self.weight + Decimal(6.25)*self.height - Decimal(5)*self.age() - 161)
+            return mult*(Decimal(10)*self.last_biometrics.weight + Decimal(6.25)*self.last_biometrics.height - Decimal(5)*self.age() - 161)
 
     ##    https://www.healthline.com/nutrition/how-much-protein-per-day#average-needs
     ## If you’re at a healthy weight, don't lift weights and don't exercise much, then aiming for 0.36–0.6 grams per pound (0.8–1.3 gram per kg) is a reasonable estimate.
@@ -1129,7 +1162,7 @@ class User:
         return (date.today() - self.birthday) // timedelta(days=365.2425)
     # Índice de masa corporal
     def imc(self):
-        return self.weight/((self.height/100)**2)
+        return self.last_biometrics.weight/((self.last_biometrics.height/100)**2)
     
     ## https://www.seedo.es/index.php/pacientes/calculo-imc
     def imc_comment(self):
@@ -1150,3 +1183,40 @@ class User:
             return "Obesidad grado III (mórbida)"
         elif imc>=50:
             return "Obesidad grado IV (extrema"
+            
+## Class to manage users
+## UserManager(mem)
+## UserManager(mem,sql,progress)
+class UserManager(QObject, ObjectManager_With_IdName_Selectable):
+    def __init__(self, *args):
+        def load_from_db(sql,  progress=False):
+            self.clean()
+            cur=self.mem.con.cursor()
+            cur.execute(sql)
+            if progress==True:
+                pd= QProgressDialog(self.tr("Loading {0} users from database").format(cur.rowcount),None, 0,cur.rowcount)
+                pd.setWindowIcon(QIcon(":/caloriestracker/coins.png"))
+                pd.setModal(True)
+                pd.setWindowTitle(self.tr("Loading users..."))
+                pd.forceShow()
+            for rowms in cur:
+                if progress==True:
+                    pd.setValue(cur.rownumber)
+                    pd.update()
+                    QApplication.processEvents()
+                    
+                inv=User(self.mem, rowms)
+                self.append(inv)
+            cur.close()
+        # ####################################################
+        QObject.__init__(self)
+        ObjectManager_With_IdName_Selectable.__init__(self)
+        self.mem=args[0]
+        if len(args)==3:
+            load_from_db(*args[1:])
+    def load_last_biometrics(self):
+        for user in self.arr:
+            user.load_last_biometrics()
+
+
+        

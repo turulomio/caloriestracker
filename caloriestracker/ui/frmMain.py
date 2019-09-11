@@ -6,14 +6,15 @@ from PyQt5.QtGui import QIcon, QDesktopServices
 from PyQt5.QtWidgets import QMainWindow,  QWidget, QLabel
 import os
 import logging
-from caloriestracker.ui.Ui_frmMain import Ui_frmMain
+from datetime import timezone
+from caloriestracker.database_update import database_update
 from caloriestracker.libcaloriestracker import ProductManager
 from caloriestracker.libcaloriestrackerfunctions import qmessagebox, string2datetime, is_there_internet
-from caloriestracker.version import __versiondate__
+from caloriestracker.ui.Ui_frmMain import Ui_frmMain
 from caloriestracker.ui.wdgCuriosities import wdgCuriosities
 from caloriestracker.ui.frmAuxiliarTables import frmAuxiliarTables
 from caloriestracker.ui.frmSettings import frmSettings
-from datetime import timezone
+from caloriestracker.version import __versiondate__
 
 
 class frmMain(QMainWindow, Ui_frmMain):
@@ -23,8 +24,9 @@ class frmMain(QMainWindow, Ui_frmMain):
         self.showMaximized()
         
         self.mem=mem
-        self.mem.con.inactivity_timeout.connect(self.inactivity_timeout)        
-        self.sqlvacio="select * from products where id=-999999"
+        self.mem.con.inactivity_timeout.connect(self.inactivity_timeout)
+        
+        database_update(self.mem.con)
         
         self.w=QWidget()       
         self.statusBar.addWidget(QLabel(self.mem.con.url_string()))

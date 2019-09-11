@@ -12,6 +12,6 @@ class wdgMeals(QWidget, Ui_wdgMeals):
         self.on_calendar_selectionChanged()
         
     def on_calendar_selectionChanged(self):
-        self.meals.clean()
-        self.meals.init__from_db(self.mem.con.mogrify("select * from meals where datetime::date=%s", (self.calendar.selectedDate().toPyDate(), )))
+        del self.meals
+        self.meals=MealManager(self.mem, self.mem.con.mogrify("select * from meals where users_id=%s and datetime::date=%s order by datetime", (self.mem.user.id, self.calendar.selectedDate().toPyDate() )))
         self.meals.qtablewidget(self.tblMeals)
