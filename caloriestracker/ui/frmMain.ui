@@ -21,8 +21,8 @@
    <cursorShape>ArrowCursor</cursorShape>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>:/xulpymoney/coins.png</normaloff>:/xulpymoney/coins.png</iconset>
+   <iconset resource="../images/caloriestracker.qrc">
+    <normaloff>:/caloriestracker/caloriestracker.svg</normaloff>:/caloriestracker/caloriestracker.svg</iconset>
   </property>
   <widget class="QWidget" name="central">
    <property name="enabled">
@@ -86,9 +86,22 @@
     <addaction name="actionSearch"/>
     <addaction name="separator"/>
    </widget>
+   <widget class="QMenu" name="menuMealss">
+    <property name="title">
+     <string>Meals</string>
+    </property>
+    <addaction name="actionMeals"/>
+   </widget>
+   <widget class="QMenu" name="menuCompanies">
+    <property name="title">
+     <string>Companies</string>
+    </property>
+   </widget>
    <addaction name="menuXulpymoney"/>
-   <addaction name="menuInformes"/>
+   <addaction name="menuCompanies"/>
    <addaction name="menuProducts"/>
+   <addaction name="menuMealss"/>
+   <addaction name="menuInformes"/>
    <addaction name="menuAyuda"/>
   </widget>
   <widget class="QToolBar" name="tbMain">
@@ -110,6 +123,7 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionMeals"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="tbProducts">
@@ -129,8 +143,6 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionSearch"/>
-   <addaction name="separator"/>
-   <addaction name="separator"/>
   </widget>
   <widget class="QToolBar" name="tbSettings">
    <property name="windowTitle">
@@ -189,8 +201,8 @@
   </action>
   <action name="actionMemory">
    <property name="icon">
-    <iconset>
-     <normaloff>:/xulpymoney/transfer.png</normaloff>:/xulpymoney/transfer.png</iconset>
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/transfer.png</normaloff>:/caloriestracker/transfer.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Update memory</string>
@@ -260,6 +272,18 @@
    </property>
    <property name="toolTip">
     <string>Curiosities</string>
+   </property>
+  </action>
+  <action name="actionMeals">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/meals.svg</normaloff>:/caloriestracker/meals.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Meals</string>
+   </property>
+   <property name="toolTip">
+    <string>Meals</string>
    </property>
   </action>
  </widget>

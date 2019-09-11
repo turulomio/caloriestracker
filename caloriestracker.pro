@@ -19,6 +19,8 @@ SOURCES         = \
                   caloriestracker/ui/Ui_wdgCuriosity.py \
                   caloriestracker/ui/wdgDatetime.py \
                   caloriestracker/ui/Ui_wdgDatetime.py \
+                  caloriestracker/ui/wdgMeals.py \
+                  caloriestracker/ui/Ui_wdgMeals.py \
                   caloriestracker/ui/wdgProducts.py \
                   caloriestracker/ui/Ui_wdgProducts.py \
                   caloriestracker/ui/wdgProductsDataMove.py \

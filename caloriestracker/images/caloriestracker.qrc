@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="/caloriestracker">
+    <file>meals.svg</file>
     <file>caloriestracker.svg</file>
     <file>investing_com.png</file>
     <file>zerorisk.png</file>

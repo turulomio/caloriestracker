@@ -38,6 +38,7 @@ class frmMain(QMainWindow, Ui_frmMain):
             self.setWindowTitle(self.tr("Calories Tracker 2019-{0} \xa9").format(__versiondate__.year))
             self.actionDocumentsPurge.setEnabled(False)
         
+
         #self.__checks_version_of_products_xlsx()
 
     ## Checks if products.xlsx version in Internet is older than db products.xlsx version in database
@@ -115,6 +116,14 @@ class frmMain(QMainWindow, Ui_frmMain):
         w=frmSettings(self.mem, self)
         w.exec_()
         self.retranslateUi(self)
+
+    @pyqtSlot()  
+    def on_actionMeals_triggered(self):
+        from caloriestracker.ui.wdgMeals import wdgMeals
+        self.w.close()
+        self.w=wdgMeals(self.mem,  self)
+        self.layout.addWidget(self.w)
+        self.w.show()
 
     @pyqtSlot()  
     def on_actionCuriosities_triggered(self):

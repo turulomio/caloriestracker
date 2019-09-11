@@ -102,10 +102,6 @@ class Compile(Command):
                  os.system("sed -i -e 's/from myqlineedit/from caloriestracker.ui.myqlineedit/' caloriestracker/ui/{}".format(filename))
                  os.system("sed -i -e 's/from myqtablewidget/from caloriestracker.ui.myqtablewidget/' caloriestracker/ui/{}".format(filename))
                  os.system("sed -i -e 's/from caloriestracker.ui.myqlineedit/from caloriestracker.ui.myqlineedit/' caloriestracker/ui/{}".format(filename))
-                 os.system("sed -i -e 's/from wdgTwoCurrencyLineEdit/from caloriestracker.ui.wdgTwoCurrencyLineEdit/' caloriestracker/ui/{}".format(filename))
-                 os.system("sed -i -e 's/from wdgCurrencyConversion/from caloriestracker.ui.wdgCurrencyConversion/' caloriestracker/ui/{}".format(filename))
-                 os.system("sed -i -e 's/from wdgProductSelector/from caloriestracker.ui.wdgProductSelector/' caloriestracker/ui/{}".format(filename))
-                 os.system("sed -i -e 's/from wdgQuotesSaveResult/from caloriestracker.ui.wdgQuotesSaveResult/' caloriestracker/ui/{}".format(filename))
                  os.system("sed -i -e 's/from wdgDatetime/from caloriestracker.ui.wdgDatetime/' caloriestracker/ui/{}".format(filename))
                  os.system("sed -i -e 's/from wdgYear/from caloriestracker.ui.wdgYear/' caloriestracker/ui/{}".format(filename))
 

@@ -1,11 +1,11 @@
 ## @namespace caloriestracker.libcaloriestracker
 ## @brief Package with all caloriestracker core classes .
 
-from PyQt5.QtCore import Qt,  QSettings, QCoreApplication, QTranslator
+from PyQt5.QtCore import Qt,  QSettings, QCoreApplication, QTranslator, QObject
 from PyQt5.QtGui import QIcon,  QColor,  QPixmap
 from PyQt5.QtWidgets import QTableWidgetItem, QApplication,   qApp,  QProgressDialog
 
-import datetime
+from datetime import date,  timedelta, datetime
 import logging
 import pytz
 import sys
@@ -15,8 +15,8 @@ import os
 from decimal import Decimal
 from caloriestracker.connection_pg_qt import ConnectionQt
 from caloriestracker.github import get_file_modification_dtaware
-from caloriestracker.libcaloriestrackerfunctions import str2bool, dtaware2string, list2string, dirs_create, package_filename, is_there_internet
-from caloriestracker.libmanagers import Object_With_IdName, ObjectManager_With_Id_Selectable,  ManagerSelectionMode, ObjectManager_With_IdName_Selectable
+from caloriestracker.libcaloriestrackerfunctions import str2bool, dtaware2string, list2string, dirs_create, package_filename, is_there_internet, qtime, qleft, qright
+from caloriestracker.libmanagers import Object_With_IdName, ObjectManager_With_Id_Selectable,  ManagerSelectionMode, ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime
 from officegenerator import OpenPyXL
 
 class Percentage:
@@ -118,8 +118,9 @@ class Percentage:
         return False
 
 
-class CompanyManager(ObjectManager_With_IdName_Selectable):
+class CompanyManager(QObject, ObjectManager_With_IdName_Selectable):
     def __init__(self, mem):
+        QObject.__init__(self)
         ObjectManager_With_IdName_Selectable.__init__(self)
         self.mem=mem
 
@@ -132,10 +133,10 @@ class CompanyManager(ObjectManager_With_IdName_Selectable):
         cur=self.mem.con.cursor()
         cur.execute(sql)#"select * from products where id in ("+lista+")" 
         if progress==True:
-            pd= QProgressDialog(QApplication.translate("Core","Loading {0} products from database").format(cur.rowcount),None, 0,cur.rowcount)
+            pd= QProgressDialog(self.tr("Loading {0} companies from database").format(cur.rowcount),None, 0,cur.rowcount)
             pd.setWindowIcon(QIcon(":/caloriestracker/coins.png"))
             pd.setModal(True)
-            pd.setWindowTitle(QApplication.translate("Core","Loading products..."))
+            pd.setWindowTitle(self.tr("Loading companies..."))
             pd.forceShow()
         for rowms in cur:
             if progress==True:
@@ -150,8 +151,9 @@ class CompanyManager(ObjectManager_With_IdName_Selectable):
 ## Clase parar trabajar con las opercuentas generadas automaticamente por los movimientos de las inversiones
 
 ## Class to manage products
-class ProductManager(ObjectManager_With_IdName_Selectable):
+class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
     def __init__(self, mem):
+        QObject.__init__(self)
         ObjectManager_With_IdName_Selectable.__init__(self)
         self.setSelectionMode(ManagerSelectionMode.List)
         self.mem=mem
@@ -164,10 +166,10 @@ class ProductManager(ObjectManager_With_IdName_Selectable):
         cur=self.mem.con.cursor()
         cur.execute(sql)#"select * from products where id in ("+lista+")" 
         if progress==True:
-            pd= QProgressDialog(QApplication.translate("Core","Loading {0} products from database").format(cur.rowcount),None, 0,cur.rowcount)
+            pd= QProgressDialog(self.tr("Loading {0} products from database").format(cur.rowcount),None, 0,cur.rowcount)
             pd.setWindowIcon(QIcon(":/caloriestracker/coins.png"))
             pd.setModal(True)
-            pd.setWindowTitle(QApplication.translate("Core","Loading products..."))
+            pd.setWindowTitle(self.tr("Loading products..."))
             pd.forceShow()
         for rowms in cur:
             if progress==True:
@@ -185,10 +187,10 @@ class ProductManager(ObjectManager_With_IdName_Selectable):
     ## @param progress Boolean. If true shows a progress bar
     def needStatus(self, needstatus,  downgrade_to=None, progress=False):
         if progress==True:
-            pd= QProgressDialog(QApplication.translate("Core","Loading additional data to {0} products from database").format(self.length()),None, 0,self.length())
+            pd= QProgressDialog(self.tr("Loading additional data to {0} products from database").format(self.length()),None, 0,self.length())
             pd.setWindowIcon(QIcon(":/caloriestracker/coins.png"))
             pd.setModal(True)
-            pd.setWindowTitle(QApplication.translate("Core","Loading products..."))
+            pd.setWindowTitle(self.tr("Loading products..."))
             pd.forceShow()
         for i, product in enumerate(self.arr):
             if progress==True:
@@ -425,30 +427,31 @@ class ProductManager(ObjectManager_With_IdName_Selectable):
         self.mem.data.load()
 
 
-class CountryManager(ObjectManager_With_IdName_Selectable):
+class CountryManager(QObject, ObjectManager_With_IdName_Selectable):
     def __init__(self, mem):
+        QObject.__init__(self)
         ObjectManager_With_IdName_Selectable.__init__(self)
         self.mem=mem   
         
     def load_all(self):
-        self.append(Country("es",QApplication.translate("Core","Spain")))
-        self.append(Country("be",QApplication.translate("Core","Belgium")))
-        self.append(Country("cn",QApplication.translate("Core","China")))
-        self.append(Country("de",QApplication.translate("Core","Germany")))
-        self.append(Country("earth",QApplication.translate("Core","Earth")))
-        self.append(Country("en",QApplication.translate("Core","United Kingdom")))
-        self.append(Country("eu",QApplication.translate("Core","Europe")))
-        self.append(Country("fi",QApplication.translate("Core","Finland")))
-        self.append(Country("fr",QApplication.translate("Core","France")))
-        self.append(Country("ie",QApplication.translate("Core","Ireland")))
-        self.append(Country("it",QApplication.translate("Core","Italy")))
-        self.append(Country("jp",QApplication.translate("Core","Japan")))
-        self.append(Country("nl",QApplication.translate("Core","Netherlands")))
-        self.append(Country("pt",QApplication.translate("Core","Portugal")))
-        self.append(Country("us",QApplication.translate("Core","United States of America")))
-        self.append(Country("ro",QApplication.translate("Core","Romanian")))
-        self.append(Country("ru",QApplication.translate("Core","Rusia")))
-        self.append(Country("lu",QApplication.translate("Core","Luxembourg")))
+        self.append(Country("es",self.tr("Spain")))
+        self.append(Country("be",self.tr("Belgium")))
+        self.append(Country("cn",self.tr("China")))
+        self.append(Country("de",self.tr("Germany")))
+        self.append(Country("earth",self.tr("Earth")))
+        self.append(Country("en",self.tr("United Kingdom")))
+        self.append(Country("eu",self.tr("Europe")))
+        self.append(Country("fi",self.tr("Finland")))
+        self.append(Country("fr",self.tr("France")))
+        self.append(Country("ie",self.tr("Ireland")))
+        self.append(Country("it",self.tr("Italy")))
+        self.append(Country("jp",self.tr("Japan")))
+        self.append(Country("nl",self.tr("Netherlands")))
+        self.append(Country("pt",self.tr("Portugal")))
+        self.append(Country("us",self.tr("United States of America")))
+        self.append(Country("ro",self.tr("Romanian")))
+        self.append(Country("ru",self.tr("Rusia")))
+        self.append(Country("lu",self.tr("Luxembourg")))
         self.order_by_name()
 
     def qcombobox(self, combo,  country=None):
@@ -473,13 +476,14 @@ class DBData:
         self.mem=mem
 
     def load(self, progress=True):
-        start=datetime.datetime.now()
-        self.products=ProductManager(self.mem)
-        self.products.load_from_db("select * from products", progress)
-        logging.debug("DBData > Products took {}".format(datetime.datetime.now()-start))
-
+        start=datetime.now()
         self.companies=CompanyManager(self.mem)
         self.companies.load_from_db("select * from companies")
+        
+        self.products=ProductManager(self.mem)
+        self.products.load_from_db("select * from products", progress)
+        logging.debug("DBData took {}".format(datetime.now()-start))
+
 
 
 class Company:
@@ -489,9 +493,9 @@ class Company:
         self.id=None
                 
     def init__db_row(self, row):
-        """row es una fila de un pgcursro de investmentes"""
-        self.name=row['name'].upper()
+        self.name=row['name']
         self.id=row['id']
+        return self
         
 class Product:
     def __init__(self, mem):
@@ -532,34 +536,24 @@ class Product:
         return "{0} ({1}) de la {2}".format(self.name , self.id, self.stockmarket.name)
                 
     def init__db_row(self, row):
-        """row es una fila de un pgcursro de investmentes"""
-        self.name=row['name'].upper()
+        if row['companies_id']==None:
+            self.company=None
+        else:
+            self.company=self.mem.data.companies.find_by_id(row['companies_id']) 
+        self.name=row['name']
         self.id=row['id']
-
+        self.calories=row['calories']
+        self.fat=row['fat']
+        self.protein=row['protein']
+        self.amount=row['amount']
+        self.carbohydrate=row['carbohydrate']
+        self.salt=row['salt']
+        self.fiber=row['fiber']
         return self
 
 
     def init__create(self, name,  isin, currency, type, agrupations, active, web, address, phone, mail, percentage, mode, leveraged, decimals, stockmarket, tickers, comment, obsolete, high_low, id=None):
-        self.name=name
-        self.isin=isin
-        self.currency=currency
-        self.type=type
-        self.agrupations=agrupations
-        self.active=active
-        self.id=id
-        self.web=web
-        self.address=address
-        self.phone=phone
-        self.mail=mail
-        self.percentage=percentage
-        self.mode=mode
-        self.leveraged=leveraged        
-        self.decimals=decimals
-        self.stockmarket=stockmarket
-        self.tickers=tickers
-        self.comment=comment
-        self.obsolete=obsolete
-        self.high_low=high_low
+
         return self        
 
     def init__db(self, id):
@@ -787,7 +781,7 @@ class MemCaloriestracker:
         self.settings=QSettings()
         self.settingsdb=SettingsDB(self)
         
-        self.inittime=datetime.datetime.now()#Tiempo arranca el config
+        self.inittime=datetime.now()#Tiempo arranca el config
         self.dbinitdate=None#Fecha de inicio bd.
         self.con=None#Conexión        
         
@@ -850,7 +844,7 @@ class MemCaloriestracker:
 
     def load_db_data(self, progress=True, load_data=True):
         """Esto debe ejecutarse una vez establecida la conexión"""
-        inicio=datetime.datetime.now()
+        inicio=datetime.now()
 
         self.zones=ZoneManager(self)
         self.zones.load_all()
@@ -859,7 +853,7 @@ class MemCaloriestracker:
             self.data=DBData(self)
             self.data.load(progress)
 
-        logging.info("Loading db data took {}".format(datetime.datetime.now()-inicio))
+        logging.info("Loading db data took {}".format(datetime.now()-inicio))
         
     def save_MemSettingsDB(self):
         self.settingsdb.setValue("mem/localcurrency", self.localcurrency.id)
@@ -955,7 +949,7 @@ class Zone:
         
     ## Datetime aware with the pyttz.timezone
     def now(self):
-        return datetime.datetime.now(pytz.timezone(self.name))
+        return datetime.now(pytz.timezone(self.name))
         
     ## Internal __repr__ function
     def __repr__(self):
@@ -1004,3 +998,229 @@ class ZoneManager(ObjectManager_With_IdName_Selectable):
 
         if zone!=None:
             combo.setCurrentIndex(combo.findText(zone.name))
+
+class Meal:
+    def __init__(self, mem):
+        self.mem=mem
+    def init__from_row(self,row):
+        self.id=row['id']
+        self.product=self.mem.data.products.find_by_id(row['products_id']) or None
+        self.datetime=row['datetime']
+        self.name=row['name']
+        self.amount=row['amount']
+        return self
+
+    def name(self):
+        if self.companies_id==None:
+            return "{}".format(self._name)
+        else:
+            return "{} ({})".format(self._name, self.companies_name)
+
+    def __repr__(self):
+        return "{}. #{}".format(self.name(),self.id)
+
+    def calories(self):
+        return self.amount * self.product.calories/self.product.amount
+    def fat(self):
+        return self.amount * self.product.fat/self.product.amount
+    def protein(self):
+        return self.amount * self.product.protein/self.product.amount
+    def carbohydrate(self):
+        return self.amount * self.product.carbohydrate/self.product.amount
+    def salt(self):
+        return self.amount * self.product.salt/self.product.amoun
+    def fiber(self):
+        return self.amount * self.product.fiber/self.product.amount
+
+    def meal_hour(self):
+        return str(self.time())[0:5]
+
+    def product_type(self):
+        if self.personalproducts_id==None and self.companies_id==None:
+            return "Basic"
+        elif self.personalproducts_id!=None:
+            return "Personal"
+        elif self.companies_id!=None:
+            return "Manufactured"
+        else:
+            return "Rare"
+
+class MealManager(QObject, ObjectManager_With_IdDatetime):
+    def __init__(self, mem):
+        QObject.__init__(self)
+        ObjectManager_With_IdDatetime.__init__(self)
+        self.mem=mem
+
+    def init__from_db(self, sql):
+        rows=self.mem.con.cursor_rows(sql)
+        for row in rows:
+            self.append(Meal(self.mem).init__from_row(row))
+        return self
+    def calories(self):
+        r=Decimal(0)
+        for meal in self.arr:
+            r=r+meal.meal_calories()
+        return r
+    def fat(self):
+        r=Decimal(0)
+        for meal in self.arr:
+            r=r+meal.meal_fat()
+        return r
+    def protein(self):
+        r=Decimal(0)
+        for meal in self.arr:
+            r=r+meal.meal_protein()
+        return r
+    def carbohydrate(self):
+        r=Decimal(0)
+        for meal in self.arr:
+            r=r+meal.meal_carbohydrate()
+        return r
+    def salt(self):
+        r=Decimal(0)
+        for meal in self.arr:
+            r=r+meal.meal_salt()
+        return r
+    def fiber(self):
+        r=Decimal(0)
+        for meal in self.arr:
+            r=r+meal.meal_fiber()
+        return r
+    def grams(self):
+        r=Decimal(0)
+        for meal in self.arr:
+            r=r+meal.meal_amount
+        return r
+    def max_name_len(self):
+        r=0
+        for meal in self.arr:
+            if len(meal.name())>r:
+                r=len(meal.name())
+        return r
+    def qtablewidget(self, table):        
+        table.setColumnCount(8)
+        table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Hour")))
+        table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Name")))
+        table.setHorizontalHeaderItem(2, QTableWidgetItem(self.tr("Grams")))
+        table.setHorizontalHeaderItem(3, QTableWidgetItem(self.tr("Calories")))
+        table.setHorizontalHeaderItem(4, QTableWidgetItem(self.tr("Carbohydrates")))
+        table.setHorizontalHeaderItem(5, QTableWidgetItem(self.tr("Protein")))
+        table.setHorizontalHeaderItem(6, QTableWidgetItem(self.tr("Fat")))
+        table.setHorizontalHeaderItem(7, QTableWidgetItem(self.tr("Fiber")))
+   
+        table.applySettings()
+        table.clearContents()
+        table.setRowCount(self.length())
+        for i, o in enumerate(self.arr):
+            table.setItem(i, 0, qtime(o.datetime))
+            table.setItem(i, 1, qleft(o.product.name))
+            table.setItem(i, 2, qright(o.amount))
+            table.setItem(i, 3, qright(o.calories()))
+            table.setItem(i, 4, qright(o.carbohydrate()))
+            table.setItem(i, 5, qright(o.protein()))
+            table.setItem(i, 6, qright(o.fat()))
+            table.setItem(i, 7, qright(o.fiber()))
+        
+class User:
+    def __init__(self, mem):
+        self.mem=mem
+        
+    def init__from_db(self,id):
+        row=self.mem.con.cursor_one_row("select * from users where id=%s",(id,))
+        self.id=row['id']
+        self.name=row['name']
+        self.male=row['male']
+        self.birthday=row['birthday']
+        row=self.mem.con.cursor_one_row("select * from biometrics where users_id=%s order by datetime desc limit 1",(self.id,))
+        self.height=row['height']
+        self.weight=row['weight']
+        #0 Loss weight   
+        #1 Mantein widght 45H 35P 20G
+        #2 Gain weight
+        #self.dietwish=row['dietwish']
+        # 0 TMB x 1,2: Poco o ningún ejercicio
+        # 1 TMB x 1,375: Ejercicio ligero (1 a 3 días a la semana)
+        # 2 TMB x 1,55: Ejercicio moderado (3 a 5 días a la semana)
+        # 3 TMB x 1,72: Deportista (6 -7 días a la semana)
+        # 4 TMB x 1,9: Atleta (Entrenamientos mañana y tarde)
+
+        self.activity=row['activity']
+        return self 
+
+    ##basal metabolic rate
+    def bmr(self):
+        if self.activity==0:
+            mult=Decimal(1.2)
+        elif self.activity==1:
+            mult=Decimal(1.375)
+        elif self.activity==2:
+            mult=Decimal(1.55)
+        elif self.activity==3:
+            mult=Decimal(1.72)
+        elif self.activity==4:
+            mult=Decimal(1.9)
+
+        if self.male==True:
+            return mult*(Decimal(10)*self.weight + Decimal(6.25)*self.height - Decimal(5)*self.age() + 5)
+        else: #female
+            return mult*(Decimal(10)*self.weight + Decimal(6.25)*self.height - Decimal(5)*self.age() - 161)
+
+    ##    https://www.healthline.com/nutrition/how-much-protein-per-day#average-needs
+    ## If you’re at a healthy weight, don't lift weights and don't exercise much, then aiming for 0.36–0.6 grams per pound (0.8–1.3 gram per kg) is a reasonable estimate.
+    ##
+    ##This amounts to:
+    ##
+    ##56–91 grams per day for the average male.
+    ##46–75 grams per day for the average female.
+    ##
+    ## But given that there is no evidence of harm and a significant evidence of benefit, it’s likely better for most people to err on the side of more protein rather than less.
+    def protein(self):
+        return self.bmr()*Decimal(0.175)/Decimal(4)
+
+
+    ## The Mediterranean diet includes a wide variety of plant and animal foods such as fish, meat, eggs, dairy, extra virgin olive oil, fruits, vegetables, legumes and whole grains.
+    ## 
+    ## It typically provides 35–40% of calories from fat, including plenty of monounsaturated fat from olive oil.
+    ##
+    ## Here are a few examples of suggested daily fat ranges for a Mediterranean diet, based on different calorie goals:
+    ##
+    ##     1,500 calories: About 58–67 grams of fat per day.
+    ##     2,000 calories: About 78–89 grams of fat per day.
+    ##     2,500 calories: About 97–111 grams of fat per day.
+    ## Segun https://www.tuasaude.com/es/calorias-de-los-alimentos/ cada gramo grasa tiene 9 calorias
+    ## 60% hidratos, 17.5% proteínas y 22.5% de grasas. SERA SELECCIONABLE
+    def fat(self):
+        return self.bmr()*Decimal(0.225)/Decimal(9)
+
+    def carbohydrate(self):
+        return self.bmr()*Decimal(0.60)/Decimal(4)
+
+
+    def fiber(self):
+        return Decimal(25)
+
+    def age(self):
+        return (date.today() - self.birthday) // timedelta(days=365.2425)
+    # Índice de masa corporal
+    def imc(self):
+        return self.weight/((self.height/100)**2)
+    
+    ## https://www.seedo.es/index.php/pacientes/calculo-imc
+    def imc_comment(self):
+        imc=self.imc()
+        if imc <18.5:
+            return "Peso insuficiente"
+        elif imc<24.9:
+            return "Peso normal"
+        elif imc<26.9:
+            return "Sobrepeso grado I"
+        elif imc<29.9:
+            return "Sobrepeso grado II (preobesidad)"
+        elif imc<34.9:
+            return "Obesidad grado I"
+        elif imc<39.9:
+            return "Obesidad grado II"
+        elif imc<50:
+            return "Obesidad grado III (mórbida)"
+        elif imc>=50:
+            return "Obesidad grado IV (extrema"
