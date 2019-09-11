@@ -1,0 +1,4 @@
+include LICENSE.txt README.md caloriestracker.desktop caloriestracker.pro *.py doc/Doxyfile doc/index.doc doc/caloriestracker*
+recursive-include caloriestracker i18n *.ts *.qm *.png *.jpg *.gif caloriestracker.qrc *.py *.ico *.sql
+prune __pycache__
+global-exclude *.pyc 

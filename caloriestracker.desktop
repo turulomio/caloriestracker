@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Calories Tracker
+Type=Application
+Comment=Home and financial accounting system
+Exec=caloriestracker
+TryExec=caloriestracker
+Icon=/usr/share/pixmaps/caloriestracker.png
+Categories=Office;
+GenericName=Sistema de gestión de calorias
+GenericName[en]=Calories tracker system
+GenericName[es]=Sistema de gestión de calorias
+

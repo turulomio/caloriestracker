@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>wdgProductsDataMove</class>
+ <widget class="QWidget" name="wdgProductsDataMove">
+  <property name="windowModality">
+   <enum>Qt::WindowModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1108</width>
+    <height>358</height>
+   </rect>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout_2">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="lbl">
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Move data between products</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>All product data will be moved from origin product to destiny one. If there are invesments created with origin product, they will be referenced to destiny product.
+If origin is a user product, you can delete afterwards, because it won't have any data</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="myQTableWidget" name="table">
+         <property name="selectionMode">
+          <enum>QAbstractItemView::SingleSelection</enum>
+         </property>
+         <property name="selectionBehavior">
+          <enum>QAbstractItemView::SelectRows</enum>
+         </property>
+         <row>
+          <property name="text">
+           <string>Origin</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>Destiny</string>
+          </property>
+         </row>
+         <column>
+          <property name="text">
+           <string>Id</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Name</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>ISIN</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Quotes</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>DPS</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Investments</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Oportunities</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Splits</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>DPS estimations</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>EPS Estimations</string>
+          </property>
+         </column>
+         <item row="1" column="0">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="background">
+           <brush brushstyle="NoBrush">
+            <color alpha="255">
+             <red>255</red>
+             <green>192</green>
+             <blue>192</blue>
+            </color>
+           </brush>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="cmdInterchange">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>:/xulpymoney/transfer.png</normaloff>:/xulpymoney/transfer.png</iconset>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="chkInvestments">
+       <property name="text">
+        <string>Change personal investments with origin product to destiny product</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cmd">
+       <property name="text">
+        <string>Move data</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/xulpymoney/merge.png</normaloff>:/xulpymoney/merge.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>myQTableWidget</class>
+   <extends>QTableWidget</extends>
+   <header location="global">myqtablewidget</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../images/caloriestracker.qrc"/>
+ </resources>
+ <connections/>
+</ui>
