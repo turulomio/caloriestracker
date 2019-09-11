@@ -5,13 +5,12 @@ from caloriestracker.connection_pg import Connection, argparse_connection_argume
 from caloriestracker.libcaloriestracker import MemConsole,  MealManager, Company, Meal, Product
 from caloriestracker.libcaloriestrackerfunctions import a2s, ca2s, input_decimal, input_int, input_string, string2date, n2s
 from caloriestracker.database_update import database_update
-from logging import critical
 from signal import signal, SIGINT
 from sys import exit
 _=str
 
 def signal_handler(signal, frame):
-        critical(Style.BRIGHT+Fore.RED+"You pressed 'Ctrl+C', exiting...")
+        print(Style.BRIGHT+Fore.RED+"You pressed 'Ctrl+C', exiting...")
         exit(1)
 
 def main():
@@ -74,8 +73,8 @@ def main():
         exit(0)
     if args.add_product==True:
         name=input_string("Add a name: ")
-        company_id=input_string("Add a company: ", "")
-        company=mem.data.companies.find_by_id(company_id)
+        company_id=input_string("Add a company", "")
+        company=None if company_id=="" else mem.data.companies.find_by_id(int(company_id))
         print("Selected:", company)
         amount=input_decimal("Add the product amount: ", 100)
         carbohydrate=input_decimal("Add carbohydrate amount: ",0)

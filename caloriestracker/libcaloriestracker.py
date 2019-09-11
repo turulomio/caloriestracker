@@ -125,9 +125,6 @@ class CompanyManager(QObject, ObjectManager_With_IdName_Selectable):
 
 
     def load_from_db(self, sql,  progress=False):
-        """sql es una query sobre la tabla inversiones
-        Carga estimations_dbs, y basic
-        """
         self.clean()
         cur=self.mem.con.cursor()
         cur.execute(sql)#"select * from products where id in ("+lista+")" 
@@ -434,7 +431,7 @@ class DBData:
         start=datetime.now()
         self.companies=CompanyManager(self.mem)
         self.companies.load_from_db("select * from companies")
-        
+
         self.products=ProductManager(self.mem)
         self.products.load_from_db("select * from products", progress)
         
