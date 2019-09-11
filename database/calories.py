@@ -193,6 +193,29 @@ class User:
 
     def age(self):
         return (date.today() - self.birthday) // timedelta(days=365.2425)
+    # Índice de masa corporal
+    def imc(self):
+        return self.weight/((self.height/100)**2)
+    
+    ## https://www.seedo.es/index.php/pacientes/calculo-imc
+    def imc_comment(self):
+        imc=self.imc()
+        if imc <18.5:
+            return "Peso insuficiente"
+        elif imc<24.9:
+            return "Peso normal"
+        elif imc<26.9:
+            return "Sobrepeso grado I"
+        elif imc<29.9:
+            return "Sobrepeso grado II (preobesidad)"
+        elif imc<34.9:
+            return "Obesidad grado I"
+        elif imc<39.9:
+            return "Obesidad grado II"
+        elif imc<50:
+            return "Obesidad grado III (mórbida)"
+        elif imc>=50:
+            return "Obesidad grado IV (extrema"
 
 class Product:
     def __init__(self):
@@ -420,6 +443,7 @@ maxlength=5+2+maxname+2+7+2+7+2+7+2+7+2+7+2+7
 print (Style.BRIGHT+ "="*(maxlength) + Style.RESET_ALL)
 print (Style.BRIGHT+ "{} NUTRICIONAL REPORT AT {}".format(user.name.upper(), args.date).center(maxlength," ") + Style.RESET_ALL)
 print (Style.BRIGHT+ Fore.YELLOW + "{} Kg. {} cm. {} years".format(user.weight, user.height, user.age()).center(maxlength," ") + Style.RESET_ALL)
+print (Style.BRIGHT+ Fore.BLUE + "IMC: {} ==> {}".format(round(user.imc(),2),user.imc_comment()).center(maxlength," ") + Style.RESET_ALL)
 print (Style.BRIGHT+ "="*(maxlength) + Style.RESET_ALL)
 
 print (Style.BRIGHT+ "{}  {}  {}  {}  {}  {}  {}  {}".format("HOUR ","NAME".ljust(maxname," "),"GRAMS".rjust(7,' '), "CALORIE".rjust(7,' '), "CARBOHY".rjust(7,' '), "PROTEIN".rjust(7,' '), "FAT".rjust(7,' '), "FIBER".rjust(7,' ')) + Style.RESET_ALL)
