@@ -4,12 +4,17 @@ from datetime import datetime, date
 from caloriestracker.connection_pg import Connection, argparse_connection_arguments_group
 from caloriestracker.libcaloriestracker import MemConsole, User, MealManager
 from caloriestracker.libcaloriestrackerfunctions import a2s, ca2s, input_decimal, input_int, input_string, string2date, n2s
+from logging import critical
+from signal import signal, SIGINT
 from sys import exit
 _=str
 
-
+def signal_handler(signal, frame):
+        critical(Style.BRIGHT+Fore.RED+"You pressed 'Ctrl+C', exiting...")
+        exit(1)
 
 def main():
+    signal(SIGINT, signal_handler)
     parser=ArgumentParser(prog='calories', description=_('Report of calories'), epilog=_("Developed by Mariano Muñoz 2012-{}".format(datetime.now().year)), formatter_class=RawTextHelpFormatter)
     argparse_connection_arguments_group(parser, default_db="caloriestracker")
     group = parser.add_argument_group("productrequired=True")
@@ -37,17 +42,10 @@ def main():
     args.users_id=int(args.users_id)
 
     if args.find!=None:
-        result=[]
-        rows=mem.con.cursor_rows("select products.name || ' (' || companies.name || '). #' || products.id from products, companies where products.companies_id=companies.id")
-        for row in rows:
-            result.append(row[0])
-        rows=mem.con.cursor_rows("select products.name || '. #' || products.id from products where products.companies_id is Null")
-        for row in rows:
-            result.append(row[0])
-        result.sort()
-        for r in result:
-            if r.upper().find(args.find.upper())!=-1:
-                print (r)
+        mem.data.products.order_by_name()
+        for o in mem.data.products.arr:
+            if o.fullName().upper().find(args.find.upper())!=-1:
+                print (o.fullName())
         exit(0)
 
     if args.add_company==True:
@@ -60,7 +58,7 @@ def main():
         users_id=input_int("Add a user: ",1)
         print("Selected:", mem.con.cursor_one_field("select name from users where id=%s",(users_id,)))
         products_id=input_int("Add the product id: ")
-        print("Selected:", mem.con.cursor_one_field("select name from products where id=%s",(products_id,)))
+        print("Selected:",  mem.data.products.find_by_id(products_id))
         amount=input_decimal("Add the product amount: ")
         dt=input_string("Add the time: ", str(datetime.now()))
         id=mem.con.cursor_one_field("insert into meals(users_id, amount, products_id, datetime) values (%s, %s,%s,%s) returning id",(users_id,amount, products_id,dt))

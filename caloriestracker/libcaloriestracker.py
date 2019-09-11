@@ -503,37 +503,9 @@ class Product:
         self.name=None
         self.id=None
         
-        
-#    ## Compares this product with other products
-#    ## Logs differences
-#    def __eq__(self, other):
-#        if (self.id!=other.id or
-#            self.name!=other.name or
-#            self.isin!=other.isin or
-#            self.stockmarket.id!=other.stockmarket.id or
-#            self.currency.id!=other.currency.id or
-#            self.type.id!=other.type.id or
-#            self.agrupations.dbstring()!=other.agrupations.dbstring() or 
-#            self.web!=other.web or
-#            self.address!=other.address or
-#            self.phone!=other.phone or
-#            self.mail!=other.mail or
-#            self.percentage!=other.percentage or
-#            self.mode.id!=other.mode.id or
-#            self.leveraged.id!=other.leveraged.id or
-#            self.comment!=other.comment or 
-#            self.obsolete!=other.obsolete or
-#            self.tickers[0]!=other.tickers[0] or
-#            self.tickers[1]!=other.tickers[1] or
-#            self.tickers[2]!=other.tickers[2] or
-#            self.tickers[3]!=other.tickers[3]):
-#            return False
-#        return True
-#        
-#    def __ne__(self, other):
-#        return not self.__eq__(other)
+
     def __repr__(self):
-        return "{0} ({1}) de la {2}".format(self.name , self.id, self.stockmarket.name)
+        return self.fullName(True)
                 
     def init__db_row(self, row):
         if row['companies_id']==None:
@@ -552,9 +524,15 @@ class Product:
         return self
 
 
-    def init__create(self, name,  isin, currency, type, agrupations, active, web, address, phone, mail, percentage, mode, leveraged, decimals, stockmarket, tickers, comment, obsolete, high_low, id=None):
-
-        return self        
+    def fullName(self,  with_id=False):
+        if with_id==True:
+            str_with_id=". #{}".format(self.id)
+        else:
+            str_with_id=""
+        if self.company==None:
+            return "{}{}".format(self.name, str_with_id)
+        else:
+            return "{} ({}){}".format(self.name, self.company.name, str_with_id)
 
     def init__db(self, id):
         """Se pasa id porque se debe usar cuando todavía no se ha generado."""
@@ -583,38 +561,8 @@ class Product:
         cur.close()
     
     
-    ## Return if the product has autoupdate in some source
-    def has_autoupdate(self):
-        if self.obsolete==True:
-            return False
-        if self.id in self.mem.autoupdate:
-            return True
-        return False
 
 
-    def hasSameLocalCurrency(self):
-        """
-            Returns a boolean
-            Check if product currency is the same that local currency
-        """
-        if self.currency.id==self.mem.localcurrency.id:
-            return True
-        return False
-
-    def is_deletable(self):
-        if self.is_system():
-            return False
-            
-        #Search in all investments
-        for i in self.mem.data.investments.arr:
-            if i.product.id==self.id:
-                return False
-        
-        #Search in benchmark
-        if self.mem.data.benchmark.id==self.id:
-            return False
-        
-        return True       
 
     def is_system(self):
         """Returns if the product is a system product or a user product"""
@@ -622,22 +570,6 @@ class Product:
             return True
         return False
 
-    ## @return boolen if could be done
-    ## NO HACE COMMIT
-    def remove(self):     
-        if self.is_deletable()==True and self.is_system()==False:
-            cur=self.mem.con.cursor()
-            cur.execute("delete from quotes where id=%s", (self.id, ))
-            cur.execute("delete from estimations_dps where id=%s", (self.id, ))
-            cur.execute("delete from estimations_eps where id=%s", (self.id, ))
-            cur.execute("delete from dps where id=%s", (self.id, ))
-            cur.execute("delete from splits where products_id=%s", (self.id, ))
-            cur.execute("delete from opportunities where products_id=%s", (self.id, ))
-            cur.execute("delete from products where id=%s", (self.id, ))
-            cur.close()
-            self.needStatus(0, downgrade_to=0)
-            return True
-        return False
 
 
 
@@ -1009,14 +941,9 @@ class Meal:
         self.amount=row['amount']
         return self
 
-    def fullName(self):
-        if self.product.company==None:
-            return "{}".format(self.product.name)
-        else:
-            return "{} ({})".format(self.product.name, self.product.company.name)
-
-    def __repr__(self):
-        return "{}. #{}".format(self.name(),self.id)
+    def fullName(self,  with_id=False):
+        if self.name==None:
+            return self.product.fullName(with_id)
 
     def calories(self):
         return self.amount * self.product.calories/self.product.amount
