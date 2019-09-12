@@ -4,7 +4,7 @@ from datetime import datetime, date
 from caloriestracker.admin_pg import AdminPG
 from caloriestracker.connection_pg import Connection, argparse_connection_arguments_group
 from caloriestracker.libcaloriestracker import MemConsole,  MealManager, CompanyPersonal, Meal, ProductPersonal
-from caloriestracker.libcaloriestrackerfunctions import a2s, ca2s, input_decimal, input_int, input_string, string2date, n2s, dtnaive2string
+from caloriestracker.libcaloriestrackerfunctions import a2s, ca2s, input_boolean, input_decimal, input_int, input_string, string2date, n2s, dtnaive2string
 from caloriestracker.database_update import database_update
 from signal import signal, SIGINT
 from sys import exit
@@ -66,8 +66,8 @@ def main():
         users_id=input_int("Add a user: ",1)
         user=mem.data.users.find_by_id(users_id)
         print("Selected:", mem.con.cursor_one_field("select name from users where id=%s",(users_id,)))
-        products_id=input_int("Add the product id: ")
-        system=input_int("It's a system product [1:True]", 1)
+        products_id=input_int("Add the product id")
+        system=input_boolean("It's a system product?", "T")
         product=mem.data.products.find_by_id_system(products_id, system)
         print("Selected:",  product)
         amount=input_decimal("Add the product amount: ")
@@ -79,21 +79,36 @@ def main():
         exit(0)
     if args.add_product==True:
         name=input_string("Add a name: ")
-        company_id=input_string("Add a company", "")
-        if company_id=="":
-            system_company=None
-            company=None
-        else:
-            system_company=input_int("Is a system company [[1: True, 0 False]", 1)
-            company=mem.data.companies.find_by_id_system(int(company_id), system_company)
-        print("Selected:", company)
-        amount=input_decimal("Add the product amount: ", 100)
-        carbohydrate=input_decimal("Add carbohydrate amount: ",0)
-        protein=input_decimal("Add protein amount: ",0)
-        fat=input_decimal("Add fat amount: ",0)
-        fiber=input_decimal("Add fiber amount: ",0)
-        calories=input_decimal("Add calories amount: ",0)
-        o=ProductPersonal(mem, name, amount, fat, protein, carbohydrate, company, None, datetime.now(), None, None, calories, None, None, None, None, fiber, None, None, system_company,  None)
+        company=mem.data.companies.find_by_input()
+        system_company=None if company==None else company.system_company
+        amount=input_decimal("Add the product amount", 100)
+        carbohydrate=input_decimal("Add carbohydrate amount",0)
+        protein=input_decimal("Add protein amount", 0)
+        fat=input_decimal("Add fat amount", 0)
+        fiber=input_decimal("Add fiber amount", 0)
+        calories=input_decimal("Add calories amount", 0)
+        o=ProductPersonal(
+            mem, 
+            name, 
+            amount, 
+            fat, 
+            protein, 
+            carbohydrate, 
+            company, 
+            None, 
+            datetime.now(), 
+            None, 
+            None, 
+            calories, 
+            None, 
+            None, 
+            None, 
+            None, 
+            fiber, 
+            None, 
+            None, 
+            system_company,  
+            None)
         o.save()
         mem.con.commit()
         print("Product added with id={}".format(o.id))
@@ -158,6 +173,7 @@ def main():
     user.load_last_biometrics()
 
     meals=MealManager(mem, mem.con.mogrify("select * from meals where datetime::date=%s and users_id=%s", (args.date, user.id))) 
+    meals.order_by_datetime()
     mem.con.disconnect()
 
     maxname=meals.max_name_len()

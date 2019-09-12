@@ -649,6 +649,43 @@ def input_int(text, default=None):
             return res
         except:
             pass
+def input_integer_or_none(text, default=""):
+    while True:
+        print(Style.BRIGHT+ Fore.WHITE+"{} (Empty:None,Integer) [{}]: ".format(text, Fore.GREEN+str(default)+Fore.WHITE), end="")
+        res=input()
+        if res=="":
+            return None
+        else:
+            try:
+                return int(res)
+            except:
+                continue
+
+def input_boolean_or_none(text, default="N"):
+    while True:
+        print(Style.BRIGHT+ Fore.WHITE+"{} (N:None,T:True,F:False) [{}]: ".format(text, Fore.GREEN+str(default)+Fore.WHITE), end="")
+        res=input()
+        if res not in ('NFT'):
+            continue
+        if res=="N":
+            return None
+        elif res=="T":
+            return True
+        else:
+            return False            
+def input_boolean(text, default="T"):
+    while True:
+        print(Style.BRIGHT+ Fore.WHITE+"{} (T:True,F:False) [{}]: ".format(text, Fore.GREEN+str(default)+Fore.WHITE), end="")
+        res=input().upper()
+        if res=="":
+            res=default
+        if res not in ('FT'):
+            continue
+        
+        if res=="T":
+            return True
+        else:
+            return False
             
 
 def input_YN(pregunta, default="Y"):

@@ -14,7 +14,7 @@ import os
 from decimal import Decimal
 from caloriestracker.connection_pg_qt import ConnectionQt
 from caloriestracker.github import get_file_modification_dtaware
-from caloriestracker.libcaloriestrackerfunctions import str2bool, dtaware2string, list2string, dirs_create, package_filename, is_there_internet, qtime, qleft, qright
+from caloriestracker.libcaloriestrackerfunctions import str2bool, dtaware2string, list2string, dirs_create, package_filename, is_there_internet, qtime, qleft, qright, input_boolean, input_integer_or_none
 from caloriestracker.libmanagers import  ObjectManager_With_Id_Selectable,  ManagerSelectionMode, ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime
 from officegenerator import OpenPyXL
 
@@ -127,12 +127,12 @@ class CompanySystemManager(QObject, ObjectManager_With_IdName_Selectable):
     def load_from_db(self, sql,  progress=False):
         self.clean()
         cur=self.mem.con.cursor()
-        cur.execute(sql)#"select * from products where id in ("+lista+")" 
+        cur.execute(sql)
         if progress==True:
-            pd= QProgressDialog(self.tr("Loading {0} companies from database").format(cur.rowcount),None, 0,cur.rowcount)
+            pd= QProgressDialog(self.tr("Loading {0} system companies from database").format(cur.rowcount),None, 0,cur.rowcount)
             pd.setWindowIcon(QIcon(":/caloriestracker/coins.png"))
             pd.setModal(True)
-            pd.setWindowTitle(self.tr("Loading companies..."))
+            pd.setWindowTitle(self.tr("Loading system companies..."))
             pd.forceShow()
         for row in cur:
             if progress==True:
@@ -152,10 +152,10 @@ class CompanyPersonalManager(CompanySystemManager):
         cur=self.mem.con.cursor()
         cur.execute(sql)#"select * from products where id in ("+lista+")" 
         if progress==True:
-            pd= QProgressDialog(self.tr("Loading {0} companies from database").format(cur.rowcount),None, 0,cur.rowcount)
+            pd= QProgressDialog(self.tr("Loading {0} personal companies from database").format(cur.rowcount),None, 0,cur.rowcount)
             pd.setWindowIcon(QIcon(":/caloriestracker/coins.png"))
             pd.setModal(True)
-            pd.setWindowTitle(self.tr("Loading companies..."))
+            pd.setWindowTitle(self.tr("Loading personal companies..."))
             pd.forceShow()
         for row in cur:
             if progress==True:
@@ -190,6 +190,16 @@ class CompanyAllManager(ObjectManager_With_IdName_Selectable):
                 return o
         return None
             
+    def find_by_input(self, log=True):
+        input=input_integer_or_none("Add a company", "")
+        if input==None:
+            return None
+        else:
+            system_company=input_boolean("Is a system company?", "T")
+            company=self.mem.data.companies.find_by_id_system(int(input), system_company)
+            if log:
+                print ("  - Selected: {}".format(company))
+            return company
 ## Clase parar trabajar con las opercuentas generadas automaticamente por los movimientos de las inversiones
 
 ## Class to manage products
@@ -695,15 +705,19 @@ class Product:
         row=cur.fetchone()
         cur.close()
         return self.init__db_row(row)
+    
 
     def save(self):
         companies_id=None if self.company==None else self.company.id
         if self.id==None:
-            self.id=self.mem.con.cursor_one_field("""insert into products (name, amount, fat, protein, carbohydrate, companies_id, ends, starts, 
-                    elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat,system_company
+            self.id=self.mem.con.cursor_one_field("""insert into products (
+                    name, amount, fat, protein, carbohydrate, companies_id, ends, starts, 
+                    elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, 
+                    potassium, fiber, sugars, saturated_fat, system_company
                     )values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning id""",  
                     (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.ends, self.starts, 
-                    self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company))
+                    self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, 
+                    self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company))
         else:
             self.mem.con.cursor_one_field("""update products set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, ends=%s, starts=%s, 
             elaboratedproducts_id=%s, languages=%s, calories=%s, salt=%s, cholesterol=%s, sodium=%s, potassium=%s, fiber=%s, sugars=%s, saturated_fat=%s, system_company=%s
@@ -739,20 +753,25 @@ class ProductPersonal(Product):
         cur.close()
         return self.init__db_row(row)
 
+    #DO NOT EDIT THIS ONE COPY FROM PRODUCT AND CHANGE TABLE
     def save(self):
         companies_id=None if self.company==None else self.company.id
         if self.id==None:
-            self.id=self.mem.con.cursor_one_field("""insert into personalproducts (name, amount, fat, protein, carbohydrate, companies_id, ends, starts, 
-                    elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat
-                    )values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning id""",  
+            self.id=self.mem.con.cursor_one_field("""insert into personalproducts (
+                    name, amount, fat, protein, carbohydrate, companies_id, ends, starts, 
+                    elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, 
+                    potassium, fiber, sugars, saturated_fat, system_company
+                    )values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning id""",  
                     (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.ends, self.starts, 
-                    self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat))
+                    self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, 
+                    self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company))
         else:
             self.mem.con.cursor_one_field("""update personalproducts set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, ends=%s, starts=%s, 
-            elaboratedproducts_id=%s, languages=%s, calories=%s, salt=%s, cholesterol=%s, sodium=%s, potassium=%s, fiber=%s, sugars=%s, saturated_fat=%s where id=%s""", 
+            elaboratedproducts_id=%s, languages=%s, calories=%s, salt=%s, cholesterol=%s, sodium=%s, potassium=%s, fiber=%s, sugars=%s, saturated_fat=%s, system_company=%s
+            where id=%s""", 
             (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.ends, self.starts, 
-            self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat,  self.id))
-
+            self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company,  self.id))
+           
 ## Manages languages
 class LanguageManager(ObjectManager_With_IdName_Selectable):
     def __init__(self, mem):
