@@ -1,9 +1,10 @@
 from argparse import ArgumentParser, RawTextHelpFormatter
 from colorama import Fore, Style
 from datetime import datetime, date
+from caloriestracker.contribution import generate_contribution_dump, generate_files_from_personal_data
 from caloriestracker.admin_pg import AdminPG
 from caloriestracker.connection_pg import Connection, argparse_connection_arguments_group
-from caloriestracker.libcaloriestracker import MemConsole,  MealManager, CompanyPersonal, Meal, ProductPersonal
+from caloriestracker.libcaloriestracker import MemConsole, MealManager, CompanyPersonal, Meal, ProductPersonal
 from caloriestracker.libcaloriestrackerfunctions import a2s, ca2s, input_boolean, input_decimal, input_int, input_string, string2date, n2s, dtnaive2string
 from caloriestracker.database_update import database_update
 from signal import signal, SIGINT
@@ -128,42 +129,21 @@ def main():
         exit(0)
 
     if args.collaboration_dump==True:
-        database_version=int(con.cursor_one_field("select value from globals where id=1"))
-        filename="caloriestracker_collaboration_{}.sql".format(database_version)
-        f=open(filename, "w")
-        for company in mem.data.companies.arr:
-            if company.system_company==False:
-                f.write(company.insert_string("personalcompanies").decode('UTF-8') + ";\n")
-        for product in mem.data.products.arr:
-            if product.system_product==False:
-                f.write(product.insert_string("personalproducts").decode('UTF-8') + ";\n")
-        f.close()
-        print(Style.BRIGHT + Fore.GREEN + "Generated '{}'. Please send to '' without rename it".format(filename)+ Style.RESET_ALL)
+        generate_contribution_dump(mem)
         exit(0)
     
     if args.parse_collaboration_dump!=None:
-        database="caloriestracker"+dtnaive2string(datetime.now(), 3).replace(" ", "")
-        
-        admin=AdminPG(mem.con.user, mem.con.password, mem.con.server, mem.con.port)
-        if admin.db_exists(database)==True:
-            print("Database exists")
-            exit(1)
-            
-        admin.create_db(database)
-        newcon=Connection()
-        newcon.user=mem.con.user
-        newcon.server=mem.con.server
-        newcon.port=mem.con.port
-        newcon.db=database
-        newcon.password=mem.con.password
-        newcon.connect()
+        datestr=dtnaive2string(datetime.now(), 3).replace(" ", "")
+        database="caloriestracker"+datestr
+        admin=AdminPG(con)
+        newcon=admin.create_new_database_and_return_new_conexion(con, database)
         database_update(newcon)        
         newcon.load_script(args.parse_collaboration_dump)
         newcon.commit()
+        generate_files_from_personal_data(datestr, newcon)
         newcon.disconnect()
         input_string("Press ENTER to delete database: " + database)
         admin.drop_db(database)
-        
         exit(0)
         
     if args.update_after_collaboration==True:

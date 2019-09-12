@@ -1,12 +1,6 @@
 ## @brief Package to manage postgresql admin functionss
 ## THIS IS FROM XULPYMONEY PACKAGE IF YOU NEED THIS MODULE PLEASE SYNC IT FROM THERE, FOR EXAMPLE
-## @code
-##       print ("Copying admin_pg.py from Xulpymoney project")
-##        os.chdir("your directory)
-##        os.remove("admin_pg.py")
-##        os.system("wget https://raw.githubusercontent.com/Turulomio/xulpymoney/master/xulpymoney/admin_pg.py  --no-clobber")
-##        os.system("sed -i -e '3i ## THIS FILE HAS BEEN DOWNLOADED AT {} FROM https://github.com/Turulomio/xulpymoney/xulpymoney/admin_pg.py.' admin_pg.py".format(datetime.datetime.now()))
-## @encode
+
 
 import io
 import logging
@@ -28,6 +22,21 @@ class AdminPG:
             logging.critical ("You need to be superuser to create database")
             return False
         
+    #Creates a new database and return conexion to new database
+    def create_new_database_and_return_new_conexion(self,  database):
+        if self.db_exists(database)==True:
+            print("Database exists")
+            exit(1)
+            
+        self.create_db(database)
+        newcon=Connection()
+        newcon.user=self.con.user
+        newcon.server=self.con.server
+        newcon.port=self.con.port
+        newcon.db=database
+        newcon.password=self.con.password
+        newcon.connect()
+        return newcon
         
     def db_exists(self, database):
         """Hace conexi´on automatica a template usando la con """
