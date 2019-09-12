@@ -616,6 +616,9 @@ class CompanySystem:
             self.id=self.mem.con.cursor_one_field("insert into companies(name,starts,ends) values (%s, %s, %s) returning id", (self.name, self.starts, self.ends))
         else:
             self.mem.con.cursor_one_field("update companies set name=%s,starts=%s, ends=%s where id=%s", (self.name, self.starts, self.ends, self.id))
+            
+    def insert_string(self, table="companies"):
+        return self.mem.con.mogrify("insert into "+table +"(name,starts,ends, id) values (%s, %s, %s, %s)", (self.name, self.starts, self.ends, self.id))
 
 
 class CompanyPersonal(CompanySystem):
@@ -707,6 +710,11 @@ class Product:
             where id=%s""", 
             (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.ends, self.starts, 
             self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company,  self.id))
+            
+    def insert_string(self, table="products"):
+        companies_id=None if self.company==None else self.company.id
+        return self.mem.con.mogrify("insert into " + table +" (name, amount, fat, protein, carbohydrate, companies_id, ends, starts, elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat,system_company, id) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",  
+            (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.ends, self.starts, self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company, self.id))
 
     def is_system(self):
         """Returns if the product is a system product or a user product"""

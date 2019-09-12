@@ -5,6 +5,7 @@ import shutil
 import site
 from concurrent.futures import ProcessPoolExecutor
 from multiprocessing import cpu_count
+from datetime import datetime
 
 class Doxygen(Command):
     description = "Create/update doxygen documentation in doc/html"
@@ -86,6 +87,19 @@ class Compile(Command):
     def finalize_options(self):
         pass
 
+    def download_from_github(self,user,repository,path_filename, destiny_directory):
+        cwd=os.getcwd()
+        os.system("touch '{}/{}'".format(destiny_directory,os.path.basename(path_filename)))
+        os.system("rm '{}/{}'".format(destiny_directory, os.path.basename(path_filename)))
+        os.chdir(destiny_directory)
+        comand="wget https://raw.githubusercontent.com/{}/{}/master/{}  --no-clobber".format(user,repository, path_filename)
+        print (comand)
+        os.system(comand)
+        #os.system("sed -i -e '3i ## THIS FILE HAS BEEN DOWNLOADED AT {} FROM https://github.com/{}/{}/{}.' {}".format(datetime.now(),user,repository,path_filename,os.path.basename(path_filename)))
+        print("Updated {}".format(path_filename))
+        os.chdir(cwd)
+
+
     def run(self):
         futures=[]
         with ProcessPoolExecutor(max_workers=cpu_count()+1) as executor:
@@ -104,6 +118,11 @@ class Compile(Command):
                  os.system("sed -i -e 's/from caloriestracker.ui.myqlineedit/from caloriestracker.ui.myqlineedit/' caloriestracker/ui/{}".format(filename))
                  os.system("sed -i -e 's/from wdgDatetime/from caloriestracker.ui.wdgDatetime/' caloriestracker/ui/{}".format(filename))
                  os.system("sed -i -e 's/from wdgYear/from caloriestracker.ui.wdgYear/' caloriestracker/ui/{}".format(filename))
+
+        self.download_from_github('turulomio','xulpymoney','xulpymoney/admin_pg.py', 'caloriestracker')
+        self.download_from_github('turulomio','xulpymoney','xulpymoney/libmanagers.py', 'caloriestracker')
+        self.download_from_github('turulomio','xulpymoney','xulpymoney/connection_pg.py', 'caloriestracker')
+        self.download_from_github('turulomio','xulpymoney','xulpymoney/connection_pg_qt.py', 'caloriestracker')
 
 class Uninstall(Command):
     description = "Uninstall installed files with install"

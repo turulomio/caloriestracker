@@ -49,7 +49,7 @@ class AdminPG:
         
         if self.con.is_superuser():
             try:
-                cur=self.cursor()
+                cur=self.con.cursor()
                 cur.execute("drop database {0};".format(database))
             except:
                 logging.error ("Error in drop()")

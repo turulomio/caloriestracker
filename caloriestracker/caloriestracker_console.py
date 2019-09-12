@@ -1,9 +1,10 @@
 from argparse import ArgumentParser, RawTextHelpFormatter
 from colorama import Fore, Style
 from datetime import datetime, date
+from caloriestracker.admin_pg import AdminPG
 from caloriestracker.connection_pg import Connection, argparse_connection_arguments_group
 from caloriestracker.libcaloriestracker import MemConsole,  MealManager, CompanyPersonal, Meal, ProductPersonal
-from caloriestracker.libcaloriestrackerfunctions import a2s, ca2s, input_decimal, input_int, input_string, string2date, n2s
+from caloriestracker.libcaloriestrackerfunctions import a2s, ca2s, input_decimal, input_int, input_string, string2date, n2s, dtnaive2string
 from caloriestracker.database_update import database_update
 from signal import signal, SIGINT
 from sys import exit
@@ -25,6 +26,9 @@ def main():
     group.add_argument('--add_product', help=_("Adds a product"), action="store_true", default=False)
     group.add_argument('--add_meal', help=_("Adds a company"), action="store_true", default=False)
     group.add_argument('--add_biometrics', help=_("Adds biometrics"), action="store_true", default=False)
+    group.add_argument('--collaboration_dump', help=_("Generate a dump to collaborate updating companies and products"), action="store_true", default=False)
+    group.add_argument('--parse_collaboration_dump', help=_("Parses a dump and generates sql for the package and other for the collaborator"), action="store", default=None)
+    group.add_argument('--update_after_collaboration',  help=_("Converts data from personal database to system after collaboration"),  action="store_true", default=False)
 
     args=parser.parse_args()
 
@@ -76,8 +80,12 @@ def main():
     if args.add_product==True:
         name=input_string("Add a name: ")
         company_id=input_string("Add a company", "")
-        system_company=input_int("Is a system company [[1: True, 0 False]", 1)
-        company=None if company_id=="" else mem.data.companies.find_by_id_system(int(company_id), system_company)
+        if company_id=="":
+            system_company=None
+            company=None
+        else:
+            system_company=input_int("Is a system company [[1: True, 0 False]", 1)
+            company=mem.data.companies.find_by_id_system(int(company_id), system_company)
         print("Selected:", company)
         amount=input_decimal("Add the product amount: ", 100)
         carbohydrate=input_decimal("Add carbohydrate amount: ",0)
@@ -88,7 +96,7 @@ def main():
         o=ProductPersonal(mem, name, amount, fat, protein, carbohydrate, company, None, datetime.now(), None, None, calories, None, None, None, None, fiber, None, None, system_company,  None)
         o.save()
         mem.con.commit()
-        print("Meal added with id={}".format(o.id))
+        print("Product added with id={}".format(o.id))
         exit(0)
 
     if args.add_biometrics==True:
@@ -104,7 +112,47 @@ def main():
         print("Biometrics added with id={}".format(id))
         exit(0)
 
-
+    if args.collaboration_dump==True:
+        database_version=int(con.cursor_one_field("select value from globals where id=1"))
+        filename="caloriestracker_collaboration_{}.sql".format(database_version)
+        f=open(filename, "w")
+        for company in mem.data.companies.arr:
+            if company.system_company==False:
+                f.write(company.insert_string("personalcompanies").decode('UTF-8') + ";\n")
+        for product in mem.data.products.arr:
+            if product.system_product==False:
+                f.write(product.insert_string("personalproducts").decode('UTF-8') + ";\n")
+        f.close()
+        print(Style.BRIGHT + Fore.GREEN + "Generated '{}'. Please send to '' without rename it".format(filename)+ Style.RESET_ALL)
+        exit(0)
+    
+    if args.parse_collaboration_dump!=None:
+        database="caloriestracker"+dtnaive2string(datetime.now(), 3).replace(" ", "")
+        
+        admin=AdminPG(mem.con.user, mem.con.password, mem.con.server, mem.con.port)
+        if admin.db_exists(database)==True:
+            print("Database exists")
+            exit(1)
+            
+        admin.create_db(database)
+        newcon=Connection()
+        newcon.user=mem.con.user
+        newcon.server=mem.con.server
+        newcon.port=mem.con.port
+        newcon.db=database
+        newcon.password=mem.con.password
+        newcon.connect()
+        database_update(newcon)        
+        newcon.load_script(args.parse_collaboration_dump)
+        newcon.commit()
+        newcon.disconnect()
+        input_string("Press ENTER to delete database: " + database)
+        admin.drop_db(database)
+        
+        exit(0)
+        
+    if args.update_after_collaboration==True:
+        exit(0)
 
     user=mem.data.users.find_by_id(args.users_id)
     user.load_last_biometrics()
