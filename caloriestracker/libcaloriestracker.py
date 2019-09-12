@@ -117,7 +117,7 @@ class Percentage:
         return False
 
 
-class CompanyManager(QObject, ObjectManager_With_IdName_Selectable):
+class CompanySystemManager(QObject, ObjectManager_With_IdName_Selectable):
     def __init__(self, mem):
         QObject.__init__(self)
         ObjectManager_With_IdName_Selectable.__init__(self)
@@ -140,10 +140,56 @@ class CompanyManager(QObject, ObjectManager_With_IdName_Selectable):
                 pd.update()
                 QApplication.processEvents()
                 
-            o=Company(self.mem, row)
+            o=CompanySystem(self.mem, row)
             self.append(o)
         cur.close()
         
+class CompanyPersonalManager(CompanySystemManager):
+    def __init__(self, mem):
+        CompanySystemManager.__init__(self, mem)
+    def load_from_db(self, sql,  progress=False):
+        self.clean()
+        cur=self.mem.con.cursor()
+        cur.execute(sql)#"select * from products where id in ("+lista+")" 
+        if progress==True:
+            pd= QProgressDialog(self.tr("Loading {0} companies from database").format(cur.rowcount),None, 0,cur.rowcount)
+            pd.setWindowIcon(QIcon(":/caloriestracker/coins.png"))
+            pd.setModal(True)
+            pd.setWindowTitle(self.tr("Loading companies..."))
+            pd.forceShow()
+        for row in cur:
+            if progress==True:
+                pd.setValue(cur.rownumber)
+                pd.update()
+                QApplication.processEvents()
+                
+            o=CompanyPersonal(self.mem, row)
+            self.append(o)
+        cur.close()
+        
+        
+        
+class CompanyAllManager(ObjectManager_With_IdName_Selectable):
+    ## ProductAllManager(mem)#Loads all database
+    def __init__(self, *args):
+        ObjectManager_With_IdName_Selectable.__init__(self)
+        self.mem=args[0]
+        if len(args)==1:
+            system=CompanySystemManager(self.mem)
+            system.load_from_db("select * from companies")
+            for o in system.arr:
+                self.append(o)
+            personal=CompanyPersonalManager(self.mem)
+            personal.load_from_db("select * from personalcompanies")
+            for o in personal.arr:
+                self.append(o)
+
+    def find_by_id_system(self,  id ,  system):
+        for o in self.arr:
+            if o.id==id and o.system_company==system:
+                return o
+        return None
+            
 ## Clase parar trabajar con las opercuentas generadas automaticamente por los movimientos de las inversiones
 
 ## Class to manage products
@@ -155,9 +201,6 @@ class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
         self.mem=mem
 
     def load_from_db(self, sql,  progress=False):
-        """sql es una query sobre la tabla inversiones
-        Carga estimations_dbs, y basic
-        """
         self.clean()
         cur=self.mem.con.cursor()
         cur.execute(sql)#"select * from products where id in ("+lista+")" 
@@ -423,17 +466,65 @@ class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
         self.mem.data.load()
 
 
+class ProductPersonalManager(ProductManager):
+    def __init__(self, mem):
+        ProductManager.__init__(self, mem)
+
+    def load_from_db(self, sql,  progress=False):
+        self.clean()
+        cur=self.mem.con.cursor()
+        cur.execute(sql)#"select * from products where id in ("+lista+")" 
+        if progress==True:
+            pd= QProgressDialog(self.tr("Loading {0} personal products from database").format(cur.rowcount),None, 0,cur.rowcount)
+            pd.setWindowIcon(QIcon(":/caloriestracker/coins.png"))
+            pd.setModal(True)
+            pd.setWindowTitle(self.tr("Loading personal products..."))
+            pd.forceShow()
+        for rowms in cur:
+            if progress==True:
+                pd.setValue(cur.rownumber)
+                pd.update()
+                QApplication.processEvents()
+                
+            oo=ProductPersonal(self.mem, rowms)
+            self.append(oo)
+        cur.close()
+        
+class ProductAllManager(ObjectManager_With_IdName_Selectable):
+    ## ProductAllManager(mem)#Loads all database
+    def __init__(self, *args):
+        ObjectManager_With_IdName_Selectable.__init__(self)
+        self.mem=args[0]
+        if len(args)==1:
+            system=ProductManager(self.mem)
+            system.load_from_db("select * from products")
+            for o in system.arr:
+                self.append(o)
+            personal=ProductPersonalManager(self.mem)
+            personal.load_from_db("select * from personalproducts")
+            for o in personal.arr:
+                self.append(o)
+
+    def find_by_id_system(self,  id ,  system):
+        for o in self.arr:
+            if o.id==id and o.system_product==system:
+                return o
+        return None
+            
+        
+        
+
+
 class DBData:
     def __init__(self, mem):
         self.mem=mem
 
     def load(self, progress=True):
         start=datetime.now()
-        self.companies=CompanyManager(self.mem)
-        self.companies.load_from_db("select * from companies")
+        
+        self.companies=CompanyAllManager(self.mem)
 
-        self.products=ProductManager(self.mem)
-        self.products.load_from_db("select * from products", progress)
+        self.products=ProductAllManager(self.mem)
         
         self.users=UserManager(self.mem, "select * from users", progress)
         self.users.load_last_biometrics()
@@ -494,10 +585,10 @@ class BiometricsManager(QObject, ObjectManager_With_IdName_Selectable):
             self.append(o)
         cur.close()
 
-class Company:
-    ##Company(mem)
-    ##Company(mem,rows)
-    ##Company(mem,name,starts,ends,id)
+class CompanySystem:
+    ##CompanySystem(mem)
+    ##CompanySystem(mem,rows)
+    ##CompanySystem(mem,name,starts,ends,id)
     def __init__(self, *args):        
         def init__create(name,  starts, ends, id):
             self.name=name
@@ -507,16 +598,18 @@ class Company:
             return self
         # #########################################
         self.mem=args[0]
-        if len(args)==1:#Company(mem)
+        if len(args)==1:#CompanySystem(mem)
             init__create(*[None]*4)
-        elif len(args)==2:#Company(mem,rows)
+        elif len(args)==2:#CompanySystem(mem,rows)
             init__create(args[1]['name'], args[1]['starts'], args[1]['ends'], args[1]['id'])
-        elif len(args)==5:#Company(mem,name,starts,ends,id)
+        elif len(args)==5:#CompanySystem(mem,name,starts,ends,id)
             init__create(args[1], args[2], args[3], args[4])
+        self.system_company=True
 
         
     def __repr__(self):
-        return "{}. #{}".format(self.name, self.id)
+        system="S" if self.system_company==True else "P"
+        return "{}. #{}{}".format(self.name, system, self.id)
         
     def save(self):
         if self.id==None:
@@ -525,12 +618,24 @@ class Company:
             self.mem.con.cursor_one_field("update companies set name=%s,starts=%s, ends=%s where id=%s", (self.name, self.starts, self.ends, self.id))
 
 
+class CompanyPersonal(CompanySystem):
+    def __init__(self, *args):
+        CompanySystem.__init__(self, *args)
+        self.system_company=False
+        
+    def save(self):
+        if self.id==None:
+            self.id=self.mem.con.cursor_one_field("insert into personalcompanies(name,starts,ends) values (%s, %s, %s) returning id", (self.name, self.starts, self.ends))
+        else:
+            self.mem.con.cursor_one_field("update personalcompanies set name=%s,starts=%s, ends=%s where id=%s", (self.name, self.starts, self.ends, self.id))
+
+
 class Product:
     ##Product(mem)
     ##Product(mem,rows) #Uses products_id and users_id in row
     ##Product(mem,datetime,product,name,amount,users_id,id)
     def __init__(self, *args):        
-        def init__create( name, amount, fat, protein, carbohydrate, company, ends, starts, personalproducts_id, languages_id, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat, id):
+        def init__create( name, amount, fat, protein, carbohydrate, company, ends, starts, elaboratedproducts_id, languages_id, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat, system_company, id):
             self.name=name
             self.amount=amount
             self.fat=fat
@@ -539,7 +644,7 @@ class Product:
             self.company=company
             self.ends=ends
             self.starts=starts
-            self.personalproducts_id=personalproducts_id
+            self.elaboratedproducts_id=elaboratedproducts_id
             self.languages=languages_id
             self.calories=calories
             self.salt=salt
@@ -549,19 +654,21 @@ class Product:
             self.fiber=fiber
             self.sugars=sugars
             self.saturated_fat=saturated_fat
+            self.system_company=system_company
             self.id=id
             return self
         # #########################################
         self.mem=args[0]
         if len(args)==1:#Product(mem)
-            init__create(*[None]*19)
+            init__create(*[None]*20)
         elif len(args)==2:#Product(mem,rows)
             company=self.mem.data.companies.find_by_id(args[1]['companies_id'])
             init__create(args[1]['name'], args[1]['amount'], args[1]['fat'], args[1]['protein'], args[1]['carbohydrate'], company, 
-            args[1]['ends'], args[1]['starts'], args[1]['personalproducts_id'], args[1]['languages'], args[1]['calories'], args[1]['salt'], 
-            args[1]['cholesterol'], args[1]['sodium'], args[1]['potassium'], args[1]['fiber'], args[1]['sugars'], args[1]['saturated_fat'], args[1]['id'])
-        elif len(args)==20:#Product(mem,datetime,product,name,amount,users_id,id)
+            args[1]['ends'], args[1]['starts'], args[1]['elaboratedproducts_id'], args[1]['languages'], args[1]['calories'], args[1]['salt'], 
+            args[1]['cholesterol'], args[1]['sodium'], args[1]['potassium'], args[1]['fiber'], args[1]['sugars'], args[1]['saturated_fat'], args[1]['system_company'], args[1]['id'])
+        elif len(args)==21:#Product(mem,datetime,product,name,amount,users_id,id)
             init__create(*args[1:])
+        self.system_product=True
 
     def __repr__(self):
         return self.fullName(True)
@@ -569,7 +676,8 @@ class Product:
 
     def fullName(self,  with_id=False):
         if with_id==True:
-            str_with_id=". #{}".format(self.id)
+            system="S" if self.system_product==True else "P"
+            str_with_id=". #{}{}".format(system,self.id)
         else:
             str_with_id=""
         if self.company==None:
@@ -589,15 +697,16 @@ class Product:
         companies_id=None if self.company==None else self.company.id
         if self.id==None:
             self.id=self.mem.con.cursor_one_field("""insert into products (name, amount, fat, protein, carbohydrate, companies_id, ends, starts, 
-                    personalproducts_id, languages, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat
-                    )values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning id""",  
+                    elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat,system_company
+                    )values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning id""",  
                     (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.ends, self.starts, 
-                    self.personalproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat))
+                    self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company))
         else:
             self.mem.con.cursor_one_field("""update products set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, ends=%s, starts=%s, 
-            personalproducts_id=%s, languages=%s, calories=%s, salt=%s, cholesterol=%s, sodium=%s, potassium=%s, fiber=%s, sugars=%s, saturated_fat=%s where id=%s""", 
+            elaboratedproducts_id=%s, languages=%s, calories=%s, salt=%s, cholesterol=%s, sodium=%s, potassium=%s, fiber=%s, sugars=%s, saturated_fat=%s, system_company=%s
+            where id=%s""", 
             (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.ends, self.starts, 
-            self.personalproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat,  self.id))
+            self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company,  self.id))
 
     def is_system(self):
         """Returns if the product is a system product or a user product"""
@@ -606,8 +715,35 @@ class Product:
         return False
 
 
+## ONLY CHANGES table name
+class ProductPersonal(Product):
+    ##ProductPersonal(mem)
+    ##ProductPersonal(mem,rows) #Uses products_id and users_id in row
+    ##ProductPersonal(mem,datetime,product,name,amount,users_id,id)
+    def __init__(self, *args):
+        Product.__init__(self, *args)
+        self.system_product=False
 
+    def init__db(self, id):
+        cur=self.mem.con.cursor()
+        cur.execute("select * from personalproducts where id=%s", (id, ))
+        row=cur.fetchone()
+        cur.close()
+        return self.init__db_row(row)
 
+    def save(self):
+        companies_id=None if self.company==None else self.company.id
+        if self.id==None:
+            self.id=self.mem.con.cursor_one_field("""insert into personalproducts (name, amount, fat, protein, carbohydrate, companies_id, ends, starts, 
+                    elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat
+                    )values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning id""",  
+                    (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.ends, self.starts, 
+                    self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat))
+        else:
+            self.mem.con.cursor_one_field("""update personalproducts set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, ends=%s, starts=%s, 
+            elaboratedproducts_id=%s, languages=%s, calories=%s, salt=%s, cholesterol=%s, sodium=%s, potassium=%s, fiber=%s, sugars=%s, saturated_fat=%s where id=%s""", 
+            (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.ends, self.starts, 
+            self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat,  self.id))
 
 ## Manages languages
 class LanguageManager(ObjectManager_With_IdName_Selectable):
@@ -923,30 +1059,31 @@ class Meal:
     ##Meal(mem,rows) #Uses products_id and users_id in row
     ##Meal(mem,datetime,product,name,amount,users_id,id)
     def __init__(self, *args):        
-        def init__create( dt, product, name, amount, user, id):
+        def init__create( dt, product, name, amount, user, system_product, id):
             self.datetime=dt
             self.product=product
             self.name=name
             self.amount=amount
             self.user=user
+            self.system_product=system_product
             self.id=id
             return self
         # #########################################
         self.mem=args[0]
         if len(args)==1:#Meal(mem)
-            init__create(*[None]*6)
+            init__create(*[None]*8)
         elif len(args)==2:#Meal(mem,rows)
-            product=self.mem.data.products.find_by_id(args[1]['products_id'])
+            product=self.mem.data.products.find_by_id_system(args[1]['products_id'], args[1]['system_product'])
             user=self.mem.data.users.find_by_id(args[1]['users_id'])
-            init__create(args[1]['datetime'], product, args[1]['name'], args[1]['amount'], user, args[1]['id'])
-        elif len(args)==7:#Meal(mem,datetime,product,name,amount,users_id,id)
+            init__create(args[1]['datetime'], product, args[1]['name'], args[1]['amount'], user, args[1]['system_product'], args[1]['id'])
+        elif len(args)==8:#Meal(mem,datetime,product,name,amount,users_id,id)
             init__create(*args[1:])
 
     def fullName(self,  with_id=False):
         if self.name==None:
-            return self.product.fullName(with_id)
+            return self.product.fullName(with_id) 
         else:
-            return self.name + "MEAL NAME"
+            return self.name + " [MEAL NAME]"
 
     def calories(self):
         return self.amount * self.product.calories/self.product.amount
@@ -970,9 +1107,9 @@ class Meal:
         return str(self.datetime.time())[0:5]
 
     def product_type(self):
-        if self.personalproducts_id==None and self.companies_id==None:
+        if self.elaboratedproducts_id==None and self.companies_id==None:
             return "Basic"
-        elif self.personalproducts_id!=None:
+        elif self.elaboratedproducts_id!=None:
             return "Personal"
         elif self.companies_id!=None:
             return "Manufactured"
@@ -981,9 +1118,9 @@ class Meal:
             
     def save(self):
         if self.id==None:
-            self.id=self.mem.con.cursor_one_field("insert into meals(datetime,products_id,name, amount, users_id) values (%s, %s,%s,%s,%s) returning id",(self.datetime, self.product.id, self.name, self.amount, self.user.id))
+            self.id=self.mem.con.cursor_one_field("insert into meals(datetime,products_id,name, amount, users_id, system_product) values (%s, %s,%s,%s,%s,%s) returning id",(self.datetime, self.product.id, self.name, self.amount, self.user.id, self.system_product))
         else:
-            self.mem.con.cursor_one_field("update from meals set datetime=%s,products_id=%s,name=%s,amount=%s,users_id=%s where id=%s", (self.datetime, self.product.id, self.name, self.amount, self.user.id, self.id))
+            self.mem.con.cursor_one_field("update from meals set datetime=%s,products_id=%s,name=%s,amount=%s,users_id=%s, system_product=%s where id=%s", (self.datetime, self.product.id, self.name, self.amount, self.user.id, self.system_product,  self.id))
 
 
 class MealManager(QObject, ObjectManager_With_IdDatetime):

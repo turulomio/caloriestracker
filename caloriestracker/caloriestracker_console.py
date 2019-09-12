@@ -2,7 +2,7 @@ from argparse import ArgumentParser, RawTextHelpFormatter
 from colorama import Fore, Style
 from datetime import datetime, date
 from caloriestracker.connection_pg import Connection, argparse_connection_arguments_group
-from caloriestracker.libcaloriestracker import MemConsole,  MealManager, Company, Meal, Product
+from caloriestracker.libcaloriestracker import MemConsole,  MealManager, CompanyPersonal, Meal, ProductPersonal
 from caloriestracker.libcaloriestrackerfunctions import a2s, ca2s, input_decimal, input_int, input_string, string2date, n2s
 from caloriestracker.database_update import database_update
 from signal import signal, SIGINT
@@ -45,6 +45,7 @@ def main():
 
     if args.find!=None:
         mem.data.products.order_by_name()
+        
         for o in mem.data.products.arr:
             if o.fullName().upper().find(args.find.upper())!=-1:
                 print (o.fullName(True))
@@ -52,21 +53,22 @@ def main():
 
     if args.add_company==True:
         name=input_string("Name of the company: ")
-        o=Company(mem, name, datetime.now(), None, None)
+        o=CompanyPersonal(mem, name, datetime.now(), None, None)
         o.save()
         mem.con.commit()
-        print("Company added with id={}".format(o.id))
+        print("CompanySystem added with id={}".format(o.id))
         exit(0)
     if args.add_meal==True:
         users_id=input_int("Add a user: ",1)
         user=mem.data.users.find_by_id(users_id)
         print("Selected:", mem.con.cursor_one_field("select name from users where id=%s",(users_id,)))
         products_id=input_int("Add the product id: ")
-        product=mem.data.products.find_by_id(products_id)
+        system=input_int("It's a system product [1:True]", 1)
+        product=mem.data.products.find_by_id_system(products_id, system)
         print("Selected:",  product)
         amount=input_decimal("Add the product amount: ")
         dt=input_string("Add the time: ", str(datetime.now()))
-        o=Meal(mem, dt, product, None, amount, user, None)
+        o=Meal(mem, dt, product, None, amount, user, product.system_product, None)
         o.save()
         mem.con.commit()
         print("Meal added with id={}".format(o.id))
@@ -74,7 +76,8 @@ def main():
     if args.add_product==True:
         name=input_string("Add a name: ")
         company_id=input_string("Add a company", "")
-        company=None if company_id=="" else mem.data.companies.find_by_id(int(company_id))
+        system_company=input_int("Is a system company [[1: True, 0 False]", 1)
+        company=None if company_id=="" else mem.data.companies.find_by_id_system(int(company_id), system_company)
         print("Selected:", company)
         amount=input_decimal("Add the product amount: ", 100)
         carbohydrate=input_decimal("Add carbohydrate amount: ",0)
@@ -82,7 +85,7 @@ def main():
         fat=input_decimal("Add fat amount: ",0)
         fiber=input_decimal("Add fiber amount: ",0)
         calories=input_decimal("Add calories amount: ",0)
-        o=Product(mem, name, amount, fat, protein, carbohydrate, company, None, datetime.now(), None, None, calories, None, None, None, None, fiber, None, None, None)
+        o=ProductPersonal(mem, name, amount, fat, protein, carbohydrate, company, None, datetime.now(), None, None, calories, None, None, None, None, fiber, None, None, system_company,  None)
         o.save()
         mem.con.commit()
         print("Meal added with id={}".format(o.id))

@@ -22,7 +22,7 @@ If you use another distribution, you nee to install PyQtChart and PyQtWebEngine 
 Install in Windows
 ==================
 
-You just download caloriestracker-X.X.X.exe and caloriestracker_init-X.X.X.exe and execute them. They are portable apps so they took a little more time to start.
+You just download caloriestracker-X.X.X.exe and caloriestracker_console-X.X.X.exe and execute them. They are portable apps so they took a little more time to start.
 
 Install in Windows with Python
 ==============================
@@ -40,7 +40,7 @@ How to launch caloriestracker
 ========================
 caloriestracker uses PostgreSQL database as its backend. So you need to create a database and load its schema. Just type:
 
-`caloriestracker_init`
+`caloriestracker_console`
 
 Once database has been created, just log into caloriestracker after typing:
 
@@ -58,6 +58,14 @@ Dependencies
 * https://pypi.org/project/officegenerator/, to work with LibreOffice and Microsoft Office documents.
 * https://pypi.org/project/PyQtChart/, to work with charts.
 * https://pypi.org/project/colorama/, to work with colors in console.
+
+How to colaborate with Calories Tracker
+=======================================
+
+Products database is updated automatically each version in an unattended way.
+
+In Calories tracker you can add your own products and you can share them with us, if you wish
+
 
 Changelog
 =========
