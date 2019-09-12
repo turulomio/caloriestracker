@@ -1,0 +1,1 @@
+ALTER TABLE public.products_in_elaboratedproducts DROP CONSTRAINT products_in_personalproducts_products_fk;

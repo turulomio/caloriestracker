@@ -4,7 +4,7 @@ from datetime import datetime, date
 from caloriestracker.contribution import generate_contribution_dump, generate_files_from_personal_data
 from caloriestracker.admin_pg import AdminPG
 from caloriestracker.connection_pg import Connection, argparse_connection_arguments_group
-from caloriestracker.libcaloriestracker import MemConsole, MealManager, CompanyPersonal, Meal, ProductPersonal
+from caloriestracker.libcaloriestracker import MemConsole, MealManager, CompanyPersonal, Meal, ProductPersonal, ProductElaborated
 from caloriestracker.libcaloriestrackerfunctions import a2s, ca2s, input_boolean, input_decimal, input_int, input_string, string2date, n2s, dtnaive2string
 from caloriestracker.database_update import database_update
 from signal import signal, SIGINT
@@ -30,6 +30,7 @@ def main():
     group.add_argument('--collaboration_dump', help=_("Generate a dump to collaborate updating companies and products"), action="store_true", default=False)
     group.add_argument('--parse_collaboration_dump', help=_("Parses a dump and generates sql for the package and other for the collaborator"), action="store", default=None)
     group.add_argument('--update_after_collaboration',  help=_("Converts data from personal database to system after collaboration"),  action="store_true", default=False)
+    group.add_argument('--elaborated', help=_("Show elaborated product"), action="store", default=None)
 
     args=parser.parse_args()
 
@@ -63,6 +64,12 @@ def main():
         mem.con.commit()
         print("CompanySystem added with id={}".format(o.id))
         exit(0)
+    if args.elaborated!=None:
+       elaborated=ProductElaborated(mem,args.elaborated)
+       elaborated.register_in_personal_products()
+       mem.con.commit()
+       elaborated.show_table()
+       exit(0)
     if args.add_meal==True:
         users_id=input_int("Add a user: ",1)
         user=mem.data.users.find_by_id(users_id)

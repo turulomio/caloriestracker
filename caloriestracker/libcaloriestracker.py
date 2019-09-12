@@ -14,8 +14,9 @@ import os
 from decimal import Decimal
 from caloriestracker.connection_pg_qt import ConnectionQt
 from caloriestracker.github import get_file_modification_dtaware
-from caloriestracker.libcaloriestrackerfunctions import str2bool, dtaware2string, list2string, dirs_create, package_filename, is_there_internet, qtime, qleft, qright, input_boolean, input_integer_or_none
+from caloriestracker.libcaloriestrackerfunctions import str2bool, dtaware2string, list2string, dirs_create, package_filename, is_there_internet, qtime, qleft, qright, input_boolean, input_integer_or_none, a2s, ca2s
 from caloriestracker.libmanagers import  ObjectManager_With_Id_Selectable,  ManagerSelectionMode, ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime
+from colorama import Fore, Style
 from officegenerator import OpenPyXL
 
 class Percentage:
@@ -499,7 +500,233 @@ class ProductPersonalManager(ProductManager):
             oo=ProductPersonal(self.mem, rowms)
             self.append(oo)
         cur.close()
+
+
+class ProductElaborated:
+    ##Biometrics(mem)
+    ##Biometrics(mem,id)
+    def __init__(self, *args):        
+        def init__create(name, id):
+            self.name=name
+            self.id=id
+        self.mem=args[0]
+        if len(args)==1:
+            init__create(None,None)
+        elif len(args)==2:
+            row=self.mem.con.cursor_one_row("select id,name from elaboratedproducts where id=%s",(args[1],))
+            init__create(row[1],row[0])
+            self.products_in=ProductsInElaboratedProduct(self.mem, self, self.mem.con.mogrify("select * from products_in_elaboratedproducts where personalproducts_id=%s",(args[1],)))
+
+    def show_table(self):
+        self.products_in.show_table()
+
+    def register_in_personal_products(self):
+        selected=None
+        for p in self.mem.data.products.arr:
+            if p.elaboratedproducts_id==self.id:
+                 selected=p
+        if selected==None:
+            o=ProductPersonal(
+            self.mem,
+            self.name, 
+            self.products_in.grams(), 
+            self.products_in.fat(), 
+            self.products_in.protein(), 
+            self.products_in.carbohydrate(), 
+            None, 
+            None, 
+            datetime.now(), 
+            self.id, 
+            None, 
+            self.products_in.calories(), 
+            None, 
+            None, 
+            None, 
+            None, 
+            self.products_in.fiber(), 
+            None, 
+            None, 
+            None,
+            None)
+            o.save()
+        else:#It's already in personalproducts
+            print(selected, selected.id)
+            selected.name=self.name
+            selected.amount=self.products_in.grams()
+            selected.fat=self.products_in.fat()
+            selected.protein=self.products_in.protein()
+            selected.carbohydrate=self.products_in.carbohydrate()
+            selected.calories=self.products_in.calories()
+            selected.fiber=self.products_in.fiber()
+            selected.save()
+
+
+
+class ProductInElaboratedProduct:
+    ##Biometrics(mem)
+    ##Biometrics(mem,elaborated_product,row)
+    def __init__(self, *args):        
+        def init__create(product, system_product, amount, elaboratedproduct,id):
+            self.product=product
+            self.system_product=system_product
+            self.amount=amount
+            self.elaboratedproduct=elaboratedproduct
+            self.id=id
+        self.mem=args[0]
+        if len(args)==1:
+            init__create(None,None,None,None,None)
+        elif len(args)==3:
+            self.elaboratedproduct=args[1]
+            product=self.mem.data.products.find_by_id_system(args[2]['products_id'],args[2]['system_product'])
+            init__create(product, args[2]['system_product'], args[2]['amount'], self.elaboratedproduct, args[2]['id'])
+
+    def fullName(self,  with_id=False):
+        return self.product.fullName(with_id) 
+
+    def calories(self):
+        return self.amount * self.product.calories/self.product.amount
         
+    def fat(self):
+        return self.amount * self.product.fat/self.product.amount
+
+    def protein(self):
+        return self.amount * self.product.protein/self.product.amount
+
+    def carbohydrate(self):
+        return self.amount * self.product.carbohydrate/self.product.amount
+
+    def salt(self):
+        return self.amount * self.product.salt/self.product.amoun
+
+    def fiber(self):
+        return self.amount * self.product.fiber/self.product.amount
+
+    def product_type(self):
+        if self.elaboratedproducts_id==None and self.companies_id==None:
+            return "Basic"
+        elif self.elaboratedproducts_id!=None:
+            return "Personal"
+        elif self.companies_id!=None:
+            return "Manufactured"
+        else:
+            return "Rare"
+            
+    def save(self):
+        print("MAL·")
+        if self.id==None:
+            self.id=self.mem.con.cursor_one_field("insert into meals(datetime,products_id,name, amount, users_id, system_product) values (%s, %s,%s,%s,%s,%s) returning id",(self.datetime, self.product.id, self.name, self.amount, self.user.id, self.system_product))
+        else:
+            self.mem.con.cursor_one_field("update from meals set datetime=%s,products_id=%s,name=%s,amount=%s,users_id=%s, system_product=%s where id=%s", (self.datetime, self.product.id, self.name, self.amount, self.user.id, self.system_product,  self.id))
+
+
+class ProductsInElaboratedProduct(QObject, ObjectManager_With_IdDatetime):
+    ##MealManager(mem)
+    ##MealManager(mem,elaboratedproduct,sql)
+    def __init__(self, *args ):
+        QObject.__init__(self)
+        ObjectManager_With_IdName_Selectable.__init__(self)
+        self.mem=args[0]
+        if len(args)==3:
+            self.elaboratedproduct=args[1]
+            self.load_db_data(args[2])
+
+    def load_db_data(self, sql):
+        rows=self.mem.con.cursor_rows(sql)
+        for row in rows:
+            self.append(ProductInElaboratedProduct(self.mem, self.elaboratedproduct, row))
+        return self
+
+    def calories(self):
+        r=Decimal(0)
+        for product_in in self.arr:
+            r=r+product_in.calories()
+        return r
+    def fat(self):
+        r=Decimal(0)
+        for product_in in self.arr:
+            r=r+product_in.fat()
+        return r
+    def protein(self):
+        r=Decimal(0)
+        for product_in in self.arr:
+            r=r+product_in.protein()
+        return r
+    def carbohydrate(self):
+        r=Decimal(0)
+        for product_in in self.arr:
+            r=r+product_in.carbohydrate()
+        return r
+    def salt(self):
+        r=Decimal(0)
+        for product_in in self.arr:
+            r=r+product_in.salt()
+        return r
+    def fiber(self):
+        r=Decimal(0)
+        for product_in in self.arr:
+            r=r+product_in.fiber()
+        return r
+    def grams(self):
+        r=Decimal(0)
+        for product_in in self.arr:
+            r=r+product_in.amount
+        return r
+
+    def max_name_len(self):
+        r=0
+        for product_in in self.arr:
+            if len(product_in.fullName())>r:
+                r=len(product_in.fullName())
+        return r
+        
+    def show_table(self):
+        maxname=self.max_name_len()
+        if maxname<17:#For empty tables totals
+            maxname=17
+        maxlength=maxname+2+7+2+7+2+7+2+7+2+7+2+7
+    
+        print (Style.BRIGHT+ "="*(maxlength) + Style.RESET_ALL)
+        print (Style.BRIGHT+ "ELABORATED PRODUCT '{}' NUTRICIONAL REPORT".format(self.elaboratedproduct.name.upper()).center(maxlength,' ') + Style.RESET_ALL)
+        print (Style.BRIGHT+ "="*(maxlength) + Style.RESET_ALL)
+
+        print (Style.BRIGHT+ "{}  {}  {}  {}  {}  {}  {}".format("NAME".ljust(maxname," "),"GRAMS".rjust(7,' '), "CALORIE".rjust(7,' '), "CARBOHY".rjust(7,' '), "PROTEIN".rjust(7,' '), "FAT".rjust(7,' '), "FIBER".rjust(7,' ')) + Style.RESET_ALL)
+        for product_in in self.arr:
+            print ( "{}  {}  {}  {}  {}  {}  {}".format(product_in.fullName().ljust(maxname), a2s(product_in.amount),a2s(product_in.calories()), a2s(product_in.carbohydrate()), a2s(product_in.protein()), a2s(product_in.fat()),a2s(product_in.fiber())) + Style.RESET_ALL)
+
+        print (Style.BRIGHT+ "-"*(maxlength) + Style.RESET_ALL)
+        total="ELABORATED WITH {} PRODUCTS".format(self.length())
+        print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}  {}".format(total.ljust(maxname), a2s(self.grams()), a2s(self.calories()), a2s(self.carbohydrate()), a2s(self.protein()), a2s(self.fat()), a2s(self.fiber())) + Style.RESET_ALL)
+#        recomendations="RECOMMENDATIONS"
+#        print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}  {}".format(recomendations.ljust(maxname+7), n2s(), a2s(user.bmr()), a2s(user.carbohydrate()), a2s(user.protein()), a2s(user.fat()), a2s(user.fiber())) + Style.RESET_ALL)
+        print (Style.BRIGHT + "="*(maxlength) + Style.RESET_ALL)
+
+
+    def qtablewidget(self, table):        
+        table.setColumnCount(8)
+        table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Hour")))
+        table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Name")))
+        table.setHorizontalHeaderItem(2, QTableWidgetItem(self.tr("Grams")))
+        table.setHorizontalHeaderItem(3, QTableWidgetItem(self.tr("Calories")))
+        table.setHorizontalHeaderItem(4, QTableWidgetItem(self.tr("Carbohydrates")))
+        table.setHorizontalHeaderItem(5, QTableWidgetItem(self.tr("Protein")))
+        table.setHorizontalHeaderItem(6, QTableWidgetItem(self.tr("Fat")))
+        table.setHorizontalHeaderItem(7, QTableWidgetItem(self.tr("Fiber")))
+   
+        table.applySettings()
+        table.clearContents()
+        table.setRowCount(self.length())
+        for i, o in enumerate(self.arr):
+            table.setItem(i, 0, qtime(o.datetime))
+            table.setItem(i, 1, qleft(o.product.name))
+            table.setItem(i, 2, qright(o.amount))
+            table.setItem(i, 3, qright(o.calories()))
+            table.setItem(i, 4, qright(o.carbohydrate()))
+            table.setItem(i, 5, qright(o.protein()))
+            table.setItem(i, 6, qright(o.fat()))
+            table.setItem(i, 7, qright(o.fiber()))
+
+
+
 class ProductAllManager(ObjectManager_With_IdName_Selectable):
     ## ProductAllManager(mem)#Loads all database
     def __init__(self, *args):
@@ -721,7 +948,7 @@ class Product:
         else:
             self.mem.con.cursor_one_field("""update products set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, ends=%s, starts=%s, 
             elaboratedproducts_id=%s, languages=%s, calories=%s, salt=%s, cholesterol=%s, sodium=%s, potassium=%s, fiber=%s, sugars=%s, saturated_fat=%s, system_company=%s
-            where id=%s""", 
+            where id=%s returning id""", 
             (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.ends, self.starts, 
             self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company,  self.id))
             
@@ -768,7 +995,7 @@ class ProductPersonal(Product):
         else:
             self.mem.con.cursor_one_field("""update personalproducts set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, ends=%s, starts=%s, 
             elaboratedproducts_id=%s, languages=%s, calories=%s, salt=%s, cholesterol=%s, sodium=%s, potassium=%s, fiber=%s, sugars=%s, saturated_fat=%s, system_company=%s
-            where id=%s""", 
+            where id=%s returning id""", 
             (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.ends, self.starts, 
             self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company,  self.id))
            
