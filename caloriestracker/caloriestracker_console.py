@@ -2,8 +2,9 @@ from datetime import datetime
 from caloriestracker.contribution import generate_contribution_dump, generate_files_from_personal_data
 from caloriestracker.admin_pg import AdminPG
 from caloriestracker.database_update import database_update
-from caloriestracker.libcaloriestracker import MemConsole, MealManager, CompanyPersonal, Meal, ProductPersonal, ProductElaborated
+from caloriestracker.libcaloriestracker import MealManager, CompanyPersonal, Meal, ProductPersonal, ProductElaborated
 from caloriestracker.libcaloriestrackerfunctions import input_boolean, input_decimal, input_int, input_string, dtnaive2string
+from caloriestracker.mem import MemConsole
 from sys import exit
 
 def main():

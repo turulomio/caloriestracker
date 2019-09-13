@@ -30,6 +30,7 @@ SOURCES         = \
                   caloriestracker/ui/Ui_wdgYearMonth.py \
                   caloriestracker/caloriestracker.py \
                   caloriestracker/libcaloriestracker.py \
+                  caloriestracker/mem.py \
                   caloriestracker/caloriestracker_console.py
 
 FORMS           = \

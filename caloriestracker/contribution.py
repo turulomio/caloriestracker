@@ -1,5 +1,5 @@
-
-from caloriestracker.libcaloriestracker import MemConsole, Product, CompanySystem
+from caloriestracker.mem import MemConsole
+from caloriestracker.libcaloriestracker import Product, CompanySystem
 from caloriestracker.libcaloriestrackerfunctions import input_YN
 from colorama import Style, Fore
 

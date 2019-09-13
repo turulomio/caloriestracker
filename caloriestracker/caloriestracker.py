@@ -2,7 +2,7 @@
 ## @brief Main caloriestracker script.
 
 from PyQt5.QtWidgets import  QDialog
-from caloriestracker.libcaloriestracker import MemCaloriestracker
+from caloriestracker.mem import MemCaloriestracker
 from caloriestracker.ui.frmAccess import frmAccess
 from caloriestracker.ui.frmMain import frmMain
 from sys import exit
