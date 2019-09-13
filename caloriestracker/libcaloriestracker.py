@@ -8,7 +8,7 @@ from datetime import date,  timedelta, datetime
 import os
 from decimal import Decimal
 from caloriestracker.github import get_file_modification_dtaware
-from caloriestracker.libcaloriestrackerfunctions import str2bool, dtaware2string, package_filename, is_there_internet, qtime, qleft, qright, input_boolean, input_integer_or_none, a2s, ca2s, n2s
+from caloriestracker.libcaloriestrackerfunctions import str2bool, dtaware2string, package_filename, is_there_internet, qtime, qleft, qright, input_boolean, input_integer_or_none, a2s, ca2s, n2s, rca2s
 from caloriestracker.libmanagers import  ObjectManager_With_Id_Selectable,  ManagerSelectionMode, ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime
 from colorama import Fore, Style
 from officegenerator import OpenPyXL
@@ -1180,7 +1180,7 @@ class MealManager(QObject, ObjectManager_With_IdDatetime):
 
         print (Style.BRIGHT+ "-"*(maxlength) + Style.RESET_ALL)
         total="{} MEALS WITH THIS TOTALS".format(self.length())
-        print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}  {}".format(total.ljust(maxname+7), a2s(self.grams()), ca2s(self.calories(),self.mem.user.bmr()), ca2s(self.carbohydrate(),self.mem.user.carbohydrate()), ca2s(self.protein(), self.mem.user.protein()), ca2s(self.fat(),self.mem.user.fat()), ca2s(self.fiber(),self.mem.user.fiber())) + Style.RESET_ALL)
+        print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}  {}".format(total.ljust(maxname+7), a2s(self.grams()), ca2s(self.calories(),self.mem.user.bmr()), ca2s(self.carbohydrate(),self.mem.user.carbohydrate()), ca2s(self.protein(), self.mem.user.protein()), ca2s(self.fat(),self.mem.user.fat()), rca2s(self.fiber(),self.mem.user.fiber())) + Style.RESET_ALL)
         recomendations="RECOMMENDATIONS"
         print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}  {}".format(recomendations.ljust(maxname+7), n2s(), a2s(self.mem.user.bmr()), a2s(self.mem.user.carbohydrate()), a2s(self.mem.user.protein()), a2s(self.mem.user.fat()), a2s(self.mem.user.fiber())) + Style.RESET_ALL)
         print (Style.BRIGHT + "="*(maxlength) + Style.RESET_ALL)
@@ -1201,7 +1201,7 @@ class MealManager(QObject, ObjectManager_With_IdDatetime):
         table.setRowCount(self.length())
         for i, o in enumerate(self.arr):
             table.setItem(i, 0, qtime(o.datetime))
-            table.setItem(i, 1, qleft(o.product.name))
+            table.setItem(i, 1, qleft(o.product.fullName()))
             table.setItem(i, 2, qright(o.amount))
             table.setItem(i, 3, qright(o.calories()))
             table.setItem(i, 4, qright(o.carbohydrate()))

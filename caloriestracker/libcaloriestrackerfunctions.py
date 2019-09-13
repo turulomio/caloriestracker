@@ -482,12 +482,15 @@ def qleft(string):
     a.setTextAlignment(Qt.AlignVCenter|Qt.AlignLeft)
     return a
 
-def qright(string, digits=None):
+def qright(string, digits=2):
     """When digits, limits the number to """
     if string==None:
         return qempty()
-    if string!=None and digits!=None:
-        string=round(string, digits)
+    if string!=None:
+        try:
+            string=round(string, digits)
+        except:
+            pass
     a=QTableWidgetItem(str(string))
     a.setTextAlignment(Qt.AlignVCenter|Qt.AlignRight)
     try:#If is a number corized it
@@ -576,12 +579,21 @@ def setReadOnly(wdg, boolean):
         wdg.blockSignals(boolean)
         wdg.setAttribute(Qt.WA_TransparentForMouseEvents)
         wdg.setFocusPolicy(Qt.NoFocus)
+
 ## amount2string
 def a2s(amount):
     return str(round(amount, 2)).rjust(7)
 
+## Shows amount with a2s in red if amount is over the limit
 def ca2s(amount,limit):
     if amount <= limit:
+        return Fore.GREEN + a2s(amount) + Fore.RESET
+    else:
+        return Fore.RED + a2s(amount) + Fore.RESET
+
+## Reverse ca2s. Shows amount with a2s in green if amount is over the limit
+def rca2s(amount,limit):
+    if amount > limit:
         return Fore.GREEN + a2s(amount) + Fore.RESET
     else:
         return Fore.RED + a2s(amount) + Fore.RESET
