@@ -13,10 +13,14 @@ def main():
 
     if mem.args.find!=None:
         mem.data.products.order_by_name()
-        
+        print (mem.tr("Companies:"))
+        for o in mem.data.companies.arr:
+            if o.name.upper().find(mem.args.find.upper())!=-1:
+                print ("  + {}".format( o.name))
+        print (mem.tr("Products:"))
         for o in mem.data.products.arr:
             if o.fullName().upper().find(mem.args.find.upper())!=-1:
-                print (o.fullName(True))
+                print ("  + {}".format(o.fullName(True)))
         exit(0)
 
     if mem.args.add_company==True:
