@@ -1,0 +1,4 @@
+*.ui binary
+*.ts binary
+*.qm binary
+caloriestracker_rc.py binary
