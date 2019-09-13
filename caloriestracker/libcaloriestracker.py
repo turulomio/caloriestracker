@@ -545,7 +545,6 @@ class ProductElaborated:
             None)
             o.save()
         else:#It's already in personalproducts
-            print(selected, selected.id)
             selected.name=self.name
             selected.amount=self.products_in.grams()
             selected.fat=self.products_in.fat()
@@ -840,6 +839,9 @@ class CompanySystem:
 
         
     def __repr__(self):
+        return self.fullName()
+        
+    def fullName(self):
         system="S" if self.system_company==True else "P"
         return "{}. #{}{}".format(self.name, system, self.id)
         
@@ -898,7 +900,7 @@ class Product(QObject):
         if len(args)==1:#Product(mem)
             init__create(*[None]*20)
         elif len(args)==2:#Product(mem,rows)
-            company=self.mem.data.companies.find_by_id(args[1]['companies_id'])
+            company=self.mem.data.companies.find_by_id_system(args[1]['companies_id'], args[1]['system_company'])
             init__create(args[1]['name'], args[1]['amount'], args[1]['fat'], args[1]['protein'], args[1]['carbohydrate'], company, 
             args[1]['ends'], args[1]['starts'], args[1]['elaboratedproducts_id'], args[1]['languages'], args[1]['calories'], args[1]['salt'], 
             args[1]['cholesterol'], args[1]['sodium'], args[1]['potassium'], args[1]['fiber'], args[1]['sugars'], args[1]['saturated_fat'], args[1]['system_company'], args[1]['id'])
@@ -1023,7 +1025,6 @@ class TranslationLanguageManager(ObjectManager_With_IdName_Selectable):
     ## @param id String
     def cambiar(self, id):
         filename=package_filename("caloriestracker", "i18n/caloriestracker_{}.qm".format(id))
-        debug(filename)
         self.mem.qtranslator.load(filename)
         info("TranslationLanguage changed to {}".format(id))
         qApp.installTranslator(self.mem.qtranslator)

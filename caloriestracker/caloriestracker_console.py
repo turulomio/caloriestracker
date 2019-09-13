@@ -5,18 +5,20 @@ from caloriestracker.database_update import database_update
 from caloriestracker.libcaloriestracker import MealManager, CompanyPersonal, Meal, ProductPersonal, ProductElaborated
 from caloriestracker.libcaloriestrackerfunctions import input_boolean, input_decimal, input_int, input_string, dtnaive2string
 from caloriestracker.mem import MemConsole
+from logging import debug
 from sys import exit
 
 def main():
     mem=MemConsole()
     mem.run()   
+    debug(mem.tr("Start mem took {}".format(datetime.now()-mem.inittime)))
 
     if mem.args.find!=None:
         mem.data.products.order_by_name()
         print (mem.tr("Companies:"))
         for o in mem.data.companies.arr:
-            if o.name.upper().find(mem.args.find.upper())!=-1:
-                print ("  + {}".format( o.name))
+            if o.fullName().upper().find(mem.args.find.upper())!=-1:
+                print ("  + {}".format( o.fullName()))
         print (mem.tr("Products:"))
         for o in mem.data.products.arr:
             if o.fullName().upper().find(mem.args.find.upper())!=-1:

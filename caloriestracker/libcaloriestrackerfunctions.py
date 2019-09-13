@@ -11,7 +11,7 @@ import time
 import functools
 import warnings
 import inspect
-import logging
+from logging import debug, info,  critical
 import pkg_resources
 import pytz
 import socket
@@ -57,11 +57,11 @@ def dtaware2epochms(d):
     """
     if d.__class__==datetime.datetime:
         if d.tzname()==None:#unaware datetine
-            logging.critical("Must be aware")
+            critical("Must be aware")
         else:#aware dateime changed to unawar
             utc=dtaware_changes_tz(d, 'UTC')
             return utc.timestamp()*1000
-    logging.critical("{} can't be converted to epochms".format(d.__class__))
+    critical("{} can't be converted to epochms".format(d.__class__))
     
 ## Return a UTC datetime aware
 def epochms2dtaware(n):
@@ -409,10 +409,9 @@ def package_filename(module, url):
         pkg_resources.resource_filename(module,"../{}".format(url)), #Used in pyinstaller --onefile, becaouse pkg_resources is not supported
     ]:
         if filename!=None and path.exists(filename):
-            logging.info("FOUND " +  filename) #When debugging in windows, change logging for printt
+            info("Package filename '{}' found".format(filename)) #When debugging in windows, change logging for printt
             return filename
-        else:
-            logging.debug("NOT FOUND" + filename)
+    debug("Not found {} in module {}".format(url, module))
 
 ## Converts boolean to  True or False string
 ## @param s String
