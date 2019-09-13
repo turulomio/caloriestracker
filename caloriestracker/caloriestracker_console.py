@@ -2,7 +2,7 @@ from datetime import datetime
 from caloriestracker.contribution import generate_contribution_dump, generate_files_from_personal_data
 from caloriestracker.admin_pg import AdminPG
 from caloriestracker.database_update import database_update
-from caloriestracker.libcaloriestracker import MealManager, CompanyPersonal, Meal, ProductPersonal, ProductElaborated
+from caloriestracker.libcaloriestracker import MealManager, CompanyPersonal, Meal, ProductPersonal, ProductElaborated, CompaniesAndProducts
 from caloriestracker.libcaloriestrackerfunctions import input_boolean, input_decimal, input_int, input_string, dtnaive2string
 from caloriestracker.mem import MemConsole
 from logging import debug
@@ -14,15 +14,8 @@ def main():
     debug(mem.tr("Start mem took {}".format(datetime.now()-mem.inittime)))
 
     if mem.args.find!=None:
-        mem.data.products.order_by_name()
-        print (mem.tr("Companies:"))
-        for o in mem.data.companies.arr:
-            if o.fullName().upper().find(mem.args.find.upper())!=-1:
-                print ("  + {}".format( o.fullName()))
-        print (mem.tr("Products:"))
-        for o in mem.data.products.arr:
-            if o.fullName().upper().find(mem.args.find.upper())!=-1:
-                print ("  + {}".format(o.fullName(True)))
+        cp=CompaniesAndProducts(mem)
+        cp.find_report(mem.args.find)
         exit(0)
 
     if mem.args.add_company==True:

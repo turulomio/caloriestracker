@@ -30,7 +30,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Xulpymoney</string>
+        <string>Calories Tracker</string>
        </property>
        <property name="scaledContents">
         <bool>false</bool>
@@ -86,7 +86,7 @@
           </size>
          </property>
          <property name="pixmap">
-          <pixmap>:/xulpymoney/coins.png</pixmap>
+          <pixmap resource="../images/caloriestracker.qrc">:/caloriestracker/meals.svg</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -118,7 +118,7 @@
        </property>
        <widget class="QWidget" name="tabGLParchis">
         <attribute name="title">
-         <string>Xulpymoney</string>
+         <string>Calories Tracker</string>
         </attribute>
         <layout class="QHBoxLayout">
          <item>
@@ -139,146 +139,6 @@
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
             <widget class="myQTableWidget" name="tblStatistics">
-             <row>
-              <property name="text">
-               <string>Shares products number</string>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Funds number</string>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Indexes number</string>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>ETF  number</string>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Warrants number</string>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Número de Deuda pública</string>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Número de Deuda privada</string>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>CFD number</string>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Futures number</string>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string/>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Obsolete products</string>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string/>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Effective products</string>
-              </property>
-             </row>
-             <column>
-              <property name="text">
-               <string>Total</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string/>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string/>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string/>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string/>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string/>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string/>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string/>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string/>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string/>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string/>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string/>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string/>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string/>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string/>
-              </property>
-             </column>
              <column>
               <property name="text">
                <string/>
@@ -561,7 +421,7 @@ p, li { white-space: pre-wrap; }
  </customwidgets>
  <resources>
   <include location="../images/caloriestracker.qrc"/>
-  <include location="../images/xulpymoney.qrc"/>
+  <include location="../images/caloriestracker.qrc"/>
  </resources>
  <connections/>
 </ui>
