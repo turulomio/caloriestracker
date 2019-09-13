@@ -1,8 +1,8 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QDialog, QMenu, QTableWidgetItem,  QInputDialog
-from xulpymoney.libxulpymoney import Concept
-from xulpymoney.libxulpymoneyfunctions import qmessagebox
-from xulpymoney.ui.Ui_frmAuxiliarTables import Ui_frmAuxiliarTables
+from caloriestracker.libxulpymoney import Concept
+from caloriestracker.libxulpymoneyfunctions import qmessagebox
+from caloriestracker.ui.Ui_frmAuxiliarTables import Ui_frmAuxiliarTables
 
 class frmAuxiliarTables(QDialog, Ui_frmAuxiliarTables):
     def __init__(self, mem,  parent = None, name = None, modal = False):

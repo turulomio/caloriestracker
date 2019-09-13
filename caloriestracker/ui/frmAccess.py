@@ -1,9 +1,9 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import QDialog
-from xulpymoney.ui.Ui_frmAccess import Ui_frmAccess
-from xulpymoney.connection_pg_qt import ConnectionQt
-from xulpymoney.libxulpymoneyfunctions import qmessagebox
+from caloriestracker.ui.Ui_frmAccess import Ui_frmAccess
+from caloriestracker.connection_pg_qt import ConnectionQt
+from caloriestracker.libxulpymoneyfunctions import qmessagebox
 
 class frmAccess(QDialog, Ui_frmAccess):
     def __init__(self, mem, parent = None, name = None, modal = False):

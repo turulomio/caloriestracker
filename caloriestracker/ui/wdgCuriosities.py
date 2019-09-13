@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QWidget, QSpacerItem, QSizePolicy
-from xulpymoney.ui.Ui_wdgCuriosities import Ui_wdgCuriosities
-from xulpymoney.ui.wdgCuriosity import wdgCuriosity
-from xulpymoney.libxulpymoney import Assets,  Money, AccountOperationManager
+from caloriestracker.ui.Ui_wdgCuriosities import Ui_wdgCuriosities
+from caloriestracker.ui.wdgCuriosity import wdgCuriosity
+from caloriestracker.libxulpymoney import Assets,  Money, AccountOperationManager
 
 class wdgCuriosities(QWidget, Ui_wdgCuriosities):
     def __init__(self, mem,  parent = None):

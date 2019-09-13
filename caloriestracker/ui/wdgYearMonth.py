@@ -1,8 +1,8 @@
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
 from PyQt5.QtWidgets import QWidget
 import datetime
-from xulpymoney.ui.Ui_wdgYearMonth import Ui_wdgYearMonth
-from xulpymoney.libxulpymoneyfunctions import function_name, qmessagebox
+from caloriestracker.ui.Ui_wdgYearMonth import Ui_wdgYearMonth
+from caloriestracker.libxulpymoneyfunctions import function_name, qmessagebox
 
 class wdgYearMonth(QWidget, Ui_wdgYearMonth):
     changed=pyqtSignal()

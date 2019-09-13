@@ -1,9 +1,9 @@
 from PyQt5.QtCore import  Qt,  pyqtSlot,  QObject
 from PyQt5.QtGui import QPainter, QFont,  QColor, QIcon
 from PyQt5.QtWidgets import QAction, QMenu, QFileDialog, QProgressDialog, QApplication
-from xulpymoney.libxulpymoney import    Percentage
-from xulpymoney.libxulpymoneyfunctions import epochms2dtaware, dtaware2epochms, dtnaive2string
-from xulpymoney.libxulpymoneytypes import  eOHCLDuration, eDtStrings
+from caloriestracker.libxulpymoney import    Percentage
+from caloriestracker.libxulpymoneyfunctions import epochms2dtaware, dtaware2epochms, dtnaive2string
+from caloriestracker.libxulpymoneytypes import  eOHCLDuration, eDtStrings
 import datetime
 from PyQt5.QtChart import QChart,  QLineSeries, QChartView, QValueAxis, QDateTimeAxis,  QPieSeries, QCandlestickSeries,  QCandlestickSet,  QScatterSeries
 

@@ -1,14 +1,14 @@
 from PyQt5.QtCore import pyqtSlot, Qt
 from PyQt5.QtWidgets import QWidget, QDialog, QVBoxLayout, QMenu, QMessageBox
-from xulpymoney.ui.Ui_wdgProducts import Ui_wdgProducts
-from xulpymoney.ui.frmProductReport import frmProductReport
-from xulpymoney.libmanagers import ManagerSelectionMode
-from xulpymoney.libxulpymoney import QuoteAllIntradayManager
-from xulpymoney.libxulpymoneyfunctions import qmessagebox
-from xulpymoney.ui.frmQuotesIBM import frmQuotesIBM
-from xulpymoney.ui.wdgProductsDataMove import wdgProductsDataMove
-from xulpymoney.ui.frmEstimationsAdd import frmEstimationsAdd
-from xulpymoney.ui.wdgProductHistoricalChart import wdgProductHistoricalBuyChart
+from caloriestracker.ui.Ui_wdgProducts import Ui_wdgProducts
+from caloriestracker.ui.frmProductReport import frmProductReport
+from caloriestracker.libmanagers import ManagerSelectionMode
+from caloriestracker.libxulpymoney import QuoteAllIntradayManager
+from caloriestracker.libxulpymoneyfunctions import qmessagebox
+from caloriestracker.ui.frmQuotesIBM import frmQuotesIBM
+from caloriestracker.ui.wdgProductsDataMove import wdgProductsDataMove
+from caloriestracker.ui.frmEstimationsAdd import frmEstimationsAdd
+from caloriestracker.ui.wdgProductHistoricalChart import wdgProductHistoricalBuyChart
 import logging
 
 class wdgProducts(QWidget, Ui_wdgProducts):

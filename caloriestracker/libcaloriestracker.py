@@ -1,23 +1,27 @@
 ## @namespace caloriestracker.libcaloriestracker
 ## @brief Package with all caloriestracker core classes .
 
+
 from PyQt5.QtCore import Qt,  QSettings, QCoreApplication, QTranslator, QObject
 from PyQt5.QtGui import QIcon,  QColor,  QPixmap
 from PyQt5.QtWidgets import QTableWidgetItem, QApplication,   qApp,  QProgressDialog
-
+from argparse import ArgumentParser, RawTextHelpFormatter
 from datetime import date,  timedelta, datetime
 import logging
-import sys
-import argparse
-import getpass
+
 import os
 from decimal import Decimal
-from caloriestracker.connection_pg_qt import ConnectionQt
+from caloriestracker.connection_pg import argparse_connection_arguments_group, Connection
 from caloriestracker.github import get_file_modification_dtaware
-from caloriestracker.libcaloriestrackerfunctions import str2bool, dtaware2string, list2string, dirs_create, package_filename, is_there_internet, qtime, qleft, qright, input_boolean, input_integer_or_none, a2s, ca2s
+from caloriestracker.libcaloriestrackerfunctions import str2bool, string2date, dtaware2string, package_filename, is_there_internet, qtime, qleft, qright, input_boolean, input_integer_or_none, a2s, ca2s, n2s
 from caloriestracker.libmanagers import  ObjectManager_With_Id_Selectable,  ManagerSelectionMode, ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime
+from caloriestracker.version import __version__, __versiondate__
 from colorama import Fore, Style
+from caloriestracker.database_update import database_update
 from officegenerator import OpenPyXL
+from sys import argv
+
+
 
 class Percentage:
     def __init__(self, numerator=None, denominator=None):
@@ -1000,17 +1004,17 @@ class ProductPersonal(Product):
             self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company,  self.id))
            
 ## Manages languages
-class LanguageManager(ObjectManager_With_IdName_Selectable):
+class TranslationLanguageManager(ObjectManager_With_IdName_Selectable):
     def __init__(self, mem):
         ObjectManager_With_IdName_Selectable.__init__(self)
         self.mem=mem
         
     def load_all(self):
-        self.append(Language(self.mem, "en","English" ))
-        self.append(Language(self.mem, "es","Español" ))
-        self.append(Language(self.mem, "fr","Français" ))
-        self.append(Language(self.mem, "ro","Rom\xe2n" ))
-        self.append(Language(self.mem, "ru",'\u0420\u0443\u0441\u0441\u043a\u0438\u0439' ))
+        self.append(TranslationLanguage(self.mem, "en","English" ))
+        self.append(TranslationLanguage(self.mem, "es","Español" ))
+        self.append(TranslationLanguage(self.mem, "fr","Français" ))
+        self.append(TranslationLanguage(self.mem, "ro","Rom\xe2n" ))
+        self.append(TranslationLanguage(self.mem, "ru",'\u0420\u0443\u0441\u0441\u043a\u0438\u0439' ))
 
     def qcombobox(self, combo, selected=None):
         """Selected is the object"""
@@ -1025,12 +1029,12 @@ class LanguageManager(ObjectManager_With_IdName_Selectable):
         filename=package_filename("caloriestracker", "i18n/caloriestracker_{}.qm".format(id))
         logging.debug(filename)
         self.mem.qtranslator.load(filename)
-        logging.info("Language changed to {}".format(id))
+        logging.info("TranslationLanguage changed to {}".format(id))
         qApp.installTranslator(self.mem.qtranslator)
  
 
 
-class Language:
+class TranslationLanguage:
     def __init__(self, mem, id, name):
         self.id=id
         self.name=name
@@ -1117,196 +1121,139 @@ class SettingsDB:
             return 22
         return None
 
+class Mem(QObject):
+    def __init__(self):
+        QObject.__init__(self)
+        self.con=None
+    def epilog(self):
+        return self.tr("Developed by Mariano Muñoz 2019-{}".format(datetime.now().year))
+        
+    def load_db_data(self, progress=True):
+        """Esto debe ejecutarse una vez establecida la conexión"""
+        inicio=datetime.now()
 
-class MemConsole():
-    def __init__(self, con):
-        self.con=con
         self.data=DBData(self)
-        self.data.load(progress=False)
+        self.data.load(progress)
 
-      
-        #self.localzone=self.zones.find_by_name(self.settingsdb.value("mem/localzone", "Europe/Madrid"))
-       
+        logging.info("Loading db data took {}".format(datetime.now()-inicio))
         
-        
-class MemCaloriestracker:
-    def __init__(self):                
-        self.dir_tmp=dirs_create()
-        
-        self.qtranslator=None#Residirá el qtranslator
+    def load_translation(self):
         self.settings=QSettings()
+        self.setQTranslator(QTranslator(self.app))
+        self.languages=TranslationLanguageManager(self)
+        self.languages.load_all()
+        self.language=self.languages.find_by_id(self.settings.value("mem/language", "en"))
+        self.languages.cambiar(self.language.id)
+
+    def __del__(self):
+        if self.con:#Cierre por reject en frmAccess
+            self.con.disconnect()
+        self.settings.sync()
+            
+    def setQTranslator(self, qtranslator):
+        self.qtranslator=qtranslator
+    ## Sets debug sustem, needs
+    ## @param args It's the result of a argparse     args=parser.parse_args()        
+    def addDebugSystem(self, args):
+        logFormat = "%(asctime)s.%(msecs)03d %(levelname)s %(message)s [%(module)s:%(lineno)d]"
+        dateFormat='%F %I:%M:%S'
+
+        if args.debug=="DEBUG":#Show detailed information that can help with program diagnosis and troubleshooting. CODE MARKS
+            logging.basicConfig(level=logging.DEBUG, format=logFormat, datefmt=dateFormat)
+        elif args.debug=="INFO":#Everything is running as expected without any problem. TIME BENCHMARCKS
+            logging.basicConfig(level=logging.INFO, format=logFormat, datefmt=dateFormat)
+        elif args.debug=="WARNING":#The program continues running, but something unexpected happened, which may lead to some problem down the road. THINGS TO DO
+            logging.basicConfig(level=logging.WARNING, format=logFormat, datefmt=dateFormat)
+        elif args.debug=="ERROR":#The program fails to perform a certain function due to a bug.  SOMETHING BAD LOGIC
+            logging.basicConfig(level=logging.ERROR, format=logFormat, datefmt=dateFormat)
+        elif args.debug=="CRITICAL":#The program encounters a serious error and may stop running. ERRORS
+            logging.basicConfig(level=logging.CRITICAL, format=logFormat, datefmt=dateFormat)
+
+        logging.info("Debug level set to {}".format(args.debug))
+        
+    ## Adds the commons parameter of the program to argparse
+    ## @param parser It's a argparse.ArgumentParser
+    def addCommonToArgParse(self, parser):
+        parser.add_argument('--version', action='version', version="{} ({})".format(__version__, __versiondate__))
+        parser.add_argument('--debug', help="Debug program information", choices=["DEBUG","INFO","WARNING","ERROR","CRITICAL"], default="ERROR")
+
+
+class MemConsole(Mem):
+    def __init__(self):
+        Mem.__init__(self)
+        
+    def run(self):
+        self.app=QCoreApplication(argv)
+        self.app.setOrganizationName("caloriestracker")
+        self.app.setOrganizationDomain("caloriestracker")
+        self.app.setApplicationName("caloriestracker")
+        self.load_translation()
+        self.args=self.parse_arguments()
+        self.addDebugSystem(self.args)
+        self.con=self.connection()
+        database_update(self.con)
+        self.load_db_data(False)
+        self.user=self.data.users.find_by_id(1)
+        
+    def connection(self):
+        con=Connection()
+        con.user=self.args.user
+        con.server=self.args.server
+        con.port=self.args.port
+        con.db=self.args.db
+        con.get_password()
+        con.connect()
+        return con
+        
+    
+    def parse_arguments(self):
+        self.parser=ArgumentParser(prog='calories', description=self.tr('Report of calories'), epilog=self.epilog(), formatter_class=RawTextHelpFormatter)
+        self. addCommonToArgParse(self.parser)
+        argparse_connection_arguments_group(self.parser, default_db="caloriestracker")
+        group = self.parser.add_argument_group("Find parameters")
+        group.add_argument('--date', help=self.tr('Date to show'), action="store", default=str(date.today()))
+        group.add_argument('--users_id', help=self.tr('User id'), action="store", default=1)
+        group.add_argument('--find', help=self.tr('Find data'), action="store", default=None)
+        group.add_argument('--add_company', help=self.tr("Adds a company"), action="store_true", default=False)
+        group.add_argument('--add_product', help=self.tr("Adds a product"), action="store_true", default=False)
+        group.add_argument('--add_meal', help=self.tr("Adds a company"), action="store_true", default=False)
+        group.add_argument('--add_biometrics', help=self.tr("Adds biometrics"), action="store_true", default=False)
+        group.add_argument('--collaboration_dump', help=self.tr("Generate a dump to collaborate updating companies and products"), action="store_true", default=False)
+        group.add_argument('--parse_collaboration_dump', help=self.tr("Parses a dump and generates sql for the package and other for the collaborator"), action="store", default=None)
+        group.add_argument('--update_after_collaboration',  help=self.tr("Converts data from personal database to system after collaboration"),  action="store_true", default=False)
+        group.add_argument('--elaborated', help=self.tr("Show elaborated product"), action="store", default=None)
+
+        args=self.parser.parse_args()
+        #Changing types of args
+        args.date=string2date(args.date)
+        args.users_id=int(args.users_id)
+        return args
+
+class MemCaloriestracker(Mem):
+    def __init__(self):
+        Mem.__init__(self)
+        self.app=QApplication()
+        self.app.setOrganizationName("caloriestracker")
+        self.app.setOrganizationDomain("caloriestracker")
+        self.app.setApplicationName("caloriestracker")
+        self.load_translation()
+        
         self.settingsdb=SettingsDB(self)
         
         self.inittime=datetime.now()#Tiempo arranca el config
         self.dbinitdate=None#Fecha de inicio bd.
         self.con=None#Conexión        
-#        
-#        #Loading data in code
-#        self.countries=CountryManager(self)
-#        self.countries.load_all()
-        self.languages=LanguageManager(self)
-        self.languages.load_all()
         
-        #Mem variables not in database
-        self.language=self.languages.find_by_id(self.settings.value("mem/language", "en"))
 #        
         self.frmMain=None #Pointer to mainwidget
         self.closing=False#Used to close threads
         self.url_wiki="https://github.com/turulomio/caloriestracker/wiki"
 
-    def init__script(self, title, tickers=False, sql=False):
-        """
-            Script arguments and autoconnect in mem.con, load_db_data
-            
-            type==1 #tickers
-        """
-        app = QCoreApplication(sys.argv)
-        app.setOrganizationName("Mariano Muñoz ©")
-        app.setOrganizationDomain("turulomio.users.sourceforge.net")
-        app.setApplicationName("Xulpymoney")
-
-        self.setQTranslator(QTranslator(app))
-        self.languages.cambiar(self.language.id)
-
-        parser=argparse.ArgumentParser(title)
-        parser.add_argument('--user', help='Postgresql user', default='postgres')
-        parser.add_argument('--port', help='Postgresql server port', default=5432)
-        parser.add_argument('--host', help='Postgresql server address', default='127.0.0.1')
-        parser.add_argument('--db', help='Postgresql database', default='caloriestracker')
-        if tickers:
-            parser.add_argument('--tickers', help='Generate tickers', default=False, action='store_true')
-        if sql:
-            parser.add_argument('--sql', help='Generate update sql', default=False, action='store_true')
-
-        args=parser.parse_args()
-        password=getpass.getpass()
-        self.con=ConnectionQt().init__create(args.user,  password,  args.host, args.port, args.db)
-        self.con.connect()
-        if not self.con.is_active():
-            logging.critical(QCoreApplication.translate("Core", "Error connecting to database"))
-            sys.exit(255)        
-        self.load_db_data(progress=False, load_data=False)
-        return args
-
-
-    def __del__(self):
-        if self.con:#Cierre por reject en frmAccess
-            self.con.disconnect()
-            
-    def setQTranslator(self, qtranslator):
-        self.qtranslator=qtranslator
-
-        
-
-    def load_db_data(self, progress=True, load_data=True):
-        """Esto debe ejecutarse una vez establecida la conexión"""
-        inicio=datetime.now()
-#
-#        self.zones=ZoneManager(self)
-#        self.zones.load_all()
-
-        if load_data:
-            self.data=DBData(self)
-            self.data.load(progress)
-            self.user=self.data.users.find_by_id(1)
-
-        logging.info("Loading db data took {}".format(datetime.now()-inicio))
-        
-    def save_MemSettingsDB(self):
-        self.settingsdb.setValue("mem/localcurrency", self.localcurrency.id)
-        self.settingsdb.setValue("mem/localzone", self.localzone.name)
-        self.settingsdb.setValue("mem/dividendwithholding", Decimal(self.dividendwithholding))
-        self.settingsdb.setValue("mem/taxcapitalappreciation", Decimal(self.taxcapitalappreciation))
-        self.settingsdb.setValue("mem/taxcapitalappreciationbelow", Decimal(self.taxcapitalappreciationbelow))
-        self.settingsdb.setValue("mem/gainsyear", self.gainsyear)
-        self.settingsdb.setValue("mem/favorites", list2string(self.favorites))
-        self.settingsdb.setValue("mem/benchmarkid", self.data.benchmark.id)
-        self.settingsdb.setValue("mem/fillfromyear", self.fillfromyear)
-        logging.info ("Saved Database settings")
-        
         
     def qicon_admin(self):
         icon = QIcon()
         icon.addPixmap(QPixmap(":/caloriestracker/admin.png"), QIcon.Normal, QIcon.Off)
         return icon
-
-#            
-### Class to manage datetime timezone and its methods
-#class Zone:
-#    ## Constructor with the following attributes combination
-#    ## 1. Zone(mem). Create a Zone with all attributes set to None, except mem
-#    ## 2. Zone(mem, id, name, country). Create account passing all attributes
-#    ## @param mem MemXulpymoney object
-#    ## @param id Integer that represents the Zone Id
-#    ## @param name Zone Name
-#    ## @param country Country object asociated to the timezone
-#    def __init__(self, *args):
-#        def init__create(id, name, country):
-#            self.id=id
-#            self.name=name
-#            self.country=country
-#            return self
-#        self.mem=args[0]
-#        if len(args)==1:
-#            init__create(None, None, None)
-#        if len(args)==4:
-#            init__create(args[1], args[2], args[3])
-#
-#    ## Returns a pytz.timezone
-#    def timezone(self):
-#        return pytz.timezone(self.name)
-#        
-#    ## Datetime aware with the pyttz.timezone
-#    def now(self):
-#        return datetime.now(pytz.timezone(self.name))
-#        
-#    ## Internal __repr__ function
-#    def __repr__(self):
-#        return "Zone ({}): {}".format(str(self.id), str(self.name))            
-#
-#    ## Not all zones names are in pytz zone names. Sometimes we need a conversión
-#    ##
-#    ## It's a static method you can invoke with Zone.zone_name_conversion(name)
-#    ## @param name String with zone not in pytz
-#    ## @return String with zone name already converted if needed
-#    @staticmethod
-#    def zone_name_conversion(name):
-#        if name=="CEST":
-#            return "Europe/Berlin"
-#        if name.find("GMT")!=-1:
-#            return "Etc/{}".format(name)
-#        return name
-#
-#class ZoneManager(ObjectManager_With_IdName_Selectable):
-#    def __init__(self, mem):
-#        ObjectManager_With_IdName_Selectable.__init__(self)
-#        self.mem=mem
-#        
-#    def load_all(self):
-#        self.append(Zone(self.mem,1,'Europe/Madrid', self.mem.countries.find_by_id("es")))
-#        self.append(Zone(self.mem,2,'Europe/Lisbon', self.mem.countries.find_by_id("pt")))
-#        self.append(Zone(self.mem,3,'Europe/Rome', self.mem.countries.find_by_id("it")))
-#        self.append(Zone(self.mem,4,'Europe/London', self.mem.countries.find_by_id("en")))
-#        self.append(Zone(self.mem,5,'Asia/Tokyo', self.mem.countries.find_by_id("jp")))
-#        self.append(Zone(self.mem,6,'Europe/Berlin', self.mem.countries.find_by_id("de")))
-#        self.append(Zone(self.mem,7,'America/New_York', self.mem.countries.find_by_id("us")))
-#        self.append(Zone(self.mem,8,'Europe/Paris', self.mem.countries.find_by_id("fr")))
-#        self.append(Zone(self.mem,9,'Asia/Hong_Kong', self.mem.countries.find_by_id("cn")))
-#        self.append(Zone(self.mem,10,'Europe/Brussels', self.mem.countries.find_by_id("be")))
-#        self.append(Zone(self.mem,11,'Europe/Amsterdam', self.mem.countries.find_by_id("nl")))
-#        self.append(Zone(self.mem,12,'Europe/Dublin', self.mem.countries.find_by_id("ie")))
-#        self.append(Zone(self.mem,13,'Europe/Helsinki', self.mem.countries.find_by_id("fi")))
-#        self.append(Zone(self.mem,14,'Europe/Lisbon', self.mem.countries.find_by_id("pt")))
-#        self.append(Zone(self.mem,15,'Europe/Luxembourg', self.mem.countries.find_by_id("lu")))
-#        
-#    def qcombobox(self, combo, zone=None):
-#        """Carga entidades bancarias en combo"""
-#        combo.clear()
-#        for a in self.arr:
-#            combo.addItem(a.country.qicon(), a.name, a.id)
-#
-#        if zone!=None:
-#            combo.setCurrentIndex(combo.findText(zone.name))
 
 class Meal:
     ##Meal(mem)
@@ -1435,6 +1382,29 @@ class MealManager(QObject, ObjectManager_With_IdDatetime):
             if len(meal.fullName())>r:
                 r=len(meal.fullName())
         return r
+        
+    def show_table(self, date):
+        maxname=self.max_name_len()
+        if maxname<17:#For empty tables totals
+            maxname=17
+        maxlength=5+2+maxname+2+7+2+7+2+7+2+7+2+7+2+7
+
+        print (Style.BRIGHT+ "="*(maxlength) + Style.RESET_ALL)
+        print (Style.BRIGHT+ "{} NUTRICIONAL REPORT AT {}".format(self.mem.user.name.upper(), date).center(maxlength," ") + Style.RESET_ALL)
+        print (Style.BRIGHT+ Fore.YELLOW + "{} Kg. {} cm. {} years".format(self.mem.user.last_biometrics.weight, self.mem.user.last_biometrics.height, self.mem.user.age()).center(maxlength," ") + Style.RESET_ALL)
+        print (Style.BRIGHT+ Fore.BLUE + "IMC: {} ==> {}".format(round(self.mem.user.imc(),2),self.mem.user.imc_comment()).center(maxlength," ") + Style.RESET_ALL)
+        print (Style.BRIGHT+ "="*(maxlength) + Style.RESET_ALL)
+
+        print (Style.BRIGHT+ "{}  {}  {}  {}  {}  {}  {}  {}".format("HOUR ","NAME".ljust(maxname," "),"GRAMS".rjust(7,' '), "CALORIE".rjust(7,' '), "CARBOHY".rjust(7,' '), "PROTEIN".rjust(7,' '), "FAT".rjust(7,' '), "FIBER".rjust(7,' ')) + Style.RESET_ALL)
+        for meal in self.arr:
+            print ( "{}  {}  {}  {}  {}  {}  {}  {}".format(meal.meal_hour(), meal.fullName().ljust(maxname), a2s(meal.amount),a2s(meal.calories()), a2s(meal.carbohydrate()), a2s(meal.protein()), a2s(meal.fat()),a2s(meal.fiber())) + Style.RESET_ALL)
+
+        print (Style.BRIGHT+ "-"*(maxlength) + Style.RESET_ALL)
+        total="{} MEALS WITH THIS TOTALS".format(self.length())
+        print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}  {}".format(total.ljust(maxname+7), a2s(self.grams()), ca2s(self.calories(),self.mem.user.bmr()), ca2s(self.carbohydrate(),self.mem.user.carbohydrate()), ca2s(self.protein(), self.mem.user.protein()), ca2s(self.fat(),self.mem.user.fat()), ca2s(self.fiber(),self.mem.user.fiber())) + Style.RESET_ALL)
+        recomendations="RECOMMENDATIONS"
+        print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}  {}".format(recomendations.ljust(maxname+7), n2s(), a2s(self.mem.user.bmr()), a2s(self.mem.user.carbohydrate()), a2s(self.mem.user.protein()), a2s(self.mem.user.fat()), a2s(self.mem.user.fiber())) + Style.RESET_ALL)
+        print (Style.BRIGHT + "="*(maxlength) + Style.RESET_ALL)
 
     def qtablewidget(self, table):        
         table.setColumnCount(8)

@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtCore import QSize
-from xulpymoney.ui.Ui_frmHelp import Ui_frmHelp
+from caloriestracker.ui.Ui_frmHelp import Ui_frmHelp
 
 ## Shows a Help dialog
 class frmHelp(QDialog, Ui_frmHelp):

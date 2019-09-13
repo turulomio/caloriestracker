@@ -1,4 +1,4 @@
-## @namespace xulpymoney.libxulpymoneyfunctions
+## @namespace caloriestracker.libxulpymoneyfunctions
 ## @brief Package with all xulpymoney auxiliar functions.
 from PyQt5.QtCore import Qt,  QLocale
 from PyQt5.QtGui import QIcon,  QColor
@@ -15,36 +15,10 @@ import logging
 import pkg_resources
 import pytz
 import socket
-from xulpymoney.version import __version__, __versiondate__
-from xulpymoney.libxulpymoneytypes import eDtStrings
+from caloriestracker.libcaloriestrackertypes import eDtStrings
 
 
 _=str
-## Sets debug sustem, needs
-## @param args It's the result of a argparse     args=parser.parse_args()        
-def addDebugSystem(args):
-    logFormat = "%(asctime)s.%(msecs)03d %(levelname)s %(message)s [%(module)s:%(lineno)d]"
-    dateFormat='%F %I:%M:%S'
-
-    if args.debug=="DEBUG":#Show detailed information that can help with program diagnosis and troubleshooting. CODE MARKS
-        logging.basicConfig(level=logging.DEBUG, format=logFormat, datefmt=dateFormat)
-    elif args.debug=="INFO":#Everything is running as expected without any problem. TIME BENCHMARCKS
-        logging.basicConfig(level=logging.INFO, format=logFormat, datefmt=dateFormat)
-    elif args.debug=="WARNING":#The program continues running, but something unexpected happened, which may lead to some problem down the road. THINGS TO DO
-        logging.basicConfig(level=logging.WARNING, format=logFormat, datefmt=dateFormat)
-    elif args.debug=="ERROR":#The program fails to perform a certain function due to a bug.  SOMETHING BAD LOGIC
-        logging.basicConfig(level=logging.ERROR, format=logFormat, datefmt=dateFormat)
-    elif args.debug=="CRITICAL":#The program encounters a serious error and may stop running. ERRORS
-        logging.basicConfig(level=logging.CRITICAL, format=logFormat, datefmt=dateFormat)
-
-    logging.info("Debug level set to {}".format(args.debug))
-    
-## Adds the commons parameter of the program to argparse
-## @param parser It's a argparse.ArgumentParser
-def addCommonToArgParse(parser):
-    parser.add_argument('--version', action='version', version="{} ({})".format(__version__, __versiondate__))
-    parser.add_argument('--debug', help="Debug program information", choices=["DEBUG","INFO","WARNING","ERROR","CRITICAL"], default="ERROR")
-
 
 
 ## Changes zoneinfo from a dtaware object

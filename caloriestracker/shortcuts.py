@@ -1,4 +1,4 @@
-## @namespace xulpymoney.shortcuts
+## @namespace caloriestracker.shortcuts
 ## @brief Creates windows shortcuts
 
 import os
@@ -14,8 +14,8 @@ def create():
       shell.IID_IShellLink
     )
 
-    icon=pkg_resources.resource_filename("xulpymoney","images/xulpymoney.ico")
-    shortcut.SetPath (r'xulpymoney.exe')
+    icon=pkg_resources.resource_filename("xulpymoney","images/caloriestracker.ico")
+    shortcut.SetPath (r'caloriestracker.exe')
     shortcut.SetDescription ("Personal and financial accounting system")
     shortcut.SetIconLocation (icon, 0)
      

@@ -1,9 +1,9 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QDialog
-from xulpymoney.libxulpymoneyfunctions import b2c, c2b
-from xulpymoney.libxulpymoneytypes import eProductType
+from caloriestracker.libxulpymoneyfunctions import b2c, c2b
+from caloriestracker.libxulpymoneytypes import eProductType
 from decimal import Decimal
-from xulpymoney.ui.Ui_frmSettings import Ui_frmSettings
+from caloriestracker.ui.Ui_frmSettings import Ui_frmSettings
 
 class frmSettings(QDialog, Ui_frmSettings):
     def __init__(self, mem, parent = None, name = None, modal = False):
