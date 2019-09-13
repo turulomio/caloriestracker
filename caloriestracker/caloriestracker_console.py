@@ -1,4 +1,3 @@
-
 from datetime import datetime
 from caloriestracker.contribution import generate_contribution_dump, generate_files_from_personal_data
 from caloriestracker.admin_pg import AdminPG
@@ -7,13 +6,9 @@ from caloriestracker.libcaloriestracker import MemConsole, MealManager, CompanyP
 from caloriestracker.libcaloriestrackerfunctions import input_boolean, input_decimal, input_int, input_string, dtnaive2string
 from sys import exit
 
-
 def main():
-
-    
     mem=MemConsole()
-    mem.run()
-
+    mem.run()   
 
     if mem.args.find!=None:
         mem.data.products.order_by_name()

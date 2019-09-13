@@ -7,7 +7,6 @@ from PyQt5.QtGui import QIcon,  QColor,  QPixmap
 from PyQt5.QtWidgets import QTableWidgetItem, QApplication,   qApp,  QProgressDialog
 from argparse import ArgumentParser, RawTextHelpFormatter
 from datetime import date,  timedelta, datetime
-import logging
 
 import os
 from decimal import Decimal
@@ -21,7 +20,7 @@ from caloriestracker.database_update import database_update
 from officegenerator import OpenPyXL
 from signal import signal, SIGINT
 from sys import argv
-
+from logging import basicConfig, DEBUG, INFO, CRITICAL, ERROR,  WARNING, debug, info
 
 
 class Percentage:
@@ -39,7 +38,7 @@ class Percentage:
         elif o.__class__==Percentage:
             return o.value
         else:
-            logging.debug(o.__class__)
+            debug(o.__class__)
             return None
         
     def __repr__(self):
@@ -460,11 +459,11 @@ class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
                 changed.append(p_xlsx)
 
         #Sumary
-        logging.debug("{} Products changed".format(len(changed)))
+        debug("{} Products changed".format(len(changed)))
         for p in changed:
             print("  +", p,  p.currency.id ,  p.type.name, p.high_low, p.isin, p.agrupations.dbstring(), p.percentage, p.mode.name, p.leveraged.name, p.decimals,   p.obsolete, p.tickers)
             p.save()
-        logging.debug("{} Products added".format(len(added)))
+        debug("{} Products added".format(len(added)))
         for p in added:
             print("  +", p,  p.currency.id ,  p.type.name, p.high_low, p.isin, p.agrupations.dbstring(), p.percentage, p.mode.name, p.leveraged.name,  p.decimals, p.obsolete, p.tickers)
             ##Como tiene p.id del xlsx,save haría un update, hago un insert mínimo y luego vuelvo a grabar para que haga update
@@ -477,7 +476,7 @@ class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
         os.remove("product.xlsx")
         
         dt_string=dtaware2string(self.dtaware_internet_products_xlsx(), type=1)
-        logging.info("Product list version set to {}".format(dt_string))
+        info("Product list version set to {}".format(dt_string))
         self.mem.settingsdb.setValue("Version of products.xlsx", dt_string)
         self.mem.data.load()
 
@@ -771,7 +770,7 @@ class DBData:
         self.users=UserManager(self.mem, "select * from users", progress)
         self.users.load_last_biometrics()
         
-        logging.debug("DBData took {}".format(datetime.now()-start))
+        debug("DBData took {}".format(datetime.now()-start))
 
 class Biometrics:    
     ##Biometrics(mem)
@@ -1028,9 +1027,9 @@ class TranslationLanguageManager(ObjectManager_With_IdName_Selectable):
     ## @param id String
     def cambiar(self, id):
         filename=package_filename("caloriestracker", "i18n/caloriestracker_{}.qm".format(id))
-        logging.debug(filename)
+        debug(filename)
         self.mem.qtranslator.load(filename)
-        logging.info("TranslationLanguage changed to {}".format(id))
+        info("TranslationLanguage changed to {}".format(id))
         qApp.installTranslator(self.mem.qtranslator)
  
 
@@ -1128,6 +1127,7 @@ class Mem(QObject):
         self.con=None
         self.inittime=datetime.now()
         signal(SIGINT, self.signal_handler)
+
     def epilog(self):
         return self.tr("If you like this app, please give me a star in GitHub (https://github.com/turulomio/caloriestracker).")+"\n" + self.tr("Developed by Mariano Mu\xf1oz 2019-{} \xa9".format(__versiondate__.year))
         
@@ -1138,7 +1138,7 @@ class Mem(QObject):
         self.data=DBData(self)
         self.data.load(progress)
 
-        logging.info("Loading db data took {}".format(datetime.now()-inicio))
+        info("Loading db data took {}".format(datetime.now()-inicio))
         
     def load_translation(self):
         self.settings=QSettings()
@@ -1155,24 +1155,25 @@ class Mem(QObject):
             
     def setQTranslator(self, qtranslator):
         self.qtranslator=qtranslator
+
     ## Sets debug sustem, needs
     ## @param args It's the result of a argparse     args=parser.parse_args()        
-    def addDebugSystem(self, args):
+    def addDebugSystem(self, level):
         logFormat = "%(asctime)s.%(msecs)03d %(levelname)s %(message)s [%(module)s:%(lineno)d]"
         dateFormat='%F %I:%M:%S'
 
-        if args.debug=="DEBUG":#Show detailed information that can help with program diagnosis and troubleshooting. CODE MARKS
-            logging.basicConfig(level=logging.DEBUG, format=logFormat, datefmt=dateFormat)
-        elif args.debug=="INFO":#Everything is running as expected without any problem. TIME BENCHMARCKS
-            logging.basicConfig(level=logging.INFO, format=logFormat, datefmt=dateFormat)
-        elif args.debug=="WARNING":#The program continues running, but something unexpected happened, which may lead to some problem down the road. THINGS TO DO
-            logging.basicConfig(level=logging.WARNING, format=logFormat, datefmt=dateFormat)
-        elif args.debug=="ERROR":#The program fails to perform a certain function due to a bug.  SOMETHING BAD LOGIC
-            logging.basicConfig(level=logging.ERROR, format=logFormat, datefmt=dateFormat)
-        elif args.debug=="CRITICAL":#The program encounters a serious error and may stop running. ERRORS
-            logging.basicConfig(level=logging.CRITICAL, format=logFormat, datefmt=dateFormat)
-
-        logging.info("Debug level set to {}".format(args.debug))
+        if level=="DEBUG":#Show detailed information that can help with program diagnosis and troubleshooting. CODE MARKS
+            basicConfig(level=DEBUG, format=logFormat, datefmt=dateFormat)
+        elif level=="INFO":#Everything is running as expected without any problem. TIME BENCHMARCKS
+            basicConfig(level=INFO, format=logFormat, datefmt=dateFormat)
+        elif level=="WARNING":#The program continues running, but something unexpected happened, which may lead to some problem down the road. THINGS TO DO
+            basicConfig(level=WARNING, format=logFormat, datefmt=dateFormat)
+        elif level=="ERROR":#The program fails to perform a certain function due to a bug.  SOMETHING BAD LOGIC
+            basicConfig(level=ERROR, format=logFormat, datefmt=dateFormat)
+        elif level=="CRITICAL":#The program encounters a serious error and may stop running. ERRORS
+            basicConfig(level=CRITICAL, format=logFormat, datefmt=dateFormat)
+        print(level)
+        info("Debug level set to {}".format(level))
         
     ## Adds the commons parameter of the program to argparse
     ## @param parser It's a argparse.ArgumentParser
@@ -1189,13 +1190,14 @@ class MemConsole(Mem):
         Mem.__init__(self)
         
     def run(self):
+        self.args=self.parse_arguments()
+        self.addDebugSystem(self.args.debug) #Must be before QCoreApplication
         self.app=QCoreApplication(argv)
         self.app.setOrganizationName("caloriestracker")
         self.app.setOrganizationDomain("caloriestracker")
         self.app.setApplicationName("caloriestracker")
         self.load_translation()
-        self.args=self.parse_arguments()
-        self.addDebugSystem(self.args)
+        print(self.args)
         self.con=self.connection()
         database_update(self.con)
         self.load_db_data(False)
@@ -1240,13 +1242,13 @@ class MemCaloriestracker(Mem):
         Mem.__init__(self)
     
     def run(self):
+        self.args=self.parse_arguments()
+        self.addDebugSystem(self.args)
         self.app=QCoreApplication(argv)
         self.app.setOrganizationName("caloriestracker")
         self.app.setOrganizationDomain("caloriestracker")
         self.app.setApplicationName("caloriestracker")
         self.load_translation()
-        self.args=self.parse_arguments()
-        self.addDebugSystem(self.args)
         self.con=self.connection()
         database_update(self.con)
         self.load_db_data(False)

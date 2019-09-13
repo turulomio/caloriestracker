@@ -40,67 +40,44 @@
     </message>
 </context>
 <context>
-    <name>Core</name>
-    <message>
-        <location filename="../caloriestracker.py" line="19"/>
-        <source>You pressed &apos;Ctrl+C&apos;, exiting...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../caloriestracker.py" line="37"/>
-        <source>Personal accounting system</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../caloriestracker.py" line="37"/>
-        <source>If you like this app, please give me a star in GitHub (https://github.com/turulomio/caloriestracker).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../caloriestracker.py" line="54"/>
-        <source>Please login to the caloriestracker database</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>MealManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1411"/>
+        <location filename="../libcaloriestracker.py" line="1426"/>
         <source>Hour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1412"/>
+        <location filename="../libcaloriestracker.py" line="1427"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1413"/>
+        <location filename="../libcaloriestracker.py" line="1428"/>
         <source>Grams</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1414"/>
+        <location filename="../libcaloriestracker.py" line="1429"/>
         <source>Calories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1415"/>
+        <location filename="../libcaloriestracker.py" line="1430"/>
         <source>Carbohydrates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1416"/>
+        <location filename="../libcaloriestracker.py" line="1431"/>
         <source>Protein</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1417"/>
+        <location filename="../libcaloriestracker.py" line="1432"/>
         <source>Fat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1418"/>
+        <location filename="../libcaloriestracker.py" line="1433"/>
         <source>Fiber</source>
         <translation type="unfinished"></translation>
     </message>
@@ -108,65 +85,78 @@
 <context>
     <name>Mem</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1129"/>
-        <source>Developed by Mariano Mu&#xc3;&#xb1;oz 2019-{}</source>
+        <location filename="../libcaloriestracker.py" line="1132"/>
+        <source>If you like this app, please give me a star in GitHub (https://github.com/turulomio/caloriestracker).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libcaloriestracker.py" line="1132"/>
+        <source>Developed by Mariano Mu&#xf1;oz 2019-{} &#xa9;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MemCaloriestracker</name>
+    <message>
+        <location filename="../libcaloriestracker.py" line="1262"/>
+        <source>Report of calories</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MemConsole</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1210"/>
+        <location filename="../libcaloriestracker.py" line="1218"/>
         <source>Report of calories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1214"/>
+        <location filename="../libcaloriestracker.py" line="1222"/>
         <source>Date to show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1215"/>
+        <location filename="../libcaloriestracker.py" line="1223"/>
         <source>User id</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1216"/>
+        <location filename="../libcaloriestracker.py" line="1224"/>
         <source>Find data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1219"/>
+        <location filename="../libcaloriestracker.py" line="1227"/>
         <source>Adds a company</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1218"/>
+        <location filename="../libcaloriestracker.py" line="1226"/>
         <source>Adds a product</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1220"/>
+        <location filename="../libcaloriestracker.py" line="1228"/>
         <source>Adds biometrics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1221"/>
+        <location filename="../libcaloriestracker.py" line="1229"/>
         <source>Generate a dump to collaborate updating companies and products</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1222"/>
+        <location filename="../libcaloriestracker.py" line="1230"/>
         <source>Parses a dump and generates sql for the package and other for the collaborator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1223"/>
+        <location filename="../libcaloriestracker.py" line="1231"/>
         <source>Converts data from personal database to system after collaboration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1224"/>
+        <location filename="../libcaloriestracker.py" line="1232"/>
         <source>Show elaborated product</source>
         <translation type="unfinished"></translation>
     </message>
@@ -248,12 +238,12 @@
 <context>
     <name>UserManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1555"/>
+        <location filename="../libcaloriestracker.py" line="1570"/>
         <source>Loading {0} users from database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1558"/>
+        <location filename="../libcaloriestracker.py" line="1573"/>
         <source>Loading users...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -754,6 +744,14 @@
     <message>
         <location filename="../ui/Ui_frmSettings.py" line="196"/>
         <source>Tax gain percentage below a year</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>mem</name>
+    <message>
+        <location filename="../caloriestracker.py" line="18"/>
+        <source>Please login to the caloriestracker database</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
