@@ -1,4 +1,4 @@
-## @namespace caloriestracker.libxulpymoneyfunctions
+## @namespace caloriestracker.libcaloriestrackerfunctions
 ## @brief Package with all xulpymoney auxiliar functions.
 from PyQt5.QtCore import Qt,  QLocale
 from PyQt5.QtGui import QIcon,  QColor
@@ -24,7 +24,7 @@ _=str
 ## Changes zoneinfo from a dtaware object
 ## For example:
 ## - datetime.datetime(2018, 5, 18, 8, 12, tzinfo=<DstTzInfo 'Europe/Madrid' CEST+2:00:00 DST>)
-## - libxulpymoneyfunctions.dtaware_changes_tz(a,"Europe/London")
+## - libcaloriestrackerfunctions.dtaware_changes_tz(a,"Europe/London")
 ## - datetime.datetime(2018, 5, 18, 7, 12, tzinfo=<DstTzInfo 'Europe/London' BST+1:00:00 DST>)
 ## @param dt datetime aware object
 ## @tzname String with datetime zone. For example: "Europe/Madrid"

@@ -45,7 +45,7 @@ class Ui_frmSettings(object):
         self.lblPixmap.setSizePolicy(sizePolicy)
         self.lblPixmap.setMinimumSize(QtCore.QSize(48, 48))
         self.lblPixmap.setMaximumSize(QtCore.QSize(48, 48))
-        self.lblPixmap.setPixmap(QtGui.QPixmap(":/xulpymoney/configure.png"))
+        self.lblPixmap.setPixmap(QtGui.QPixmap(":/caloriestracker/configure.png"))
         self.lblPixmap.setScaledContents(True)
         self.lblPixmap.setAlignment(QtCore.Qt.AlignCenter)
         self.lblPixmap.setObjectName("lblPixmap")
@@ -196,4 +196,3 @@ class Ui_frmSettings(object):
         self.label_7.setText(_translate("frmSettings", "Tax gain percentage below a year"))
         self.spnGainsPercentajeBelow.setSuffix(_translate("frmSettings", " %"))
 import caloriestracker.images.caloriestracker_rc
-import xulpymoney_rc

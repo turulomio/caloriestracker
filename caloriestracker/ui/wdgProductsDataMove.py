@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QTableWidgetItem,  QMessageBox
 from caloriestracker.ui.Ui_wdgProductsDataMove import Ui_wdgProductsDataMove
-from caloriestracker.libxulpymoneyfunctions import qcenter, qright
+from caloriestracker.libcaloriestrackerfunctions import qcenter, qright
 
 class wdgProductsDataMove(QWidget, Ui_wdgProductsDataMove):
     def __init__(self, mem,  origin, destiny, parent = None, name = None, modal = False):

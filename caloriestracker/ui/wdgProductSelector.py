@@ -2,8 +2,8 @@ from PyQt5.QtCore import pyqtSignal, Qt
 from PyQt5.QtGui import QIcon, QPixmap, QFont
 from PyQt5.QtWidgets import QWidget, QDialog, QLabel, QLineEdit, QHBoxLayout, QToolButton, QVBoxLayout, QSizePolicy, QSpacerItem, QAbstractItemView
 from caloriestracker.ui.myqtablewidget import myQTableWidget
-from caloriestracker.libxulpymoney import ProductManager, ManagerSelectionMode
-from caloriestracker.libxulpymoneyfunctions import qmessagebox
+from caloriestracker.libcaloriestracker import ProductManager, ManagerSelectionMode
+from caloriestracker.libcaloriestrackerfunctions import qmessagebox
 
 class wdgProductSelector(QWidget):
     """Para usarlo promocionar un qwidget en designer y darle los comportamientos de tamaña que neceseite

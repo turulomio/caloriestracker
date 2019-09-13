@@ -73,4 +73,3 @@ class Ui_wdgCuriosity(object):
     def retranslateUi(self, wdgCuriosity):
         pass
 import caloriestracker.images.caloriestracker_rc
-import xulpymoney_rc

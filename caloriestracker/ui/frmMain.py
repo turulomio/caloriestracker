@@ -32,6 +32,7 @@ class frmMain(QMainWindow, Ui_frmMain):
         self.statusBar.addWidget(QLabel(self.mem.con.url_string()))
 
         self.mem.load_db_data() ##CARGA TODOS LOS DATOS Y LOS VINCULA       
+        self.mem.user=self.mem.data.users.find_by_id(1)
   
         if self.mem.con.is_superuser():
             self.setWindowTitle(self.tr("Calories Tracker 2019-{0} \xa9 (Admin mode)").format(__versiondate__.year))#print ("Xulpymoney 2010-{0} © €".encode('unicode-escape'))

@@ -3,8 +3,8 @@ from PyQt5.QtWidgets import QWidget, QDialog, QVBoxLayout, QMenu, QMessageBox
 from caloriestracker.ui.Ui_wdgProducts import Ui_wdgProducts
 from caloriestracker.ui.frmProductReport import frmProductReport
 from caloriestracker.libmanagers import ManagerSelectionMode
-from caloriestracker.libxulpymoney import QuoteAllIntradayManager
-from caloriestracker.libxulpymoneyfunctions import qmessagebox
+from caloriestracker.libcaloriestracker import QuoteAllIntradayManager
+from caloriestracker.libcaloriestrackerfunctions import qmessagebox
 from caloriestracker.ui.frmQuotesIBM import frmQuotesIBM
 from caloriestracker.ui.wdgProductsDataMove import wdgProductsDataMove
 from caloriestracker.ui.frmEstimationsAdd import frmEstimationsAdd

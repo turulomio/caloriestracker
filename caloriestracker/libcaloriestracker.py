@@ -1244,15 +1244,12 @@ class MemCaloriestracker(Mem):
     def run(self):
         self.args=self.parse_arguments()
         self.addDebugSystem(self.args)
-        self.app=QCoreApplication(argv)
+        self.app=QApplication(argv)
         self.app.setOrganizationName("caloriestracker")
         self.app.setOrganizationDomain("caloriestracker")
         self.app.setApplicationName("caloriestracker")
         self.load_translation()
-        self.con=self.connection()
-        database_update(self.con)
-        self.load_db_data(False)
-        self.user=self.data.users.find_by_id(1)
+        self.con=None
 
         self.frmMain=None #Pointer to mainwidget
         self.closing=False#Used to close threads

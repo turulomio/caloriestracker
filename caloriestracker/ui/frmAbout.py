@@ -8,8 +8,8 @@ from PyQt5.QtWidgets import QDialog
 from PyQt5.QtGui import QDesktopServices
 from PyQt5.QtCore import QUrl, PYQT_VERSION_STR
 from PyQt5.QtChart import PYQT_CHART_VERSION_STR
-from caloriestracker.libxulpymoneyfunctions import qcenter, qempty, qright, string2datetime, qleft
-from caloriestracker.libxulpymoneytypes import eProductType
+from caloriestracker.libcaloriestrackerfunctions import qcenter, qempty, qright, string2datetime, qleft
+from caloriestracker.libcaloriestrackertypes import eProductType
 from caloriestracker.ui.Ui_frmAbout import Ui_frmAbout
 from caloriestracker.version import __version__,  __versiondate__
 

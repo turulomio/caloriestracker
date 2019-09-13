@@ -1,4 +1,4 @@
-## @namespace caloriestracker.libxulpymoneytypes
+## @namespace caloriestracker.libcaloriestrackertypes
 ## @brief Package with all xulpymoney types.
 from PyQt5.QtGui import QColor
 

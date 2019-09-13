@@ -2,7 +2,7 @@ from PyQt5.QtCore import pyqtSignal,  pyqtSlot
 from PyQt5.QtWidgets import QWidget
 import datetime
 from caloriestracker.ui.Ui_wdgDatetime import Ui_wdgDatetime
-from caloriestracker.libxulpymoneyfunctions import dtaware
+from caloriestracker.libcaloriestrackerfunctions import dtaware
 
 class wdgDatetime(QWidget, Ui_wdgDatetime):
     """Usage:

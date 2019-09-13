@@ -82,7 +82,7 @@
           </size>
          </property>
          <property name="pixmap">
-          <pixmap>:/xulpymoney/configure.png</pixmap>
+          <pixmap resource="../images/caloriestracker.qrc">:/caloriestracker/configure.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -344,7 +344,7 @@
  </widget>
  <resources>
   <include location="../images/caloriestracker.qrc"/>
-  <include location="../images/xulpymoney.qrc"/>
+  <include location="../images/caloriestracker.qrc"/>
  </resources>
  <connections/>
 </ui>
