@@ -170,4 +170,3 @@ class Ui_frmAccess(object):
         self.lblUser.setText(_translate("frmAccess", "User"))
         self.lblPass.setText(_translate("frmAccess", "Password"))
 import caloriestracker.images.caloriestracker_rc
-import xulpymoney_rc

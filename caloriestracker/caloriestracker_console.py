@@ -1,21 +1,14 @@
 
-from colorama import Fore, Style
 from datetime import datetime
 from caloriestracker.contribution import generate_contribution_dump, generate_files_from_personal_data
 from caloriestracker.admin_pg import AdminPG
 from caloriestracker.database_update import database_update
 from caloriestracker.libcaloriestracker import MemConsole, MealManager, CompanyPersonal, Meal, ProductPersonal, ProductElaborated
 from caloriestracker.libcaloriestrackerfunctions import input_boolean, input_decimal, input_int, input_string, dtnaive2string
-from signal import signal, SIGINT
 from sys import exit
-_=str
 
-def signal_handler(signal, frame):
-        print(Style.BRIGHT+Fore.RED+"You pressed 'Ctrl+C', exiting...")
-        exit(1)
 
 def main():
-    signal(SIGINT, signal_handler)
 
     
     mem=MemConsole()

@@ -19,6 +19,7 @@ from caloriestracker.version import __version__, __versiondate__
 from colorama import Fore, Style
 from caloriestracker.database_update import database_update
 from officegenerator import OpenPyXL
+from signal import signal, SIGINT
 from sys import argv
 
 
@@ -1125,8 +1126,10 @@ class Mem(QObject):
     def __init__(self):
         QObject.__init__(self)
         self.con=None
+        self.inittime=datetime.now()
+        signal(SIGINT, self.signal_handler)
     def epilog(self):
-        return self.tr("Developed by Mariano Muñoz 2019-{}".format(datetime.now().year))
+        return self.tr("If you like this app, please give me a star in GitHub (https://github.com/turulomio/caloriestracker).")+"\n" + self.tr("Developed by Mariano Mu\xf1oz 2019-{} \xa9".format(__versiondate__.year))
         
     def load_db_data(self, progress=True):
         """Esto debe ejecutarse una vez establecida la conexión"""
@@ -1177,6 +1180,9 @@ class Mem(QObject):
         parser.add_argument('--version', action='version', version="{} ({})".format(__version__, __versiondate__))
         parser.add_argument('--debug', help="Debug program information", choices=["DEBUG","INFO","WARNING","ERROR","CRITICAL"], default="ERROR")
 
+    def signal_handler(self, signal, frame):
+            print(Style.BRIGHT+Fore.RED+"You pressed 'Ctrl+C', exiting...")
+            exit(1)
 
 class MemConsole(Mem):
     def __init__(self):
@@ -1207,7 +1213,7 @@ class MemConsole(Mem):
         
     
     def parse_arguments(self):
-        self.parser=ArgumentParser(prog='calories', description=self.tr('Report of calories'), epilog=self.epilog(), formatter_class=RawTextHelpFormatter)
+        self.parser=ArgumentParser(prog='caloriestracker_console', description=self.tr('Report of calories'), epilog=self.epilog(), formatter_class=RawTextHelpFormatter)
         self. addCommonToArgParse(self.parser)
         argparse_connection_arguments_group(self.parser, default_db="caloriestracker")
         group = self.parser.add_argument_group("Find parameters")
@@ -1230,25 +1236,32 @@ class MemConsole(Mem):
         return args
 
 class MemCaloriestracker(Mem):
-    def __init__(self):
+    def __init__(self):        
         Mem.__init__(self)
-        self.app=QApplication()
+    
+    def run(self):
+        self.app=QCoreApplication(argv)
         self.app.setOrganizationName("caloriestracker")
         self.app.setOrganizationDomain("caloriestracker")
         self.app.setApplicationName("caloriestracker")
         self.load_translation()
-        
-        self.settingsdb=SettingsDB(self)
-        
-        self.inittime=datetime.now()#Tiempo arranca el config
-        self.dbinitdate=None#Fecha de inicio bd.
-        self.con=None#Conexión        
-        
-#        
+        self.args=self.parse_arguments()
+        self.addDebugSystem(self.args)
+        self.con=self.connection()
+        database_update(self.con)
+        self.load_db_data(False)
+        self.user=self.data.users.find_by_id(1)
+
         self.frmMain=None #Pointer to mainwidget
         self.closing=False#Used to close threads
         self.url_wiki="https://github.com/turulomio/caloriestracker/wiki"
-
+    
+    def parse_arguments(self):
+        self.parser=ArgumentParser(prog='calories', description=self.tr('Report of calories'), epilog=self.epilog(), formatter_class=RawTextHelpFormatter)
+        self. addCommonToArgParse(self.parser)
+        args=self.parser.parse_args()
+        #Changing types of args
+        return args
         
     def qicon_admin(self):
         icon = QIcon()

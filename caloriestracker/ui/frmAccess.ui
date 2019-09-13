@@ -308,7 +308,6 @@
  </tabstops>
  <resources>
   <include location="../images/caloriestracker.qrc"/>
-  <include location="../images/xulpymoney.qrc"/>
  </resources>
  <connections/>
 </ui>

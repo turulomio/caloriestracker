@@ -1,5 +1,4 @@
 SOURCES         = \
-                  caloriestracker/libcaloriestracker.py \
                   caloriestracker/ui/canvaschart.py \
                   caloriestracker/ui/frmAbout.py \
                   caloriestracker/ui/Ui_frmAbout.py \
@@ -29,7 +28,9 @@ SOURCES         = \
                   caloriestracker/ui/Ui_wdgYear.py \
                   caloriestracker/ui/wdgYearMonth.py \
                   caloriestracker/ui/Ui_wdgYearMonth.py \
-                  caloriestracker/caloriestracker.py 
+                  caloriestracker/caloriestracker.py \
+                  caloriestracker/libcaloriestracker.py \
+                  caloriestracker/caloriestracker_console.py
 
 FORMS           = \
                   caloriestracker/ui/frmAbout.ui \
@@ -38,6 +39,7 @@ FORMS           = \
                   caloriestracker/ui/frmMain.ui \
                   caloriestracker/ui/frmSettings.ui \
                   caloriestracker/ui/wdgDatetime.ui \
+                  caloriestracker/ui/wdgMeals.ui \
                   caloriestracker/ui/wdgProducts.ui \
                   caloriestracker/ui/wdgProductsDataMove.ui \
                   caloriestracker/ui/wdgYear.ui \

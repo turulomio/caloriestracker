@@ -3,7 +3,7 @@ from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import QDialog
 from caloriestracker.ui.Ui_frmAccess import Ui_frmAccess
 from caloriestracker.connection_pg_qt import ConnectionQt
-from caloriestracker.libxulpymoneyfunctions import qmessagebox
+from caloriestracker.libcaloriestrackerfunctions import qmessagebox
 
 class frmAccess(QDialog, Ui_frmAccess):
     def __init__(self, mem, parent = None, name = None, modal = False):
