@@ -10,6 +10,7 @@ from caloriestracker.libcaloriestrackerfunctions import  string2date
 from caloriestracker.version import __version__, __versiondate__
 from colorama import Fore, Style
 from caloriestracker.database_update import database_update
+from caloriestracker.package_resources import package_filename
 from signal import signal, SIGINT
 from sys import argv
 from caloriestracker.translationlanguages import TranslationLanguageManager
@@ -92,10 +93,13 @@ class MemConsole(Mem):
                 
     def load_translation(self):
         self.setQTranslator(QTranslator(self.app))
-        self.languages=TranslationLanguageManager(self)
+        self.languages=TranslationLanguageManager()
         self.languages.load_all()
         self.languages.selected=self.languages.find_by_id(self.settings.value("mem/language", "en"))
-        self.languages.cambiar(self.language.id)
+        filename=package_filename("caloriestracker", "i18n/caloriestracker_{}.qm".format(self.languages.selected.id))
+        self.qtranslator.load(filename)
+        info("TranslationLanguage changed to {}".format(self.languages.selected.id))
+        self.app.installTranslator(self.qtranslator)
 
     def connection(self):
         con=Connection()
