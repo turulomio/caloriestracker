@@ -134,6 +134,12 @@ class frmMain(QMainWindow, Ui_frmMain):
         self.w=wdgCuriosities(self.mem,  self)
         self.layout.addWidget(self.w)
         self.w.show()
+        
+    @pyqtSlot()  
+    def on_actionBiometricsAdd_triggered(self):
+        from caloriestracker.ui.frmBiometricsAdd import frmBiometricsAdd
+        w=frmBiometricsAdd(self.mem,  self)
+        w.exec_()
     
     @pyqtSlot()  
     def on_actionProductsUser_triggered(self):

@@ -97,10 +97,17 @@
      <string>Companies</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuBiometrics">
+    <property name="title">
+     <string>Biometrics</string>
+    </property>
+    <addaction name="actionBiometricsAdd"/>
+   </widget>
    <addaction name="menuXulpymoney"/>
    <addaction name="menuCompanies"/>
    <addaction name="menuProducts"/>
    <addaction name="menuMealss"/>
+   <addaction name="menuBiometrics"/>
    <addaction name="menuInformes"/>
    <addaction name="menuAyuda"/>
   </widget>
@@ -284,6 +291,18 @@
    </property>
    <property name="toolTip">
     <string>Meals</string>
+   </property>
+  </action>
+  <action name="actionBiometricsAdd">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/add.png</normaloff>:/caloriestracker/add.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add biometrics</string>
+   </property>
+   <property name="toolTip">
+    <string>Add biometrics</string>
    </property>
   </action>
  </widget>
