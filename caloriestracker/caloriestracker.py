@@ -13,14 +13,16 @@ def main():
     
     mem=MemCaloriestracker()
     mem.run()
+    mem.access=frmAccess("frmAccess")
+    mem.access.setResources(":/caloriestracker/books.png", ":/caloriestracker/meals.svg")
+    mem.access.setLabel(mem.tr("Please login to the Calories Tracker database"))
+    mem.access.exec_()
+    
 
-    access=frmAccess(mem)
-    access.setLabel(mem.tr("Please login to the caloriestracker database"))
-    access.config_load()
-    access.exec_()
-
-    if access.result()==QDialog.Accepted:
-        mem.con=access.con
+    if mem.access.result()==QDialog.Accepted:
+        mem.con=mem.access.con
+        mem.settings=mem.access.settings
+        mem.setLocalzone()#Needs settings in mem
 
         mem.frmMain = frmMain(mem)
         mem.frmMain.show()

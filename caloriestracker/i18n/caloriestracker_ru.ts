@@ -3,25 +3,38 @@
 <context>
     <name>BiometricsManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="814"/>
+        <location filename="../libcaloriestracker.py" line="882"/>
         <source>Loading {0} biometrics from database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="817"/>
+        <location filename="../libcaloriestracker.py" line="885"/>
         <source>Loading biometrics...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CompaniesAndProducts</name>
+    <message>
+        <location filename="../libcaloriestracker.py" line="973"/>
+        <source>Company name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libcaloriestracker.py" line="974"/>
+        <source>Products</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>CompanyPersonalManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="160"/>
+        <location filename="../libcaloriestracker.py" line="153"/>
         <source>Loading {0} personal companies from database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="163"/>
+        <location filename="../libcaloriestracker.py" line="156"/>
         <source>Loading personal companies...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -29,68 +42,91 @@
 <context>
     <name>CompanySystemManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="137"/>
+        <location filename="../libcaloriestracker.py" line="130"/>
         <source>Loading {0} system companies from database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="140"/>
+        <location filename="../libcaloriestracker.py" line="133"/>
         <source>Loading system companies...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Core</name>
+    <message>
+        <location filename="../ui/qtablewidgetitems.py" line="16"/>
+        <source>True</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/qtablewidgetitems.py" line="19"/>
+        <source>False</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MealManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1426"/>
+        <location filename="../libcaloriestracker.py" line="1308"/>
         <source>Hour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1427"/>
+        <location filename="../libcaloriestracker.py" line="1309"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1428"/>
+        <location filename="../libcaloriestracker.py" line="1310"/>
         <source>Grams</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1429"/>
+        <location filename="../libcaloriestracker.py" line="1311"/>
         <source>Calories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1430"/>
+        <location filename="../libcaloriestracker.py" line="1312"/>
         <source>Carbohydrates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1431"/>
+        <location filename="../libcaloriestracker.py" line="1313"/>
         <source>Protein</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1432"/>
+        <location filename="../libcaloriestracker.py" line="1314"/>
         <source>Fat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1433"/>
+        <location filename="../libcaloriestracker.py" line="1315"/>
         <source>Fiber</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libcaloriestracker.py" line="1330"/>
+        <source>Total</source>
+        <translation type="unfinished">общий</translation>
+    </message>
+    <message>
+        <location filename="../libcaloriestracker.py" line="1338"/>
+        <source>Recomendatios</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Mem</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1132"/>
+        <location filename="../mem.py" line="27"/>
         <source>If you like this app, please give me a star in GitHub (https://github.com/turulomio/caloriestracker).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1132"/>
+        <location filename="../mem.py" line="27"/>
         <source>Developed by Mariano Mu&#xf1;oz 2019-{} &#xa9;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -98,7 +134,7 @@
 <context>
     <name>MemCaloriestracker</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1262"/>
+        <location filename="../mem.py" line="151"/>
         <source>Report of calories</source>
         <translation type="unfinished"></translation>
     </message>
@@ -106,88 +142,136 @@
 <context>
     <name>MemConsole</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1218"/>
+        <location filename="../mem.py" line="111"/>
         <source>Report of calories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1222"/>
+        <location filename="../mem.py" line="115"/>
         <source>Date to show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1223"/>
+        <location filename="../mem.py" line="116"/>
         <source>User id</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1224"/>
+        <location filename="../mem.py" line="117"/>
         <source>Find data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1227"/>
+        <location filename="../mem.py" line="120"/>
         <source>Adds a company</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1226"/>
+        <location filename="../mem.py" line="119"/>
         <source>Adds a product</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1228"/>
+        <location filename="../mem.py" line="121"/>
         <source>Adds biometrics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1229"/>
+        <location filename="../mem.py" line="122"/>
         <source>Generate a dump to collaborate updating companies and products</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1230"/>
+        <location filename="../mem.py" line="123"/>
         <source>Parses a dump and generates sql for the package and other for the collaborator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1231"/>
+        <location filename="../mem.py" line="124"/>
         <source>Converts data from personal database to system after collaboration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1232"/>
+        <location filename="../mem.py" line="125"/>
         <source>Show elaborated product</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Product</name>
+    <message>
+        <location filename="../libcaloriestracker.py" line="1039"/>
+        <source>Elaborated by me</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ProductManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="223"/>
+        <location filename="../libcaloriestracker.py" line="232"/>
         <source>Loading {0} products from database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="247"/>
+        <location filename="../libcaloriestracker.py" line="288"/>
         <source>Loading products...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="244"/>
+        <location filename="../libcaloriestracker.py" line="285"/>
         <source>Loading additional data to {0} products from database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libcaloriestracker.py" line="251"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libcaloriestracker.py" line="252"/>
+        <source>Company</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libcaloriestracker.py" line="253"/>
+        <source>Grams</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libcaloriestracker.py" line="254"/>
+        <source>Calories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libcaloriestracker.py" line="255"/>
+        <source>Carbohydrates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libcaloriestracker.py" line="256"/>
+        <source>Protein</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libcaloriestracker.py" line="257"/>
+        <source>Fat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libcaloriestracker.py" line="258"/>
+        <source>Fiber</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ProductPersonalManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="493"/>
+        <location filename="../libcaloriestracker.py" line="534"/>
         <source>Loading {0} personal products from database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="496"/>
+        <location filename="../libcaloriestracker.py" line="537"/>
         <source>Loading personal products...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -195,42 +279,42 @@
 <context>
     <name>ProductsInElaboratedProduct</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="710"/>
+        <location filename="../libcaloriestracker.py" line="750"/>
         <source>Hour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="711"/>
+        <location filename="../libcaloriestracker.py" line="751"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="712"/>
+        <location filename="../libcaloriestracker.py" line="752"/>
         <source>Grams</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="713"/>
+        <location filename="../libcaloriestracker.py" line="753"/>
         <source>Calories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="714"/>
+        <location filename="../libcaloriestracker.py" line="754"/>
         <source>Carbohydrates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="715"/>
+        <location filename="../libcaloriestracker.py" line="755"/>
         <source>Protein</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="716"/>
+        <location filename="../libcaloriestracker.py" line="756"/>
         <source>Fat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="717"/>
+        <location filename="../libcaloriestracker.py" line="757"/>
         <source>Fiber</source>
         <translation type="unfinished"></translation>
     </message>
@@ -238,12 +322,12 @@
 <context>
     <name>UserManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1570"/>
+        <location filename="../libcaloriestracker.py" line="1467"/>
         <source>Loading {0} users from database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1573"/>
+        <location filename="../libcaloriestracker.py" line="1470"/>
         <source>Loading users...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -274,153 +358,88 @@
 <context>
     <name>frmAbout</name>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="349"/>
+        <location filename="../ui/Ui_frmAbout.py" line="291"/>
         <source>Xulpymoney</source>
         <translation>Xulpymoney</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="373"/>
-        <source>Total</source>
-        <translation>общий</translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmAbout.py" line="361"/>
-        <source>N&#xc3;&#xba;mero de Deuda p&#xc3;&#xba;blica</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmAbout.py" line="363"/>
-        <source>N&#xc3;&#xba;mero de Deuda privada</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmAbout.py" line="400"/>
+        <location filename="../ui/Ui_frmAbout.py" line="320"/>
         <source>License</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="351"/>
-        <source>Shares products number</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmAbout.py" line="353"/>
-        <source>Funds number</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmAbout.py" line="355"/>
-        <source>Indexes number</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmAbout.py" line="357"/>
-        <source>ETF  number</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmAbout.py" line="359"/>
-        <source>Warrants number</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmAbout.py" line="369"/>
-        <source>Obsolete products</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmAbout.py" line="371"/>
-        <source>Effective products</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmAbout.py" line="374"/>
+        <location filename="../ui/Ui_frmAbout.py" line="294"/>
         <source>Products</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="399"/>
+        <location filename="../ui/Ui_frmAbout.py" line="319"/>
         <source>Software used</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="378"/>
+        <location filename="../ui/Ui_frmAbout.py" line="298"/>
         <source>Colorama</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="380"/>
+        <location filename="../ui/Ui_frmAbout.py" line="300"/>
         <source>OfficeGenerator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="386"/>
+        <location filename="../ui/Ui_frmAbout.py" line="306"/>
         <source>PyQt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="388"/>
+        <location filename="../ui/Ui_frmAbout.py" line="308"/>
         <source>PyQtCharts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="390"/>
+        <location filename="../ui/Ui_frmAbout.py" line="310"/>
         <source>Python</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="398"/>
+        <location filename="../ui/Ui_frmAbout.py" line="318"/>
         <source>Url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="392"/>
+        <location filename="../ui/Ui_frmAbout.py" line="312"/>
         <source>Python-stdnum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="365"/>
-        <source>CFD number</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmAbout.py" line="367"/>
-        <source>Futures number</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmAbout.py" line="396"/>
+        <location filename="../ui/Ui_frmAbout.py" line="316"/>
         <source>Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="375"/>
+        <location filename="../ui/Ui_frmAbout.py" line="295"/>
         <source>Xulpymoney is an Open Source application. It uses the following software:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="376"/>
+        <location filename="../ui/Ui_frmAbout.py" line="296"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Make click in the url to open link to the project main page&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="382"/>
+        <location filename="../ui/Ui_frmAbout.py" line="302"/>
         <source>PostgreSQL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="384"/>
+        <location filename="../ui/Ui_frmAbout.py" line="304"/>
         <source>Psycopg</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="394"/>
+        <location filename="../ui/Ui_frmAbout.py" line="314"/>
         <source>Pytz</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/frmAbout.py" line="24"/>
-        <source>Web page is in &lt;a href=&quot;http://github.com/turulomio/xulpymoney/&quot;&gt;http://github.com/turulomio/xulpymoney/&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -439,52 +458,62 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../ui/Ui_frmAbout.py" line="293"/>
+        <source>Calories Tracker</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/frmAbout.py" line="24"/>
+        <source>Web page is in &lt;a href=&quot;http://github.com/turulomio/caloriestracker/&quot;&gt;http://github.com/turulomio/caloriestracker/&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../ui/frmAbout.py" line="39"/>
-        <source>Last products synchronization was at {}</source>
+        <source>Database version is: {}</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>frmAccess</name>
     <message>
-        <location filename="../ui/Ui_frmAccess.py" line="166"/>
+        <location filename="../ui/Ui_frmAccess.py" line="162"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAccess.py" line="167"/>
+        <location filename="../ui/Ui_frmAccess.py" line="163"/>
         <source>Server</source>
         <translation>сервер</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAccess.py" line="168"/>
+        <location filename="../ui/Ui_frmAccess.py" line="164"/>
         <source>Port</source>
         <translation>
 Пуэрто-</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAccess.py" line="169"/>
+        <location filename="../ui/Ui_frmAccess.py" line="165"/>
         <source>Database</source>
         <translation>база данных</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAccess.py" line="170"/>
+        <location filename="../ui/Ui_frmAccess.py" line="166"/>
         <source>User</source>
         <translation>пользователь</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAccess.py" line="171"/>
+        <location filename="../ui/Ui_frmAccess.py" line="167"/>
         <source>Password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmAccess.py" line="20"/>
-        <source>Xulpymoney - Access</source>
+        <location filename="../ui/frmAccess.py" line="84"/>
+        <source>Error conecting to {} database in {} server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmAccess.py" line="81"/>
-        <source>Error conecting to {} database in {} server</source>
+        <location filename="../ui/frmAccess.py" line="44"/>
+        <source>Log in PostreSQL database</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -619,7 +648,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmMain.py" line="66"/>
+        <location filename="../ui/frmMain.py" line="67"/>
         <source>Disconnecting due to {} minutes of inactivity.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -649,17 +678,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmMain.py" line="53"/>
+        <location filename="../ui/frmMain.py" line="54"/>
         <source>Update products from Internet (NEEDED)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmMain.py" line="52"/>
+        <location filename="../ui/frmMain.py" line="53"/>
         <source>Products list outdated, please upgrade it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmMain.py" line="151"/>
+        <location filename="../ui/frmMain.py" line="152"/>
         <source>Update products from Internet</source>
         <translation type="unfinished"></translation>
     </message>
@@ -679,71 +708,64 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmMain.py" line="37"/>
+        <location filename="../ui/frmMain.py" line="38"/>
         <source>Calories Tracker 2019-{0} &#xa9; (Admin mode)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmMain.py" line="40"/>
+        <location filename="../ui/frmMain.py" line="41"/>
         <source>Calories Tracker 2019-{0} &#xa9;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>frmMealsAdd</name>
+    <message>
+        <location filename="../ui/Ui_frmMealsAdd.py" line="71"/>
+        <source>Managing meals</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmMealsAdd.py" line="72"/>
+        <source>Select a product</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmMealsAdd.py" line="73"/>
+        <source>Add an amount</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmMealsAdd.py" line="74"/>
+        <source> g</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>frmSettings</name>
     <message>
-        <location filename="../ui/Ui_frmSettings.py" line="185"/>
-        <source>Xulpymoney settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmSettings.py" line="186"/>
+        <location filename="../ui/Ui_frmSettings.py" line="105"/>
         <source>User settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmSettings.py" line="187"/>
+        <location filename="../ui/Ui_frmSettings.py" line="106"/>
         <source>Select a language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmSettings.py" line="188"/>
-        <source>Main currency</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmSettings.py" line="189"/>
+        <location filename="../ui/Ui_frmSettings.py" line="107"/>
         <source>User datetime zone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmSettings.py" line="190"/>
-        <source>Benchmark</source>
+        <location filename="../ui/Ui_frmSettings.py" line="103"/>
+        <source>Application settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmSettings.py" line="191"/>
-        <source>Dividend withholding percentage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmSettings.py" line="197"/>
-        <source> %</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmSettings.py" line="193"/>
-        <source>Tax gain percentage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmSettings.py" line="195"/>
-        <source>Capital gains over a year have a different tax</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmSettings.py" line="196"/>
-        <source>Tax gain percentage below a year</source>
+        <location filename="../ui/Ui_frmSettings.py" line="104"/>
+        <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -751,151 +773,99 @@
     <name>mem</name>
     <message>
         <location filename="../caloriestracker.py" line="18"/>
-        <source>Please login to the caloriestracker database</source>
+        <source>Please login to the Calories Tracker database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../caloriestracker_console.py" line="14"/>
+        <source>Start mem took {}</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>myQTableWidget</name>
     <message>
-        <location filename="../ui/myqtablewidget.py" line="97"/>
+        <location filename="../ui/myqtablewidget.py" line="96"/>
         <source>Save File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/myqtablewidget.py" line="97"/>
+        <location filename="../ui/myqtablewidget.py" line="96"/>
         <source>Libreoffice calc (*.ods)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>self.mem</name>
+    <message>
+        <location filename="../libcaloriestracker.py" line="960"/>
+        <source>Companies:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libcaloriestracker.py" line="964"/>
+        <source>Products:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>wdgCuriosities</name>
     <message>
-        <location filename="../ui/wdgCuriosities.py" line="15"/>
-        <source>Since when there is data in the database?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgCuriosities.py" line="20"/>
-        <source>Which is the investment I gain more money in the last three years?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgCuriosities.py" line="29"/>
-        <source>You still hasn&apos;t gains</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgCuriosities.py" line="31"/>
-        <source>The investment I gain more money is {} in {} ({}). I got {}.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgCuriosities.py" line="36"/>
-        <source>Which is the product I gain more money in the last three years?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgCuriosities.py" line="41"/>
-        <source>Which is the benchmark highest and lowest price?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgCuriosities.py" line="43"/>
-        <source>Current benchmarck hasn&apos;t data.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgCuriosities.py" line="47"/>
-        <source>Current benchmarck ({}) highest price is {}. It took place at {}. Lowest price is {} and took place at {}.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgCuriosities.py" line="51"/>
-        <source>How many quotes are there in the database?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgCuriosities.py" line="52"/>
-        <source>There are {} quotes in this Xulpymoney database.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgCuriosities.py" line="56"/>
-        <source>Which product has the highest quote?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgCuriosities.py" line="63"/>
-        <source>Which is the amount of the largest account operation?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgCuriosities.py" line="66"/>
-        <source>The largest account operation took place at {}. It&apos;s concept was &apos;{}&apos; and it&apos;s amount was {}.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgCuriosities.py" line="68"/>
-        <source>There are not account operations yet.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgCuriosities.py" line="72"/>
-        <source>Which is the amount of the largest credit card operation?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgCuriosities.py" line="77"/>
-        <source>Which is the amount of the largest investment operation?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../ui/Ui_wdgCuriosities.py" line="52"/>
         <source>Xulpymoney curiosities</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/wdgCuriosities.py" line="13"/>
+        <source>Curiosity 1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/wdgCuriosities.py" line="17"/>
+        <source>Curiosity 2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>wdgDatetime</name>
     <message>
-        <location filename="../ui/Ui_wdgDatetime.py" line="103"/>
+        <location filename="../ui/Ui_wdgDatetime.py" line="106"/>
         <source>Select a datetime</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_wdgDatetime.py" line="104"/>
+        <location filename="../ui/Ui_wdgDatetime.py" line="107"/>
         <source>Select a time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_wdgDatetime.py" line="105"/>
+        <location filename="../ui/Ui_wdgDatetime.py" line="108"/>
         <source>HH:mm:ss</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_wdgDatetime.py" line="106"/>
+        <location filename="../ui/Ui_wdgDatetime.py" line="109"/>
         <source>Select microseconds</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_wdgDatetime.py" line="107"/>
+        <location filename="../ui/Ui_wdgDatetime.py" line="110"/>
         <source>Set current time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_wdgDatetime.py" line="108"/>
+        <location filename="../ui/Ui_wdgDatetime.py" line="111"/>
         <source>Now</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/wdgDatetime.py" line="117"/>
+        <location filename="../ui/wdgDatetime.py" line="141"/>
         <source>Selected datetime:
 {0}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/wdgDatetime.py" line="18"/>
+        <location filename="../ui/wdgDatetime.py" line="23"/>
         <source> u03bcs</source>
         <translation type="unfinished"></translation>
     </message>
@@ -903,256 +873,108 @@
 <context>
     <name>wdgMeals</name>
     <message>
-        <location filename="../ui/Ui_wdgMeals.py" line="82"/>
+        <location filename="../ui/Ui_wdgMeals.py" line="88"/>
         <source>Your meals</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_wdgMeals.py" line="83"/>
+        <location filename="../ui/Ui_wdgMeals.py" line="89"/>
         <source>Registers found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_wdgMeals.py" line="84"/>
-        <source>New product</source>
+        <location filename="../ui/Ui_wdgMeals.py" line="91"/>
+        <source>New meal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_wdgMeals.py" line="85"/>
-        <source>New user product</source>
+        <location filename="../ui/Ui_wdgMeals.py" line="93"/>
+        <source>Delete meal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_wdgMeals.py" line="86"/>
-        <source>Delete product</source>
+        <location filename="../ui/Ui_wdgMeals.py" line="95"/>
+        <source>Edit meal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_wdgMeals.py" line="87"/>
-        <source>Delete user product</source>
+        <location filename="../ui/wdgMeals.py" line="30"/>
+        <source>Asking your confirmation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/wdgMeals.py" line="30"/>
+        <source>This action can&apos;t be undone.
+Do you want to delete this record?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>wdgProducts</name>
     <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="196"/>
+        <location filename="../ui/Ui_wdgProducts.py" line="113"/>
         <source>Products list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="201"/>
-        <source>Code</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="205"/>
-        <source>ISIN</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="207"/>
-        <source>Last update</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="216"/>
+        <location filename="../ui/Ui_wdgProducts.py" line="116"/>
         <source>Registers found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="229"/>
-        <source>Ibex 35</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="240"/>
-        <source>New DPS estimation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="241"/>
-        <source>New Dividend per share estimation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="242"/>
-        <source>Purge investment</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="243"/>
-        <source>Deletes quotes innecesary. Leaves open, high, low and close quotes.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="209"/>
-        <source>Price</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="218"/>
-        <source>Product report</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="230"/>
+        <location filename="../ui/Ui_wdgProducts.py" line="117"/>
         <source>New product</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="232"/>
+        <location filename="../ui/Ui_wdgProducts.py" line="119"/>
         <source>Delete product</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="197"/>
+        <location filename="../ui/Ui_wdgProducts.py" line="114"/>
         <source>Select your search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="199"/>
-        <source>Filter by stock exchange</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="203"/>
-        <source>Product</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="220"/>
-        <source>% Daily</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="213"/>
-        <source>% Year to date</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="215"/>
-        <source>% Dividend</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="235"/>
-        <source>Add to favorites</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="222"/>
-        <source>% Annual</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="224"/>
-        <source>Name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="226"/>
-        <source>Dividend</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="228"/>
-        <source>Hour</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="237"/>
-        <source>Merge selected codes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="239"/>
-        <source>New price</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="198"/>
+        <location filename="../ui/Ui_wdgProducts.py" line="115"/>
         <source>Search by code, ISIN, ticker or product name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="231"/>
+        <location filename="../ui/Ui_wdgProducts.py" line="118"/>
         <source>New user product</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="233"/>
+        <location filename="../ui/Ui_wdgProducts.py" line="120"/>
         <source>Delete user product</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="245"/>
-        <source>Show purchase graphic</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_wdgProducts.py" line="247"/>
-        <source>Remove last product price</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgProducts.py" line="29"/>
-        <source>Found {0} records</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgProducts.py" line="64"/>
-        <source>This product can&apos;t be removed, because is a system product</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgProducts.py" line="67"/>
-        <source>Xulpymoney</source>
-        <translation type="unfinished">Xulpymoney</translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgProducts.py" line="67"/>
-        <source>Deleting data from selected product ({0}). If you use manual update mode, data won&apos;t be recovered. Do you want to continue?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgProducts.py" line="87"/>
-        <source>Purchase graph</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgProducts.py" line="133"/>
-        <source>I couldn&apos;t order data due to they have null values</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgProducts.py" line="180"/>
-        <source>Remove from favorites</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgProducts.py" line="191"/>
-        <source>Order by</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgProducts.py" line="230"/>
-        <source>Merging codes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgProducts.py" line="252"/>
-        <source>{0} quotes have been purged from {1}</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgProducts.py" line="60"/>
+        <location filename="../ui/wdgProducts.py" line="20"/>
         <source>This product can&apos;t be removed, because is marked as not remavable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/wdgProducts.py" line="143"/>
-        <source>Search too wide. You need more than 2 characters</source>
+        <location filename="../ui/Ui_wdgProducts.py" line="122"/>
+        <source>Edit product</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/wdgProducts.py" line="23"/>
+        <source>Asking your confirmation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/wdgProducts.py" line="23"/>
+        <source>This action can&apos;t be undone.
+Do you want to delete this record?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/wdgProducts.py" line="55"/>
+        <source>{} products found</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

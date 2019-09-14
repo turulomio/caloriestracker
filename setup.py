@@ -107,6 +107,8 @@ class Compile(Command):
         self.download_from_github('turulomio','reusingcode','python/frmAccess.py', 'caloriestracker/ui')
         self.download_from_github('turulomio','reusingcode','python/wdgDatetime.ui', 'caloriestracker/ui')
         self.download_from_github('turulomio','reusingcode','python/wdgDatetime.py', 'caloriestracker/ui')
+        self.download_from_github('turulomio','reusingcode','python/package_resources.py', 'caloriestracker')
+        self.download_from_github('turulomio','reusingcode','python/translationlanguages.py', 'caloriestracker')
 
 
         futures=[]

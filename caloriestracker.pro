@@ -34,7 +34,7 @@ SOURCES         = \
                   caloriestracker/caloriestracker_console.py \
                   caloriestracker/libcaloriestracker.py \
                   caloriestracker/mem.py \
-                  caloriestracker/qtablewidgetitems.py
+                  caloriestracker/ui/qtablewidgetitems.py
 
 FORMS           = \
                   caloriestracker/ui/frmAbout.ui \

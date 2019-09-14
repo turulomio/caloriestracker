@@ -5,20 +5,20 @@ from argparse import ArgumentParser, RawTextHelpFormatter
 from datetime import date,  datetime
 
 from caloriestracker.connection_pg import argparse_connection_arguments_group, Connection
-from caloriestracker.libcaloriestracker import TranslationLanguageManager, DBData
+from caloriestracker.libcaloriestracker import DBData
 from caloriestracker.libcaloriestrackerfunctions import  string2date
 from caloriestracker.version import __version__, __versiondate__
 from colorama import Fore, Style
 from caloriestracker.database_update import database_update
 from signal import signal, SIGINT
 from sys import argv
+from caloriestracker.translationlanguages import TranslationLanguageManager
 from logging import basicConfig, DEBUG, INFO, CRITICAL, ERROR, WARNING, info
 
 
 class Mem(QObject):
     def __init__(self):
         QObject.__init__(self)
-        self.settings=QSettings()
         self.con=None
         self.inittime=datetime.now()
         signal(SIGINT, self.signal_handler)
@@ -34,22 +34,12 @@ class Mem(QObject):
         self.data.load(progress)
 
         info("Loading db data took {}".format(datetime.now()-inicio))
-        
-    def load_translation(self):
-        self.setQTranslator(QTranslator(self.app))
-        self.languages=TranslationLanguageManager(self)
-        self.languages.load_all()
-        self.language=self.languages.find_by_id(self.settings.value("mem/language", "en"))
-        self.languages.cambiar(self.language.id)
-        self.localzone=self.settings.value("mem/localzone", "Europe/Madrid")
 
     def __del__(self):
         if self.con:#Cierre por reject en frmAccess
             self.con.disconnect()
         self.settings.sync()
             
-    def setQTranslator(self, qtranslator):
-        self.qtranslator=qtranslator
 
     ## Sets debug sustem, needs
     ## @param args It's the result of a argparse     args=parser.parse_args()        
@@ -83,6 +73,10 @@ class MemConsole(Mem):
     def __init__(self):
         Mem.__init__(self)
         
+        self.settings=QSettings()
+        self.localzone=self.settings.value("mem/localzone", "Europe/Madrid")
+    def setQTranslator(self, qtranslator):
+        self.qtranslator=qtranslator
     def run(self):
         self.args=self.parse_arguments()
         self.addDebugSystem(self.args.debug) #Must be before QCoreApplication
@@ -95,7 +89,14 @@ class MemConsole(Mem):
         database_update(self.con)
         self.load_db_data(False)
         self.user=self.data.users.find_by_id(1)
-        
+                
+    def load_translation(self):
+        self.setQTranslator(QTranslator(self.app))
+        self.languages=TranslationLanguageManager(self)
+        self.languages.load_all()
+        self.languages.selected=self.languages.find_by_id(self.settings.value("mem/language", "en"))
+        self.languages.cambiar(self.language.id)
+
     def connection(self):
         con=Connection()
         con.user=self.args.user
@@ -105,8 +106,7 @@ class MemConsole(Mem):
         con.get_password()
         con.connect()
         return con
-        
-    
+
     def parse_arguments(self):
         self.parser=ArgumentParser(prog='caloriestracker_console', description=self.tr('Report of calories'), epilog=self.epilog(), formatter_class=RawTextHelpFormatter)
         self. addCommonToArgParse(self.parser)
@@ -141,7 +141,6 @@ class MemCaloriestracker(Mem):
         self.app.setOrganizationName("caloriestracker")
         self.app.setOrganizationDomain("caloriestracker")
         self.app.setApplicationName("caloriestracker")
-        self.load_translation()
         self.con=None
 
         self.frmMain=None #Pointer to mainwidget
@@ -154,11 +153,14 @@ class MemCaloriestracker(Mem):
         args=self.parser.parse_args()
         return args
         
+    def setLocalzone(self):
+        self.localzone=self.settings.value("mem/localzone", "Europe/Madrid")
     
     def qicon(self):
         icon = QIcon()
         icon.addPixmap(QPixmap(":/caloriestracker/caloriestracker.svg"), QIcon.Normal, QIcon.Off)
         return icon
+
     ## Returns an icon for admin 
     def qicon_admin(self):
         icon = QIcon()

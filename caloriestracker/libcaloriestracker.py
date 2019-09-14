@@ -2,13 +2,13 @@
 ## @brief Package with all caloriestracker core classes .
 from PyQt5.QtCore import Qt,  QObject
 from PyQt5.QtGui import QIcon,  QColor
-from PyQt5.QtWidgets import QTableWidgetItem, QApplication,   qApp,  QProgressDialog, QCompleter
+from PyQt5.QtWidgets import QTableWidgetItem, QApplication, QProgressDialog, QCompleter
 from datetime import date,  timedelta, datetime
 
 import os
 from decimal import Decimal
 from caloriestracker.github import get_file_modification_dtaware
-from caloriestracker.libcaloriestrackerfunctions import str2bool, dtaware2string, package_filename, is_there_internet, input_boolean, input_integer_or_none, a2s, ca2s, n2s, rca2s
+from caloriestracker.libcaloriestrackerfunctions import str2bool, dtaware2string, is_there_internet, input_boolean, input_integer_or_none, a2s, ca2s, n2s, rca2s
 from caloriestracker.libcaloriestrackertypes import eProductComponent
 from caloriestracker.ui.qtablewidgetitems import qtime, qleft, qright, qnumber_limited, qnumber
 from caloriestracker.libmanagers import  ObjectManager_With_Id_Selectable,  ManagerSelectionMode, ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime, ObjectManager_With_IdDatetime_Selectable
@@ -1151,38 +1151,7 @@ class ProductPersonal(Product):
             self.mem.con.execute("delete from personalproducts where id=%s", (self.id, ))
         else:
             debug("I did not delete personalproducts because is not deletable")
-## Manages languages
-class TranslationLanguageManager(ObjectManager_With_IdName_Selectable):
-    def __init__(self, mem):
-        ObjectManager_With_IdName_Selectable.__init__(self)
-        self.mem=mem
-        
-    def load_all(self):
-        self.append(TranslationLanguage(self.mem, "en","English" ))
-        self.append(TranslationLanguage(self.mem, "es","Español" ))
-        self.append(TranslationLanguage(self.mem, "fr","Français" ))
-        self.append(TranslationLanguage(self.mem, "ro","Rom\xe2n" ))
-        self.append(TranslationLanguage(self.mem, "ru",'\u0420\u0443\u0441\u0441\u043a\u0438\u0439' ))
 
-    def qcombobox(self, combo, selected=None):
-        """Selected is the object"""
-        self.order_by_name()
-        for l in self.arr:
-            combo.addItem(l.name, l.id)
-        if selected!=None:
-                combo.setCurrentIndex(combo.findData(selected.id))
-
-    ## @param id String
-    def cambiar(self, id):
-        filename=package_filename("caloriestracker", "i18n/caloriestracker_{}.qm".format(id))
-        self.mem.qtranslator.load(filename)
-        info("TranslationLanguage changed to {}".format(id))
-        qApp.installTranslator(self.mem.qtranslator)
- 
-class TranslationLanguage:
-    def __init__(self, mem, id, name):
-        self.id=id
-        self.name=name
 
 class Meal:
     ##Meal(mem)

@@ -19,10 +19,6 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <property name="windowIcon">
-   <iconset>
-    <normaloff>:/images/kmplot.jpg</normaloff>:/images/kmplot.jpg</iconset>
-  </property>
   <property name="modal">
    <bool>true</bool>
   </property>
@@ -66,9 +62,6 @@
          </property>
          <property name="text">
           <string/>
-         </property>
-         <property name="pixmap">
-          <pixmap resource="../images/caloriestracker.qrc">:/caloriestracker/keki.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -306,8 +299,6 @@
   <tabstop>txtDB</tabstop>
   <tabstop>txtUser</tabstop>
  </tabstops>
- <resources>
-  <include location="../images/caloriestracker.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
