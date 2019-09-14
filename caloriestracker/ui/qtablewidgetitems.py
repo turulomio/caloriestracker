@@ -89,6 +89,7 @@ def qnumber(n, digits=2):
         a.setForeground(QColor(255, 0, 0))
     return a
 
+## Colorizes a number comparing it with a limit
 def qnumber_limited(n, limit, digits=2, reverse=False):
     a=qnumber(n, 2)
     if reverse==True:
