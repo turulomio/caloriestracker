@@ -1,12 +1,6 @@
 ## @brief Package to manage postgresql connection functions with qt timeouts
-## THIS IS FROM XULPYMONEY PACKAGE IF YOU NEED THIS MODULE PLEASE SYNC IT FROM THERE, FOR EXAMPLE
-## @code
-##       print ("Copying libmanagers.py from Xulpymoney project")
-##        os.chdir("your directory)
-##        os.remove("connection_pg.py")
-##        os.system("wget https://raw.githubusercontent.com/Turulomio/xulpymoney/master/xulpymoney/connection_pg.py  --no-clobber")
-##        os.system("sed -i -e '3i ## THIS FILE HAS BEEN DOWNLOADED AT {} FROM https://github.com/Turulomio/xulpymoney/xulpymoney/connection_pg.py.' connection_pg.py".format(datetime.datetime.now()))
-## @encode
+## THIS IS FILE IS FROM https://github.com/turulomio/reusingcode IF YOU NEED TO UPDATE IT PLEASE MAKE A PULL REQUEST IN THAT PROJECT
+## DO NOT UPDATE IT IN YOUR CODE IT WILL BE REPLACED USING FUNCTION IN README
 
 import datetime
 from PyQt5.QtCore import QObject,  pyqtSignal,  QTimer

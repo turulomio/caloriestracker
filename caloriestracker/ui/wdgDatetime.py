@@ -1,8 +1,13 @@
+## THIS IS FILE IS FROM https://github.com/turulomio/reusingcode IF YOU NEED TO UPDATE IT PLEASE MAKE A PULL REQUEST IN THAT PROJECT
+## DO NOT UPDATE IT IN YOUR CODE IT WILL BE REPLACED USING FUNCTION IN README
+
+
 from PyQt5.QtCore import pyqtSignal,  pyqtSlot
-from PyQt5.QtWidgets import QWidget
-import datetime
+from PyQt5.QtWidgets import QWidget, QCompleter
+from datetime import datetime
 from caloriestracker.ui.Ui_wdgDatetime import Ui_wdgDatetime
-from caloriestracker.libcaloriestrackerfunctions import dtaware
+from pytz import all_timezones, timezone
+
 
 class wdgDatetime(QWidget, Ui_wdgDatetime):
     """Usage:
@@ -19,7 +24,21 @@ class wdgDatetime(QWidget, Ui_wdgDatetime):
         self.showMicroseconds=True
         self.showSeconds=True
         self.showZone=True
-        self.zone=None#Set in set()                                                                                                     
+        self.localzone='UTC'#Used for now button
+
+    ## Function to create a datetime aware object
+    ## @param date date object
+    ## @param hour hour object
+    ## @param zonename String with datetime zone name. For example "Europe/Madrid"
+    ## @return datetime aware
+    def dtaware(self, date, hour, zonename):
+        z=timezone(zonename)
+        a=datetime(date.year,  date.month,  date.day,  hour.hour,  hour.minute,  hour.second, hour.microsecond)
+        a=z.localize(a)
+        return a
+
+    def setLocalzone(self, localzone):
+        self.localzone=localzone
         
     def show_microseconds(self, show):
         self.showMicroseconds=show
@@ -46,7 +65,7 @@ class wdgDatetime(QWidget, Ui_wdgDatetime):
             self.cmbZone.hide()
             
     def on_cmdNow_released(self):
-        self.set(self.mem, datetime.datetime.now(), self.mem.localzone)
+        self.set(datetime.now(), self.localzone)
 
     def setTitle(self, title):
         self.grp.setTitle(title)
@@ -56,20 +75,26 @@ class wdgDatetime(QWidget, Ui_wdgDatetime):
         self.set(mem, datetime.datetime.combine(date, time), zone)
 
 
-    def set(self,  mem, dt=None,  zone=None):
-        """Can be called several times"""
-        self.mem=mem
+    @staticmethod
+    ## @param selected is a pytz name
+    def pytz_zones_qcombobox(combo, selected):
+        combo.completer().setCompletionMode(QCompleter.PopupCompletion)
+        for tz in all_timezones:
+            combo.addItem(tz, tz)
+        if selected!=None:
+            combo.setCurrentIndex(combo.findData(selected))
+        
+    ## @param zone pytz name
+    ## @param localzone pytz name
+    def set(self, dt=None,  zone=None):
         if self.cmbZone.count()==0:#Load combo zone, before, problems with on_changed
-            self.mem.zones.qcombobox(self.cmbZone)  
+            self.pytz_zones_qcombobox(self.cmbZone, zone)
+        else:
+            self.cmbZone.setCurrentIndex(self.cmbZone.findData(zone))
             
         if dt==None or zone==None:
             self.on_cmdNow_released()
             return
-            
-        if self.showZone==False:
-            self.on_cmbZone_currentIndexChanged(self.mem.localzone.name)
-        else:
-            self.on_cmbZone_currentIndexChanged(zone.name)
         
         self.teDate.setSelectedDate(dt.date())
         
@@ -92,7 +117,7 @@ class wdgDatetime(QWidget, Ui_wdgDatetime):
         #qt only miliseconds
         time=self.teTime.time().toPyTime()
         time=time.replace(microsecond=self.teMicroseconds.value())
-        return dtaware(self.teDate.selectedDate().toPyDate(), time , self.zone.name)
+        return self.dtaware(self.teDate.selectedDate().toPyDate(), time , self.cmbZone.currentText())
 
     def on_teDate_selectionChanged(self):
         self.updateTooltip()
@@ -109,7 +134,6 @@ class wdgDatetime(QWidget, Ui_wdgDatetime):
         
     @pyqtSlot(str)      
     def on_cmbZone_currentIndexChanged(self, stri):
-        self.zone=self.mem.zones.find_by_name(stri)
         self.updateTooltip()
         self.changed.emit()
         

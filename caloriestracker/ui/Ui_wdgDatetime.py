@@ -73,6 +73,7 @@ class Ui_wdgDatetime(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.cmbZone.sizePolicy().hasHeightForWidth())
         self.cmbZone.setSizePolicy(sizePolicy)
+        self.cmbZone.setEditable(True)
         self.cmbZone.setObjectName("cmbZone")
         self.verticalLayout.addWidget(self.cmbZone)
         self.verticalLayout_2.addLayout(self.verticalLayout)

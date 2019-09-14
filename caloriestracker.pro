@@ -8,6 +8,8 @@ SOURCES         = \
                   caloriestracker/ui/frmHelp.py \
                   caloriestracker/ui/frmMain.py \
                   caloriestracker/ui/Ui_frmMain.py \
+                  caloriestracker/ui/frmMealsAdd.py \
+                  caloriestracker/ui/Ui_frmMealsAdd.py \
                   caloriestracker/ui/frmSettings.py \
                   caloriestracker/ui/Ui_frmSettings.py \
                   caloriestracker/ui/myqlineedit.py \
@@ -39,6 +41,7 @@ FORMS           = \
                   caloriestracker/ui/frmAccess.ui \
                   caloriestracker/ui/frmHelp.ui \
                   caloriestracker/ui/frmMain.ui \
+                  caloriestracker/ui/frmMealsAdd.ui \
                   caloriestracker/ui/frmSettings.ui \
                   caloriestracker/ui/wdgDatetime.ui \
                   caloriestracker/ui/wdgMeals.ui \

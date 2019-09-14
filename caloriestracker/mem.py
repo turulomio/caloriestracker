@@ -41,6 +41,7 @@ class Mem(QObject):
         self.languages.load_all()
         self.language=self.languages.find_by_id(self.settings.value("mem/language", "en"))
         self.languages.cambiar(self.language.id)
+        self.localzone=self.settings.value("mem/localzone", "Europe/Madrid")
 
     def __del__(self):
         if self.con:#Cierre por reject en frmAccess
@@ -153,6 +154,12 @@ class MemCaloriestracker(Mem):
         args=self.parser.parse_args()
         return args
         
+    
+    def qicon(self):
+        icon = QIcon()
+        icon.addPixmap(QPixmap(":/caloriestracker/caloriestracker.svg"), QIcon.Normal, QIcon.Off)
+        return icon
+    ## Returns an icon for admin 
     def qicon_admin(self):
         icon = QIcon()
         icon.addPixmap(QPixmap(":/caloriestracker/admin.png"), QIcon.Normal, QIcon.Off)

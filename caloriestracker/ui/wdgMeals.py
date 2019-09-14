@@ -20,13 +20,23 @@ class wdgMeals(QWidget, Ui_wdgMeals):
         
     @pyqtSlot()
     def on_actionMealNew_triggered(self):
-        pass
+        from caloriestracker.ui.frmMealsAdd import frmMealsAdd
+        w=frmMealsAdd(self.mem, None, self)
+        w.exec_()
+        self.on_calendar_selectionChanged()
+
     @pyqtSlot()
     def on_actionMealDelete_triggered(self):
-        pass
+        self.meals.selected.delete()
+        self.mem.con.commit()
+        self.on_calendar_selectionChanged()
+
     @pyqtSlot()
     def on_actionMealEdit_triggered(self):
-        pass
+        from caloriestracker.ui.frmMealsAdd import frmMealsAdd
+        w=frmMealsAdd(self.mem, self.meals.selected, self)
+        w.exec_()
+        self.on_calendar_selectionChanged()
 
     def on_tblMeals_itemSelectionChanged(self):
         self.meals.cleanSelection()

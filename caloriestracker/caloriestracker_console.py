@@ -41,7 +41,7 @@ def main():
         print("Selected:",  product)
         amount=input_decimal("Add the product amount: ")
         dt=input_string("Add the time: ", str(datetime.now()))
-        o=Meal(mem, dt, product, None, amount, user, product.system_product, None)
+        o=Meal(mem, dt, product, amount, user, product.system_product, None)
         o.save()
         mem.con.commit()
         print("Meal added with id={}".format(o.id))

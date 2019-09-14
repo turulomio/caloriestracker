@@ -92,15 +92,23 @@ class Compile(Command):
         os.system("touch '{}/{}'".format(destiny_directory,os.path.basename(path_filename)))
         os.system("rm '{}/{}'".format(destiny_directory, os.path.basename(path_filename)))
         os.chdir(destiny_directory)
-        comand="wget https://raw.githubusercontent.com/{}/{}/master/{}  --no-clobber".format(user,repository, path_filename)
-        print (comand)
+        comand="wget -q https://raw.githubusercontent.com/{}/{}/master/{}  --no-clobber".format(user,repository, path_filename)
         os.system(comand)
-        #os.system("sed -i -e '3i ## THIS FILE HAS BEEN DOWNLOADED AT {} FROM https://github.com/{}/{}/{}.' {}".format(datetime.now(),user,repository,path_filename,os.path.basename(path_filename)))
-        print("Updated {}".format(path_filename))
+        print("Updating {} from https://github.com/turulomio/reusingcode/{}".format(os.path.basename(path_filename),path_filename))
         os.chdir(cwd)
 
 
     def run(self):
+        self.download_from_github('turulomio','reusingcode','python/admin_pg.py', 'caloriestracker')
+        self.download_from_github('turulomio','reusingcode','python/libmanagers.py', 'caloriestracker')
+        self.download_from_github('turulomio','reusingcode','python/connection_pg.py', 'caloriestracker')
+        self.download_from_github('turulomio','reusingcode','python/connection_pg_qt.py', 'caloriestracker')
+        self.download_from_github('turulomio','reusingcode','python/frmAccess.ui', 'caloriestracker/ui')
+        self.download_from_github('turulomio','reusingcode','python/frmAccess.py', 'caloriestracker/ui')
+        self.download_from_github('turulomio','reusingcode','python/wdgDatetime.ui', 'caloriestracker/ui')
+        self.download_from_github('turulomio','reusingcode','python/wdgDatetime.py', 'caloriestracker/ui')
+
+
         futures=[]
         with ProcessPoolExecutor(max_workers=cpu_count()+1) as executor:
             for filename in os.listdir("caloriestracker/ui/"):
@@ -118,11 +126,6 @@ class Compile(Command):
                  os.system("sed -i -e 's/from caloriestracker.ui.myqlineedit/from caloriestracker.ui.myqlineedit/' caloriestracker/ui/{}".format(filename))
                  os.system("sed -i -e 's/from wdgDatetime/from caloriestracker.ui.wdgDatetime/' caloriestracker/ui/{}".format(filename))
                  os.system("sed -i -e 's/from wdgYear/from caloriestracker.ui.wdgYear/' caloriestracker/ui/{}".format(filename))
-
-        self.download_from_github('turulomio','xulpymoney','xulpymoney/admin_pg.py', 'caloriestracker')
-        self.download_from_github('turulomio','xulpymoney','xulpymoney/libmanagers.py', 'caloriestracker')
-        self.download_from_github('turulomio','xulpymoney','xulpymoney/connection_pg.py', 'caloriestracker')
-        self.download_from_github('turulomio','xulpymoney','xulpymoney/connection_pg_qt.py', 'caloriestracker')
 
 class Uninstall(Command):
     description = "Uninstall installed files with install"

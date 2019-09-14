@@ -2,7 +2,7 @@
 ## @brief Package with all caloriestracker core classes .
 from PyQt5.QtCore import Qt,  QObject
 from PyQt5.QtGui import QIcon,  QColor
-from PyQt5.QtWidgets import QTableWidgetItem, QApplication,   qApp,  QProgressDialog
+from PyQt5.QtWidgets import QTableWidgetItem, QApplication,   qApp,  QProgressDialog, QCompleter
 from datetime import date,  timedelta, datetime
 
 import os
@@ -511,7 +511,7 @@ class ProductElaborated:
         elif len(args)==2:
             row=self.mem.con.cursor_one_row("select id,name from elaboratedproducts where id=%s",(args[1],))
             init__create(row[1],row[0])
-            self.products_in=ProductsInElaboratedProduct(self.mem, self, self.mem.con.mogrify("select * from products_in_elaboratedproducts where personalproducts_id=%s",(args[1],)))
+            self.products_in=ProductsInElaboratedProduct(self.mem, self, self.mem.con.mogrify("select * from products_in_elaboratedproducts where elaboratedproducts_id=%s",(args[1],)))
 
     def show_table(self):
         self.products_in.show_table()
@@ -742,7 +742,22 @@ class ProductAllManager(ObjectManager_With_IdName_Selectable):
             if o.id==id and o.system_product==system:
                 return o
         return None
-            
+    
+    def qcombobox(self, combo, selected=None):
+        combo.completer().setCompletionMode(QCompleter.PopupCompletion)
+        self.order_by_name()
+        for o in self.arr:
+            icon=QIcon(":/caloriestracker/pepa.png") if o.system_product==False else QIcon(":/caloriestracker/book.png")
+            combo.addItem(icon, o.fullName(), o.string_id())
+        if selected!=None:
+            combo.setCurrentIndex(combo.findData(selected.string_id()))
+        
+        
+    ## Find by generated string with id and system_product
+    def find_by_string_id(self, stringid):
+        id=int(stringid.split("#")[0])
+        system_product=str2bool(stringid.split("#")[1])
+        return self.find_by_id_system(id, system_product)
         
         
 
@@ -986,7 +1001,11 @@ class Product(QObject):
             where id=%s returning id""", 
             (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.ends, self.starts, 
             self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company,  self.id))
-            
+
+    ## Generates an string with id and system_product
+    def string_id(self):
+        return "{}#{}".format(self.id, self.system_product)
+        
     def insert_string(self, table="products"):
         companies_id=None if self.company==None else self.company.id
         return self.mem.con.mogrify("insert into " + table +" (name, amount, fat, protein, carbohydrate, companies_id, ends, starts, elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat,system_company, id) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",  
@@ -1072,10 +1091,9 @@ class Meal:
     ##Meal(mem,rows) #Uses products_id and users_id in row
     ##Meal(mem,datetime,product,name,amount,users_id,id)
     def __init__(self, *args):        
-        def init__create( dt, product, name, amount, user, system_product, id):
+        def init__create( dt, product, amount, user, system_product, id):
             self.datetime=dt
             self.product=product
-            self.name=name
             self.amount=amount
             self.user=user
             self.system_product=system_product
@@ -1084,19 +1102,16 @@ class Meal:
         # #########################################
         self.mem=args[0]
         if len(args)==1:#Meal(mem)
-            init__create(*[None]*8)
+            init__create(*[None]*6)
         elif len(args)==2:#Meal(mem,rows)
             product=self.mem.data.products.find_by_id_system(args[1]['products_id'], args[1]['system_product'])
             user=self.mem.data.users.find_by_id(args[1]['users_id'])
-            init__create(args[1]['datetime'], product, args[1]['name'], args[1]['amount'], user, args[1]['system_product'], args[1]['id'])
-        elif len(args)==8:#Meal(mem,datetime,product,name,amount,users_id,id)
+            init__create(args[1]['datetime'], product, args[1]['amount'], user, args[1]['system_product'], args[1]['id'])
+        elif len(args)==7:#Meal(mem,datetime,product, amount,users_id,id)
             init__create(*args[1:])
 
     def fullName(self,  with_id=False):
-        if self.name==None:
-            return self.product.fullName(with_id) 
-        else:
-            return self.name + " [MEAL NAME]"
+        return self.product.fullName(with_id) 
 
     def calories(self):
         return self.amount * self.product.calories/self.product.amount
@@ -1131,10 +1146,12 @@ class Meal:
             
     def save(self):
         if self.id==None:
-            self.id=self.mem.con.cursor_one_field("insert into meals(datetime,products_id,name, amount, users_id, system_product) values (%s, %s,%s,%s,%s,%s) returning id",(self.datetime, self.product.id, self.name, self.amount, self.user.id, self.system_product))
+            self.id=self.mem.con.cursor_one_field("insert into meals(datetime,products_id,amount, users_id, system_product) values (%s, %s,%s,%s,%s) returning id",(self.datetime, self.product.id, self.amount, self.user.id, self.system_product))
         else:
-            self.mem.con.cursor_one_field("update from meals set datetime=%s,products_id=%s,name=%s,amount=%s,users_id=%s, system_product=%s where id=%s", (self.datetime, self.product.id, self.name, self.amount, self.user.id, self.system_product,  self.id))
+            self.mem.con.execute("update meals set datetime=%s,products_id=%s,amount=%s,users_id=%s, system_product=%s where id=%s", (self.datetime, self.product.id, self.amount, self.user.id, self.system_product,  self.id))
 
+    def delete(self):
+        self.mem.con.execute("delete from meals where id=%s", (self.id, ))
 
 class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
     ##MealManager(mem)
