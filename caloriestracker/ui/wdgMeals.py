@@ -1,5 +1,5 @@
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QWidget, QMenu
+from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox
 from caloriestracker.libcaloriestracker import MealManager
 from caloriestracker.ui.Ui_wdgMeals import Ui_wdgMeals
 from logging import debug
@@ -27,9 +27,11 @@ class wdgMeals(QWidget, Ui_wdgMeals):
 
     @pyqtSlot()
     def on_actionMealDelete_triggered(self):
-        self.meals.selected.delete()
-        self.mem.con.commit()
-        self.on_calendar_selectionChanged()
+        reply = QMessageBox.question(None, self.tr('Asking your confirmation'), self.tr("This action can't be undone.\nDo you want to delete this record?"), QMessageBox.Yes, QMessageBox.No)                  
+        if reply==QMessageBox.Yes:
+            self.meals.selected.delete()
+            self.mem.con.commit()
+            self.on_calendar_selectionChanged()
 
     @pyqtSlot()
     def on_actionMealEdit_triggered(self):

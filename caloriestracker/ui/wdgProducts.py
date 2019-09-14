@@ -1,6 +1,7 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox
 from caloriestracker.ui.Ui_wdgProducts import Ui_wdgProducts
+from caloriestracker.libcaloriestracker import ProductAllManager
 from caloriestracker.libcaloriestrackerfunctions import qmessagebox
 from caloriestracker.libmanagers import ManagerSelectionMode
 from logging import debug
@@ -11,35 +12,34 @@ class wdgProducts(QWidget, Ui_wdgProducts):
         self.setupUi(self)
         self.mem=mem
         self.tblProducts.settings(self.mem, "wdgProducts")
-        self.products=None
+        self.products=ProductAllManager(self.mem)
 
     @pyqtSlot() 
     def on_actionProductDelete_triggered(self):
-        if self.products.selected[0].is_deletable()==False:
+        if self.products.selected.is_deletable()==False:
             qmessagebox(self.tr("This product can't be removed, because is marked as not remavable"))
             return
             
-        if self.products.selected[0].is_system()==True:
-            qmessagebox(self.tr("This product can't be removed, because is a system product"))
-            return
-            
-        respuesta = QMessageBox.warning(self, self.tr("Xulpymoney"), self.tr("Deleting data from selected product ({0}). If you use manual update mode, data won't be recovered. Do you want to continue?".format(self.products.selected[0].id)), QMessageBox.Ok | QMessageBox.Cancel)
-        if respuesta==QMessageBox.Ok:
-            self.arrInt.remove(self.products.selected[0].id)
-            self.mem.data.products.remove(self.products.selected[0])
+        reply = QMessageBox.question(None, self.tr('Asking your confirmation'), self.tr("This action can't be undone.\nDo you want to delete this record?"), QMessageBox.Yes, QMessageBox.No)                  
+        if reply==QMessageBox.Yes:
+            self.products.selected.delete()
             self.mem.con.commit()
-            self.build_array_from_arrInt()            
+            self.mem.data.products.remove(self.products.selected)
+            self.on_cmd_pressed()
 
     @pyqtSlot() 
     def on_actionProductNew_triggered(self):
-        pass
-#        w=frmProductReport(self.mem, None, self)
-#        w.exec_()        
-#        del self.arrInt
-#        self.arrInt=[w.product.id, ]
-#        self.build_array_from_arrInt()
+        from caloriestracker.ui.frmProductsAdd import frmProductsAdd
+        w=frmProductsAdd(self.mem, None, self)
+        w.exec_()
+        self.on_cmd_pressed()
 
-
+    @pyqtSlot() 
+    def on_actionProductEdit_triggered(self):
+        from caloriestracker.ui.frmProductsAdd import frmProductsAdd
+        w=frmProductsAdd(self.mem, self.products.selected, self)
+        w.exec_()
+        self.on_cmd_pressed()
 
     def on_txt_returnPressed(self):
         self.on_cmd_pressed()
@@ -75,4 +75,4 @@ class wdgProducts(QWidget, Ui_wdgProducts):
             if i.column()==0:#only once per row
                 self.products.selected=self.products.arr[i.row()]
         debug("Selected product: " + str(self.products.selected))
-
+      

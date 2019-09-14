@@ -46,3 +46,7 @@ testem.log
 Thumbs.db
 
 __pycache__
+.eric6project/
+build/
+caloriestracker.e4p
+caloriestracker.egg-info/

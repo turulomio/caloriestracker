@@ -187,7 +187,15 @@ class CompanyAllManager(ObjectManager_With_IdName_Selectable):
             if o.id==id and o.system_company==system:
                 return o
         return None
-            
+                    
+    ## Find by generated string with id and system_product
+    def find_by_string_id(self, stringid):
+        if stringid==None:
+            return None
+        id=int(stringid.split("#")[0])
+        system_company=str2bool(stringid.split("#")[1])
+        return self.find_by_id_system(id, system_company)
+        
     def find_by_input(self, log=True):
         input=input_integer_or_none("Add a company", "")
         if input==None:
@@ -197,7 +205,15 @@ class CompanyAllManager(ObjectManager_With_IdName_Selectable):
             company=self.mem.data.companies.find_by_id_system(int(input), system_company)
             if log:
                 print ("  - Selected: {}".format(company))
-            return company
+            return company    
+    def qcombobox(self, combo, selected=None):
+        combo.completer().setCompletionMode(QCompleter.PopupCompletion)
+        self.order_by_name()
+        for o in self.arr:
+            icon=QIcon(":/caloriestracker/hucha.png") if o.system_company==False else QIcon(":/caloriestracker/order.png")
+            combo.addItem(icon, o.fullName(), o.string_id())
+        if selected!=None:
+            combo.setCurrentIndex(combo.findData(selected.string_id()))
 ## Clase parar trabajar con las opercuentas generadas automaticamente por los movimientos de las inversiones
 
 ## Class to manage products
@@ -233,12 +249,13 @@ class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
     def qtablewidget(self, table):        
         table.setColumnCount(7)
         table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Name")))
-        table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Grams")))
-        table.setHorizontalHeaderItem(2, QTableWidgetItem(self.tr("Calories")))
-        table.setHorizontalHeaderItem(3, QTableWidgetItem(self.tr("Carbohydrates")))
-        table.setHorizontalHeaderItem(4, QTableWidgetItem(self.tr("Protein")))
-        table.setHorizontalHeaderItem(5, QTableWidgetItem(self.tr("Fat")))
-        table.setHorizontalHeaderItem(6, QTableWidgetItem(self.tr("Fiber")))
+        table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Company")))
+        table.setHorizontalHeaderItem(2, QTableWidgetItem(self.tr("Grams")))
+        table.setHorizontalHeaderItem(3, QTableWidgetItem(self.tr("Calories")))
+        table.setHorizontalHeaderItem(4, QTableWidgetItem(self.tr("Carbohydrates")))
+        table.setHorizontalHeaderItem(5, QTableWidgetItem(self.tr("Protein")))
+        table.setHorizontalHeaderItem(6, QTableWidgetItem(self.tr("Fat")))
+        table.setHorizontalHeaderItem(7, QTableWidgetItem(self.tr("Fiber")))
    
         table.applySettings()
         table.clearContents()
@@ -246,12 +263,18 @@ class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
         for i, o in enumerate(self.arr):
             table.setItem(i, 0, qleft(o.fullName(True)))
             table.item(i, 0).setIcon(o.qicon())
-            table.setItem(i, 1, qnumber(100))
-            table.setItem(i, 2, qnumber(o.component_in_100g(eProductComponent.Calories)))
-            table.setItem(i, 3, qnumber(o.component_in_100g(eProductComponent.Carbohydrate)))
-            table.setItem(i, 4, qnumber(o.component_in_100g(eProductComponent.Protein)))
-            table.setItem(i, 5, qnumber(o.component_in_100g(eProductComponent.Fat)))
-            table.setItem(i, 6, qnumber(o.component_in_100g(eProductComponent.Fiber)))
+            if o.company==None:
+                company=""
+            else:
+                company=o.company.fullName()
+                
+            table.setItem(i, 1, qleft(company))
+            table.setItem(i, 2, qnumber(100))
+            table.setItem(i, 3, qnumber(o.component_in_100g(eProductComponent.Calories)))
+            table.setItem(i, 4, qnumber(o.component_in_100g(eProductComponent.Carbohydrate)))
+            table.setItem(i, 5, qnumber(o.component_in_100g(eProductComponent.Protein)))
+            table.setItem(i, 6, qnumber(o.component_in_100g(eProductComponent.Fat)))
+            table.setItem(i, 7, qnumber(o.component_in_100g(eProductComponent.Fiber)))
 
         
     ## Passes product.needStatus method to all products in arr
@@ -910,6 +933,10 @@ class CompanySystem:
         return self.mem.con.mogrify("insert into "+table +"(name,starts,ends, id) values (%s, %s, %s, %s)", (self.name, self.starts, self.ends, self.id))
 
 
+    ## Generates an string with id and system_product
+    def string_id(self):
+        return "{}#{}".format(self.id, self.system_company)
+        
 class CompanyPersonal(CompanySystem):
     def __init__(self, *args):
         CompanySystem.__init__(self, *args)
@@ -1049,7 +1076,12 @@ class Product(QObject):
         companies_id=None if self.company==None else self.company.id
         return self.mem.con.mogrify("insert into " + table +" (name, amount, fat, protein, carbohydrate, companies_id, ends, starts, elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat,system_company, id) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",  
             (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.ends, self.starts, self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company, self.id))
-
+           
+    def is_deletable(self):
+        if self.system_product==True:
+            return False
+        return True
+        
     def is_system(self):
         """Returns if the product is a system product or a user product"""
         if self.id>=0:
@@ -1068,7 +1100,7 @@ class Product(QObject):
             component_amount=self.protein
         elif eproductcomponent==eProductComponent.Calories:
             component_amount=self.calories
-        return Decimal(100)*component_amount/self.amount
+        return Decimal(100)*Decimal(component_amount)/Decimal(self.amount)
 
     def qicon(self):
         if self.system_product==True:
@@ -1113,7 +1145,12 @@ class ProductPersonal(Product):
             where id=%s returning id""", 
             (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.ends, self.starts, 
             self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company,  self.id))
-           
+
+    def delete(self):
+        if self.is_deletable()==True:
+            self.mem.con.execute("delete from personalproducts where id=%s", (self.id, ))
+        else:
+            debug("I did not delete personalproducts because is not deletable")
 ## Manages languages
 class TranslationLanguageManager(ObjectManager_With_IdName_Selectable):
     def __init__(self, mem):
