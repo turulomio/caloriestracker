@@ -90,6 +90,9 @@
        <property name="alternatingRowColors">
         <bool>true</bool>
        </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::SingleSelection</enum>
+       </property>
        <property name="selectionBehavior">
         <enum>QAbstractItemView::SelectRows</enum>
        </property>
@@ -111,28 +114,40 @@
     </layout>
    </item>
   </layout>
-  <action name="actionProductNew">
+  <action name="actionMealNew">
    <property name="icon">
     <iconset resource="../images/caloriestracker.qrc">
      <normaloff>:/caloriestracker/add.png</normaloff>:/caloriestracker/add.png</iconset>
    </property>
    <property name="text">
-    <string>New product</string>
+    <string>New meal</string>
    </property>
    <property name="toolTip">
-    <string>New user product</string>
+    <string>New meal</string>
    </property>
   </action>
-  <action name="actionProductDelete">
+  <action name="actionMealDelete">
    <property name="icon">
     <iconset resource="../images/caloriestracker.qrc">
      <normaloff>:/caloriestracker/list-remove.png</normaloff>:/caloriestracker/list-remove.png</iconset>
    </property>
    <property name="text">
-    <string>Delete product</string>
+    <string>Delete meal</string>
    </property>
    <property name="toolTip">
-    <string>Delete user product</string>
+    <string>Delete meal</string>
+   </property>
+  </action>
+  <action name="actionMealEdit">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/document-edit.png</normaloff>:/caloriestracker/document-edit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Edit meal</string>
+   </property>
+   <property name="toolTip">
+    <string>Edit meal</string>
    </property>
   </action>
  </widget>

@@ -10,7 +10,7 @@ from decimal import Decimal
 from caloriestracker.github import get_file_modification_dtaware
 from caloriestracker.libcaloriestrackerfunctions import str2bool, dtaware2string, package_filename, is_there_internet, input_boolean, input_integer_or_none, a2s, ca2s, n2s, rca2s
 from caloriestracker.ui.qtablewidgetitems import qtime, qleft, qright, qnumber_limited, qnumber
-from caloriestracker.libmanagers import  ObjectManager_With_Id_Selectable,  ManagerSelectionMode, ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime
+from caloriestracker.libmanagers import  ObjectManager_With_Id_Selectable,  ManagerSelectionMode, ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime, ObjectManager_With_IdDatetime_Selectable
 from colorama import Fore, Style
 from officegenerator import OpenPyXL
 from logging import debug, info
@@ -1136,7 +1136,7 @@ class Meal:
             self.mem.con.cursor_one_field("update from meals set datetime=%s,products_id=%s,name=%s,amount=%s,users_id=%s, system_product=%s where id=%s", (self.datetime, self.product.id, self.name, self.amount, self.user.id, self.system_product,  self.id))
 
 
-class MealManager(QObject, ObjectManager_With_IdDatetime):
+class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
     ##MealManager(mem)
     ##MealManager(mem,sql, progress)
     def __init__(self, *args ):
@@ -1145,6 +1145,7 @@ class MealManager(QObject, ObjectManager_With_IdDatetime):
         self.mem=args[0]
         if len(args)==2:
             self.load_db_data(*args[1:])
+        self.setSelectionMode(ManagerSelectionMode.Object)
 
     def load_db_data(self, sql):
         rows=self.mem.con.cursor_rows(sql)

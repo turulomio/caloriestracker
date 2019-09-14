@@ -135,7 +135,7 @@ class MemCaloriestracker(Mem):
     
     def run(self):
         self.args=self.parse_arguments()
-        self.addDebugSystem(self.args)
+        self.addDebugSystem(self.args.debug)
         self.app=QApplication(argv)
         self.app.setOrganizationName("caloriestracker")
         self.app.setOrganizationDomain("caloriestracker")
@@ -148,10 +148,9 @@ class MemCaloriestracker(Mem):
         self.url_wiki="https://github.com/turulomio/caloriestracker/wiki"
     
     def parse_arguments(self):
-        self.parser=ArgumentParser(prog='calories', description=self.tr('Report of calories'), epilog=self.epilog(), formatter_class=RawTextHelpFormatter)
+        self.parser=ArgumentParser(prog='caloriestracker', description=self.tr('Report of calories'), epilog=self.epilog(), formatter_class=RawTextHelpFormatter)
         self. addCommonToArgParse(self.parser)
         args=self.parser.parse_args()
-        #Changing types of args
         return args
         
     def qicon_admin(self):
