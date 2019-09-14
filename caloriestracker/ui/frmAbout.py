@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import QDialog
 from PyQt5.QtGui import QDesktopServices
 from PyQt5.QtCore import QUrl, PYQT_VERSION_STR
 from PyQt5.QtChart import PYQT_CHART_VERSION_STR
-from caloriestracker.libcaloriestrackerfunctions import  qright, qleft
+from caloriestracker.ui.qtablewidgetitems import  qright, qleft
 from caloriestracker.libcaloriestracker import CompaniesAndProducts
 from caloriestracker.ui.Ui_frmAbout import Ui_frmAbout
 from caloriestracker.version import __version__,  __versiondate__

@@ -162,6 +162,8 @@ class frmMain(QMainWindow, Ui_frmMain):
     @pyqtSlot()  
     def on_actionSearch_triggered(self):
         self.w.close()
+        from caloriestracker.ui.wdgProducts import wdgProducts
+        self.w=wdgProducts(self.mem, self)
         self.layout.addWidget(self.w)
         self.w.show()
         

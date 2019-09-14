@@ -18,3 +18,10 @@ class eDtStrings:
     
     ## 201909090909
     String=3
+
+class eProductComponent:
+    Fat=0
+    Carbohydrate=1
+    Protein=2
+    Fiber=3
+    Calories=4

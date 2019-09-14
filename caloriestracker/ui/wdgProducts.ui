@@ -67,37 +67,13 @@
               </property>
              </widget>
             </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_2">
-              <item>
-               <widget class="QCheckBox" name="chkStockExchange">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>Filter by stock exchange</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="cmbStockExchange">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
            </layout>
           </item>
           <item>
            <widget class="QToolButton" name="cmd">
             <property name="icon">
-             <iconset>
-              <normaloff>:/xulpymoney/search.png</normaloff>:/xulpymoney/search.png</iconset>
+             <iconset resource="../images/caloriestracker.qrc">
+              <normaloff>:/caloriestracker/search.png</normaloff>:/caloriestracker/search.png</iconset>
             </property>
            </widget>
           </item>
@@ -117,7 +93,7 @@
       </widget>
      </item>
      <item>
-      <widget class="myQTableWidget" name="tblInvestments">
+      <widget class="myQTableWidget" name="tblProducts">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -142,46 +118,6 @@
        <attribute name="verticalHeaderVisible">
         <bool>false</bool>
        </attribute>
-       <column>
-        <property name="text">
-         <string>Code</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Product</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>ISIN</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Last update</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Price</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>% Daily</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>% Year to date</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>% Dividend</string>
-        </property>
-       </column>
       </widget>
      </item>
      <item>
@@ -194,91 +130,10 @@
     </layout>
    </item>
   </layout>
-  <action name="actionProductReport">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/xulpymoney/books.png</normaloff>:/xulpymoney/books.png</iconset>
-   </property>
-   <property name="text">
-    <string>Product report</string>
-   </property>
-   <property name="toolTip">
-    <string>Product report</string>
-   </property>
-  </action>
-  <action name="actionSortTPCDiario">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/images/document-preview.png</normaloff>:/images/document-preview.png</iconset>
-   </property>
-   <property name="text">
-    <string>% Daily</string>
-   </property>
-   <property name="toolTip">
-    <string>% Daily</string>
-   </property>
-  </action>
-  <action name="actionSortTPCAnual">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/images/document-preview.png</normaloff>:/images/document-preview.png</iconset>
-   </property>
-   <property name="text">
-    <string>% Annual</string>
-   </property>
-   <property name="toolTip">
-    <string>% Annual</string>
-   </property>
-  </action>
-  <action name="actionSortName">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/images/document-preview.png</normaloff>:/images/document-preview.png</iconset>
-   </property>
-   <property name="text">
-    <string>Name</string>
-   </property>
-   <property name="toolTip">
-    <string>Name</string>
-   </property>
-  </action>
-  <action name="actionSortDividend">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/images/document-preview.png</normaloff>:/images/document-preview.png</iconset>
-   </property>
-   <property name="text">
-    <string>Dividend</string>
-   </property>
-   <property name="toolTip">
-    <string>Dividend</string>
-   </property>
-  </action>
-  <action name="actionSortHour">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/images/document-preview.png</normaloff>:/images/document-preview.png</iconset>
-   </property>
-   <property name="text">
-    <string>Hour</string>
-   </property>
-   <property name="toolTip">
-    <string>Hour</string>
-   </property>
-  </action>
-  <action name="actionIbex35">
-   <property name="icon">
-    <iconset resource="../images/caloriestracker.qrc">
-     <normaloff>:/countries/spain.gif</normaloff>:/countries/spain.gif</iconset>
-   </property>
-   <property name="text">
-    <string>Ibex 35</string>
-   </property>
-  </action>
   <action name="actionProductNew">
    <property name="icon">
-    <iconset>
-     <normaloff>:/xulpymoney/add.png</normaloff>:/xulpymoney/add.png</iconset>
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/add.png</normaloff>:/caloriestracker/add.png</iconset>
    </property>
    <property name="text">
     <string>New product</string>
@@ -289,8 +144,8 @@
   </action>
   <action name="actionProductDelete">
    <property name="icon">
-    <iconset>
-     <normaloff>:/xulpymoney/list-remove.png</normaloff>:/xulpymoney/list-remove.png</iconset>
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/list-remove.png</normaloff>:/caloriestracker/list-remove.png</iconset>
    </property>
    <property name="text">
     <string>Delete product</string>
@@ -299,88 +154,16 @@
     <string>Delete user product</string>
    </property>
   </action>
-  <action name="actionFavorites">
+  <action name="actionProductEdit">
    <property name="icon">
-    <iconset>
-     <normaloff>:/xulpymoney/star.png</normaloff>:/xulpymoney/star.png</iconset>
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/document-edit.png</normaloff>:/caloriestracker/document-edit.png</iconset>
    </property>
    <property name="text">
-    <string>Add to favorites</string>
+    <string>Edit product</string>
    </property>
    <property name="toolTip">
-    <string>Add to favorites</string>
-   </property>
-  </action>
-  <action name="actionMergeCodes">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/xulpymoney/merge.png</normaloff>:/xulpymoney/merge.png</iconset>
-   </property>
-   <property name="text">
-    <string>Merge selected codes</string>
-   </property>
-   <property name="toolTip">
-    <string>Merge selected codes</string>
-   </property>
-  </action>
-  <action name="actionQuoteNew">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/xulpymoney/add.png</normaloff>:/xulpymoney/add.png</iconset>
-   </property>
-   <property name="text">
-    <string>New price</string>
-   </property>
-   <property name="toolTip">
-    <string>New price</string>
-   </property>
-  </action>
-  <action name="actionEstimationDPSNew">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/xulpymoney/add.png</normaloff>:/xulpymoney/add.png</iconset>
-   </property>
-   <property name="text">
-    <string>New DPS estimation</string>
-   </property>
-   <property name="toolTip">
-    <string>New Dividend per share estimation</string>
-   </property>
-  </action>
-  <action name="actionPurge">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/xulpymoney/tools-wizard.png</normaloff>:/xulpymoney/tools-wizard.png</iconset>
-   </property>
-   <property name="text">
-    <string>Purge investment</string>
-   </property>
-   <property name="toolTip">
-    <string>Deletes quotes innecesary. Leaves open, high, low and close quotes.</string>
-   </property>
-  </action>
-  <action name="actionPurchaseGraphic">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/xulpymoney/report.png</normaloff>:/xulpymoney/report.png</iconset>
-   </property>
-   <property name="text">
-    <string>Show purchase graphic</string>
-   </property>
-   <property name="toolTip">
-    <string>Show purchase graphic</string>
-   </property>
-  </action>
-  <action name="actionProductPriceLastRemove">
-   <property name="icon">
-    <iconset>
-     <normaloff>:/xulpymoney/list-remove.png</normaloff>:/xulpymoney/list-remove.png</iconset>
-   </property>
-   <property name="text">
-    <string>Remove last product price</string>
-   </property>
-   <property name="toolTip">
-    <string>Remove last product price</string>
+    <string>Edit product</string>
    </property>
   </action>
  </widget>
@@ -393,27 +176,10 @@
  </customwidgets>
  <tabstops>
   <tabstop>txt</tabstop>
-  <tabstop>tblInvestments</tabstop>
+  <tabstop>tblProducts</tabstop>
  </tabstops>
  <resources>
   <include location="../images/caloriestracker.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>chkStockExchange</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>cmbStockExchange</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>34</x>
-     <y>118</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>506</x>
-     <y>137</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

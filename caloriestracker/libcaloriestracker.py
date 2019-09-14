@@ -9,6 +9,7 @@ import os
 from decimal import Decimal
 from caloriestracker.github import get_file_modification_dtaware
 from caloriestracker.libcaloriestrackerfunctions import str2bool, dtaware2string, package_filename, is_there_internet, input_boolean, input_integer_or_none, a2s, ca2s, n2s, rca2s
+from caloriestracker.libcaloriestrackertypes import eProductComponent
 from caloriestracker.ui.qtablewidgetitems import qtime, qleft, qright, qnumber_limited, qnumber
 from caloriestracker.libmanagers import  ObjectManager_With_Id_Selectable,  ManagerSelectionMode, ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime, ObjectManager_With_IdDatetime_Selectable
 from colorama import Fore, Style
@@ -227,7 +228,32 @@ class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
             self.append(oo)
         cur.close()
         
+    ## It's a staticmethod due to it will be used in ProductAllManager
+    @staticmethod
+    def qtablewidget(self, table):        
+        table.setColumnCount(7)
+        table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Name")))
+        table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Grams")))
+        table.setHorizontalHeaderItem(2, QTableWidgetItem(self.tr("Calories")))
+        table.setHorizontalHeaderItem(3, QTableWidgetItem(self.tr("Carbohydrates")))
+        table.setHorizontalHeaderItem(4, QTableWidgetItem(self.tr("Protein")))
+        table.setHorizontalHeaderItem(5, QTableWidgetItem(self.tr("Fat")))
+        table.setHorizontalHeaderItem(6, QTableWidgetItem(self.tr("Fiber")))
+   
+        table.applySettings()
+        table.clearContents()
+        table.setRowCount(self.length())
+        for i, o in enumerate(self.arr):
+            table.setItem(i, 0, qleft(o.fullName(True)))
+            table.item(i, 0).setIcon(o.qicon())
+            table.setItem(i, 1, qnumber(100))
+            table.setItem(i, 2, qnumber(o.component_in_100g(eProductComponent.Calories)))
+            table.setItem(i, 3, qnumber(o.component_in_100g(eProductComponent.Carbohydrate)))
+            table.setItem(i, 4, qnumber(o.component_in_100g(eProductComponent.Protein)))
+            table.setItem(i, 5, qnumber(o.component_in_100g(eProductComponent.Fat)))
+            table.setItem(i, 6, qnumber(o.component_in_100g(eProductComponent.Fiber)))
 
+        
     ## Passes product.needStatus method to all products in arr
     ## @param needstatus Status needed
     ## @param progress Boolean. If true shows a progress bar
@@ -722,20 +748,23 @@ class ProductsInElaboratedProduct(QObject, ObjectManager_With_IdDatetime):
 
 
 
-class ProductAllManager(ObjectManager_With_IdName_Selectable):
+class ProductAllManager(QObject, ObjectManager_With_IdName_Selectable):
     ## ProductAllManager(mem)#Loads all database
     def __init__(self, *args):
+        QObject.__init__(self)
         ObjectManager_With_IdName_Selectable.__init__(self)
         self.mem=args[0]
-        if len(args)==1:
-            system=ProductManager(self.mem)
-            system.load_from_db("select * from products")
-            for o in system.arr:
-                self.append(o)
-            personal=ProductPersonalManager(self.mem)
-            personal.load_from_db("select * from personalproducts")
-            for o in personal.arr:
-                self.append(o)
+        
+    def load_all(self):
+        system=ProductManager(self.mem)
+        system.load_from_db("select * from products")
+        for o in system.arr:
+            self.append(o)
+        personal=ProductPersonalManager(self.mem)
+        personal.load_from_db("select * from personalproducts")
+        for o in personal.arr:
+            self.append(o)
+        self.order_by_name()
 
     def find_by_id_system(self,  id ,  system):
         for o in self.arr:
@@ -751,6 +780,9 @@ class ProductAllManager(ObjectManager_With_IdName_Selectable):
             combo.addItem(icon, o.fullName(), o.string_id())
         if selected!=None:
             combo.setCurrentIndex(combo.findData(selected.string_id()))
+            
+    def qtablewidget(self, table):
+        ProductManager.qtablewidget(self, table)
         
         
     ## Find by generated string with id and system_product
@@ -759,7 +791,13 @@ class ProductAllManager(ObjectManager_With_IdName_Selectable):
         system_product=str2bool(stringid.split("#")[1])
         return self.find_by_id_system(id, system_product)
         
-        
+    ## Returns another ProductAllManager with the products that contains a string
+    def ProductAllManager_contains_string(self, s):
+        r=ProductAllManager(self.mem)
+        for o in self.arr:
+            if s.upper() in o.fullName().upper():
+                r.append(o)
+        return r
 
 
 class DBData:
@@ -772,6 +810,7 @@ class DBData:
         self.companies=CompanyAllManager(self.mem)
 
         self.products=ProductAllManager(self.mem)
+        self.products.load_all()
         
         self.users=UserManager(self.mem, "select * from users", progress)
         self.users.load_last_biometrics()
@@ -1017,6 +1056,28 @@ class Product(QObject):
             return True
         return False
 
+    ## Gets the amount of a component in 100 grams of product
+    def component_in_100g(self, eproductcomponent):
+        if eproductcomponent==eProductComponent.Fat:
+            component_amount=self.fat
+        elif eproductcomponent==eProductComponent.Fiber:
+            component_amount=self.fiber
+        elif eproductcomponent==eProductComponent.Carbohydrate:
+            component_amount=self.carbohydrate
+        elif eproductcomponent==eProductComponent.Protein:
+            component_amount=self.protein
+        elif eproductcomponent==eProductComponent.Calories:
+            component_amount=self.calories
+        return Decimal(100)*component_amount/self.amount
+
+    def qicon(self):
+        if self.system_product==True:
+            return QIcon(":/caloriestracker/books.png")
+        else:
+            if self.elaboratedproducts_id==None:
+                return QIcon(":/caloriestracker/meal.png")
+            else:
+                return QIcon(":/caloriestracker/keko.png")
 
 ## ONLY CHANGES table name
 class ProductPersonal(Product):
