@@ -1,8 +1,8 @@
 ## @namespace caloriestracker.libcaloriestrackerfunctions
 ## @brief Package with all xulpymoney auxiliar functions.
 from PyQt5.QtCore import Qt,  QLocale
-from PyQt5.QtGui import QIcon,  QColor
-from PyQt5.QtWidgets import QTableWidgetItem,  QWidget,  QMessageBox, QApplication, QCheckBox, QHBoxLayout
+from PyQt5.QtGui import QIcon, QColor
+from PyQt5.QtWidgets import QWidget,  QMessageBox, QApplication, QCheckBox, QHBoxLayout, QTableWidgetItem
 from colorama import Fore, Style
 from decimal import Decimal
 from os import path, makedirs, remove
@@ -36,11 +36,6 @@ def dtaware_changes_tz(dt,  tzname):
     tarjet=tzt.normalize(dt.astimezone(tzt))
     return tarjet
 
-## Creates a QTableWidgetItem with the date
-def qdate(date):
-    if date==None:
-        return qempty()
-    return qcenter(str(date))
 
 def qmessagebox(text):
     m=QMessageBox()
@@ -129,32 +124,6 @@ def deprecated(func):
          return func(*args, **kwargs)
      return new_func
  
-## dt es un datetime con timezone, que se mostrara con la zone pasado como parametro
-## Convierte un datetime a string, teniendo en cuenta los microsehgundos, para ello se convierte a datetime local
-def qdatetime(dt, zone):
-    newdt=dtaware_changes_tz(dt, zone.name)
-    if newdt==None:
-        return qempty()
-    a=QTableWidgetItem(dtaware2string(newdt))
-    a.setTextAlignment(Qt.AlignVCenter|Qt.AlignRight)
-    return a
-
-def qtime(dt):
-    """
-        Shows the time of a datetime
-    """
-    if dt==None:
-        return qempty()
-    if dt.microsecond==5:
-        item=qleft(str(dt)[11:-13])
-        item.setBackground(QColor(255, 255, 148))
-    elif dt.microsecond==4:
-        item=qleft(str(dt)[11:-13])
-        item.setBackground(QColor(148, 148, 148))
-    else:
-        item=qleft(str(dt)[11:-6])
-    return item
-    
 def list2string(lista):
         """Covierte lista a string"""
         if  len(lista)==0:
@@ -429,20 +398,6 @@ def none2decimal0(dec):
         return Decimal('0')
     return dec
 
-def qbool(bool):
-    """Prints bool and check. Is read only and enabled"""
-    if bool==None:
-        return qempty()
-    a=QTableWidgetItem()
-    a.setFlags( Qt.ItemIsSelectable |  Qt.ItemIsEnabled )#Set no editable
-    if bool:
-        a.setCheckState(Qt.Checked);
-        a.setText(QApplication.translate("Core","True"))
-    else:
-        a.setCheckState(Qt.Unchecked);
-        a.setText(QApplication.translate("Core","False"))
-    a.setTextAlignment(Qt.AlignVCenter|Qt.AlignCenter)
-    return a
     
 def wdgBool(bool):
     """Center checkbox
@@ -462,45 +417,6 @@ def wdgBool(bool):
     pCheckBox.setEnabled(False)
     return pWidget
     
-## Returns a QTableWidgetItem representing an empty value
-def qempty():
-    a=QTableWidgetItem("---")
-    a.setTextAlignment(Qt.AlignVCenter|Qt.AlignRight)
-    return a
-
-def qcenter(string, digits=None):
-    if string==None:
-        return qempty()
-    a=QTableWidgetItem(str(string))
-    a.setTextAlignment(Qt.AlignVCenter|Qt.AlignCenter)
-    return a
-    
-def qleft(string):
-    if string==None:
-        return qempty()
-    a=QTableWidgetItem(str(string))
-    a.setTextAlignment(Qt.AlignVCenter|Qt.AlignLeft)
-    return a
-
-def qright(string, digits=2):
-    """When digits, limits the number to """
-    if string==None:
-        return qempty()
-    if string!=None:
-        try:
-            string=round(string, digits)
-        except:
-            pass
-    a=QTableWidgetItem(str(string))
-    a.setTextAlignment(Qt.AlignVCenter|Qt.AlignRight)
-    try:#If is a number corized it
-        if string==None:
-            a.setForeground(QColor(0, 0, 255))
-        elif string<0:
-            a.setForeground(QColor(255, 0, 0))
-    except:
-        pass
-    return a
         
 def web2utf8(cadena):
     cadena=cadena.replace('&#209;','Ñ')
@@ -704,3 +620,40 @@ def input_string(text,default=None):
             return res
         except:
             pass
+            
+            
+## Returns a QTableWidgetItem representing an empty value
+@deprecated
+def qempty():
+    a=QTableWidgetItem("---")
+    a.setTextAlignment(Qt.AlignVCenter|Qt.AlignRight)
+    return a
+
+@deprecated
+def qleft(string):
+    if string==None:
+        return qempty()
+    a=QTableWidgetItem(str(string))
+    a.setTextAlignment(Qt.AlignVCenter|Qt.AlignLeft)
+    return a
+
+@deprecated
+def qright(string, digits=2):
+    """When digits, limits the number to """
+    if string==None:
+        return qempty()
+    if string!=None:
+        try:
+            string=round(string, digits)
+        except:
+            pass
+    a=QTableWidgetItem(str(string))
+    a.setTextAlignment(Qt.AlignVCenter|Qt.AlignRight)
+    try:#If is a number corized it
+        if string==None:
+            a.setForeground(QColor(0, 0, 255))
+        elif string<0:
+            a.setForeground(QColor(255, 0, 0))
+    except:
+        pass
+    return a

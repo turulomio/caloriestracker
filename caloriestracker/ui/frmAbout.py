@@ -21,7 +21,7 @@ class frmAbout(QDialog, Ui_frmAbout):
         self.setupUi(self)
         
         s="<html><body>"
-        s=s + self.tr("""Web page is in <a href="http://github.com/turulomio/xulpymoney/">http://github.com/turulomio/xulpymoney/</a>""")
+        s=s + self.tr("""Web page is in <a href="http://github.com/turulomio/caloriestracker/">http://github.com/turulomio/caloriestracker/</a>""")
         s=s + "<p>"
         s=s + self.tr("This program has been developed by Mariano Mu\xf1oz") + "<p>"
         s=s + self.tr("It has been translated to the following languages:")

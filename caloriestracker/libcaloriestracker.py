@@ -8,7 +8,8 @@ from datetime import date,  timedelta, datetime
 import os
 from decimal import Decimal
 from caloriestracker.github import get_file_modification_dtaware
-from caloriestracker.libcaloriestrackerfunctions import str2bool, dtaware2string, package_filename, is_there_internet, qtime, qleft, qright, input_boolean, input_integer_or_none, a2s, ca2s, n2s, rca2s
+from caloriestracker.libcaloriestrackerfunctions import str2bool, dtaware2string, package_filename, is_there_internet, input_boolean, input_integer_or_none, a2s, ca2s, n2s, rca2s
+from caloriestracker.ui.qtablewidgetitems import qtime, qleft, qright, qnumber_limited
 from caloriestracker.libmanagers import  ObjectManager_With_Id_Selectable,  ManagerSelectionMode, ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime
 from colorama import Fore, Style
 from officegenerator import OpenPyXL
@@ -1230,7 +1231,7 @@ class MealManager(QObject, ObjectManager_With_IdDatetime):
    
         table.applySettings()
         table.clearContents()
-        table.setRowCount(self.length())
+        table.setRowCount(self.length()+2)
         for i, o in enumerate(self.arr):
             table.setItem(i, 0, qtime(o.datetime))
             table.setItem(i, 1, qleft(o.product.fullName()))
@@ -1240,6 +1241,21 @@ class MealManager(QObject, ObjectManager_With_IdDatetime):
             table.setItem(i, 5, qright(o.protein()))
             table.setItem(i, 6, qright(o.fat()))
             table.setItem(i, 7, qright(o.fiber()))
+        #Totals
+        table.setItem(self.length(), 1, qleft(self.tr("Total")))
+        table.setItem(self.length(), 2, qright(self.grams()))
+        table.setItem(self.length(), 3, qnumber_limited(self.calories(), self.mem.user.bmr()))
+        table.setItem(self.length(), 4, qnumber_limited(self.carbohydrate(), self.mem.user.carbohydrate()))
+        table.setItem(self.length(), 5, qnumber_limited(self.protein(), self.mem.user.protein()))
+        table.setItem(self.length(), 6, qnumber_limited(self.fat(), self.mem.user.fat()))
+        table.setItem(self.length(), 7, qnumber_limited(self.fiber(), self.mem.user.fiber(), reverse=True))
+        #Recomendatios
+        table.setItem(self.length()+1, 1, qleft(self.tr("Recomendatios")))
+        table.setItem(self.length()+1, 3, qright(self.mem.user.bmr()))
+        table.setItem(self.length()+1, 4, qright(self.mem.user.carbohydrate()))
+        table.setItem(self.length()+1, 5, qright(self.mem.user.protein()))
+        table.setItem(self.length()+1, 6, qright(self.mem.user.fat()))
+        table.setItem(self.length()+1, 7, qright(self.mem.user.fiber()))
         
 class User:
     ##User(mem)

@@ -29,9 +29,10 @@ SOURCES         = \
                   caloriestracker/ui/wdgYearMonth.py \
                   caloriestracker/ui/Ui_wdgYearMonth.py \
                   caloriestracker/caloriestracker.py \
+                  caloriestracker/caloriestracker_console.py \
                   caloriestracker/libcaloriestracker.py \
                   caloriestracker/mem.py \
-                  caloriestracker/caloriestracker_console.py
+                  caloriestracker/qtablewidgetitems.py
 
 FORMS           = \
                   caloriestracker/ui/frmAbout.ui \
