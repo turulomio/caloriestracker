@@ -1,0 +1,12 @@
+UPDATE public.products SET salt=0 WHERE salt IS NULL;
+UPDATE public.products SET cholesterol=0 WHERE cholesterol IS NULL;
+UPDATE public.products SET sodium=0 WHERE sodium IS NULL;
+UPDATE public.products SET potassium=0 WHERE potassium IS NULL;
+UPDATE public.products SET sugars=0 WHERE sugars IS NULL;
+UPDATE public.products SET saturated_fat=0 WHERE saturated_fat IS NULL;
+ALTER TABLE public.products ALTER COLUMN salt SET DEFAULT 0;
+ALTER TABLE public.products ALTER COLUMN cholesterol SET DEFAULT 0;
+ALTER TABLE public.products ALTER COLUMN sodium SET DEFAULT 0;
+ALTER TABLE public.products ALTER COLUMN potassium SET DEFAULT 0;
+ALTER TABLE public.products ALTER COLUMN sugars SET DEFAULT 0;
+ALTER TABLE public.products ALTER COLUMN saturated_fat SET DEFAULT 0;

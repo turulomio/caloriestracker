@@ -23,6 +23,8 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
             self.spnProtein.setValue(self.product.protein)
             self.spnCarbohydrate.setValue(self.product.carbohydrate)
             self.spnCalories.setValue(self.product.calories)
+            print(self.product)
+            print(self.product.salt)
             self.spnSalt.setValue(self.product.salt)
             self.spnCholesterol.setValue(self.product.cholesterol)
             self.spnSodium.setValue(self.product.sodium)
