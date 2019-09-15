@@ -4,8 +4,8 @@ SOURCES         = \
                   caloriestracker/ui/Ui_frmAbout.py \
                   caloriestracker/ui/frmAccess.py \
                   caloriestracker/ui/Ui_frmAccess.py \
-                  caloriestracker/ui/Ui_frmBiometrics.py \
-                  caloriestracker/ui/frmBiometrics.py \
+                  caloriestracker/ui/Ui_frmBiometricsAdd.py \
+                  caloriestracker/ui/frmBiometricsAdd.py \
                   caloriestracker/ui/Ui_frmHelp.py \
                   caloriestracker/ui/frmHelp.py \
                   caloriestracker/ui/frmMain.py \
@@ -16,6 +16,8 @@ SOURCES         = \
                   caloriestracker/ui/Ui_frmSettings.py \
                   caloriestracker/ui/myqlineedit.py \
                   caloriestracker/ui/myqtablewidget.py \
+                  caloriestracker/ui/wdgBiometrics.py \
+                  caloriestracker/ui/Ui_wdgBiometrics.py \
                   caloriestracker/ui/wdgCuriosities.py \
                   caloriestracker/ui/Ui_wdgCuriosities.py \
                   caloriestracker/ui/wdgCuriosity.py \
@@ -41,12 +43,13 @@ SOURCES         = \
 FORMS           = \
                   caloriestracker/ui/frmAbout.ui \
                   caloriestracker/ui/frmAccess.ui \
-                  caloriestracker/ui/frmBiometrics.ui \
+                  caloriestracker/ui/frmBiometricsAdd.ui \
                   caloriestracker/ui/frmHelp.ui \
                   caloriestracker/ui/frmMain.ui \
                   caloriestracker/ui/frmMealsAdd.ui \
                   caloriestracker/ui/frmSettings.ui \
                   caloriestracker/ui/frmProductsAdd.ui \
+                  caloriestracker/ui/wdgBiometrics.ui \
                   caloriestracker/ui/wdgDatetime.ui \
                   caloriestracker/ui/wdgMeals.ui \
                   caloriestracker/ui/wdgProducts.ui \

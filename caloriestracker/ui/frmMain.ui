@@ -85,6 +85,7 @@
     <addaction name="separator"/>
     <addaction name="actionSearch"/>
     <addaction name="separator"/>
+    <addaction name="actionProductsUser"/>
    </widget>
    <widget class="QMenu" name="menuMealss">
     <property name="title">
@@ -101,6 +102,8 @@
     <property name="title">
      <string>Biometrics</string>
     </property>
+    <addaction name="actionBiometrics"/>
+    <addaction name="separator"/>
     <addaction name="actionBiometricsAdd"/>
    </widget>
    <addaction name="menuXulpymoney"/>
@@ -131,26 +134,10 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionMeals"/>
-  </widget>
-  <widget class="QStatusBar" name="statusBar"/>
-  <widget class="QToolBar" name="tbProducts">
-   <property name="windowTitle">
-    <string>Products toolbar</string>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>26</width>
-     <height>26</height>
-    </size>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
+   <addaction name="actionBiometrics"/>
    <addaction name="actionSearch"/>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="tbSettings">
    <property name="windowTitle">
     <string>Settings toolbar</string>
@@ -162,6 +149,8 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionSettings"/>
+   <addaction name="actionHelp"/>
+   <addaction name="actionCuriosities"/>
    <addaction name="actionExit"/>
   </widget>
   <action name="actionExit">
@@ -303,6 +292,18 @@
    </property>
    <property name="toolTip">
     <string>Add biometrics</string>
+   </property>
+  </action>
+  <action name="actionBiometrics">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/list-add-user.png</normaloff>:/caloriestracker/list-add-user.png</iconset>
+   </property>
+   <property name="text">
+    <string>Biometric information</string>
+   </property>
+   <property name="toolTip">
+    <string>Biometric information</string>
    </property>
   </action>
  </widget>

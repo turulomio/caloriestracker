@@ -50,3 +50,4 @@ __pycache__
 build/
 caloriestracker.e4p
 caloriestracker.egg-info/
+doc/html

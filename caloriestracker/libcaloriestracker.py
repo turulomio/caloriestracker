@@ -9,12 +9,58 @@ import os
 from decimal import Decimal
 from caloriestracker.github import get_file_modification_dtaware
 from caloriestracker.libcaloriestrackerfunctions import str2bool, dtaware2string, is_there_internet, input_boolean, input_integer_or_none, a2s, ca2s, n2s, rca2s
-from caloriestracker.libcaloriestrackertypes import eProductComponent
-from caloriestracker.ui.qtablewidgetitems import qtime, qleft, qright, qnumber_limited, qnumber
+from caloriestracker.libcaloriestrackertypes import eProductComponent, eActivity, eWeightWish
+from caloriestracker.ui.qtablewidgetitems import qtime, qleft, qright, qnumber_limited, qnumber, qdatetime
 from caloriestracker.libmanagers import  ObjectManager_With_Id_Selectable,  ManagerSelectionMode, ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime, ObjectManager_With_IdDatetime_Selectable
 from colorama import Fore, Style
 from officegenerator import OpenPyXL
 from logging import debug, info
+
+## TMB x 1,2: Poco o ningún ejercicio                     +
+##        |                                |       |          |            | TMB x 1,375: Ejercicio ligero (1 a 3 días a la semana) +
+##        |                                |       |          |            | TMB x 1,55: Ejercicio moderado (3 a 5 días a la semana)+
+##        |                                |       |          |            | TMB x 1,72: Deportista (6 -7 días a la semana)         +
+##        |                                |       |          |            | TMB x 1,9: Atleta (Entrenamientos mañana y tarde)
+##    Sedentary. 
+##    Lightly active. If you exercise lightly one to three days a week, multiply your BMR by 1.375.
+##    Moderately active. If you exercise moderately three to five days a week, multiply your BMR by 1.55.
+##    Very active. If you engage in hard exercise six to seven days a week, multiply your BMR by 1.725.
+##    Extra active. If you engage in very hard exercise six to seven days a week or have a physical job, multiply your BMR by 1.9.
+class Activity(QObject):
+    ##Biometrics(mem)
+    ##Biometrics(mem,id,name, description,multiplier)
+    def __init__(self, mem, name, description, multiplier, id):
+            self.mem=mem
+            self.name=name
+            self.description=description
+            self.multiplier=multiplier
+            self.id=id
+
+class ActivityManager(QObject, ObjectManager_With_IdName_Selectable):
+    def __init__(self, mem):
+        QObject.__init__(self)
+        ObjectManager_With_IdName_Selectable.__init__(self)
+        self.mem=mem
+        self.append(Activity(self.mem, self.tr("Sedentary"), self.tr("If you get minimal or no exercise"), Decimal(1.2), eActivity.Sedentary))
+        self.append(Activity(self.mem, self.tr("Lightly active"), self.tr("If you exercise moderately three to five days a week"), Decimal(1.375), eActivity.LightlyActive))
+        self.append(Activity(self.mem, self.tr("Moderately active"), self.tr("If you exercise moderately three to five days a week"), Decimal(1.55), eActivity.ModeratelyActive))
+        self.append(Activity(self.mem, self.tr("Very active"), self.tr("If you engage in hard exercise six to seven days a week"), Decimal(1.725), eActivity.VeryActive))
+        self.append(Activity(self.mem, self.tr("Extra active"), self.tr("If you engage in very hard exercise six to seven days a week or have a physical job"), Decimal(1.9), eActivity.ExtraActive))
+
+class WeightWish(QObject):
+    def __init__(self, mem, name, id):
+            self.mem=mem
+            self.name=name
+            self.id=id
+
+class WeightWishManager(QObject, ObjectManager_With_IdName_Selectable):
+    def __init__(self, mem):
+        QObject.__init__(self)
+        ObjectManager_With_IdName_Selectable.__init__(self)
+        self.mem=mem
+        self.append(WeightWish(self.mem, self.tr("Lose weight"), eWeightWish.Lose))
+        self.append(WeightWish(self.mem, self.tr("Mantain weight"), eWeightWish.Mantain))
+        self.append(WeightWish(self.mem, self.tr("Gain weight"), eWeightWish.Gain))
 
 class Percentage:
     def __init__(self, numerator=None, denominator=None):
@@ -822,13 +868,15 @@ class ProductAllManager(QObject, ObjectManager_With_IdName_Selectable):
                 r.append(o)
         return r
 
-
 class DBData:
     def __init__(self, mem):
         self.mem=mem
 
     def load(self, progress=True):
         start=datetime.now()
+        
+        self.activities=ActivityManager(self.mem)
+        self.weightwishes=WeightWishManager(self.mem)
         
         self.companies=CompanyAllManager(self.mem)
 
@@ -838,6 +886,7 @@ class DBData:
         self.users=UserManager(self.mem, "select * from users", progress)
         self.users.load_last_biometrics()
         
+        
         debug("DBData took {}".format(datetime.now()-start))
 
 class Biometrics:    
@@ -845,12 +894,13 @@ class Biometrics:
     ##Biometrics(mem,rows)
     ##Biometrics(mem,dt, height, weight, user, activity, id):
     def __init__(self, *args):        
-        def init__create(dt, height, weight, user, activity, id):
+        def init__create(dt, height, weight, user, activity, weightwish, id):
             self.datetime=dt
             self.height=height
             self.weight=weight
             self.user=user
             self.activity=activity
+            self.weightwish=weightwish
             self.id=id
         # #########################################
         self.mem=args[0]
@@ -858,12 +908,15 @@ class Biometrics:
             init__create(*[None]*6)
         elif len(args)==2:#Biometrics(mem,rows)
             user=self.mem.data.users.find_by_id(args[1]['users_id'])
-            init__create(args[1]['datetime'], args[1]['height'], args[1]['weight'], user, args[1]['activity'],  args[1]['id'])
-        elif len(args)==5:#Biometrics(mem,dt, height, weight, user, activity, id):
-            init__create(args[1], args[2], args[3], args[4])
+            activity=self.mem.data.activities.find_by_id(args[1]['activity'])
+            weightwish=self.mem.data.weightwishes.find_by_id(args[1]['weightwish'])
+            init__create(args[1]['datetime'], args[1]['height'], args[1]['weight'], user, activity, weightwish,  args[1]['id'])
+        elif len(args)==8:#Biometrics(mem,dt, height, weight, user, activity, id):
+            init__create(*args[1:])
     
     def __repr__(self):
         return "{} {}".format(self.height, self.weight)
+
 class BiometricsManager(QObject, ObjectManager_With_IdName_Selectable):
     ##Biometrics(mem)
     ##Biometrics(mem,sql, progress)
@@ -878,6 +931,7 @@ class BiometricsManager(QObject, ObjectManager_With_IdName_Selectable):
         self.clean()
         cur=self.mem.con.cursor()
         cur.execute(sql)#"select * from products where id in ("+lista+")" 
+        print(sql, cur.rowcount)
         if progress==True:
             pd= QProgressDialog(self.tr("Loading {0} biometrics from database").format(cur.rowcount),None, 0,cur.rowcount)
             pd.setWindowIcon(QIcon(":/caloriestracker/coins.png"))
@@ -889,10 +943,30 @@ class BiometricsManager(QObject, ObjectManager_With_IdName_Selectable):
                 pd.setValue(cur.rownumber)
                 pd.update()
                 QApplication.processEvents()
-                
+            print(row)
             o=Biometrics(self.mem, row)
             self.append(o)
         cur.close()
+
+    def qtablewidget(self, table):        
+        table.setColumnCount(6)
+        table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Date and time")))
+        table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Weight")))
+        table.setHorizontalHeaderItem(2, QTableWidgetItem(self.tr("Height")))
+        table.setHorizontalHeaderItem(3, QTableWidgetItem(self.tr("Activity")))
+        table.setHorizontalHeaderItem(4, QTableWidgetItem(self.tr("weightwish")))
+        table.setHorizontalHeaderItem(5, QTableWidgetItem(self.tr("Situation")))
+   
+        table.applySettings()
+        table.clearContents()
+        table.setRowCount(self.length())
+        for i, o in enumerate(self.arr):
+            table.setItem(i, 0, qdatetime(o.datetime, self.mem.localzone))
+            table.setItem(i, 1, qnumber(o.weight))
+            table.setItem(i, 2, qnumber(o.height))
+            table.setItem(i, 3, qleft(o.activity.name))
+            table.setItem(i, 4, qleft(o.weightwish.name))
+            table.setItem(i, 5, qleft(o.user.imc_comment()))
 
 class CompanySystem:
     ##CompanySystem(mem)
@@ -1347,20 +1421,19 @@ class User:
     ##User(mem,rows) #Uses products_id and users_id in row
     ##User( name, male, birthday, starts, ends, dietwish, id):
     def __init__(self, *args):        
-        def init__create( name, male, birthday, starts, ends, dietwish, id):
+        def init__create( name, male, birthday, starts, ends, id):
             self.name=name
             self.male=male
             self.birthday=birthday
             self.starts=starts
             self.ends=ends
-            self.dietwish=dietwish
             self.id=id
         # #########################################
         self.mem=args[0]
         if len(args)==1:#User(mem)
             init__create(*[None]*7)
         elif len(args)==2:#User(mem,rows)
-            init__create(args[1]['name'], args[1]['male'], args[1]['birthday'], args[1]['starts'],  args[1]['ends'],  args[1]['dietwish'],  args[1]['id'])
+            init__create(args[1]['name'], args[1]['male'], args[1]['birthday'], args[1]['starts'],  args[1]['ends'], args[1]['id'])
         elif len(args)==8:#User( name, male, birthday, starts, ends, dietwish, id):
             init__create(*args[1:])
     
@@ -1378,21 +1451,10 @@ class User:
 
     ##basal metabolic rate
     def bmr(self):
-        if self.last_biometrics.activity==0:
-            mult=Decimal(1.2)
-        elif self.last_biometrics.activity==1:
-            mult=Decimal(1.375)
-        elif self.last_biometrics.activity==2:
-            mult=Decimal(1.55)
-        elif self.last_biometrics.activity==3:
-            mult=Decimal(1.72)
-        elif self.last_biometrics.activity==4:
-            mult=Decimal(1.9)
-
         if self.male==True:
-            return mult*(Decimal(10)*self.last_biometrics.weight + Decimal(6.25)*self.last_biometrics.height - Decimal(5)*self.age() + 5)
+            return self.last_biometrics.activity.multiplier*(Decimal(10)*self.last_biometrics.weight + Decimal(6.25)*self.last_biometrics.height - Decimal(5)*self.age() + 5)
         else: #female
-            return mult*(Decimal(10)*self.last_biometrics.weight + Decimal(6.25)*self.last_biometrics.height - Decimal(5)*self.age() - 161)
+            return self.last_biometrics.activity.multiplier*(Decimal(10)*self.last_biometrics.weight + Decimal(6.25)*self.last_biometrics.height - Decimal(5)*self.age() - 161)
 
     ##    https://www.healthline.com/nutrition/how-much-protein-per-day#average-needs
     ## If you’re at a healthy weight, don't lift weights and don't exercise much, then aiming for 0.36–0.6 grams per pound (0.8–1.3 gram per kg) is a reasonable estimate.

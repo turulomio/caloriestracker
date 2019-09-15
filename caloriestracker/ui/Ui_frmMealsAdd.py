@@ -54,6 +54,7 @@ class Ui_frmMealsAdd(object):
         self.spnAmount = QtWidgets.QDoubleSpinBox(frmMealsAdd)
         self.spnAmount.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.spnAmount.setMaximum(1000000.0)
+        self.spnAmount.setProperty("value", 100.0)
         self.spnAmount.setObjectName("spnAmount")
         self.horizontalLayout.addWidget(self.spnAmount)
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -65,6 +66,7 @@ class Ui_frmMealsAdd(object):
 
         self.retranslateUi(frmMealsAdd)
         QtCore.QMetaObject.connectSlotsByName(frmMealsAdd)
+        frmMealsAdd.setTabOrder(self.cmbProducts, self.spnAmount)
 
     def retranslateUi(self, frmMealsAdd):
         _translate = QtCore.QCoreApplication.translate

@@ -70,8 +70,8 @@ def qdate(date):
     
 ## dt es un datetime con timezone, que se mostrara con la zone pasado como parametro
 ## Convierte un datetime a string, teniendo en cuenta los microsehgundos, para ello se convierte a datetime local
-def qdatetime(dt, zone):
-    newdt=dtaware_changes_tz(dt, zone.name)
+def qdatetime(dt, tz_name):
+    newdt=dtaware_changes_tz(dt, tz_name)
     if newdt==None:
         return qempty()
     a=QTableWidgetItem(dtaware2string(newdt))
