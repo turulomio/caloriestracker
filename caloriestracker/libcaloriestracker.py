@@ -928,7 +928,69 @@ class Biometrics:
             self.id=self.mem.con.cursor_one_field("insert into biometrics(datetime,weight,height,users_id,activity,weightwish) values (%s, %s, %s, %s, %s, %s) returning id", (self.datetime, self.weight, self.height, self.user.id, self.activity.id, self.weightwish.id))
         else:
             self.mem.con.execute("update biometrics set datetime=%s, weight=%s, height=%s, users_id=%s, activity=%s, weightwish=%s where id=%s", (self.datetime, self.weight, self.height, self.user.id, self.activity.id, self.weightwish.id, self.id))
-            
+                ##basal metabolic rate
+    def bmr(self):
+        if self.male==True:
+            return self.activity.multiplier*(Decimal(10)*self.weight + Decimal(6.25)*self.height - Decimal(5)*self.age() + 5)
+        else: #female
+            return self.activity.multiplier*(Decimal(10)*self.weight + Decimal(6.25)*self.height - Decimal(5)*self.age() - 161)
+
+    ##    https://www.healthline.com/nutrition/how-much-protein-per-day#average-needs
+    ## If you’re at a healthy weight, don't lift weights and don't exercise much, then aiming for 0.36–0.6 grams per pound (0.8–1.3 gram per kg) is a reasonable estimate.
+    ##
+    ##This amounts to:
+    ##
+    ##56–91 grams per day for the average male.
+    ##46–75 grams per day for the average female.
+    ##
+    ## But given that there is no evidence of harm and a significant evidence of benefit, it’s likely better for most people to err on the side of more protein rather than less.
+    def protein(self):
+        return self.bmr()*Decimal(0.175)/Decimal(4)
+
+
+    ## The Mediterranean diet includes a wide variety of plant and animal foods such as fish, meat, eggs, dairy, extra virgin olive oil, fruits, vegetables, legumes and whole grains.
+    ## 
+    ## It typically provides 35–40% of calories from fat, including plenty of monounsaturated fat from olive oil.
+    ##
+    ## Here are a few examples of suggested daily fat ranges for a Mediterranean diet, based on different calorie goals:
+    ##
+    ##     1,500 calories: About 58–67 grams of fat per day.
+    ##     2,000 calories: About 78–89 grams of fat per day.
+    ##     2,500 calories: About 97–111 grams of fat per day.
+    ## Segun https://www.tuasaude.com/es/calorias-de-los-alimentos/ cada gramo grasa tiene 9 calorias
+    ## 60% hidratos, 17.5% proteínas y 22.5% de grasas. SERA SELECCIONABLE
+    def fat(self):
+        return self.bmr()*Decimal(0.225)/Decimal(9)
+
+    def carbohydrate(self):
+        return self.bmr()*Decimal(0.60)/Decimal(4)
+
+
+    def fiber(self):
+        return Decimal(25)
+    # Índice de masa corporal
+    def imc(self):
+        return self.weight/((self.height/100)**2)
+    
+    ## https://www.seedo.es/index.php/pacientes/calculo-imc
+    def imc_comment(self):
+        imc=self.imc()
+        if imc <18.5:
+            return "Peso insuficiente"
+        elif imc<24.9:
+            return "Peso normal"
+        elif imc<26.9:
+            return "Sobrepeso grado I"
+        elif imc<29.9:
+            return "Sobrepeso grado II (preobesidad)"
+        elif imc<34.9:
+            return "Obesidad grado I"
+        elif imc<39.9:
+            return "Obesidad grado II"
+        elif imc<50:
+            return "Obesidad grado III (mórbida)"
+        elif imc>=50:
+            return "Obesidad grado IV (extrema"
 class BiometricsManager(QObject, ObjectManager_With_IdName_Selectable):
     ##Biometrics(mem)
     ##Biometrics(mem,sql, progress)
@@ -976,7 +1038,7 @@ class BiometricsManager(QObject, ObjectManager_With_IdName_Selectable):
             table.setItem(i, 2, qnumber(o.height))
             table.setItem(i, 3, qleft(o.activity.name))
             table.setItem(i, 4, qleft(o.weightwish.name))
-            table.setItem(i, 5, qleft(o.user.imc_comment()))
+            table.setItem(i, 5, qleft(o.imc_comment()))
 
 class CompanySystem:
     ##CompanySystem(mem)
@@ -1459,72 +1521,10 @@ class User:
             else:
                 self.last_biometrics=Biometrics(self.mem)
 
-    ##basal metabolic rate
-    def bmr(self):
-        if self.male==True:
-            return self.last_biometrics.activity.multiplier*(Decimal(10)*self.last_biometrics.weight + Decimal(6.25)*self.last_biometrics.height - Decimal(5)*self.age() + 5)
-        else: #female
-            return self.last_biometrics.activity.multiplier*(Decimal(10)*self.last_biometrics.weight + Decimal(6.25)*self.last_biometrics.height - Decimal(5)*self.age() - 161)
-
-    ##    https://www.healthline.com/nutrition/how-much-protein-per-day#average-needs
-    ## If you’re at a healthy weight, don't lift weights and don't exercise much, then aiming for 0.36–0.6 grams per pound (0.8–1.3 gram per kg) is a reasonable estimate.
-    ##
-    ##This amounts to:
-    ##
-    ##56–91 grams per day for the average male.
-    ##46–75 grams per day for the average female.
-    ##
-    ## But given that there is no evidence of harm and a significant evidence of benefit, it’s likely better for most people to err on the side of more protein rather than less.
-    def protein(self):
-        return self.bmr()*Decimal(0.175)/Decimal(4)
-
-
-    ## The Mediterranean diet includes a wide variety of plant and animal foods such as fish, meat, eggs, dairy, extra virgin olive oil, fruits, vegetables, legumes and whole grains.
-    ## 
-    ## It typically provides 35–40% of calories from fat, including plenty of monounsaturated fat from olive oil.
-    ##
-    ## Here are a few examples of suggested daily fat ranges for a Mediterranean diet, based on different calorie goals:
-    ##
-    ##     1,500 calories: About 58–67 grams of fat per day.
-    ##     2,000 calories: About 78–89 grams of fat per day.
-    ##     2,500 calories: About 97–111 grams of fat per day.
-    ## Segun https://www.tuasaude.com/es/calorias-de-los-alimentos/ cada gramo grasa tiene 9 calorias
-    ## 60% hidratos, 17.5% proteínas y 22.5% de grasas. SERA SELECCIONABLE
-    def fat(self):
-        return self.bmr()*Decimal(0.225)/Decimal(9)
-
-    def carbohydrate(self):
-        return self.bmr()*Decimal(0.60)/Decimal(4)
-
-
-    def fiber(self):
-        return Decimal(25)
 
     def age(self):
         return (date.today() - self.birthday) // timedelta(days=365.2425)
-    # Índice de masa corporal
-    def imc(self):
-        return self.last_biometrics.weight/((self.last_biometrics.height/100)**2)
-    
-    ## https://www.seedo.es/index.php/pacientes/calculo-imc
-    def imc_comment(self):
-        imc=self.imc()
-        if imc <18.5:
-            return "Peso insuficiente"
-        elif imc<24.9:
-            return "Peso normal"
-        elif imc<26.9:
-            return "Sobrepeso grado I"
-        elif imc<29.9:
-            return "Sobrepeso grado II (preobesidad)"
-        elif imc<34.9:
-            return "Obesidad grado I"
-        elif imc<39.9:
-            return "Obesidad grado II"
-        elif imc<50:
-            return "Obesidad grado III (mórbida)"
-        elif imc>=50:
-            return "Obesidad grado IV (extrema"
+
             
 ## Class to manage users
 ## UserManager(mem)
