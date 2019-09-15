@@ -85,6 +85,7 @@
     <addaction name="separator"/>
     <addaction name="actionSearch"/>
     <addaction name="separator"/>
+    <addaction name="actionElaboratedProductAdd"/>
     <addaction name="actionProductsUser"/>
    </widget>
    <widget class="QMenu" name="menuMealss">
@@ -135,6 +136,7 @@
    </attribute>
    <addaction name="actionMeals"/>
    <addaction name="actionBiometrics"/>
+   <addaction name="actionElaboratedProductAdd"/>
    <addaction name="actionSearch"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -304,6 +306,18 @@
    </property>
    <property name="toolTip">
     <string>Biometric information</string>
+   </property>
+  </action>
+  <action name="actionElaboratedProductAdd">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/keko.png</normaloff>:/caloriestracker/keko.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add an elaborated product</string>
+   </property>
+   <property name="toolTip">
+    <string>Add an elaborated product</string>
    </property>
   </action>
  </widget>

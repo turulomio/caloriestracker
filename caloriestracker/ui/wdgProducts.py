@@ -1,7 +1,7 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox
 from caloriestracker.ui.Ui_wdgProducts import Ui_wdgProducts
-from caloriestracker.libcaloriestracker import ProductAllManager
+from caloriestracker.libcaloriestracker import ProductAllManager, ProductElaborated
 from caloriestracker.libcaloriestrackerfunctions import qmessagebox
 from caloriestracker.libmanagers import ManagerSelectionMode
 from logging import debug
@@ -50,7 +50,11 @@ class wdgProducts(QWidget, Ui_wdgProducts):
                 w.exec_()
                 self.on_cmd_pressed()
             else:#Elaborated product
-                qmessagebox("working on it")
+                from caloriestracker.ui.frmProductsElaboratedAdd import frmProductsElaboratedAdd
+                elaborated=ProductElaborated(self.mem, self.products.selected.elaboratedproducts_id)
+                w=frmProductsElaboratedAdd(self.mem, elaborated, self)
+                w.exec_()
+                self.on_cmd_pressed()
 
     def on_txt_returnPressed(self):
         self.on_cmd_pressed()

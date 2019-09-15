@@ -149,6 +149,12 @@ class frmMain(QMainWindow, Ui_frmMain):
         w=frmBiometricsAdd(self.mem,  self)
         w.exec_()
     
+    
+    @pyqtSlot()  
+    def on_actionElaboratedProductAdd_triggered(self):
+        from caloriestracker.ui.frmProductsElaboratedAdd import frmProductsElaboratedAdd
+        w=frmProductsElaboratedAdd(self.mem, None, self)
+        w.exec_()
     @pyqtSlot()  
     def on_actionProductsUser_triggered(self):
         self.w.close()
