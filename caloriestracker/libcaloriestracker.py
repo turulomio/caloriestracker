@@ -927,7 +927,7 @@ class Biometrics:
         if self.id==None:
             self.id=self.mem.con.cursor_one_field("insert into biometrics(datetime,weight,height,users_id,activity,weightwish) values (%s, %s, %s, %s, %s, %s) returning id", (self.datetime, self.weight, self.height, self.user.id, self.activity.id, self.weightwish.id))
         else:
-            self.mem.con.cursor_one_field("update companies set datetime=%s, weight=%s, height=%s, users_id=%s, activity=%s, weightwish=%s where id=%s", (self.datetime, self.weight, self.height, self.user.id, self.activity.id, self.weightwish.id, self.id))
+            self.mem.con.execute("update biometrics set datetime=%s, weight=%s, height=%s, users_id=%s, activity=%s, weightwish=%s where id=%s", (self.datetime, self.weight, self.height, self.user.id, self.activity.id, self.weightwish.id, self.id))
             
 class BiometricsManager(QObject, ObjectManager_With_IdName_Selectable):
     ##Biometrics(mem)
