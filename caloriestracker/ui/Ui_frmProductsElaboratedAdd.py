@@ -50,6 +50,7 @@ class Ui_frmProductsElaboratedAdd(object):
         self.spnFinalAmount = QtWidgets.QDoubleSpinBox(frmProductsElaboratedAdd)
         self.spnFinalAmount.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.spnFinalAmount.setMaximum(1000000.0)
+        self.spnFinalAmount.setProperty("value", 0.0)
         self.spnFinalAmount.setObjectName("spnFinalAmount")
         self.horizontalLayout_17.addWidget(self.spnFinalAmount)
         self.verticalLayout_3.addLayout(self.horizontalLayout_17)

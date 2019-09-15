@@ -11,7 +11,7 @@ from caloriestracker.github import get_file_modification_dtaware
 from caloriestracker.libcaloriestrackerfunctions import str2bool, dtaware2string, is_there_internet, input_boolean, input_integer_or_none, a2s, ca2s, n2s, rca2s
 from caloriestracker.libcaloriestrackertypes import eProductComponent, eActivity, eWeightWish
 from caloriestracker.ui.qtablewidgetitems import qtime, qleft, qright, qnumber_limited, qnumber, qdatetime
-from caloriestracker.libmanagers import  ObjectManager_With_Id_Selectable,  ManagerSelectionMode, ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime, ObjectManager_With_IdDatetime_Selectable
+from caloriestracker.libmanagers import ObjectManager, ObjectManager_With_Id_Selectable,  ManagerSelectionMode, ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime, ObjectManager_With_IdDatetime_Selectable
 from colorama import Fore, Style
 from officegenerator import OpenPyXL
 from logging import debug, info
@@ -930,10 +930,10 @@ class Biometrics:
             self.mem.con.execute("update biometrics set datetime=%s, weight=%s, height=%s, users_id=%s, activity=%s, weightwish=%s where id=%s", (self.datetime, self.weight, self.height, self.user.id, self.activity.id, self.weightwish.id, self.id))
                 ##basal metabolic rate
     def bmr(self):
-        if self.male==True:
-            return self.activity.multiplier*(Decimal(10)*self.weight + Decimal(6.25)*self.height - Decimal(5)*self.age() + 5)
+        if self.user.male==True:
+            return self.activity.multiplier*(Decimal(10)*self.weight + Decimal(6.25)*self.height - Decimal(5)*self.user.age() + 5)
         else: #female
-            return self.activity.multiplier*(Decimal(10)*self.weight + Decimal(6.25)*self.height - Decimal(5)*self.age() - 161)
+            return self.activity.multiplier*(Decimal(10)*self.weight + Decimal(6.25)*self.height - Decimal(5)*self.user.age() - 161)
 
     ##    https://www.healthline.com/nutrition/how-much-protein-per-day#average-needs
     ## If you’re at a healthy weight, don't lift weights and don't exercise much, then aiming for 0.36–0.6 grams per pound (0.8–1.3 gram per kg) is a reasonable estimate.
@@ -1039,6 +1039,20 @@ class BiometricsManager(QObject, ObjectManager_With_IdName_Selectable):
             table.setItem(i, 3, qleft(o.activity.name))
             table.setItem(i, 4, qleft(o.weightwish.name))
             table.setItem(i, 5, qleft(o.imc_comment()))
+            
+    ## Returns a date value manager with the simple movil average 3 of weight
+    def DVManager_weight_sma(self):
+        period=5
+        r=DVManager(self.mem)
+        for i in range(period, self.length()):
+            sma=DV()
+            sma.value=Decimal(0)
+            sma.datetime=self.arr[i].datetime
+            for p in range(period):
+                sma.value=sma.value+self.arr[i-p].weight
+            sma.value=sma.value/period
+            r.append(sma)
+        return r
 
 class CompanySystem:
     ##CompanySystem(mem)
@@ -1444,9 +1458,9 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
 
         print (Style.BRIGHT+ "-"*(maxlength) + Style.RESET_ALL)
         total="{} MEALS WITH THIS TOTALS".format(self.length())
-        print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}  {}".format(total.ljust(maxname+7), a2s(self.grams()), ca2s(self.calories(),self.mem.user.bmr()), ca2s(self.carbohydrate(),self.mem.user.carbohydrate()), ca2s(self.protein(), self.mem.user.protein()), ca2s(self.fat(),self.mem.user.fat()), rca2s(self.fiber(),self.mem.user.fiber())) + Style.RESET_ALL)
+        print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}  {}".format(total.ljust(maxname+7), a2s(self.grams()), ca2s(self.calories(),self.mem.user.last_biometrics.bmr()), ca2s(self.carbohydrate(),self.mem.user.last_biometrics.carbohydrate()), ca2s(self.protein(), self.mem.user.last_biometrics.protein()), ca2s(self.fat(),self.mem.user.last_biometrics.fat()), rca2s(self.fiber(),self.mem.user.last_biometrics.fiber())) + Style.RESET_ALL)
         recomendations="RECOMMENDATIONS"
-        print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}  {}".format(recomendations.ljust(maxname+7), n2s(), a2s(self.mem.user.bmr()), a2s(self.mem.user.carbohydrate()), a2s(self.mem.user.protein()), a2s(self.mem.user.fat()), a2s(self.mem.user.fiber())) + Style.RESET_ALL)
+        print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}  {}".format(recomendations.ljust(maxname+7), n2s(), a2s(self.mem.user.last_biometrics.bmr()), a2s(self.mem.user.last_biometrics.carbohydrate()), a2s(self.mem.user.last_biometrics.protein()), a2s(self.mem.user.last_biometrics.fat()), a2s(self.mem.user.last_biometrics.fiber())) + Style.RESET_ALL)
         print (Style.BRIGHT + "="*(maxlength) + Style.RESET_ALL)
 
     def qtablewidget(self, table):        
@@ -1475,18 +1489,18 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
         #Totals
         table.setItem(self.length(), 1, qleft(self.tr("Total")))
         table.setItem(self.length(), 2, qnumber(self.grams()))
-        table.setItem(self.length(), 3, qnumber_limited(self.calories(), self.mem.user.bmr()))
-        table.setItem(self.length(), 4, qnumber_limited(self.carbohydrate(), self.mem.user.carbohydrate()))
-        table.setItem(self.length(), 5, qnumber_limited(self.protein(), self.mem.user.protein()))
-        table.setItem(self.length(), 6, qnumber_limited(self.fat(), self.mem.user.fat()))
-        table.setItem(self.length(), 7, qnumber_limited(self.fiber(), self.mem.user.fiber(), reverse=True))
+        table.setItem(self.length(), 3, qnumber_limited(self.calories(), self.mem.user.last_biometrics.bmr()))
+        table.setItem(self.length(), 4, qnumber_limited(self.carbohydrate(), self.mem.user.last_biometrics.carbohydrate()))
+        table.setItem(self.length(), 5, qnumber_limited(self.protein(), self.mem.user.last_biometrics.protein()))
+        table.setItem(self.length(), 6, qnumber_limited(self.fat(), self.mem.user.last_biometrics.fat()))
+        table.setItem(self.length(), 7, qnumber_limited(self.fiber(), self.mem.user.last_biometrics.fiber(), reverse=True))
         #Recomendatios
         table.setItem(self.length()+1, 1, qleft(self.tr("Recomendations")))
-        table.setItem(self.length()+1, 3, qnumber(self.mem.user.bmr()))
-        table.setItem(self.length()+1, 4, qnumber(self.mem.user.carbohydrate()))
-        table.setItem(self.length()+1, 5, qnumber(self.mem.user.protein()))
-        table.setItem(self.length()+1, 6, qnumber(self.mem.user.fat()))
-        table.setItem(self.length()+1, 7, qnumber(self.mem.user.fiber()))
+        table.setItem(self.length()+1, 3, qnumber(self.mem.user.last_biometrics.bmr()))
+        table.setItem(self.length()+1, 4, qnumber(self.mem.user.last_biometrics.carbohydrate()))
+        table.setItem(self.length()+1, 5, qnumber(self.mem.user.last_biometrics.protein()))
+        table.setItem(self.length()+1, 6, qnumber(self.mem.user.last_biometrics.fat()))
+        table.setItem(self.length()+1, 7, qnumber(self.mem.user.last_biometrics.fiber()))
         
 class User:
     ##User(mem)
@@ -1562,3 +1576,14 @@ class UserManager(QObject, ObjectManager_With_IdName_Selectable):
 
 
         
+class DV:
+    def __init__(self):
+        self.datetime=None
+        self.value=None
+
+    def __repr__(self):
+        return "DV {} = {}".format(self.date,self.value)
+
+class DVManager(ObjectManager):
+    def __init__(self, mem):
+        ObjectManager.__init__(self)

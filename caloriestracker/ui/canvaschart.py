@@ -1,11 +1,11 @@
 from PyQt5.QtCore import  Qt,  pyqtSlot,  QObject
-from PyQt5.QtGui import QPainter, QFont,  QColor, QIcon
+from PyQt5.QtGui import QPainter, QFont,  QIcon
 from PyQt5.QtWidgets import QAction, QMenu, QFileDialog, QProgressDialog, QApplication
-from caloriestracker.libcaloriestracker import    Percentage
+from caloriestracker.libcaloriestracker import Percentage
 from caloriestracker.libcaloriestrackerfunctions import epochms2dtaware, dtaware2epochms, dtnaive2string
-from caloriestracker.libcaloriestrackertypes import  eOHCLDuration, eDtStrings
-import datetime
-from PyQt5.QtChart import QChart,  QLineSeries, QChartView, QValueAxis, QDateTimeAxis,  QPieSeries, QCandlestickSeries,  QCandlestickSet,  QScatterSeries
+from caloriestracker.libcaloriestrackertypes import eDtStrings
+from datetime import timedelta, datetime
+from PyQt5.QtChart import QChart,  QLineSeries, QChartView, QValueAxis, QDateTimeAxis,  QPieSeries
 
 class VCCommons(QChartView):
     def __init__(self):
@@ -27,7 +27,7 @@ class VCCommons(QChartView):
         
     @pyqtSlot()
     def on_actionSave_triggered(self):
-        filename="{} Chart.png".format(dtnaive2string(datetime.datetime.now(), type=eDtStrings.Filename))    
+        filename="{} Chart.png".format(dtnaive2string(datetime.now(), type=eDtStrings.Filename))    
         filename = QFileDialog.getSaveFileName(self, self.tr("Save File"), filename, self.tr("PNG Image (*.png)"))[0]
         if filename:
             self.save(filename)
@@ -102,7 +102,7 @@ class VCTemporalSeries(VCCommons):
 
         #Axis cration
         self.axisX=QDateTimeAxis()
-        self.axisX.setTickCount(15);
+        self.axisX.setTickCount(8);
         self.axisX.setFormat("yyyy-MM");
         self.maxx=None
         self.maxy=None
@@ -115,7 +115,6 @@ class VCTemporalSeries(VCCommons):
         self.setRenderHint(QPainter.Antialiasing);
         
         self.series=[]
-        self.__ohclduration=eOHCLDuration.Day
 
     def setAxisFormat(self, axis,  min, max, type, zone=None):
         """
@@ -134,14 +133,10 @@ class VCTemporalSeries(VCCommons):
         elif type==1:
             max=epochms2dtaware(max)#UTC aware
             min=epochms2dtaware(min)
-            if max-min<datetime.timedelta(days=1):
+            if max-min<timedelta(days=1):
                 axis.setFormat("hh:mm")
             else:
                 axis.setFormat("yyyy-MM-dd")
-
-    def setOHCLDuration(self, ohclduration):
-        self.__ohclduration=ohclduration
-
 
     def setAllowHideSeries(self, boolean):
         self._allowHideSeries=boolean
@@ -178,45 +173,8 @@ class VCTemporalSeries(VCCommons):
             self.maxx=x
         if x<self.minx:
             self.minx=x
-        
-    def appendCandlestickSeries(self, name, currency):
-        self.currency=currency
-        ls=QCandlestickSeries()
-        ls.setName(name)
-        ls.setIncreasingColor(QColor(Qt.green));
-        ls.setDecreasingColor(QColor(Qt.red));
-        self.series.append(ls)
-        return ls
-        
-    def appendCandlestickSeriesData(self, ls, ohcl):
-        x=dtaware2epochms(ohcl.datetime())
-        ls.append(QCandlestickSet(ohcl.open, ohcl.high, ohcl.low, ohcl.close, x ))
-        if self.maxy==None:
-            self.maxy=ohcl.high
-            self.miny=ohcl.low
-            self.maxx=x
-            self.minx=x
-        if ohcl.high>self.maxy:
-            self.maxy=ohcl.high
-        if ohcl.low<self.miny:
-            self.miny=ohcl.low     
-        if x>self.maxx:
-            self.maxx=x
-        if x<self.minx:
-            self.minx=x
-            
-    def appendScatterSeries(self, name,  currency=None):
-        """
-            currency is a Currency object
-        """
-        self.currency=currency
-        ls=QScatterSeries()
-        ls.setName(name)
-        self.series.append(ls)
-        return ls
 
-    def appendScatterSeriesData(self, ls, x, y):
-        self.appendTemporalSeriesData(ls, x, y)
+
         
     def mouseMoveEvent(self, event):
         """
