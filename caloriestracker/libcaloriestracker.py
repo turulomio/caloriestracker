@@ -597,30 +597,28 @@ class ProductElaborated:
     ##Biometrics(mem)
     ##Biometrics(mem,id)
     def __init__(self, *args):        
-        def init__create(name, id):
+        def init__create(name, final_amount, id):
             self.name=name
+            self.final_amount=final_amount
             self.id=id
         self.mem=args[0]
         if len(args)==1:
-            init__create(None,None)
+            init__create(None,None, None)
         elif len(args)==2:
-            row=self.mem.con.cursor_one_row("select id,name from elaboratedproducts where id=%s",(args[1],))
-            init__create(row[1],row[0])
+            row=self.mem.con.cursor_one_row("select id,name,final_amount from elaboratedproducts where id=%s",(args[1],))
+            init__create(row[1],row[2], row[0])
             self.products_in=ProductsInElaboratedProduct(self.mem, self, self.mem.con.mogrify("select * from products_in_elaboratedproducts where elaboratedproducts_id=%s",(args[1],)))
 
     def show_table(self):
         self.products_in.show_table()
 
     def register_in_personal_products(self):
-        selected=None
-        for p in self.mem.data.products.arr:
-            if p.elaboratedproducts_id==self.id:
-                 selected=p
+        selected=self.mem.data.products.find_by_elaboratedproducts_id(self.id)
         if selected==None:
             o=ProductPersonal(
             self.mem,
             self.name, 
-            self.products_in.grams(), 
+            self.final_amount, 
             self.products_in.fat(), 
             self.products_in.protein(), 
             self.products_in.carbohydrate(), 
@@ -642,15 +640,13 @@ class ProductElaborated:
             o.save()
         else:#It's already in personalproducts
             selected.name=self.name
-            selected.amount=self.products_in.grams()
+            selected.amount=self.final_amount
             selected.fat=self.products_in.fat()
             selected.protein=self.products_in.protein()
             selected.carbohydrate=self.products_in.carbohydrate()
             selected.calories=self.products_in.calories()
             selected.fiber=self.products_in.fiber()
             selected.save()
-
-
 
 class ProductInElaboratedProduct:
     ##Biometrics(mem)
@@ -786,8 +782,9 @@ class ProductsInElaboratedProduct(QObject, ObjectManager_With_IdDatetime):
         print (Style.BRIGHT+ "-"*(maxlength) + Style.RESET_ALL)
         total="ELABORATED WITH {} PRODUCTS".format(self.length())
         print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}  {}".format(total.ljust(maxname), a2s(self.grams()), a2s(self.calories()), a2s(self.carbohydrate()), a2s(self.protein()), a2s(self.fat()), a2s(self.fiber())) + Style.RESET_ALL)
-#        recomendations="RECOMMENDATIONS"
-#        print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}  {}".format(recomendations.ljust(maxname+7), n2s(), a2s(user.bmr()), a2s(user.carbohydrate()), a2s(user.protein()), a2s(user.fat()), a2s(user.fiber())) + Style.RESET_ALL)
+        recomendations="FINAL PRODUCT"
+        product=self.mem.data.products.find_by_elaboratedproducts_id(self.elaboratedproduct.id)
+        print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}  {}".format(recomendations.ljust(maxname), a2s(product.amount), a2s(product.calories), a2s(product.carbohydrate), a2s(product.protein), a2s(product.fat), a2s(product.fiber)) + Style.RESET_ALL)
         print (Style.BRIGHT + "="*(maxlength) + Style.RESET_ALL)
 
 
@@ -859,6 +856,12 @@ class ProductAllManager(QObject, ObjectManager_With_IdName_Selectable):
         id=int(stringid.split("#")[0])
         system_product=str2bool(stringid.split("#")[1])
         return self.find_by_id_system(id, system_product)
+        
+    def find_by_elaboratedproducts_id(self,  elaboratedproducts_id):
+        for p in self.arr:
+            if p.elaboratedproducts_id==elaboratedproducts_id:
+                return p
+        return None
         
     ## Returns another ProductAllManager with the products that contains a string
     def ProductAllManager_contains_string(self, s):
