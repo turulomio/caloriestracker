@@ -5,16 +5,14 @@ from PyQt5.QtGui import QIcon,  QColor
 from PyQt5.QtWidgets import QTableWidgetItem, QApplication, QProgressDialog, QCompleter
 from datetime import date,  timedelta, datetime
 
-import os
 from decimal import Decimal
-from caloriestracker.github import get_file_modification_dtaware
-from caloriestracker.libcaloriestrackerfunctions import str2bool, dtaware2string, is_there_internet, input_boolean, input_integer_or_none, a2s, ca2s, n2s, rca2s
+from caloriestracker.libcaloriestrackerfunctions import str2bool, a2s, ca2s, n2s, rca2s
+from caloriestracker.text_inputs import input_boolean, input_integer_or_none
 from caloriestracker.libcaloriestrackertypes import eProductComponent, eActivity, eWeightWish
 from caloriestracker.ui.qtablewidgetitems import qtime, qleft, qright, qnumber_limited, qnumber, qdatetime
-from caloriestracker.libmanagers import ObjectManager, ObjectManager_With_Id_Selectable,  ManagerSelectionMode, ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime, ObjectManager_With_IdDatetime_Selectable
+from caloriestracker.libmanagers import ObjectManager_With_Id_Selectable,  ManagerSelectionMode, ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime, ObjectManager_With_IdDatetime_Selectable
 from colorama import Fore, Style
-from officegenerator import OpenPyXL
-from logging import debug, info
+from logging import debug
 
 ## TMB x 1,2: Poco o ningún ejercicio                     +
 ##        |                                |       |          |            | TMB x 1,375: Ejercicio ligero (1 a 3 días a la semana) +
@@ -322,109 +320,7 @@ class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
             table.setItem(i, 6, qnumber(o.component_in_100g(eProductComponent.Fat)))
             table.setItem(i, 7, qnumber(o.component_in_100g(eProductComponent.Fiber)))
 
-        
-    ## Passes product.needStatus method to all products in arr
-    ## @param needstatus Status needed
-    ## @param progress Boolean. If true shows a progress bar
-    def needStatus(self, needstatus,  downgrade_to=None, progress=False):
-        if progress==True:
-            pd= QProgressDialog(self.tr("Loading additional data to {0} products from database").format(self.length()),None, 0,self.length())
-            pd.setWindowIcon(QIcon(":/caloriestracker/coins.png"))
-            pd.setModal(True)
-            pd.setWindowTitle(self.tr("Loading products..."))
-            pd.forceShow()
-        for i, product in enumerate(self.arr):
-            if progress==True:
-                pd.setValue(i)
-                pd.update()
-                QApplication.processEvents()
-            product.needStatus(needstatus, downgrade_to)
-
-    def order_by_datetime(self):
-        """Orders the Set using self.arr"""
-        try:
-            self.arr=sorted(self.arr, key=lambda c: c.result.basic.last.datetime,  reverse=False)  
-            return True
-        except:
-            return False
-        
-    def order_by_dividend(self):
-        """Return a boolean if the sort can be done"""
-        try:
-            self.arr=sorted(self.arr, key=lambda p: p.estimations_dps.currentYear().percentage(),  reverse=True) 
-            return True
-        except:
-            return False
-        
-    def order_by_daily_tpc(self):
-        """Return a boolean if the sort can be done"""
-        try:
-            self.arr=sorted(self.arr, key=lambda p: p.result.basic.tpc_diario(),  reverse=True) 
-            return True
-        except:
-            return False
-                
-    def order_by_annual_tpc(self):
-        """Return a boolean if the sort can be done"""
-        try:
-            self.arr=sorted(self.arr, key=lambda p: p.result.basic.tpc_anual(),  reverse=True) 
-            return True
-        except:
-            return False
-            
-    ## Fills a qcombobox with product nume in upper case
-    ## @param combo QComboBox to fill
-    ## @param selected Product object to select in the QComboBox
-    def qcombobox_not_obsolete(self, combo,  selected=None):
-        self.order_by_name()
-        combo.clear()
-        for a in self.arr:
-            if a.obsolete==False:
-                combo.addItem(a.name.upper(), a.id)
-
-        if selected!=None:
-            combo.setCurrentIndex(combo.findData(selected.id))
-
-    ## Returns a ProductManager with all products with the type passed as parameter.
-    ## @param type ProductType object
-    ## @return ProductManager
-    def ProductManager_with_same_type(self, type):
-        result=ProductManager(self.mem)
-        for a in self.arr:
-            if a.type.id==type.id:
-                result.append(a)
-        return result
-
-    ## Generate a new ProductManager object finding ids of parameter array in self.arr
-    ## @param arrInt Array of integers to seach in self.arr
-    ## @return ProductManager with the products matchind ids in arrInt.
-    def ProductManager_with_id_in_list(self, arrInt):
-        result=ProductManager(self.mem)
-        for i, id in enumerate(arrInt):
-            selected=self.mem.data.products.find_by_id(id)
-            if selected!=None:
-                result.append(selected)
-        return result
-        
-
-    ## Generate a new ProductManager object with products that contains parameter string
-    ## @param s String to seach
-    ## @return ProductManager that is a subset of this class
-    def ProductManager_contains_string(self, s):
-        def find_attribute(att, s):
-            if att==None:
-                return False
-            if att.upper().find(s)!=-1:
-                return True
-            return False
-        # #############################################
-        s=s.upper()
-        result=ProductManager(self.mem)
-        for o in self.arr:
-            if find_attribute(o.name, s) or find_attribute(o.isin, s) or any(find_attribute(ticker, s) for ticker in o.tickers) or find_attribute(o.comment, s):
-                result.append(o)
-        return result
-        
+   
     ## Removes a product and return a boolean. NO HACE COMMIT
     def remove(self, o):
         if o.remove():
@@ -432,141 +328,6 @@ class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
             return True
         return False
         
-    ## Returns products.xlsx modification datetime or None if it can't find it
-    def dtaware_internet_products_xlsx(self):
-        aware= get_file_modification_dtaware("turulomio","caloriestracker","products.xlsx")
-        if aware==None:
-            return aware
-        else:
-            return aware.replace(second=0)#Due to in database globals we only save minutes
-
-
-    ## Function that downloads products.xlsx from github repository and compares sheet data with database products.arr
-    ## If detects modifications or new products updates database.
-    def update_from_internet(self):
-        def product_xlsx(row):
-            try:
-                p=Product(self.mem)
-                tickers=[None]*5
-                p.id=row[0].value
-                p.name=row[1].value
-                p.high_low=str2bool(row[2].value)
-                p.isin=row[3].value
-                p.stockmarket=self.mem.stockmarkets.find_by_name(row[4].value)
-                if p.stockmarket==None:
-                    raise
-                p.currency=self.mem.currencies.find_by_id(row[5].value)
-                if p.currency==None:
-                    raise
-                p.type=self.mem.types.find_by_name(row[6].value)
-                if p.type==None:
-                    raise
-                p.agrupations=self.mem.agrupations.clone_from_dbstring(row[7].value)
-                if p.agrupations==None:
-                    raise
-                p.web=row[8].value
-                p.address=row[9].value
-                p.phone=row[10].value
-                p.mail=row[11].value
-                p.percentage=row[12].value
-                p.mode=self.mem.investmentsmodes.find_by_id(row[13].value)
-                if p.mode==None:
-                    raise
-                p.leveraged=self.mem.leverages.find_by_name(row[14].value)
-                if p.leveraged==None:
-                    raise
-                p.decimals=row[15].value
-                p.comment=row[16].value
-                p.obsolete=str2bool(row[17].value)
-                tickers[0]=row[18].value
-                tickers[1]=row[19].value
-                tickers[2]=row[20].value
-                tickers[3]=row[21].value
-                tickers[4]=row[22].value
-                p.tickers=tickers
-                return p
-            except:
-                print("Error creando ProductODS con Id: {}".format(p.id))
-                return None
-        #---------------------------------------------------
-        #Checks if there is Internet
-        if is_there_internet()==False:
-            return
-        #Download file 
-        from urllib.request import urlretrieve
-        urlretrieve ("https://github.com/Turulomio/caloriestracker/blob/master/products.xlsx?raw=true", "product.xlsx")
-        
-        oldlanguage=self.mem.language.id
-        self.mem.languages.cambiar("es")
-        
-        #Load database products
-        products=ProductManager(self.mem)
-        products.load_from_db("select * from products order by id")
-        
-        #Iterate ods and load in product object
-        xlsx=OpenPyXL("product.xlsx","product.xlsx")  
-        xlsx.setCurrentSheet(0)
-        # for each row
-        changed=[]
-        added=[]
-        for row in xlsx.ws_current.iter_rows():
-            p_xlsx=product_xlsx(row)
-            if p_xlsx==None:
-                continue
-
-            p_db=products.find_by_id(p_xlsx.id)       
-       
-            if p_db==None:
-                added.append(p_xlsx)
-            elif (  
-                        p_db.id!=p_xlsx.id or
-                        p_db.name!=p_xlsx.name or
-                        p_db.high_low!=p_xlsx.high_low or
-                        p_db.isin!=p_xlsx.isin or
-                        p_db.stockmarket.id!=p_xlsx.stockmarket.id or
-                        p_db.currency.id!=p_xlsx.currency.id or
-                        p_db.type.id!=p_xlsx.type.id or
-                        p_db.agrupations.dbstring()!=p_xlsx.agrupations.dbstring() or 
-                        p_db.web!=p_xlsx.web or
-                        p_db.address!=p_xlsx.address or
-                        p_db.phone!=p_xlsx.phone or
-                        p_db.mail!=p_xlsx.mail or
-                        p_db.percentage!=p_xlsx.percentage or
-                        p_db.mode.id!=p_xlsx.mode.id or
-                        p_db.leveraged.id!=p_xlsx.leveraged.id or
-                        p_db.decimals!=p_xlsx.decimals or
-                        p_db.comment!=p_xlsx.comment or 
-                        p_db.obsolete!=p_xlsx.obsolete or
-                        p_db.tickers[0]!=p_xlsx.tickers[0] or
-                        p_db.tickers[1]!=p_xlsx.tickers[1] or
-                        p_db.tickers[2]!=p_xlsx.tickers[2] or
-                        p_db.tickers[3]!=p_xlsx.tickers[3] or
-                        p_db.tickers[4]!=p_xlsx.tickers[4]
-                    ):
-                changed.append(p_xlsx)
-
-        #Sumary
-        debug("{} Products changed".format(len(changed)))
-        for p in changed:
-            print("  +", p,  p.currency.id ,  p.type.name, p.high_low, p.isin, p.agrupations.dbstring(), p.percentage, p.mode.name, p.leveraged.name, p.decimals,   p.obsolete, p.tickers)
-            p.save()
-        debug("{} Products added".format(len(added)))
-        for p in added:
-            print("  +", p,  p.currency.id ,  p.type.name, p.high_low, p.isin, p.agrupations.dbstring(), p.percentage, p.mode.name, p.leveraged.name,  p.decimals, p.obsolete, p.tickers)
-            ##Como tiene p.id del xlsx,save haría un update, hago un insert mínimo y luego vuelvo a grabar para que haga update
-            cur=self.mem.con.cursor()
-            cur.execute("insert into products (id,stockmarkets_id) values (%s,%s)",  (p.id, 1))
-            cur.close()
-            p.save()
-        self.mem.con.commit()
-        self.mem.languages.cambiar(oldlanguage)
-        os.remove("product.xlsx")
-        
-        dt_string=dtaware2string(self.dtaware_internet_products_xlsx(), type=1)
-        info("Product list version set to {}".format(dt_string))
-        self.mem.settingsdb.setValue("Version of products.xlsx", dt_string)
-        self.mem.data.load()
-
 
 class ProductPersonalManager(ProductManager):
     def __init__(self, mem):
@@ -819,6 +580,7 @@ class ProductAllManager(QObject, ObjectManager_With_IdName_Selectable):
     def __init__(self, *args):
         QObject.__init__(self)
         ObjectManager_With_IdName_Selectable.__init__(self)
+        self.args=args#To launch ObjectManagers
         self.mem=args[0]
         
     def load_all(self):
@@ -862,14 +624,6 @@ class ProductAllManager(QObject, ObjectManager_With_IdName_Selectable):
             if p.elaboratedproducts_id==elaboratedproducts_id:
                 return p
         return None
-        
-    ## Returns another ProductAllManager with the products that contains a string
-    def ProductAllManager_contains_string(self, s):
-        r=ProductAllManager(self.mem)
-        for o in self.arr:
-            if s.upper() in o.fullName().upper():
-                r.append(o)
-        return r
 
 class DBData:
     def __init__(self, mem):
@@ -1040,19 +794,7 @@ class BiometricsManager(QObject, ObjectManager_With_IdName_Selectable):
             table.setItem(i, 4, qleft(o.weightwish.name))
             table.setItem(i, 5, qleft(o.imc_comment()))
             
-    ## Returns a date value manager with the simple movil average 3 of weight
-    def DVManager_weight_sma(self):
-        period=5
-        r=DVManager(self.mem)
-        for i in range(period, self.length()):
-            sma=DV()
-            sma.value=Decimal(0)
-            sma.datetime=self.arr[i].datetime
-            for p in range(period):
-                sma.value=sma.value+self.arr[i-p].weight
-            sma.value=sma.value/period
-            r.append(sma)
-        return r
+
 
 class CompanySystem:
     ##CompanySystem(mem)
@@ -1449,7 +1191,7 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
         print (Style.BRIGHT+ "="*(maxlength) + Style.RESET_ALL)
         print (Style.BRIGHT+ "{} NUTRICIONAL REPORT AT {}".format(self.mem.user.name.upper(), date).center(maxlength," ") + Style.RESET_ALL)
         print (Style.BRIGHT+ Fore.YELLOW + "{} Kg. {} cm. {} years".format(self.mem.user.last_biometrics.weight, self.mem.user.last_biometrics.height, self.mem.user.age()).center(maxlength," ") + Style.RESET_ALL)
-        print (Style.BRIGHT+ Fore.BLUE + "IMC: {} ==> {}".format(round(self.mem.user.imc(),2),self.mem.user.imc_comment()).center(maxlength," ") + Style.RESET_ALL)
+        print (Style.BRIGHT+ Fore.BLUE + "IMC: {} ==> {}".format(round(self.mem.user.last_biometrics.imc(),2),self.mem.user.last_biometrics.imc_comment()).center(maxlength," ") + Style.RESET_ALL)
         print (Style.BRIGHT+ "="*(maxlength) + Style.RESET_ALL)
 
         print (Style.BRIGHT+ "{}  {}  {}  {}  {}  {}  {}  {}".format("HOUR ","NAME".ljust(maxname," "),"GRAMS".rjust(7,' '), "CALORIE".rjust(7,' '), "CARBOHY".rjust(7,' '), "PROTEIN".rjust(7,' '), "FAT".rjust(7,' '), "FIBER".rjust(7,' ')) + Style.RESET_ALL)
@@ -1574,16 +1316,3 @@ class UserManager(QObject, ObjectManager_With_IdName_Selectable):
         for user in self.arr:
             user.load_last_biometrics()
 
-
-        
-class DV:
-    def __init__(self):
-        self.datetime=None
-        self.value=None
-
-    def __repr__(self):
-        return "DV {} = {}".format(self.date,self.value)
-
-class DVManager(ObjectManager):
-    def __init__(self, mem):
-        ObjectManager.__init__(self)

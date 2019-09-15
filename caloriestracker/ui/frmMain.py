@@ -5,11 +5,9 @@ from PyQt5.QtCore import pyqtSlot, QUrl
 from PyQt5.QtGui import QIcon, QDesktopServices
 from PyQt5.QtWidgets import QMainWindow,  QWidget, QLabel
 import os
-import logging
-from datetime import timezone
 from caloriestracker.database_update import database_update
 from caloriestracker.libcaloriestracker import ProductManager
-from caloriestracker.libcaloriestrackerfunctions import qmessagebox, string2datetime, is_there_internet
+from caloriestracker.libcaloriestrackerfunctions import qmessagebox
 from caloriestracker.ui.Ui_frmMain import Ui_frmMain
 from caloriestracker.ui.wdgCuriosities import wdgCuriosities
 from caloriestracker.ui.frmAuxiliarTables import frmAuxiliarTables
@@ -41,22 +39,6 @@ class frmMain(QMainWindow, Ui_frmMain):
             self.setWindowTitle(self.tr("Calories Tracker 2019-{0} \xa9").format(__versiondate__.year))
             self.actionDocumentsPurge.setEnabled(False)
         
-
-        #self.__checks_version_of_products_xlsx()
-
-    ## Checks if products.xlsx version in Internet is older than db products.xlsx version in database
-    def __checks_version_of_products_xlsx(self):
-        dbversion=string2datetime(self.mem.settingsdb.value("Version of products.xlsx", "190001010000"), type=6)
-        dbversion=dbversion.replace(tzinfo=timezone.utc)
-        internetversion=self.mem.data.products.dtaware_internet_products_xlsx()
-        if internetversion!=None and dbversion<internetversion:
-            logging.info(self.tr("Products list outdated, please upgrade it"))
-            self.actionProductsUpdate.setText(self.tr("Update products from Internet (NEEDED)"))
-            self.actionProductsUpdate.setIcon(QIcon(":/caloriestracker/cloud_download_needed.png"))
-        if is_there_internet()==False:
-            self.actionProductsUpdate.setEnabled(False)
-
-
     def actionsEnabled(self, bool):
         self.menuBar.setEnabled(bool)
         self.toolBar.setEnabled(bool)

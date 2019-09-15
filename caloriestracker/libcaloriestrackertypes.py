@@ -8,16 +8,6 @@ class eQColor:
     Green=QColor(148, 255, 148)
 
 
-## Types for dt strings. Used in dtaware2string function
-class eDtStrings:
-    ## Parsed for ui
-    QTableWidgetItem=1
-    
-    ## 20190909 0909
-    Filename=2
-    
-    ## 201909090909
-    String=3
 
 class eProductComponent:
     Fat=0

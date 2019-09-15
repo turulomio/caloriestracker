@@ -3,7 +3,8 @@ from caloriestracker.contribution import generate_contribution_dump, generate_fi
 from caloriestracker.admin_pg import AdminPG
 from caloriestracker.database_update import database_update
 from caloriestracker.libcaloriestracker import MealManager, CompanyPersonal, Meal, ProductPersonal, ProductElaborated, CompaniesAndProducts
-from caloriestracker.libcaloriestrackerfunctions import input_boolean, input_decimal, input_int, input_string, dtnaive2string
+from caloriestracker.datetime_functions import dtnaive2string
+from caloriestracker.text_inputs import input_boolean, input_decimal, input_int, input_string
 from caloriestracker.mem import MemConsole
 from logging import debug
 from sys import exit

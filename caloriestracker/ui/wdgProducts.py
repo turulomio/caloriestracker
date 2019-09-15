@@ -64,7 +64,7 @@ class wdgProducts(QWidget, Ui_wdgProducts):
         #            qmessagebox(self.tr("Search too wide. You need more than 2 characters"))
         #            return
         del self.products
-        self.products=self.mem.data.products.ProductAllManager_contains_string(self.txt.text())
+        self.products=self.mem.data.products.ObjectManager_with_name_contains_string(self.txt.text(), False, *self.mem.data.products.args)
         self.products.setSelectionMode(ManagerSelectionMode.Object)
         self.products.qtablewidget(self.tblProducts)
         self.lblFound.setText(self.tr("{} products found").format(self.products.length()))

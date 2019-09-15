@@ -2,8 +2,7 @@ from PyQt5.QtCore import  Qt,  pyqtSlot,  QObject
 from PyQt5.QtGui import QPainter, QFont,  QIcon
 from PyQt5.QtWidgets import QAction, QMenu, QFileDialog, QProgressDialog, QApplication
 from caloriestracker.libcaloriestracker import Percentage
-from caloriestracker.libcaloriestrackerfunctions import epochms2dtaware, dtaware2epochms, dtnaive2string
-from caloriestracker.libcaloriestrackertypes import eDtStrings
+from caloriestracker.datetime_functions import epochms2dtaware, dtaware2epochms, dtnaive2string, eDtStrings
 from datetime import timedelta, datetime
 from PyQt5.QtChart import QChart,  QLineSeries, QChartView, QValueAxis, QDateTimeAxis,  QPieSeries
 

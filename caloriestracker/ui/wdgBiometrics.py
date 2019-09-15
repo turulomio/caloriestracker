@@ -2,10 +2,12 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox
 from caloriestracker.libcaloriestracker import BiometricsManager
+from caloriestracker.datetime_functions import dtaware_day_start_from_date
 from caloriestracker.ui.Ui_wdgBiometrics import Ui_wdgBiometrics
 from caloriestracker.ui.canvaschart import VCTemporalSeries
+from caloriestracker.libmanagers import DVManager
 from logging import debug
-from datetime import date
+from datetime import date, timedelta
 
 class wdgBiometrics(QWidget, Ui_wdgBiometrics):
     def __init__(self, mem,  parent=None):
@@ -27,7 +29,7 @@ class wdgBiometrics(QWidget, Ui_wdgBiometrics):
             self.layChart.removeWidget(self.viewChart)
             self.viewChart.close()
         self.viewChart=VCWeight()
-        self.viewChart.setData(self.mem, self.biometrics)
+        self.viewChart.setData(self.mem, date.today()-timedelta(days=365*3))
         self.viewChart.generate()
         self.layChart.addWidget(self.viewChart)
         
@@ -84,31 +86,44 @@ class VCWeight(VCTemporalSeries):
         VCTemporalSeries.__init__(self)
         self.setTitle(self.tr("Weight evolution chart"))
         
-    def setData(self, mem, biometrics):
-        self.biometrics=biometrics
+    def setData(self, mem, date_from):
         self.mem=mem
-
+        sql=self.mem.con.mogrify("""
+            select 
+                avg(weight), 
+                datetime::date 
+            from 
+                biometrics 
+            where 
+                users_id=%s and 
+                datetime::date>%s 
+            group by datetime::date
+            order by datetime::date
+            """, (self.mem.user.id, date_from))
+        self.data=DVManager()
+        self.sma_period=15
+        for row in self.mem.con.cursor_rows(sql):
+            self.data.appendDV(dtaware_day_start_from_date(row['datetime'], self.mem.localzone),  row['avg'])
+        self.sma_data=self.data.sma(self.sma_period)
     ## Just draw the chart with selected options. To update it just close this object and create another one
     def generate(self):
         #Progress dialog 
         self.setProgressDialogEnabled(True)
         self.setProgressDialogAttributes(
                 None, 
-                self.tr("Loading {} biometrics").format(self.biometrics.length()), 
+                self.tr("Loading {} biometrics").format(self.data.length()), 
                 QIcon(":caloriestracker/books.png"), 
                 0, 
-                self.biometrics.length()
+                self.data.length()
         )
-        sma_data=self.biometrics.DVManager_weight_sma()
-        period=5
         weight=self.appendTemporalSeries(self.tr("Weight evolution"), None)
-        sma=self.appendTemporalSeries(self.tr("Simple movil average {}").format(period), None)
-        for i, o in enumerate(self.biometrics.arr):
+        sma=self.appendTemporalSeries(self.tr("Simple movil average {}").format(self.sma_period), None)
+        for i, o in enumerate(self.data.arr):
             #Shows progress dialog
             self.setProgressDialogNumber(i+1)
             #Weight
-            self.appendTemporalSeriesData(weight, o.datetime, o.weight)
-            #smm3
-            if i>=period:
-                self.appendTemporalSeriesData(sma, sma_data.arr[i-period].datetime, sma_data.arr[i-period].value)
+            self.appendTemporalSeriesData(weight, o.datetime, o.value)
+            #sma
+            if i>=self.sma_period:
+                self.appendTemporalSeriesData(sma, self.sma_data.arr[i-self.sma_period].datetime, self.sma_data.arr[i-self.sma_period].value)
         self.display()

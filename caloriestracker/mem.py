@@ -6,7 +6,7 @@ from datetime import date,  datetime
 
 from caloriestracker.connection_pg import argparse_connection_arguments_group, Connection
 from caloriestracker.libcaloriestracker import DBData
-from caloriestracker.libcaloriestrackerfunctions import  string2date
+from caloriestracker.datetime_functions import  string2date
 from caloriestracker.version import __version__, __versiondate__
 from colorama import Fore, Style
 from caloriestracker.database_update import database_update

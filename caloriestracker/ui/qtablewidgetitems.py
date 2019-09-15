@@ -3,7 +3,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import  QColor
 from PyQt5.QtWidgets import QTableWidgetItem, QApplication
-from caloriestracker.libcaloriestrackerfunctions import dtaware2string, dtaware_changes_tz
+from .. datetime_functions import dtaware2string, dtaware_changes_tz
 
 def qbool(bool):
     """Prints bool and check. Is read only and enabled"""
