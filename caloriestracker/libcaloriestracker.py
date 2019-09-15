@@ -892,7 +892,7 @@ class DBData:
 class Biometrics:    
     ##Biometrics(mem)
     ##Biometrics(mem,rows)
-    ##Biometrics(mem,dt, height, weight, user, activity, id):
+    ##Biometrics(mem,dt, height, weight, user, activity, weightwish, id):
     def __init__(self, *args):        
         def init__create(dt, height, weight, user, activity, weightwish, id):
             self.datetime=dt
@@ -916,7 +916,16 @@ class Biometrics:
     
     def __repr__(self):
         return "{} {}".format(self.height, self.weight)
-
+        
+    def delete(self):
+        self.mem.con.execute("delete from biometrics where id=%s", (self.id, ))
+        
+    def save(self):
+        if self.id==None:
+            self.id=self.mem.con.cursor_one_field("insert into biometrics(datetime,weight,height,users_id,activity,weightwish) values (%s, %s, %s, %s, %s, %s) returning id", (self.datetime, self.weight, self.height, self.user.id, self.activity.id, self.weightwish.id))
+        else:
+            self.mem.con.cursor_one_field("update companies set datetime=%s, weight=%s, height=%s, users_id=%s, activity=%s, weightwish=%s where id=%s", (self.datetime, self.weight, self.height, self.user.id, self.activity.id, self.weightwish.id, self.id))
+            
 class BiometricsManager(QObject, ObjectManager_With_IdName_Selectable):
     ##Biometrics(mem)
     ##Biometrics(mem,sql, progress)
@@ -930,8 +939,7 @@ class BiometricsManager(QObject, ObjectManager_With_IdName_Selectable):
     def load_from_db(self, sql,  progress=False):
         self.clean()
         cur=self.mem.con.cursor()
-        cur.execute(sql)#"select * from products where id in ("+lista+")" 
-        print(sql, cur.rowcount)
+        cur.execute(sql)
         if progress==True:
             pd= QProgressDialog(self.tr("Loading {0} biometrics from database").format(cur.rowcount),None, 0,cur.rowcount)
             pd.setWindowIcon(QIcon(":/caloriestracker/coins.png"))
@@ -943,7 +951,6 @@ class BiometricsManager(QObject, ObjectManager_With_IdName_Selectable):
                 pd.setValue(cur.rownumber)
                 pd.update()
                 QApplication.processEvents()
-            print(row)
             o=Biometrics(self.mem, row)
             self.append(o)
         cur.close()
@@ -1409,7 +1416,7 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
         table.setItem(self.length(), 6, qnumber_limited(self.fat(), self.mem.user.fat()))
         table.setItem(self.length(), 7, qnumber_limited(self.fiber(), self.mem.user.fiber(), reverse=True))
         #Recomendatios
-        table.setItem(self.length()+1, 1, qleft(self.tr("Recomendatios")))
+        table.setItem(self.length()+1, 1, qleft(self.tr("Recomendations")))
         table.setItem(self.length()+1, 3, qnumber(self.mem.user.bmr()))
         table.setItem(self.length()+1, 4, qnumber(self.mem.user.carbohydrate()))
         table.setItem(self.length()+1, 5, qnumber(self.mem.user.protein()))

@@ -13,6 +13,8 @@ class wdgYearMonth(QWidget, Ui_wdgYearMonth):
     def __init__(self,  parent = None, name = None):
         QWidget.__init__(self,  parent)
         self.setupUi(self)
+        
+        
     def initiate(self, firstyear,  lastyear, currentyear, currentmonth):
         """Debe ser la primera función después del constructor"""
         self.blockSignals(True)
@@ -37,7 +39,7 @@ class wdgYearMonth(QWidget, Ui_wdgYearMonth):
         self.cmbYear.setCurrentIndex(self.year-self.firstyear)
         self.cmbMonth.setCurrentIndex(self.month-1)
         self.blockSignals(False)
-        self.changed.emit()        
+        self.changed.emit()
 
     @pyqtSlot(str)      
     def on_cmbYear_currentIndexChanged(self, text):

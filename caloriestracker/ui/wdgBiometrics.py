@@ -6,7 +6,7 @@ from logging import debug
 from datetime import date
 
 class wdgBiometrics(QWidget, Ui_wdgBiometrics):
-    def __init__(self, mem,  arrInt=[],  parent=None):
+    def __init__(self, mem,  parent=None):
         QWidget.__init__(self, parent)
         self.setupUi(self)
         self.mem=mem
@@ -26,7 +26,7 @@ class wdgBiometrics(QWidget, Ui_wdgBiometrics):
         from caloriestracker.ui.frmBiometricsAdd import frmBiometricsAdd
         w=frmBiometricsAdd(self.mem, None, self)
         w.exec_()
-        self.on_calendar_selectionChanged()
+        self.on_wdgYM_changed()
 
     @pyqtSlot()
     def on_actionBiometricsDelete_triggered(self):
@@ -34,14 +34,15 @@ class wdgBiometrics(QWidget, Ui_wdgBiometrics):
         if reply==QMessageBox.Yes:
             self.biometrics.selected.delete()
             self.mem.con.commit()
-            self.on_calendar_selectionChanged()
+            self.mem.user.load_last_biometrics()
+        self.on_wdgYM_changed()
 
     @pyqtSlot()
     def on_actionBiometricsEdit_triggered(self):
         from caloriestracker.ui.frmBiometricsAdd import frmBiometricsAdd
         w=frmBiometricsAdd(self.mem, self.biometrics.selected, self)
         w.exec_()
-        self.on_calendar_selectionChanged()
+        self.on_wdgYM_changed()
 
     def on_tblBiometrics_itemSelectionChanged(self):
         self.biometrics.cleanSelection()

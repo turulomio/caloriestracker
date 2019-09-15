@@ -9,16 +9,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>491</height>
+    <width>461</width>
+    <height>464</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Managing products</string>
+   <string>Managing biometrics</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../images/caloriestracker.qrc">
-    <normaloff>:/caloriestracker/books.png</normaloff>:/caloriestracker/books.png</iconset>
+    <normaloff>:/caloriestracker/list-add-user.png</normaloff>:/caloriestracker/list-add-user.png</iconset>
   </property>
   <property name="modal">
    <bool>true</bool>
@@ -44,16 +44,59 @@
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_14">
+      <widget class="wdgDatetime" name="wdgDT" native="true"/>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
        <item>
-        <widget class="QLabel" name="label_15">
+        <widget class="QLabel" name="label_6">
          <property name="text">
-          <string>Name of the product</string>
+          <string>Weight</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="txtName"/>
+        <widget class="QDoubleSpinBox" name="spnWeight">
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+         <property name="suffix">
+          <string> Kg</string>
+         </property>
+         <property name="maximum">
+          <double>1000000.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Height</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="spnHeight">
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+         <property name="suffix">
+          <string> cm</string>
+         </property>
+         <property name="minimum">
+          <double>1.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>1000000.000000000000000</double>
+         </property>
+         <property name="value">
+          <double>160.000000000000000</double>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -62,331 +105,33 @@
        <item>
         <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Select a company</string>
+          <string>Select your type of activity</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="cmbCompanies">
+        <widget class="QComboBox" name="cmbActivity">
          <property name="editable">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
         </widget>
        </item>
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_15">
+      <layout class="QHBoxLayout" name="horizontalLayout_17">
        <item>
-        <widget class="QGroupBox" name="groupBox">
-         <property name="title">
-          <string>Basic components information</string>
+        <widget class="QLabel" name="label_16">
+         <property name="text">
+          <string>Select your wish of weight</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout">
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_5">
-            <item>
-             <widget class="QLabel" name="label_6">
-              <property name="text">
-               <string>Calories</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDoubleSpinBox" name="spnCalories">
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-              <property name="suffix">
-               <string> g</string>
-              </property>
-              <property name="maximum">
-               <double>1000000.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout">
-            <item>
-             <widget class="QLabel" name="label_3">
-              <property name="text">
-               <string>Amount</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDoubleSpinBox" name="spnAmount">
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-              <property name="suffix">
-               <string> g</string>
-              </property>
-              <property name="minimum">
-               <double>1.000000000000000</double>
-              </property>
-              <property name="maximum">
-               <double>1000000.000000000000000</double>
-              </property>
-              <property name="value">
-               <double>100.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <item>
-             <widget class="QLabel" name="label_4">
-              <property name="text">
-               <string>Carbohidrates</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDoubleSpinBox" name="spnCarbohydrate">
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-              <property name="suffix">
-               <string> g</string>
-              </property>
-              <property name="maximum">
-               <double>1000000.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_7">
-            <item>
-             <widget class="QLabel" name="label_8">
-              <property name="text">
-               <string>Protein</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDoubleSpinBox" name="spnProtein">
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-              <property name="suffix">
-               <string> g</string>
-              </property>
-              <property name="maximum">
-               <double>1000000.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_6">
-            <item>
-             <widget class="QLabel" name="label_7">
-              <property name="text">
-               <string>Fat</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDoubleSpinBox" name="spnFat">
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-              <property name="suffix">
-               <string> g</string>
-              </property>
-              <property name="maximum">
-               <double>1000000.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_4">
-            <item>
-             <widget class="QLabel" name="label_5">
-              <property name="text">
-               <string>Fiber</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDoubleSpinBox" name="spnFiber">
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-              <property name="suffix">
-               <string> g</string>
-              </property>
-              <property name="maximum">
-               <double>1000000.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_2">
-         <property name="title">
-          <string>Additional information</string>
+        <widget class="QComboBox" name="cmbWeightWish">
+         <property name="editable">
+          <bool>false</bool>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_8">
-            <item>
-             <widget class="QLabel" name="label_9">
-              <property name="text">
-               <string>Salt</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDoubleSpinBox" name="spnSalt">
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-              <property name="suffix">
-               <string> g</string>
-              </property>
-              <property name="maximum">
-               <double>1000000.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_9">
-            <item>
-             <widget class="QLabel" name="label_10">
-              <property name="text">
-               <string>Cholesterol</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDoubleSpinBox" name="spnCholesterol">
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-              <property name="suffix">
-               <string> mg</string>
-              </property>
-              <property name="maximum">
-               <double>1000000.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_10">
-            <item>
-             <widget class="QLabel" name="label_11">
-              <property name="text">
-               <string>Sodium</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDoubleSpinBox" name="spnSodium">
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-              <property name="suffix">
-               <string> mg</string>
-              </property>
-              <property name="maximum">
-               <double>1000000.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_11">
-            <item>
-             <widget class="QLabel" name="label_12">
-              <property name="text">
-               <string>Potassium</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDoubleSpinBox" name="spnPotassium">
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-              <property name="suffix">
-               <string> mg</string>
-              </property>
-              <property name="maximum">
-               <double>1000000.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_12">
-            <item>
-             <widget class="QLabel" name="label_13">
-              <property name="text">
-               <string>Sugars</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDoubleSpinBox" name="spnSugar">
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-              <property name="suffix">
-               <string> g</string>
-              </property>
-              <property name="maximum">
-               <double>1000000.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_13">
-            <item>
-             <widget class="QLabel" name="label_14">
-              <property name="text">
-               <string>Saturated fat</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QDoubleSpinBox" name="spnSaturatedFat">
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-              <property name="suffix">
-               <string> g</string>
-              </property>
-              <property name="maximum">
-               <double>1000000.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
         </widget>
        </item>
       </layout>
@@ -402,6 +147,14 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>wdgDatetime</class>
+   <extends>QWidget</extends>
+   <header location="global">wdgDatetime</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../images/caloriestracker.qrc"/>
  </resources>
