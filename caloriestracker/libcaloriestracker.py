@@ -1012,7 +1012,7 @@ class Product(QObject):
         
     def insert_string(self, table="products"):
         companies_id=None if self.company==None else self.company.id
-        return b2s(self.mem.con.mogrify("insert into " + table +" (name, amount, fat, protein, carbohydrate, companies_id, ends, starts, elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat,system_company, id) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",  
+        return b2s(self.mem.con.mogrify("insert into " + table +" (name, amount, fat, protein, carbohydrate, companies_id, ends, starts, elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat,system_company, id) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);",  
             (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.ends, self.starts, self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company, self.id)))
            
     def is_deletable(self):

@@ -1,11 +1,8 @@
 from datetime import datetime
-from caloriestracker.contribution import generate_contribution_dump, generate_files_from_personal_data
-from caloriestracker.admin_pg import AdminPG
-from caloriestracker.database_update import database_update
 from caloriestracker.libcaloriestracker import MealManager, CompanyPersonal, Meal, ProductPersonal, ProductElaborated, CompaniesAndProducts
-from caloriestracker.datetime_functions import dtnaive2string
 from caloriestracker.text_inputs import input_boolean, input_decimal, input_int, input_string
 from caloriestracker.mem import MemConsole
+from caloriestracker.contribution import generate_contribution_dump, parse_contribution_dump
 from logging import debug
 from sys import exit
 
@@ -102,24 +99,10 @@ def main():
         exit(0)
     
     if mem.args.parse_collaboration_dump!=None:
-        datestr=dtnaive2string(datetime.now(), 3).replace(" ", "")
-        database="caloriestracker"+datestr
-        admin=AdminPG(mem.con.user, mem.con.password, mem.con.server, mem.con.port)
-        newcon=admin.create_new_database_and_return_new_conexion(database)
-        database_update(newcon)        
-        newcon.load_script(mem.args.parse_collaboration_dump)
-        newcon.commit()
-        generate_files_from_personal_data(datestr, newcon)
-        #Checking
-        newcon.con.load_script("caloriestracker/sql/{}.sql".format(datestr))
-        newcon.con.load_script("{}_version_needed_update_first_in_github.sql".format(datestr))
-        newcon.commit()
-        newcon.disconnect()
-        input_string("Press ENTER to delete database: " + database)
-        admin.drop_db(database)
+        parse_contribution_dump(mem)
         exit(0)
         
-    if mem.args.update_after_collaboration==True:
+    if mem.args.update_after_collaboration!=None:
         mem.con.load_script(mem.args.update_after_collaboration)
         mem.con.commit()
         exit(0)

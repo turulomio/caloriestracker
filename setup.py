@@ -146,6 +146,7 @@ class Uninstall(Command):
 
     def run(self):
         if platform.system()=="Linux":
+            os.system("rm -Rf build") #sql were not erased
             os.system("rm -Rf {}/caloriestracker*".format(site.getsitepackages()[0]))
             os.system("rm /usr/bin/caloriestracker*")
             os.system("rm /usr/share/pixmaps/caloriestracker.svg")
