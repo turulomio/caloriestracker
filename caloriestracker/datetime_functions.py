@@ -145,6 +145,23 @@ def string2time(s, format="HH:MM"):
     else:
         error("I can't convert this format '{}'. I only support this {}".format(format, allowed))
 
+## Converts a time to a string
+def time2string(ti, format="HH:MM" ):
+    allowed=["HH:MM", "HH:MM:SS","Xulpymoney"]
+    if format in allowed:
+        if ti==None:
+            return None
+        if format=="Xulpymoney":
+            if ti.microsecond in (4, 5):
+                return str(ti)[11:-13]
+            else:
+                return str(ti)[11:-6]
+        elif format=="HH:MM":
+            return ("{}:{}".format(str(ti.hour).zfill(2), str(ti.minute).zfill(2)))
+        elif format=="HH:MM:SS":
+            return ("{}:{}:{}".format(str(ti.hour).zfill(2), str(ti.minute).zfill(2), str(ti.second).zfill(2)))
+
+
 def string2date(iso, format="YYYY-MM-DD"):
     allowed=["YYYY-MM-DD", "DD/MM/YYYY", "DD.MM.YYYY", "DD/MM"]
     if format in allowed:
@@ -284,4 +301,8 @@ if __name__ == "__main__":
     print("dt_day_end")
     print("  - Today will end at '{}' as naive".format(dt_day_end(now)))
     print("  - Today will end at '{}' as aware in this timezone '{}'".format( dt_day_end(now_aware), tz))
+    print()    
+    print("time2string")
+    print("  - This is the current hour '{}' with format HH:MM".format(time2string(now.time(), "HH:MM")))
+    print("  - This is the current hour '{}' with format HH:MM:SS".format(time2string(now.time(), "HH:MM:SS")))
     

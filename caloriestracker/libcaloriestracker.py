@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QTableWidgetItem, QApplication, QProgressDialog, QCo
 from datetime import date,  timedelta, datetime
 
 from decimal import Decimal
-from caloriestracker.libcaloriestrackerfunctions import str2bool, a2s, ca2s, n2s, rca2s
+from caloriestracker.libcaloriestrackerfunctions import str2bool, a2s, ca2s, n2s, rca2s, b2s
 from caloriestracker.text_inputs import input_boolean, input_integer_or_none
 from caloriestracker.libcaloriestrackertypes import eProductComponent, eActivity, eWeightWish
 from caloriestracker.ui.qtablewidgetitems import qtime, qleft, qright, qnumber_limited, qnumber, qdatetime
@@ -166,6 +166,18 @@ class CompanySystemManager(QObject, ObjectManager_With_IdName_Selectable):
         self.mem=mem
 
 
+    def find_by_id_system(self,  id ,  system):
+        for o in self.arr:
+            if o.id==id and o.system_company==system:
+                return o
+        return None
+
+    ## Find by generated string with id and system_product
+    def find_by_string_id(self, stringid):
+        if stringid==None:
+            return None
+        return self.find_by_id_system(*CompanySystem.string_id2tuple(stringid))
+        
     def load_from_db(self, sql,  progress=False):
         self.clean()
         cur=self.mem.con.cursor()
@@ -236,9 +248,7 @@ class CompanyAllManager(ObjectManager_With_IdName_Selectable):
     def find_by_string_id(self, stringid):
         if stringid==None:
             return None
-        id=int(stringid.split("#")[0])
-        system_company=str2bool(stringid.split("#")[1])
-        return self.find_by_id_system(id, system_company)
+        return self.find_by_id_system(*CompanySystem.string_id2tuple(stringid))
         
     def find_by_input(self, log=True):
         input=input_integer_or_none("Add a company", "")
@@ -288,6 +298,28 @@ class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
             self.append(oo)
         cur.close()
         
+    @staticmethod
+    def find_by_id_system(self,  id ,  system):
+        for o in self.arr:
+            if o.id==id and o.system_product==system:
+                return o
+        return None
+    
+    ## Find by generated string with id and system_product
+    @staticmethod
+    def find_by_string_id(self, stringid):
+        tuple=Product.string_id2tuple(stringid)
+        if stringid==None or tuple==None:
+            return None
+        return ProductManager.find_by_id_system(self, *tuple)
+                
+    @staticmethod
+    def find_by_elaboratedproducts_id(self,  elaboratedproducts_id):
+        for p in self.arr:
+            if p.elaboratedproducts_id==elaboratedproducts_id:
+                return p
+        return None
+
     ## It's a staticmethod due to it will be used in ProductAllManager
     @staticmethod
     def qtablewidget(self, table):        
@@ -594,11 +626,6 @@ class ProductAllManager(QObject, ObjectManager_With_IdName_Selectable):
             self.append(o)
         self.order_by_name()
 
-    def find_by_id_system(self,  id ,  system):
-        for o in self.arr:
-            if o.id==id and o.system_product==system:
-                return o
-        return None
     
     def qcombobox(self, combo, selected=None):
         combo.completer().setCompletionMode(QCompleter.PopupCompletion)
@@ -613,17 +640,15 @@ class ProductAllManager(QObject, ObjectManager_With_IdName_Selectable):
         ProductManager.qtablewidget(self, table)
         
         
+    def find_by_id_system(self,  id ,  system):
+        return ProductManager.find_by_id_system(self, id, system)
     ## Find by generated string with id and system_product
     def find_by_string_id(self, stringid):
-        id=int(stringid.split("#")[0])
-        system_product=str2bool(stringid.split("#")[1])
-        return self.find_by_id_system(id, system_product)
-        
-    def find_by_elaboratedproducts_id(self,  elaboratedproducts_id):
-        for p in self.arr:
-            if p.elaboratedproducts_id==elaboratedproducts_id:
-                return p
-        return None
+        return ProductManager.find_by_string_id(self, stringid)
+    ## Find by generated string with id and system_product
+    def find_by_elaboratedproducts_id(self, elaboratedproducts_id):
+        return ProductManager.find_by_elaboratedproducts_id(self, elaboratedproducts_id)
+
 
 class DBData:
     def __init__(self, mem):
@@ -832,7 +857,7 @@ class CompanySystem:
             self.mem.con.cursor_one_field("update companies set name=%s,starts=%s, ends=%s where id=%s", (self.name, self.starts, self.ends, self.id))
     
     def insert_string(self, table="companies"):
-        return self.mem.con.mogrify("insert into "+table +"(name,starts,ends, id) values (%s, %s, %s, %s)", (self.name, self.starts, self.ends, self.id))
+        return b2s(self.mem.con.mogrify("insert into "+table +"(name,starts,ends, id) values (%s, %s, %s, %s);", (self.name, self.starts, self.ends, self.id)))
 
 
     ## Generates an string with id and system_product
@@ -840,6 +865,8 @@ class CompanySystem:
         return "{}#{}".format(self.id, self.system_company)
     @staticmethod
     def string_id2tuple(string_id):
+        if string_id==None:
+            return None
         a=string_id.split("#")
         return int(a[0]), str2bool(a[1])
         
@@ -979,10 +1006,14 @@ class Product(QObject):
     def string_id(self):
         return "{}#{}".format(self.id, self.system_product)
         
+    @staticmethod
+    def string_id2tuple(string_id):
+        return CompanySystem.string_id2tuple(string_id)
+        
     def insert_string(self, table="products"):
         companies_id=None if self.company==None else self.company.id
-        return self.mem.con.mogrify("insert into " + table +" (name, amount, fat, protein, carbohydrate, companies_id, ends, starts, elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat,system_company, id) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",  
-            (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.ends, self.starts, self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company, self.id))
+        return b2s(self.mem.con.mogrify("insert into " + table +" (name, amount, fat, protein, carbohydrate, companies_id, ends, starts, elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat,system_company, id) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",  
+            (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.ends, self.starts, self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company, self.id)))
            
     def is_deletable(self):
         if self.system_product==True:
