@@ -56,7 +56,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QDoubleSpinBox" name="spnWeight">
+        <widget class="myQDoubleSpinBox" name="spnWeight">
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
@@ -80,7 +80,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QDoubleSpinBox" name="spnHeight">
+        <widget class="myQDoubleSpinBox" name="spnHeight">
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
@@ -153,6 +153,11 @@
    <extends>QWidget</extends>
    <header location="global">wdgDatetime</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>myQDoubleSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header location="global">myqdoublespinbox.h</header>
   </customwidget>
  </customwidgets>
  <resources>

@@ -47,7 +47,7 @@ class Ui_frmProductsElaboratedAdd(object):
         self.label_16 = QtWidgets.QLabel(frmProductsElaboratedAdd)
         self.label_16.setObjectName("label_16")
         self.horizontalLayout_17.addWidget(self.label_16)
-        self.spnFinalAmount = QtWidgets.QDoubleSpinBox(frmProductsElaboratedAdd)
+        self.spnFinalAmount = myQDoubleSpinBox(frmProductsElaboratedAdd)
         self.spnFinalAmount.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.spnFinalAmount.setMaximum(1000000.0)
         self.spnFinalAmount.setProperty("value", 0.0)
@@ -74,4 +74,5 @@ class Ui_frmProductsElaboratedAdd(object):
         self.label_15.setText(_translate("frmProductsElaboratedAdd", "Name of the product"))
         self.label_16.setText(_translate("frmProductsElaboratedAdd", "Final amount"))
         self.spnFinalAmount.setSuffix(_translate("frmProductsElaboratedAdd", " g"))
+from caloriestracker.ui.myqdoublespinbox import myQDoubleSpinBox
 import caloriestracker.images.caloriestracker_rc

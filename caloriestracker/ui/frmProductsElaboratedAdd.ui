@@ -67,7 +67,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QDoubleSpinBox" name="spnFinalAmount">
+        <widget class="myQDoubleSpinBox" name="spnFinalAmount">
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
@@ -98,6 +98,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>myQDoubleSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header location="global">myqdoublespinbox</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../images/caloriestracker.qrc"/>
  </resources>

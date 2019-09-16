@@ -51,7 +51,7 @@ class Ui_frmMealsAdd(object):
         self.label_3 = QtWidgets.QLabel(frmMealsAdd)
         self.label_3.setObjectName("label_3")
         self.horizontalLayout.addWidget(self.label_3)
-        self.spnAmount = QtWidgets.QDoubleSpinBox(frmMealsAdd)
+        self.spnAmount = myQDoubleSpinBox(frmMealsAdd)
         self.spnAmount.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.spnAmount.setMaximum(1000000.0)
         self.spnAmount.setProperty("value", 100.0)
@@ -74,5 +74,6 @@ class Ui_frmMealsAdd(object):
         self.label_2.setText(_translate("frmMealsAdd", "Select a product"))
         self.label_3.setText(_translate("frmMealsAdd", "Add an amount"))
         self.spnAmount.setSuffix(_translate("frmMealsAdd", " g"))
+from caloriestracker.ui.myqdoublespinbox import myQDoubleSpinBox
 from caloriestracker.ui.wdgDatetime import wdgDatetime
 import caloriestracker.images.caloriestracker_rc

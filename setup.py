@@ -130,6 +130,7 @@ class Compile(Command):
                  os.system("sed -i -e 's/from canvaschart/from caloriestracker.ui.canvaschart/' caloriestracker/ui/{}".format(filename))
                  os.system("sed -i -e 's/from myqlineedit/from caloriestracker.ui.myqlineedit/' caloriestracker/ui/{}".format(filename))
                  os.system("sed -i -e 's/from myqtablewidget/from caloriestracker.ui.myqtablewidget/' caloriestracker/ui/{}".format(filename))
+                 os.system("sed -i -e 's/from myqdoublespinbox/from caloriestracker.ui.myqdoublespinbox/' caloriestracker/ui/{}".format(filename))
                  os.system("sed -i -e 's/from caloriestracker.ui.myqlineedit/from caloriestracker.ui.myqlineedit/' caloriestracker/ui/{}".format(filename))
                  os.system("sed -i -e 's/from wdgDatetime/from caloriestracker.ui.wdgDatetime/' caloriestracker/ui/{}".format(filename))
                  os.system("sed -i -e 's/from wdgYear/from caloriestracker.ui.wdgYear/' caloriestracker/ui/{}".format(filename))

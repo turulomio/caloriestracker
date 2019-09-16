@@ -41,7 +41,7 @@ class Ui_frmBiometricsAdd(object):
         self.label_6 = QtWidgets.QLabel(frmBiometricsAdd)
         self.label_6.setObjectName("label_6")
         self.horizontalLayout_5.addWidget(self.label_6)
-        self.spnWeight = QtWidgets.QDoubleSpinBox(frmBiometricsAdd)
+        self.spnWeight = myQDoubleSpinBox(frmBiometricsAdd)
         self.spnWeight.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.spnWeight.setMaximum(1000000.0)
         self.spnWeight.setObjectName("spnWeight")
@@ -52,7 +52,7 @@ class Ui_frmBiometricsAdd(object):
         self.label_3 = QtWidgets.QLabel(frmBiometricsAdd)
         self.label_3.setObjectName("label_3")
         self.horizontalLayout.addWidget(self.label_3)
-        self.spnHeight = QtWidgets.QDoubleSpinBox(frmBiometricsAdd)
+        self.spnHeight = myQDoubleSpinBox(frmBiometricsAdd)
         self.spnHeight.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.spnHeight.setMinimum(1.0)
         self.spnHeight.setMaximum(1000000.0)
@@ -98,5 +98,6 @@ class Ui_frmBiometricsAdd(object):
         self.spnHeight.setSuffix(_translate("frmBiometricsAdd", " cm"))
         self.label_2.setText(_translate("frmBiometricsAdd", "Select your type of activity"))
         self.label_16.setText(_translate("frmBiometricsAdd", "Select your wish of weight"))
+from caloriestracker.ui.myqdoublespinbox import myQDoubleSpinBox
 from caloriestracker.ui.wdgDatetime import wdgDatetime
 import caloriestracker.images.caloriestracker_rc

@@ -93,7 +93,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="spnCalories">
+             <widget class="myQDoubleSpinBox" name="spnCalories">
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
@@ -117,7 +117,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="spnAmount">
+             <widget class="myQDoubleSpinBox" name="spnAmount">
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
@@ -147,7 +147,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="spnCarbohydrate">
+             <widget class="myQDoubleSpinBox" name="spnCarbohydrate">
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
@@ -171,7 +171,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="spnProtein">
+             <widget class="myQDoubleSpinBox" name="spnProtein">
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
@@ -195,7 +195,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="spnFat">
+             <widget class="myQDoubleSpinBox" name="spnFat">
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
@@ -219,7 +219,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="spnFiber">
+             <widget class="myQDoubleSpinBox" name="spnFiber">
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
@@ -252,7 +252,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="spnSalt">
+             <widget class="myQDoubleSpinBox" name="spnSalt">
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
@@ -276,7 +276,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="spnCholesterol">
+             <widget class="myQDoubleSpinBox" name="spnCholesterol">
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
@@ -300,7 +300,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="spnSodium">
+             <widget class="myQDoubleSpinBox" name="spnSodium">
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
@@ -324,7 +324,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="spnPotassium">
+             <widget class="myQDoubleSpinBox" name="spnPotassium">
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
@@ -348,7 +348,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="spnSugar">
+             <widget class="myQDoubleSpinBox" name="spnSugar">
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
@@ -372,7 +372,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="spnSaturatedFat">
+             <widget class="myQDoubleSpinBox" name="spnSaturatedFat">
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
@@ -402,6 +402,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>myQDoubleSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header location="global">myqdoublespinbox</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../images/caloriestracker.qrc"/>
  </resources>
