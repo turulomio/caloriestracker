@@ -110,12 +110,18 @@ def main():
         newcon.load_script(mem.args.parse_collaboration_dump)
         newcon.commit()
         generate_files_from_personal_data(datestr, newcon)
+        #Checking
+        newcon.con.load_script("caloriestracker/sql/{}.sql".format(datestr))
+        newcon.con.load_script("{}_version_needed_update_first_in_github.sql".format(datestr))
+        newcon.commit()
         newcon.disconnect()
         input_string("Press ENTER to delete database: " + database)
         admin.drop_db(database)
         exit(0)
         
     if mem.args.update_after_collaboration==True:
+        mem.con.load_script(mem.args.update_after_collaboration)
+        mem.con.commit()
         exit(0)
 
     user=mem.data.users.find_by_id(mem.args.users_id)

@@ -11,14 +11,16 @@ def generate_contribution_dump(mem):
     f=open(filename, "w")
     for company in mem.data.companies.arr:
         if company.system_company==False:
-            f.write(company.insert_string("personalcompanies").decode('UTF-8') + ";\n")
+            f.write(company.insert_string("personalcompanies") + ";\n")
     for product in mem.data.products.arr:
-        if product.system_product==False:
-            f.write(product.insert_string("personalproducts").decode('UTF-8') + ";\n")
+        if product.system_product==False and product.elaboratedproducts_id==None:
+            f.write(product.insert_string("personalproducts") + ";\n")
     f.close()
     print(Style.BRIGHT + Fore.GREEN + "Generated '{}'. Please send to '' without rename it".format(filename)+ Style.RESET_ALL)
 
 
+
+## THIS IS APPLIED IN A NEW DATABASE ONLY
 def generate_files_from_personal_data(datestr, newcon):
     mem=MemConsole()
     mem.run()
@@ -45,7 +47,7 @@ def generate_files_from_personal_data(datestr, newcon):
     #products
     new_system_products_id=newcon.cursor_one_field("select max(id)+1 from products")
     new_system_products=ProductManager(mem)
-    for product in mem.data.products.arr:
+    for product in mem.data.products.arr: 
         if product.system_product==False:
             question=input_YN("Do you want to convert this product '{}' to a system one?".format(product.fullName(True)), "Y")
             #Selects a company

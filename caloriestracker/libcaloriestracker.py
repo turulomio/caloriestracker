@@ -1258,6 +1258,7 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
         for i, o in enumerate(self.arr):
             table.setItem(i, 0, qtime(o.datetime))
             table.setItem(i, 1, qleft(o.product.fullName()))
+            table.item(i, 1).setIcon(o.product.qicon())
             table.setItem(i, 2, qnumber(o.amount))
             table.setItem(i, 3, qnumber(o.calories()))
             table.setItem(i, 4, qnumber(o.carbohydrate()))
