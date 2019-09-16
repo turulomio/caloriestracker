@@ -21,7 +21,9 @@ def generate_contribution_dump(mem):
 def generate_files_from_personal_data(datestr, newcon):
     package_sql_filename="mal{}.sql".format(datestr)        
     package_sql=open(package_sql_filename, "w")
-    mem=MemConsole(newcon)
+    mem=MemConsole()
+    mem.run()
+    companies_map={}
     new_system_companies_id=newcon.cursor_one_field("select max(id)+1 from companies")
     new_system_products_id=newcon.cursor_one_field("select max(id)+1 from products")
     for company in mem.data.companies.arr:
@@ -29,11 +31,26 @@ def generate_files_from_personal_data(datestr, newcon):
             question=input_YN("Do you want to convert this company '{}' to a system one?".format(company), "Y")
             if question==True:
                 system_company=CompanySystem(mem, company.name, company.starts, company.ends, new_system_companies_id)
+                companies_map[company.string_id()]=system_company.string_id()
                 new_system_companies_id=new_system_companies_id+1
                 package_sql.write(system_company.insert_string("companies").decode('UTF-8') + ";\n")
+                mem.data.companies.append(system_company) ##Appends new sistem company to mem.data
+    print (companies_map)
     for product in mem.data.products.arr:
         if product.system_product==False:
             question=input_YN("Do you want to convert this product '{}' to a system one?".format(product.fullName(True)), "Y")
+            #Selects a company
+            if product.company!=None:
+                if product.system_company==False:
+                    company=mem.data.companies.find_by_id_system(*CompanySystem.string_id2tuple(companies_map[product.company.string_id()]))
+                    print(company.string_id(), company)
+                else:
+                    company=product.company
+                system_company=True
+            else:
+                company=None
+                system_company=None
+            
             if question==True:
                 system_product=Product(
                     mem, 
@@ -42,7 +59,7 @@ def generate_files_from_personal_data(datestr, newcon):
                     product.fat, 
                     product.protein, 
                     product.carbohydrate, 
-                    product.company, 
+                    company, 
                     product.ends, 
                     product.starts, 
                     product.elaboratedproducts_id, 
@@ -55,7 +72,7 @@ def generate_files_from_personal_data(datestr, newcon):
                     product.fiber, 
                     product.sugars, 
                     product.saturated_fat, 
-                    product.system_company,  
+                    system_company,  
                     new_system_products_id)
                 new_system_products_id=new_system_products_id+1
                 print("company mal")

@@ -105,7 +105,7 @@ def main():
         datestr=dtnaive2string(datetime.now(), 3).replace(" ", "")
         database="caloriestracker"+datestr
         admin=AdminPG(mem.con.user, mem.con.password, mem.con.server, mem.con.port)
-        newcon=admin.create_new_database_and_return_new_conexion(mem.con, database)
+        newcon=admin.create_new_database_and_return_new_conexion(database)
         database_update(newcon)        
         newcon.load_script(mem.args.parse_collaboration_dump)
         newcon.commit()

@@ -830,7 +830,7 @@ class CompanySystem:
             self.id=self.mem.con.cursor_one_field("insert into companies(name,starts,ends) values (%s, %s, %s) returning id", (self.name, self.starts, self.ends))
         else:
             self.mem.con.cursor_one_field("update companies set name=%s,starts=%s, ends=%s where id=%s", (self.name, self.starts, self.ends, self.id))
-            
+    
     def insert_string(self, table="companies"):
         return self.mem.con.mogrify("insert into "+table +"(name,starts,ends, id) values (%s, %s, %s, %s)", (self.name, self.starts, self.ends, self.id))
 
@@ -838,6 +838,11 @@ class CompanySystem:
     ## Generates an string with id and system_product
     def string_id(self):
         return "{}#{}".format(self.id, self.system_company)
+    @staticmethod
+    def string_id2tuple(string_id):
+        a=string_id.split("#")
+        return int(a[0]), str2bool(a[1])
+        
         
 class CompanyPersonal(CompanySystem):
     def __init__(self, *args):
