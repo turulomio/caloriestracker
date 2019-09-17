@@ -20,6 +20,10 @@ class wdgProducts(QWidget, Ui_wdgProducts):
             qmessagebox(self.tr("This product can't be removed, because is marked as not remavable"))
             return
             
+        if self.products.selected.elaboratedproducts_id!=None:#Elaborated:
+            qmessagebox(self.tr("Not developed yet, for elaborated product"))
+            return
+            
         reply = QMessageBox.question(None, self.tr('Asking your confirmation'), self.tr("This action can't be undone.\nDo you want to delete this record?"), QMessageBox.Yes, QMessageBox.No)                  
         if reply==QMessageBox.Yes:
             self.products.selected.delete()
@@ -64,6 +68,7 @@ class wdgProducts(QWidget, Ui_wdgProducts):
         #            qmessagebox(self.tr("Search too wide. You need more than 2 characters"))
         #            return
         del self.products
+        print(self.txt.text(), *self.mem.data.products.args)
         self.products=self.mem.data.products.ObjectManager_with_name_contains_string(self.txt.text(), False, *self.mem.data.products.args)
         self.products.setSelectionMode(ManagerSelectionMode.Object)
         self.products.qtablewidget(self.tblProducts)

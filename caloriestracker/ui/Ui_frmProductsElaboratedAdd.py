@@ -54,7 +54,7 @@ class Ui_frmProductsElaboratedAdd(object):
         self.spnFinalAmount.setObjectName("spnFinalAmount")
         self.horizontalLayout_17.addWidget(self.spnFinalAmount)
         self.verticalLayout_3.addLayout(self.horizontalLayout_17)
-        self.tblProductsIn = QtWidgets.QTableWidget(frmProductsElaboratedAdd)
+        self.tblProductsIn = myQTableWidget(frmProductsElaboratedAdd)
         self.tblProductsIn.setObjectName("tblProductsIn")
         self.tblProductsIn.setColumnCount(0)
         self.tblProductsIn.setRowCount(0)
@@ -75,4 +75,5 @@ class Ui_frmProductsElaboratedAdd(object):
         self.label_16.setText(_translate("frmProductsElaboratedAdd", "Final amount"))
         self.spnFinalAmount.setSuffix(_translate("frmProductsElaboratedAdd", " g"))
 from caloriestracker.ui.myqdoublespinbox import myQDoubleSpinBox
+from caloriestracker.ui.myqtablewidget import myQTableWidget
 import caloriestracker.images.caloriestracker_rc

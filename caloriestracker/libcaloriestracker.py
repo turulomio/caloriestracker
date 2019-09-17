@@ -462,6 +462,24 @@ class ProductElaborated:
             selected.fiber=self.products_in.fiber()
             selected.save()
 
+    #DO NOT EDIT THIS ONE COPY FROM PRODUCT AND CHANGE TABLE
+    def save(self):
+        if self.id==None:
+            self.id=self.mem.con.cursor_one_field("""insert into elaboratedproducts (
+                    name, final_amount
+                    )values (%s, %s) returning id""",  
+                    (self.name, self.final_amount))
+        else:
+            self.mem.con.execute("""update elaboratedproducts set name=%s, final_amount=%s
+            where id=%s""", 
+            (self.name, self.final_amount, self.id))
+
+    def delete(self):
+        if self.is_deletable()==True:
+            self.mem.con.execute("delete from elaboratedproduct where id=%s", (self.id, ))
+        else:
+            debug("I did not delete elaboratedproduct because is not deletable")
+
 class ProductInElaboratedProduct:
     ##Biometrics(mem)
     ##Biometrics(mem,elaborated_product,row)

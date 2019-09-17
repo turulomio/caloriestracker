@@ -85,7 +85,7 @@
       </layout>
      </item>
      <item>
-      <widget class="QTableWidget" name="tblProductsIn"/>
+      <widget class="myQTableWidget" name="tblProductsIn"/>
      </item>
      <item>
       <widget class="QDialogButtonBox" name="bb">
@@ -103,6 +103,11 @@
    <class>myQDoubleSpinBox</class>
    <extends>QDoubleSpinBox</extends>
    <header location="global">myqdoublespinbox</header>
+  </customwidget>
+  <customwidget>
+   <class>myQTableWidget</class>
+   <extends>QTableWidget</extends>
+   <header location="global">myqtablewidget</header>
   </customwidget>
  </customwidgets>
  <resources>

@@ -148,6 +148,9 @@ class frmMain(QMainWindow, Ui_frmMain):
         from caloriestracker.ui.frmProductsElaboratedAdd import frmProductsElaboratedAdd
         w=frmProductsElaboratedAdd(self.mem, None, self)
         w.exec_()
+        elaborated=w.elaboratedproduct
+        w=frmProductsElaboratedAdd(self.mem, elaborated, self)
+        w.exec_()
 
     @pyqtSlot()  
     def on_actionProductsUser_triggered(self):
