@@ -17,7 +17,6 @@ def main():
     mem.access.setResources(":/caloriestracker/books.png", ":/caloriestracker/meals.svg")
     mem.access.setLabel(mem.tr("Please login to the Calories Tracker database"))
     mem.access.exec_()
-    
 
     if mem.access.result()==QDialog.Accepted:
         mem.con=mem.access.con

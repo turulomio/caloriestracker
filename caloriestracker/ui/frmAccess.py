@@ -24,11 +24,14 @@ from logging import info
 ##mem.settings=access.settings
 ##mem.con=access.con
 
+## @param module From this string we get the module translation path and de root 
+## @param settings_root string
 class frmAccess(QDialog, Ui_frmAccess):
-    def __init__(self,  settings_root, parent = None):
+    def __init__(self, module, settings_root, parent = None):
         QDialog.__init__(self,  parent)
         self.settings=QSettings()
         self.settingsroot=settings_root
+        self.module=module
         
         self.setModal(True)
         self.setupUi(self)
@@ -66,7 +69,7 @@ class frmAccess(QDialog, Ui_frmAccess):
     def on_cmbLanguages_currentIndexChanged(self, stri):
         self.languages.selected=self.languages.find_by_id(self.cmbLanguages.itemData(self.cmbLanguages.currentIndex()))
         self.settings.setValue(self.settingsroot+"/language", self.languages.selected.id)
-        self.cambiar(self.languages.selected.id)
+        self.languages.cambiar(self.languages.selected.id, module)
         self.retranslateUi(self)
    
     @pyqtSlot() 
@@ -102,11 +105,3 @@ class frmAccess(QDialog, Ui_frmAccess):
             combo.addItem(l.name, l.id)
         if selected!=None:
                 combo.setCurrentIndex(combo.findData(selected.id))
-
-    ## @param id String
-    def cambiar(self, id):
-        self.qtranslator=QTranslator(qApp)
-        filename=package_filename("caloriestracker", "i18n/caloriestracker_{}.qm".format(id))
-        self.qtranslator.load(filename)
-        info("TranslationLanguage changed to {}".format(id))
-        qApp.installTranslator(self.qtranslator)
