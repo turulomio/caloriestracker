@@ -144,6 +144,13 @@ class frmMain(QMainWindow, Ui_frmMain):
         w.exec_()
     
     @pyqtSlot()  
+    def on_actionElaboratedProducts_triggered(self):
+        from caloriestracker.ui.wdgProductsElaborated import wdgProductsElaborated
+        self.w.close()
+        self.w=wdgProductsElaborated(self.mem,  self)
+        self.layout.addWidget(self.w)
+        self.w.show()
+    @pyqtSlot()  
     def on_actionElaboratedProductAdd_triggered(self):
         from caloriestracker.ui.frmProductsElaboratedAdd import frmProductsElaboratedAdd
         w=frmProductsElaboratedAdd(self.mem, None, self)

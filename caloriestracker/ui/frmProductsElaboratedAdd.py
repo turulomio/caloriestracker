@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QDialog
 from caloriestracker.ui.Ui_frmProductsElaboratedAdd import Ui_frmProductsElaboratedAdd
-from caloriestracker.libcaloriestracker import ProductElaborated, ProductsInElaboratedProduct
+from caloriestracker.libcaloriestracker import ProductElaborated
 
 class frmProductsElaboratedAdd(QDialog, Ui_frmProductsElaboratedAdd):
     def __init__(self, mem, elaboratedproduct=None, parent=None, ):
@@ -14,25 +14,24 @@ class frmProductsElaboratedAdd(QDialog, Ui_frmProductsElaboratedAdd):
             self.spnFinalAmount.setEnabled(False)
             self.tblProductsIn.setEnabled(False)
         else:
-            self.txtName.setText(self.elaborated.name)
-            self.spnFinalAmount.setValue(self.elaborated.amount)
+            self.elaboratedproduct.load_products_in()
+            self.txtName.setText(self.elaboratedproduct.name)
+            self.spnFinalAmount.setValue(self.elaboratedproduct.final_amount)
             self.lbl.setText(self.tr("Edit a personal and elaborated product"))
-            self.productsin=ProductsInElaboratedProduct(self.mem, self.elaboratedproduct, "select * from products_in_elaboratedproducts")
-            self.productsin.qtablewidgetitem(self.tblProductsIn)
-            
+            self.elaboratedproduct.products_in.qtablewidget(self.tblProductsIn)
 
     def on_bb_accepted(self):
         if self.elaboratedproduct==None:        
-            self.product=ProductElaborated(self.mem)
-            self.product.name=self.txtName.text(), 
-            self.product.final_amount=0
-            self.mem.data.products.append(self.product)
-            self.mem.data.products.order_by_name()
+            self.elaboratedproduct=ProductElaborated(self.mem)
+            self.elaboratedproduct.name=self.txtName.text(), 
+            self.elaboratedproduct.final_amount=0
+            self.mem.data.elaboratedproducts.append(self.elaboratedproduct)
+            self.mem.data.elaboratedproducts.order_by_name()
         else:
-            self.product.name=self.txtName.text()
-            self.product.amount=self.spnAmount.value()
+            self.elaboratedproduct.name=self.txtName.text()
+            self.elaboratedproduct.amount=self.spnAmount.value()
 
-        self.product.save()
+        self.elaboratedproduct.save()
         self.mem.con.commit()
         self.accept()
 

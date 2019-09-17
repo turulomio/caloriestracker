@@ -409,7 +409,7 @@ class ProductPersonalManager(ProductManager):
 
 class ProductElaborated:
     ##Biometrics(mem)
-    ##Biometrics(mem,id)
+    ##Biometrics(mem,row)
     def __init__(self, *args):        
         def init__create(name, final_amount, id):
             self.name=name
@@ -419,9 +419,12 @@ class ProductElaborated:
         if len(args)==1:
             init__create(None,None, None)
         elif len(args)==2:
-            row=self.mem.con.cursor_one_row("select id,name,final_amount from elaboratedproducts where id=%s",(args[1],))
-            init__create(row[1],row[2], row[0])
-            self.products_in=ProductsInElaboratedProduct(self.mem, self, self.mem.con.mogrify("select * from products_in_elaboratedproducts where elaboratedproducts_id=%s",(args[1],)))
+            init__create(args[1]['name'],args[1]['final_amount'], args[1]['id'])
+
+    def load_products_in(self):
+            self.products_in=ProductsInElaboratedProduct(self.mem, self, self.mem.con.mogrify("select * from products_in_elaboratedproducts where elaboratedproducts_id=%s",(self.id,)))
+
+            
 
     def show_table(self):
         self.products_in.show_table()
@@ -479,7 +482,44 @@ class ProductElaborated:
             self.mem.con.execute("delete from elaboratedproduct where id=%s", (self.id, ))
         else:
             debug("I did not delete elaboratedproduct because is not deletable")
+        
 
+class ProductElaboratedManager(QObject, ObjectManager_With_IdName_Selectable):
+    def __init__(self, mem):
+        QObject.__init__(self)
+        ObjectManager_With_IdName_Selectable.__init__(self)
+        self.mem=mem
+
+    def load_from_db(self, sql,  progress=False):
+        self.clean()
+        cur=self.mem.con.cursor()
+        cur.execute(sql)#"select * from products where id in ("+lista+")" 
+        if progress==True:
+            pd= QProgressDialog(self.tr("Loading {0} elaborated products from database").format(cur.rowcount),None, 0,cur.rowcount)
+            pd.setWindowIcon(QIcon(":/caloriestracker/coins.png"))
+            pd.setModal(True)
+            pd.setWindowTitle(self.tr("Loading elaborated products..."))
+            pd.forceShow()
+        for rowms in cur:
+            if progress==True:
+                pd.setValue(cur.rownumber)
+                pd.update()
+                QApplication.processEvents()
+                
+            oo=ProductElaborated(self.mem, rowms)
+            self.append(oo)
+        cur.close()
+        
+    ## It's a staticmethod due to it will be used in ProductAllManager
+    def qtablewidget(self, table):        
+        table.setColumnCount(1)
+        table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Name")))
+        table.applySettings()
+        table.clearContents()
+        table.setRowCount(self.length())
+        for i, o in enumerate(self.arr):
+            table.setItem(i, 0, qleft(o.name))
+            #table.item(i, 0).setIcon(o.qicon())
 class ProductInElaboratedProduct:
     ##Biometrics(mem)
     ##Biometrics(mem,elaborated_product,row)
@@ -622,7 +662,6 @@ class ProductsInElaboratedProduct(QObject, ObjectManager_With_IdDatetime):
 
     def qtablewidget(self, table):        
         table.setColumnCount(8)
-        table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Hour")))
         table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Name")))
         table.setHorizontalHeaderItem(2, QTableWidgetItem(self.tr("Grams")))
         table.setHorizontalHeaderItem(3, QTableWidgetItem(self.tr("Calories")))
@@ -635,7 +674,6 @@ class ProductsInElaboratedProduct(QObject, ObjectManager_With_IdDatetime):
         table.clearContents()
         table.setRowCount(self.length())
         for i, o in enumerate(self.arr):
-            table.setItem(i, 0, qtime(o.datetime))
             table.setItem(i, 1, qleft(o.product.name))
             table.setItem(i, 2, qright(o.amount))
             table.setItem(i, 3, qright(o.calories()))
@@ -704,6 +742,9 @@ class DBData:
 
         self.products=ProductAllManager(self.mem)
         self.products.load_all()
+        
+        self.elaboratedproducts=ProductElaboratedManager(self.mem)
+        self.elaboratedproducts.load_from_db("select * from elaboratedproducts order by name", True)
         
         self.users=UserManager(self.mem, "select * from users", progress)
         self.users.load_last_biometrics()

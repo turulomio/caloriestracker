@@ -86,7 +86,7 @@
     <addaction name="actionSearch"/>
     <addaction name="separator"/>
     <addaction name="actionElaboratedProductAdd"/>
-    <addaction name="actionProductsUser"/>
+    <addaction name="actionElaboratedProducts"/>
    </widget>
    <widget class="QMenu" name="menuMealss">
     <property name="title">
@@ -139,7 +139,7 @@
    </attribute>
    <addaction name="actionMeals"/>
    <addaction name="actionBiometrics"/>
-   <addaction name="actionElaboratedProductAdd"/>
+   <addaction name="actionElaboratedProducts"/>
    <addaction name="actionCompanies"/>
    <addaction name="actionSearch"/>
   </widget>
@@ -252,16 +252,16 @@
     <string>Ctrl+B</string>
    </property>
   </action>
-  <action name="actionProductsUser">
+  <action name="actionElaboratedProducts">
    <property name="icon">
-    <iconset>
-     <normaloff>:/xulpymoney/keko.png</normaloff>:/xulpymoney/keko.png</iconset>
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/keko.png</normaloff>:/caloriestracker/keko.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;User products</string>
+    <string>Elaborated products list</string>
    </property>
    <property name="toolTip">
-    <string>User products</string>
+    <string>Elaborated products list</string>
    </property>
   </action>
   <action name="actionCuriosities">
