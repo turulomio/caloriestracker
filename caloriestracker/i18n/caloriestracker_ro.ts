@@ -3,47 +3,47 @@
 <context>
     <name>ActivityManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="44"/>
+        <location filename="../libcaloriestracker.py" line="42"/>
         <source>Sedentary</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="44"/>
+        <location filename="../libcaloriestracker.py" line="42"/>
         <source>If you get minimal or no exercise</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="45"/>
+        <location filename="../libcaloriestracker.py" line="43"/>
         <source>Lightly active</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="46"/>
+        <location filename="../libcaloriestracker.py" line="44"/>
         <source>If you exercise moderately three to five days a week</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="46"/>
+        <location filename="../libcaloriestracker.py" line="44"/>
         <source>Moderately active</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="47"/>
+        <location filename="../libcaloriestracker.py" line="45"/>
         <source>Very active</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="47"/>
+        <location filename="../libcaloriestracker.py" line="45"/>
         <source>If you engage in hard exercise six to seven days a week</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="48"/>
+        <location filename="../libcaloriestracker.py" line="46"/>
         <source>Extra active</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="48"/>
+        <location filename="../libcaloriestracker.py" line="46"/>
         <source>If you engage in very hard exercise six to seven days a week or have a physical job</source>
         <translation type="unfinished"></translation>
     </message>
@@ -51,42 +51,42 @@
 <context>
     <name>BiometricsManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="944"/>
+        <location filename="../libcaloriestracker.py" line="810"/>
         <source>Loading {0} biometrics from database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="947"/>
+        <location filename="../libcaloriestracker.py" line="813"/>
         <source>Loading biometrics...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="960"/>
+        <location filename="../libcaloriestracker.py" line="826"/>
         <source>Date and time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="961"/>
+        <location filename="../libcaloriestracker.py" line="827"/>
         <source>Weight</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="962"/>
+        <location filename="../libcaloriestracker.py" line="828"/>
         <source>Height</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="963"/>
+        <location filename="../libcaloriestracker.py" line="829"/>
         <source>Activity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="964"/>
+        <location filename="../libcaloriestracker.py" line="830"/>
         <source>weightwish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="965"/>
+        <location filename="../libcaloriestracker.py" line="831"/>
         <source>Situation</source>
         <translation type="unfinished"></translation>
     </message>
@@ -94,12 +94,12 @@
 <context>
     <name>CompaniesAndProducts</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1054"/>
+        <location filename="../libcaloriestracker.py" line="944"/>
         <source>Company name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1055"/>
+        <location filename="../libcaloriestracker.py" line="945"/>
         <source>Products</source>
         <translation type="unfinished"></translation>
     </message>
@@ -107,12 +107,12 @@
 <context>
     <name>CompanyPersonalManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="199"/>
+        <location filename="../libcaloriestracker.py" line="224"/>
         <source>Loading {0} personal companies from database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="202"/>
+        <location filename="../libcaloriestracker.py" line="227"/>
         <source>Loading personal companies...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -120,78 +120,504 @@
 <context>
     <name>CompanySystemManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="176"/>
+        <location filename="../libcaloriestracker.py" line="186"/>
         <source>Loading {0} system companies from database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="179"/>
+        <location filename="../libcaloriestracker.py" line="189"/>
         <source>Loading system companies...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libcaloriestracker.py" line="205"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libcaloriestracker.py" line="206"/>
+        <source>Number of products</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Core</name>
     <message>
-        <location filename="../ui/qtablewidgetitems.py" line="16"/>
+        <location filename="../ui/qtablewidgetitems.py" line="17"/>
         <source>True</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/qtablewidgetitems.py" line="19"/>
+        <location filename="../ui/qtablewidgetitems.py" line="20"/>
         <source>False</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../datetime_functions.py" line="43"/>
+        <source>year</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../datetime_functions.py" line="45"/>
+        <source>years</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../datetime_functions.py" line="47"/>
+        <source>month</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../datetime_functions.py" line="49"/>
+        <source>months</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../datetime_functions.py" line="51"/>
+        <source>day</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../datetime_functions.py" line="53"/>
+        <source>days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../datetime_functions.py" line="54"/>
+        <source>{} {}, {} {} and {} {}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libcaloriestrackerfunctions.py" line="217"/>
+        <source>File deletion question</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libcaloriestrackerfunctions.py" line="217"/>
+        <source>Do you want to delete this file:
+&apos;{}&apos;?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="2"/>
+        <source>Personal Management</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="3"/>
+        <source>Cash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="4"/>
+        <source>Desconocido</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="5"/>
+        <source>Inicio de Cuenta</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="6"/>
+        <source>Supermercado</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="7"/>
+        <source>Restaurante</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="8"/>
+        <source>Transferencia. Origen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="9"/>
+        <source>Transferencia. Destino</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="10"/>
+        <source>Impuestos. Devolución</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="11"/>
+        <source>Gasolina</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="12"/>
+        <source>Ocio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="13"/>
+        <source>Teléfono</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="14"/>
+        <source>Nómina</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="15"/>
+        <source>Televisión &amp; Video &amp; Cine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="16"/>
+        <source>Casa. Comunidad</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="17"/>
+        <source>Universidad &amp; Estudios</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="18"/>
+        <source>Viajes (Billetes y autopistas)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="19"/>
+        <source>Hoteles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="20"/>
+        <source>Loterías</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="21"/>
+        <source>Regalos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="22"/>
+        <source>Electricidad</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="23"/>
+        <source>Gas</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="24"/>
+        <source>Intereses Negativos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="25"/>
+        <source>Ropa</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="26"/>
+        <source>Médicos </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="27"/>
+        <source>Intereses Positivos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="28"/>
+        <source>Loterías Premios</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="29"/>
+        <source>Informática</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="30"/>
+        <source>Coche</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="31"/>
+        <source>Herencia</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="32"/>
+        <source>Compra producto de inversión</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="33"/>
+        <source>Pagas</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="34"/>
+        <source>Invitaciones</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="35"/>
+        <source>Otros Ingresos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="36"/>
+        <source>Casa. Compra</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="37"/>
+        <source>Venta producto de inversión</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="38"/>
+        <source>Casa. Infraestructura</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="39"/>
+        <source>Impuestos. Pago</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="40"/>
+        <source>Comisiones bancarias</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="41"/>
+        <source>Dividendos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="42"/>
+        <source>Facturacion Tarjeta</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="43"/>
+        <source>Añadido de acciones</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="44"/>
+        <source>Ajustes negativos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="45"/>
+        <source>Casa. Compra pareja</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="46"/>
+        <source>Préstamo (Me devuelven)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="47"/>
+        <source>Seguro</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="48"/>
+        <source>Boda</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="49"/>
+        <source>Regalos económicos recibidos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="50"/>
+        <source>Prima asistencia</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="51"/>
+        <source>Otros Ingresos Pareja</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="52"/>
+        <source>Casa. Asistenta</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="53"/>
+        <source>Taxi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="54"/>
+        <source>Copas</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="55"/>
+        <source>Gimnasio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="56"/>
+        <source>Divorcio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="57"/>
+        <source>Donaciones</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="58"/>
+        <source>Garage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="59"/>
+        <source>Comisión de custodia de valores</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="60"/>
+        <source>Casa. Alquiler</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="61"/>
+        <source>Dividendos. Venta derechos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="62"/>
+        <source>Renta fija. Pago cupón corrido</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="63"/>
+        <source>Pareja. Apoyo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="64"/>
+        <source>Renta fija. Cobro cupón corrido</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="65"/>
+        <source>Renta fija. Pago cupón</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="66"/>
+        <source>Credit card refund</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="67"/>
+        <source>HL adjustment income</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="68"/>
+        <source>HL adjustment expense</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="69"/>
+        <source>HL Guarantee payment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="70"/>
+        <source>HL Guarantee return</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="71"/>
+        <source>HL Operation commission</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="72"/>
+        <source>HL Paid interest</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="73"/>
+        <source>HL Received interest</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="74"/>
+        <source>Rollover Paid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="75"/>
+        <source>Rollover Received</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MealManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1389"/>
+        <location filename="../libcaloriestracker.py" line="1283"/>
         <source>Hour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1390"/>
+        <location filename="../libcaloriestracker.py" line="1284"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1391"/>
+        <location filename="../libcaloriestracker.py" line="1285"/>
         <source>Grams</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1392"/>
+        <location filename="../libcaloriestracker.py" line="1286"/>
         <source>Calories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1393"/>
+        <location filename="../libcaloriestracker.py" line="1287"/>
         <source>Carbohydrates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1394"/>
+        <location filename="../libcaloriestracker.py" line="1288"/>
         <source>Protein</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1395"/>
+        <location filename="../libcaloriestracker.py" line="1289"/>
         <source>Fat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1396"/>
+        <location filename="../libcaloriestracker.py" line="1290"/>
         <source>Fiber</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1411"/>
+        <location filename="../libcaloriestracker.py" line="1306"/>
         <source>Total</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1419"/>
+        <location filename="../libcaloriestracker.py" line="1314"/>
         <source>Recomendations</source>
         <translation type="unfinished"></translation>
     </message>
@@ -278,7 +704,7 @@
 <context>
     <name>Product</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1120"/>
+        <location filename="../libcaloriestracker.py" line="1010"/>
         <source>Elaborated by me</source>
         <translation type="unfinished"></translation>
     </message>
@@ -286,57 +712,52 @@
 <context>
     <name>ProductManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="278"/>
+        <location filename="../libcaloriestracker.py" line="307"/>
         <source>Loading {0} products from database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="334"/>
+        <location filename="../libcaloriestracker.py" line="310"/>
         <source>Loading products...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="331"/>
-        <source>Loading additional data to {0} products from database</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../libcaloriestracker.py" line="297"/>
+        <location filename="../libcaloriestracker.py" line="348"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="298"/>
+        <location filename="../libcaloriestracker.py" line="349"/>
         <source>Company</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="299"/>
+        <location filename="../libcaloriestracker.py" line="350"/>
         <source>Grams</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="300"/>
+        <location filename="../libcaloriestracker.py" line="351"/>
         <source>Calories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="301"/>
+        <location filename="../libcaloriestracker.py" line="352"/>
         <source>Carbohydrates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="302"/>
+        <location filename="../libcaloriestracker.py" line="353"/>
         <source>Protein</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="303"/>
+        <location filename="../libcaloriestracker.py" line="354"/>
         <source>Fat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="304"/>
+        <location filename="../libcaloriestracker.py" line="355"/>
         <source>Fiber</source>
         <translation type="unfinished"></translation>
     </message>
@@ -344,12 +765,12 @@
 <context>
     <name>ProductPersonalManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="580"/>
+        <location filename="../libcaloriestracker.py" line="394"/>
         <source>Loading {0} personal products from database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="583"/>
+        <location filename="../libcaloriestracker.py" line="397"/>
         <source>Loading personal products...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -357,42 +778,42 @@
 <context>
     <name>ProductsInElaboratedProduct</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="796"/>
+        <location filename="../libcaloriestracker.py" line="607"/>
         <source>Hour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="797"/>
+        <location filename="../libcaloriestracker.py" line="608"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="798"/>
+        <location filename="../libcaloriestracker.py" line="609"/>
         <source>Grams</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="799"/>
+        <location filename="../libcaloriestracker.py" line="610"/>
         <source>Calories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="800"/>
+        <location filename="../libcaloriestracker.py" line="611"/>
         <source>Carbohydrates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="801"/>
+        <location filename="../libcaloriestracker.py" line="612"/>
         <source>Protein</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="802"/>
+        <location filename="../libcaloriestracker.py" line="613"/>
         <source>Fat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="803"/>
+        <location filename="../libcaloriestracker.py" line="614"/>
         <source>Fiber</source>
         <translation type="unfinished"></translation>
     </message>
@@ -400,12 +821,12 @@
 <context>
     <name>UserManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1536"/>
+        <location filename="../libcaloriestracker.py" line="1369"/>
         <source>Loading {0} users from database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1539"/>
+        <location filename="../libcaloriestracker.py" line="1372"/>
         <source>Loading users...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -413,40 +834,63 @@
 <context>
     <name>VCCommons</name>
     <message>
-        <location filename="../ui/canvaschart.py" line="17"/>
+        <location filename="../ui/canvaschart.py" line="16"/>
         <source>Save as image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/canvaschart.py" line="31"/>
+        <location filename="../ui/canvaschart.py" line="30"/>
         <source>Save File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/canvaschart.py" line="31"/>
+        <location filename="../ui/canvaschart.py" line="30"/>
         <source>PNG Image (*.png)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/canvaschart.py" line="64"/>
+        <location filename="../ui/canvaschart.py" line="63"/>
         <source>Creating chart</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>VCWeight</name>
+    <message>
+        <location filename="../ui/wdgBiometrics.py" line="87"/>
+        <source>Weight evolution chart</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/wdgBiometrics.py" line="112"/>
+        <source>Loading {} biometrics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/wdgBiometrics.py" line="119"/>
+        <source>Weight evolution</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/wdgBiometrics.py" line="120"/>
+        <source>Simple movil average {}</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>WeightWishManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="61"/>
+        <location filename="../libcaloriestracker.py" line="59"/>
         <source>Lose weight</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="62"/>
+        <location filename="../libcaloriestracker.py" line="60"/>
         <source>Mantain weight</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="63"/>
+        <location filename="../libcaloriestracker.py" line="61"/>
         <source>Gain weight</source>
         <translation type="unfinished"></translation>
     </message>
@@ -661,6 +1105,29 @@
     </message>
 </context>
 <context>
+    <name>frmCompaniesAdd</name>
+    <message>
+        <location filename="../ui/Ui_frmCompaniesAdd.py" line="56"/>
+        <source>Managing companies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmCompaniesAdd.py" line="57"/>
+        <source>Name of the company</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/frmCompaniesAdd.py" line="14"/>
+        <source>Add a new company</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/frmCompaniesAdd.py" line="16"/>
+        <source>Edit a company</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>frmHelp</name>
     <message>
         <location filename="../ui/Ui_frmHelp.py" line="64"/>
@@ -679,150 +1146,218 @@
     </message>
 </context>
 <context>
+    <name>frmInit</name>
+    <message>
+        <location filename="../ui/Ui_frmInit.py" line="134"/>
+        <source>Initializating Xulpymoney database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmInit.py" line="135"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pressing the button below, you will create needed database to run Xulpymoney. It&apos;ll be created in the language selected&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmInit.py" line="136"/>
+        <source>Database language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmInit.py" line="137"/>
+        <source>Server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmInit.py" line="138"/>
+        <source>127.0.0.1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmInit.py" line="139"/>
+        <source>Port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmInit.py" line="140"/>
+        <source>5432</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmInit.py" line="141"/>
+        <source>User</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmInit.py" line="142"/>
+        <source>postgres</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmInit.py" line="143"/>
+        <source>Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmInit.py" line="144"/>
+        <source>Xulpymoney Database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmInit.py" line="145"/>
+        <source>xulpymoney</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmInit.py" line="146"/>
+        <source>Create database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/frmInit.py" line="30"/>
+        <source>Do you want to create {} database in {}?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/frmInit.py" line="36"/>
+        <source>Database created. User xulpymoney_user and xulpymoney_admin have been created. Please run Xulpymoney and login</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>frmMain</name>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="191"/>
+        <location filename="../ui/Ui_frmMain.py" line="212"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="192"/>
+        <location filename="../ui/Ui_frmMain.py" line="213"/>
         <source>F1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="178"/>
+        <location filename="../ui/Ui_frmMain.py" line="199"/>
         <source>E&amp;xit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="179"/>
+        <location filename="../ui/Ui_frmMain.py" line="200"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="181"/>
+        <location filename="../ui/Ui_frmMain.py" line="202"/>
         <source>&amp;About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="182"/>
+        <location filename="../ui/Ui_frmMain.py" line="203"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="185"/>
+        <location filename="../ui/Ui_frmMain.py" line="206"/>
         <source>Auxiliar tables</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="187"/>
+        <location filename="../ui/Ui_frmMain.py" line="208"/>
         <source>Update memory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="189"/>
+        <location filename="../ui/Ui_frmMain.py" line="210"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="193"/>
+        <location filename="../ui/Ui_frmMain.py" line="214"/>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="183"/>
+        <location filename="../ui/Ui_frmMain.py" line="204"/>
         <source>F2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="196"/>
+        <location filename="../ui/Ui_frmMain.py" line="217"/>
         <source>User products</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="180"/>
+        <location filename="../ui/Ui_frmMain.py" line="201"/>
         <source>Alt+Esc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="169"/>
+        <location filename="../ui/Ui_frmMain.py" line="190"/>
         <source>He&amp;lp</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="170"/>
+        <location filename="../ui/Ui_frmMain.py" line="191"/>
         <source>&amp;Reports</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="172"/>
+        <location filename="../ui/Ui_frmMain.py" line="193"/>
         <source>Prod&amp;ucts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="184"/>
+        <location filename="../ui/Ui_frmMain.py" line="205"/>
         <source>&amp;Auxiliar tables</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="186"/>
+        <location filename="../ui/Ui_frmMain.py" line="207"/>
         <source>&amp;Update memory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="188"/>
+        <location filename="../ui/Ui_frmMain.py" line="209"/>
         <source>&amp;Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="190"/>
+        <location filename="../ui/Ui_frmMain.py" line="211"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="195"/>
+        <location filename="../ui/Ui_frmMain.py" line="216"/>
         <source>&amp;User products</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="198"/>
+        <location filename="../ui/Ui_frmMain.py" line="219"/>
         <source>Curiosities</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmMain.py" line="67"/>
+        <location filename="../ui/frmMain.py" line="47"/>
         <source>Disconnecting due to {} minutes of inactivity.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="197"/>
+        <location filename="../ui/Ui_frmMain.py" line="218"/>
         <source>&amp;Curiosities</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="194"/>
+        <location filename="../ui/Ui_frmMain.py" line="215"/>
         <source>Ctrl+B</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="176"/>
+        <location filename="../ui/Ui_frmMain.py" line="197"/>
         <source>Main toolbar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="177"/>
+        <location filename="../ui/Ui_frmMain.py" line="198"/>
         <source>Settings toolbar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/frmMain.py" line="54"/>
-        <source>Update products from Internet (NEEDED)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/frmMain.py" line="53"/>
-        <source>Products list outdated, please upgrade it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -831,43 +1366,58 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="171"/>
+        <location filename="../ui/Ui_frmMain.py" line="192"/>
         <source>Calories tracker</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="200"/>
+        <location filename="../ui/Ui_frmMain.py" line="221"/>
         <source>Meals</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="174"/>
+        <location filename="../ui/Ui_frmMain.py" line="195"/>
         <source>Companies</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmMain.py" line="38"/>
+        <location filename="../ui/frmMain.py" line="34"/>
         <source>Calories Tracker 2019-{0} &#xa9; (Admin mode)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmMain.py" line="41"/>
+        <location filename="../ui/frmMain.py" line="37"/>
         <source>Calories Tracker 2019-{0} &#xa9;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="175"/>
+        <location filename="../ui/Ui_frmMain.py" line="196"/>
         <source>Biometrics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="202"/>
+        <location filename="../ui/Ui_frmMain.py" line="223"/>
         <source>Add biometrics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="204"/>
+        <location filename="../ui/Ui_frmMain.py" line="225"/>
         <source>Biometric information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmMain.py" line="227"/>
+        <source>Add an elaborated product</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmMain.py" line="229"/>
+        <source>Add a company</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmMain.py" line="231"/>
+        <source>Companies list</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -897,98 +1447,141 @@
 <context>
     <name>frmProductsAdd</name>
     <message>
-        <location filename="../ui/frmProductsAdd.ui" line="17"/>
+        <location filename="../ui/Ui_frmProductsAdd.py" line="213"/>
         <source>Managing products</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.ui" line="51"/>
+        <location filename="../ui/Ui_frmProductsAdd.py" line="214"/>
         <source>Name of the product</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.ui" line="65"/>
+        <location filename="../ui/Ui_frmProductsAdd.py" line="215"/>
         <source>Select a company</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.ui" line="83"/>
+        <location filename="../ui/Ui_frmProductsAdd.py" line="216"/>
         <source>Basic components information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.ui" line="91"/>
+        <location filename="../ui/Ui_frmProductsAdd.py" line="217"/>
         <source>Calories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.ui" line="380"/>
+        <location filename="../ui/Ui_frmProductsAdd.py" line="241"/>
         <source> g</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.ui" line="115"/>
+        <location filename="../ui/Ui_frmProductsAdd.py" line="219"/>
         <source>Amount</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.ui" line="145"/>
+        <location filename="../ui/Ui_frmProductsAdd.py" line="221"/>
         <source>Carbohidrates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.ui" line="169"/>
+        <location filename="../ui/Ui_frmProductsAdd.py" line="223"/>
         <source>Protein</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.ui" line="193"/>
+        <location filename="../ui/Ui_frmProductsAdd.py" line="225"/>
         <source>Fat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.ui" line="217"/>
+        <location filename="../ui/Ui_frmProductsAdd.py" line="227"/>
         <source>Fiber</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.ui" line="242"/>
+        <location filename="../ui/Ui_frmProductsAdd.py" line="229"/>
         <source>Additional information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.ui" line="250"/>
+        <location filename="../ui/Ui_frmProductsAdd.py" line="230"/>
         <source>Salt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.ui" line="274"/>
+        <location filename="../ui/Ui_frmProductsAdd.py" line="232"/>
         <source>Cholesterol</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.ui" line="332"/>
+        <location filename="../ui/Ui_frmProductsAdd.py" line="237"/>
         <source> mg</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.ui" line="298"/>
+        <location filename="../ui/Ui_frmProductsAdd.py" line="234"/>
         <source>Sodium</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.ui" line="322"/>
+        <location filename="../ui/Ui_frmProductsAdd.py" line="236"/>
         <source>Potassium</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.ui" line="346"/>
+        <location filename="../ui/Ui_frmProductsAdd.py" line="238"/>
         <source>Sugars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.ui" line="370"/>
+        <location filename="../ui/Ui_frmProductsAdd.py" line="240"/>
         <source>Saturated fat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/frmProductsAdd.py" line="15"/>
+        <source>Add a new personal product</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/frmProductsAdd.py" line="35"/>
+        <source>Edit a personal product</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>frmProductsElaboratedAdd</name>
+    <message>
+        <location filename="../ui/Ui_frmProductsElaboratedAdd.py" line="73"/>
+        <source>Managing elaborated products</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmProductsElaboratedAdd.py" line="74"/>
+        <source>Name of the product</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmProductsElaboratedAdd.py" line="75"/>
+        <source>Final amount</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmProductsElaboratedAdd.py" line="76"/>
+        <source> g</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/frmProductsElaboratedAdd.py" line="12"/>
+        <source>Add a new personal and elaborated product</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/frmProductsElaboratedAdd.py" line="16"/>
+        <source>Edit a personal and elaborated product</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1028,7 +1621,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../caloriestracker_console.py" line="14"/>
+        <location filename="../caloriestracker_console.py" line="12"/>
         <source>Start mem took {}</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1049,12 +1642,12 @@
 <context>
     <name>self.mem</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1041"/>
+        <location filename="../libcaloriestracker.py" line="931"/>
         <source>Companies:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1045"/>
+        <location filename="../libcaloriestracker.py" line="935"/>
         <source>Products:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1062,37 +1655,37 @@
 <context>
     <name>wdgBiometrics</name>
     <message>
-        <location filename="../ui/Ui_wdgBiometrics.py" line="82"/>
+        <location filename="../ui/Ui_wdgBiometrics.py" line="83"/>
         <source>Your biometric information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_wdgBiometrics.py" line="83"/>
+        <location filename="../ui/Ui_wdgBiometrics.py" line="84"/>
         <source>Registers found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_wdgBiometrics.py" line="85"/>
+        <location filename="../ui/Ui_wdgBiometrics.py" line="86"/>
         <source>New biometric information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_wdgBiometrics.py" line="87"/>
+        <location filename="../ui/Ui_wdgBiometrics.py" line="88"/>
         <source>Delete biometric information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_wdgBiometrics.py" line="89"/>
+        <location filename="../ui/Ui_wdgBiometrics.py" line="90"/>
         <source>Edit biometric information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/wdgBiometrics.py" line="33"/>
+        <location filename="../ui/wdgBiometrics.py" line="45"/>
         <source>Asking your confirmation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/wdgBiometrics.py" line="33"/>
+        <location filename="../ui/wdgBiometrics.py" line="45"/>
         <source>This action can&apos;t be undone.
 Do you want to delete this record?</source>
         <translation type="unfinished"></translation>
@@ -1263,8 +1856,23 @@ Do you want to delete this record?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/wdgProducts.py" line="55"/>
+        <location filename="../ui/wdgProducts.py" line="70"/>
         <source>{} products found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/wdgProducts.py" line="40"/>
+        <source>This is a system product so you can&apos;t edit it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/wdgProducts.py" line="40"/>
+        <source>Please, if it&apos;s something wrong with it create an issue at</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/wdgProducts.py" line="40"/>
+        <source>I&apos;ll fix it as soon as posible. ;)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

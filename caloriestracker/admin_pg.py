@@ -18,6 +18,7 @@ class AdminPG:
         if self.con.is_superuser():
             cur=self.con.cursor()
             cur.execute("create database {0};".format(database))
+            return True
         else:
             logging.critical ("You need to be superuser to create database")
             return False
@@ -27,22 +28,14 @@ class AdminPG:
         if self.db_exists(database)==True:
             print("Database exists")
             exit(1)
-            
         self.create_db(database)
-        newcon=Connection()
-        newcon.user=self.con.user
-        newcon.server=self.con.server
-        newcon.port=self.con.port
-        newcon.db=database
-        newcon.password=self.con.password
-        newcon.connect()
-        return newcon
-        
+        return self.connect_to_database(database)
+
     def db_exists(self, database):
         """Hace conexi´on automatica a template usando la con """
         cur=self.con.cursor()
         cur.execute("SELECT 1 AS result FROM pg_database WHERE datname=%s", (database, ))
-        
+
         if cur.rowcount==1:
             cur.close()
             return True

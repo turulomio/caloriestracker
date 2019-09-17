@@ -70,6 +70,38 @@ class Mem(QObject):
             print(Style.BRIGHT+Fore.RED+"You pressed 'Ctrl+C', exiting...")
             exit(1)
 
+class MemInit(Mem):
+    def __init__(self):
+        Mem.__init__(self)
+        
+        self.settings=QSettings()
+        
+    def run(self):
+        self.args=self.parse_arguments()
+        self.addDebugSystem(self.args.debug) #Must be before QCoreApplication
+        self.app=QApplication(argv)
+        self.app.setOrganizationName("caloriestracker")
+        self.app.setOrganizationDomain("caloriestracker")
+        self.app.setApplicationName("caloriestracker")
+        self.load_translation()
+                
+    def load_translation(self):
+        self.qtranslator=QTranslator(self.app)
+        self.languages=TranslationLanguageManager()
+        self.languages.load_all()
+        self.languages.selected=self.languages.find_by_id(self.settings.value("mem/language", "en"))
+        filename=package_filename("caloriestracker", "i18n/caloriestracker_{}.qm".format(self.languages.selected.id))
+        self.qtranslator.load(filename)
+        info("TranslationLanguage changed to {}".format(self.languages.selected.id))
+        self.app.installTranslator(self.qtranslator)
+
+    def parse_arguments(self):
+        self.parser=ArgumentParser(prog='caloriestracker_init', description=self.tr('Create a new caloriestracker database'), epilog=self.epilog(), formatter_class=RawTextHelpFormatter)
+        self. addCommonToArgParse(self.parser)
+        argparse_connection_arguments_group(self.parser, default_db="caloriestracker")
+        args=self.parser.parse_args()
+        return args
+
 class MemConsole(Mem):
     def __init__(self):
         Mem.__init__(self)
