@@ -198,6 +198,21 @@ class CompanySystemManager(QObject, ObjectManager_With_IdName_Selectable):
             self.append(o)
         cur.close()
         
+    ## It's a staticmethod due to it will be used in ProductAllManager
+    @staticmethod
+    def qtablewidget(self, table):        
+        table.setColumnCount(2)
+        table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Name")))
+        table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Number of products")))   
+        table.applySettings()
+        table.clearContents()
+        table.setRowCount(self.length())
+        for i, o in enumerate(self.arr):
+            table.setItem(i, 0, qleft(o.fullName()))
+            table.item(i, 0).setIcon(o.qicon())
+            table.setItem(i, 1, qnumber(self.mem.con.cursor_one_field("select count(*) from companies, products where companies.id=products.companies_id and companies.id=%s", (o.id, ))))
+
+
 class CompanyPersonalManager(CompanySystemManager):
     def __init__(self, mem):
         CompanySystemManager.__init__(self, mem)
@@ -223,20 +238,24 @@ class CompanyPersonalManager(CompanySystemManager):
         
         
         
-class CompanyAllManager(ObjectManager_With_IdName_Selectable):
+class CompanyAllManager(QObject, ObjectManager_With_IdName_Selectable):
     ## ProductAllManager(mem)#Loads all database
     def __init__(self, *args):
+        QObject.__init__(self)
         ObjectManager_With_IdName_Selectable.__init__(self)
         self.mem=args[0]
-        if len(args)==1:
-            system=CompanySystemManager(self.mem)
-            system.load_from_db("select * from companies")
-            for o in system.arr:
-                self.append(o)
-            personal=CompanyPersonalManager(self.mem)
-            personal.load_from_db("select * from personalcompanies")
-            for o in personal.arr:
-                self.append(o)
+        
+        
+    def load_all(self):
+        system=CompanySystemManager(self.mem)
+        system.load_from_db("select * from companies")
+        for o in system.arr:
+            self.append(o)
+        personal=CompanyPersonalManager(self.mem)
+        personal.load_from_db("select * from personalcompanies")
+        for o in personal.arr:
+            self.append(o)
+        self.order_by_name()
 
     def find_by_id_system(self,  id ,  system):
         for o in self.arr:
@@ -268,6 +287,8 @@ class CompanyAllManager(ObjectManager_With_IdName_Selectable):
             combo.addItem(icon, o.fullName(), o.string_id())
         if selected!=None:
             combo.setCurrentIndex(combo.findData(selected.string_id()))
+    def qtablewidget(self, table):
+        CompanySystemManager.qtablewidget(self, table)
 ## Clase parar trabajar con las opercuentas generadas automaticamente por los movimientos de las inversiones
 
 ## Class to manage products
@@ -661,6 +682,7 @@ class DBData:
         self.weightwishes=WeightWishManager(self.mem)
         
         self.companies=CompanyAllManager(self.mem)
+        self.companies.load_all()
 
         self.products=ProductAllManager(self.mem)
         self.products.load_all()
@@ -845,6 +867,11 @@ class CompanySystem:
         
     def __repr__(self):
         return self.fullName()
+                   
+    def is_deletable(self):
+        if self.system_company==True:
+            return False
+        return True
         
     def fullName(self):
         system="S" if self.system_company==True else "P"
@@ -854,12 +881,17 @@ class CompanySystem:
         if self.id==None:
             self.id=self.mem.con.cursor_one_field("insert into companies(name,starts,ends) values (%s, %s, %s) returning id", (self.name, self.starts, self.ends))
         else:
-            self.mem.con.cursor_one_field("update companies set name=%s,starts=%s, ends=%s where id=%s", (self.name, self.starts, self.ends, self.id))
+            self.mem.con.execute("update companies set name=%s,starts=%s, ends=%s where id=%s", (self.name, self.starts, self.ends, self.id))
     
     def insert_string(self, table="companies"):
         return b2s(self.mem.con.mogrify("insert into "+table +"(name,starts,ends, id) values (%s, %s, %s, %s);", (self.name, self.starts, self.ends, self.id)))
 
 
+    def qicon(self):
+        if self.system_company==True:
+            return QIcon(":/caloriestracker/companies.png")
+        else:
+            return QIcon(":/caloriestracker/keko.png")
     ## Generates an string with id and system_product
     def string_id(self):
         return "{}#{}".format(self.id, self.system_company)
@@ -880,8 +912,13 @@ class CompanyPersonal(CompanySystem):
         if self.id==None:
             self.id=self.mem.con.cursor_one_field("insert into personalcompanies(name,starts,ends) values (%s, %s, %s) returning id", (self.name, self.starts, self.ends))
         else:
-            self.mem.con.cursor_one_field("update personalcompanies set name=%s,starts=%s, ends=%s where id=%s", (self.name, self.starts, self.ends, self.id))
+            self.mem.con.execute("update personalcompanies set name=%s,starts=%s, ends=%s where id=%s", (self.name, self.starts, self.ends, self.id))
 
+    def delete(self):
+        if self.is_deletable()==True:
+            self.mem.con.execute("delete from personalcompanies where id=%s", (self.id, ))
+        else:
+            debug("I didn't delete this company because is not deletable")
 
 class CompaniesAndProducts(QObject):
     def __init__(self, mem):

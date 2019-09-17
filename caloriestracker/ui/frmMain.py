@@ -1,10 +1,8 @@
 ## @namesapace caloriestracker.ui.frmMain
 ## @brief User interface main window.
-
 from PyQt5.QtCore import pyqtSlot, QUrl
 from PyQt5.QtGui import QIcon, QDesktopServices
 from PyQt5.QtWidgets import QMainWindow,  QWidget, QLabel
-import os
 from caloriestracker.database_update import database_update
 from caloriestracker.libcaloriestracker import ProductManager
 from caloriestracker.libcaloriestrackerfunctions import qmessagebox
@@ -13,7 +11,7 @@ from caloriestracker.ui.wdgCuriosities import wdgCuriosities
 from caloriestracker.ui.frmAuxiliarTables import frmAuxiliarTables
 from caloriestracker.ui.frmSettings import frmSettings
 from caloriestracker.version import __versiondate__
-
+from os import environ
 
 class frmMain(QMainWindow, Ui_frmMain):
     def __init__(self, mem, parent = 0,  flags = False):
@@ -76,7 +74,7 @@ class frmMain(QMainWindow, Ui_frmMain):
             QDesktopServices.openUrl(QUrl(self.mem.url_wiki))
 
         try:
-            user=os.environ['USER']
+            user=environ['USER']
         except:
             user=None
 
@@ -130,6 +128,14 @@ class frmMain(QMainWindow, Ui_frmMain):
         from caloriestracker.ui.frmBiometricsAdd import frmBiometricsAdd
         w=frmBiometricsAdd(self.mem, None,  self)
         w.exec_()
+
+    @pyqtSlot()  
+    def on_actionCompanies_triggered(self):
+        from caloriestracker.ui.wdgCompanies import wdgCompanies
+        self.w.close()
+        self.w=wdgCompanies(self.mem,  self)
+        self.layout.addWidget(self.w)
+        self.w.show()
 
     @pyqtSlot()  
     def on_actionCompaniesAdd_triggered(self):

@@ -98,6 +98,8 @@
     <property name="title">
      <string>Companies</string>
     </property>
+    <addaction name="actionCompanies"/>
+    <addaction name="separator"/>
     <addaction name="actionCompaniesAdd"/>
    </widget>
    <widget class="QMenu" name="menuBiometrics">
@@ -138,7 +140,7 @@
    <addaction name="actionMeals"/>
    <addaction name="actionBiometrics"/>
    <addaction name="actionElaboratedProductAdd"/>
-   <addaction name="actionCompaniesAdd"/>
+   <addaction name="actionCompanies"/>
    <addaction name="actionSearch"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -332,6 +334,18 @@
    </property>
    <property name="toolTip">
     <string>Add a company</string>
+   </property>
+  </action>
+  <action name="actionCompanies">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/companies.png</normaloff>:/caloriestracker/companies.png</iconset>
+   </property>
+   <property name="text">
+    <string>Companies list</string>
+   </property>
+   <property name="toolTip">
+    <string>Companies list</string>
    </property>
   </action>
  </widget>
