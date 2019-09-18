@@ -46,6 +46,7 @@ class Ui_wdgProducts(object):
         self.label.setObjectName("label")
         self.horizontalLayout.addWidget(self.label)
         self.txt = QtWidgets.QLineEdit(self.groupBox)
+        self.txt.setClearButtonEnabled(True)
         self.txt.setObjectName("txt")
         self.horizontalLayout.addWidget(self.txt)
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -106,13 +107,14 @@ class Ui_wdgProducts(object):
 
         self.retranslateUi(wdgProducts)
         QtCore.QMetaObject.connectSlotsByName(wdgProducts)
-        wdgProducts.setTabOrder(self.txt, self.tblProducts)
+        wdgProducts.setTabOrder(self.txt, self.cmd)
+        wdgProducts.setTabOrder(self.cmd, self.tblProducts)
 
     def retranslateUi(self, wdgProducts):
         _translate = QtCore.QCoreApplication.translate
         self.lbl.setText(_translate("wdgProducts", "Products list"))
         self.groupBox.setTitle(_translate("wdgProducts", "Select your search"))
-        self.label.setText(_translate("wdgProducts", "Search by code, ISIN, ticker or product name"))
+        self.label.setText(_translate("wdgProducts", "Enter a string to search"))
         self.lblFound.setText(_translate("wdgProducts", "Registers found"))
         self.actionProductNew.setText(_translate("wdgProducts", "New product"))
         self.actionProductNew.setToolTip(_translate("wdgProducts", "New user product"))

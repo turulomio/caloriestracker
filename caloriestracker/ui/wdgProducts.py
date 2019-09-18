@@ -62,13 +62,16 @@ class wdgProducts(QWidget, Ui_wdgProducts):
 
     def on_txt_returnPressed(self):
         self.on_cmd_pressed()
+        
+    @pyqtSlot(str) 
+    def on_txt_textChanged(self, text):
+        self.on_cmd_pressed()
 
     def on_cmd_pressed(self):
         #        if len(self.txt.text().upper())<=2:            
         #            qmessagebox(self.tr("Search too wide. You need more than 2 characters"))
         #            return
         del self.products
-        print(self.txt.text(), *self.mem.data.products.args)
         self.products=self.mem.data.products.ObjectManager_with_name_contains_string(self.txt.text(), False, *self.mem.data.products.args)
         self.products.setSelectionMode(ManagerSelectionMode.Object)
         self.products.qtablewidget(self.tblProducts)

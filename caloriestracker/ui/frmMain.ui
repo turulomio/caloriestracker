@@ -59,20 +59,11 @@
     <addaction name="separator"/>
     <addaction name="actionHelp"/>
    </widget>
-   <widget class="QMenu" name="menuInformes">
-    <property name="title">
-     <string>&amp;Reports</string>
-    </property>
-    <addaction name="separator"/>
-    <addaction name="separator"/>
-   </widget>
    <widget class="QMenu" name="menuXulpymoney">
     <property name="title">
      <string>Calories tracker</string>
     </property>
     <addaction name="actionMemory"/>
-    <addaction name="separator"/>
-    <addaction name="actionAuxiliarTables"/>
     <addaction name="separator"/>
     <addaction name="actionSettings"/>
     <addaction name="separator"/>
@@ -83,7 +74,7 @@
      <string>Prod&amp;ucts</string>
     </property>
     <addaction name="separator"/>
-    <addaction name="actionSearch"/>
+    <addaction name="actionProducts"/>
     <addaction name="separator"/>
     <addaction name="actionElaboratedProductAdd"/>
     <addaction name="actionElaboratedProducts"/>
@@ -115,7 +106,6 @@
    <addaction name="menuProducts"/>
    <addaction name="menuMealss"/>
    <addaction name="menuBiometrics"/>
-   <addaction name="menuInformes"/>
    <addaction name="menuAyuda"/>
   </widget>
   <widget class="QToolBar" name="tbMain">
@@ -141,7 +131,7 @@
    <addaction name="actionBiometrics"/>
    <addaction name="actionElaboratedProducts"/>
    <addaction name="actionCompanies"/>
-   <addaction name="actionSearch"/>
+   <addaction name="actionProducts"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="tbSettings">
@@ -155,7 +145,6 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionSettings"/>
-   <addaction name="actionHelp"/>
    <addaction name="actionCuriosities"/>
    <addaction name="actionExit"/>
   </widget>
@@ -189,18 +178,6 @@
     <string>F2</string>
    </property>
   </action>
-  <action name="actionAuxiliarTables">
-   <property name="icon">
-    <iconset resource="../images/caloriestracker.qrc">
-     <normaloff>:/caloriestracker/table.png</normaloff>:/caloriestracker/table.png</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Auxiliar tables</string>
-   </property>
-   <property name="toolTip">
-    <string>Auxiliar tables</string>
-   </property>
-  </action>
   <action name="actionMemory">
    <property name="icon">
     <iconset resource="../images/caloriestracker.qrc">
@@ -228,7 +205,7 @@
   <action name="actionHelp">
    <property name="icon">
     <iconset resource="../images/caloriestracker.qrc">
-     <normaloff>:/caloriestracker/books.png</normaloff>:/caloriestracker/books.png</iconset>
+     <normaloff>:/caloriestracker/benchmark.png</normaloff>:/caloriestracker/benchmark.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Help</string>
@@ -240,13 +217,16 @@
     <string>F1</string>
    </property>
   </action>
-  <action name="actionSearch">
+  <action name="actionProducts">
    <property name="icon">
     <iconset resource="../images/caloriestracker.qrc">
-     <normaloff>:/caloriestracker/search.png</normaloff>:/caloriestracker/search.png</iconset>
+     <normaloff>:/caloriestracker/books.png</normaloff>:/caloriestracker/books.png</iconset>
    </property>
    <property name="text">
-    <string>Search</string>
+    <string>Products list</string>
+   </property>
+   <property name="toolTip">
+    <string>Products list</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+B</string>
@@ -303,7 +283,7 @@
   <action name="actionBiometrics">
    <property name="icon">
     <iconset resource="../images/caloriestracker.qrc">
-     <normaloff>:/caloriestracker/list-add-user.png</normaloff>:/caloriestracker/list-add-user.png</iconset>
+     <normaloff>:/caloriestracker/biometrics.png</normaloff>:/caloriestracker/biometrics.png</iconset>
    </property>
    <property name="text">
     <string>Biometric information</string>
@@ -327,7 +307,7 @@
   <action name="actionCompaniesAdd">
    <property name="icon">
     <iconset resource="../images/caloriestracker.qrc">
-     <normaloff>:/caloriestracker/bank.png</normaloff>:/caloriestracker/bank.png</iconset>
+     <normaloff>:/caloriestracker/add.png</normaloff>:/caloriestracker/add.png</iconset>
    </property>
    <property name="text">
     <string>Add a company</string>

@@ -44,6 +44,10 @@ class wdgProductsElaborated(QWidget, Ui_wdgProductsElaborated):
         w=frmProductsElaboratedAdd(self.mem, self.elaboratedproducts.selected, self)
         w.exec_()
         self.on_cmd_pressed()
+        
+    @pyqtSlot(str) 
+    def on_txt_textChanged(self, text):
+        self.on_cmd_pressed()
 
     def on_txt_returnPressed(self):
         self.on_cmd_pressed()

@@ -50,6 +50,10 @@ class wdgCompanies(QWidget, Ui_wdgCompanies):
             self.on_cmd_pressed()
 
     def on_txt_returnPressed(self):
+        self.on_cmd_pressed()        
+
+    @pyqtSlot(str) 
+    def on_txt_textChanged(self, text):
         self.on_cmd_pressed()
 
     def on_cmd_pressed(self):

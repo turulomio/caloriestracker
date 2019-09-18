@@ -8,7 +8,6 @@ from caloriestracker.libcaloriestracker import ProductManager
 from caloriestracker.libcaloriestrackerfunctions import qmessagebox
 from caloriestracker.ui.Ui_frmMain import Ui_frmMain
 from caloriestracker.ui.wdgCuriosities import wdgCuriosities
-from caloriestracker.ui.frmAuxiliarTables import frmAuxiliarTables
 from caloriestracker.ui.frmSettings import frmSettings
 from caloriestracker.version import __versiondate__
 from os import environ
@@ -35,12 +34,6 @@ class frmMain(QMainWindow, Ui_frmMain):
             self.setWindowIcon(self.mem.qicon_admin())
         else:
             self.setWindowTitle(self.tr("Calories Tracker 2019-{0} \xa9").format(__versiondate__.year))
-            self.actionDocumentsPurge.setEnabled(False)
-        
-    def actionsEnabled(self, bool):
-        self.menuBar.setEnabled(bool)
-        self.toolBar.setEnabled(bool)
-        
 
     def inactivity_timeout(self):
         self.hide()
@@ -61,13 +54,10 @@ class frmMain(QMainWindow, Ui_frmMain):
         fr=frmAbout(self.mem)
         fr.exec_()
 
-    
     @pyqtSlot()  
     def on_actionMemory_triggered(self):        
         self.mem.data.load()
-        
-        
-        
+
     @pyqtSlot()  
     def on_actionHelp_triggered(self):
         def in_external():
@@ -89,11 +79,6 @@ class frmMain(QMainWindow, Ui_frmMain):
         except:
             in_external()
 
-    @pyqtSlot()  
-    def on_actionAuxiliarTables_triggered(self):
-        w=frmAuxiliarTables(self.mem, self)
-        w.exec_()
-        
     @pyqtSlot()  
     def on_actionSettings_triggered(self):
         w=frmSettings(self.mem, self)
@@ -136,6 +121,7 @@ class frmMain(QMainWindow, Ui_frmMain):
         self.w=wdgCompanies(self.mem,  self)
         self.layout.addWidget(self.w)
         self.w.show()
+        self.w.txt.setFocus()
 
     @pyqtSlot()  
     def on_actionCompaniesAdd_triggered(self):
@@ -150,6 +136,8 @@ class frmMain(QMainWindow, Ui_frmMain):
         self.w=wdgProductsElaborated(self.mem,  self)
         self.layout.addWidget(self.w)
         self.w.show()
+        self.w.txt.setFocus()
+
     @pyqtSlot()  
     def on_actionElaboratedProductAdd_triggered(self):
         from caloriestracker.ui.frmProductsElaboratedAdd import frmProductsElaboratedAdd
@@ -158,16 +146,6 @@ class frmMain(QMainWindow, Ui_frmMain):
         elaborated=w.elaboratedproduct
         w=frmProductsElaboratedAdd(self.mem, elaborated, self)
         w.exec_()
-
-    @pyqtSlot()  
-    def on_actionProductsUser_triggered(self):
-        self.w.close()
-        arrInt=[]
-        for p in self.mem.data.products.arr:
-            if p.id<0:
-                arrInt.append(p.id)
-        self.layout.addWidget(self.w)
-        self.w.show()
         
     @pyqtSlot()  
     def on_actionProductsUpdate_triggered(self):
@@ -176,18 +154,12 @@ class frmMain(QMainWindow, Ui_frmMain):
         self.actionProductsUpdate.setText(self.tr("Update products from Internet"))
         self.actionProductsUpdate.setIcon(QIcon(":/caloriestracker/cloud_download.png"))
 
-
     @pyqtSlot()  
-    def on_actionTablasAuxiliares_triggered(self):
-        w=frmAuxiliarTables(self.mem, self)
-        w.tblTipos_reload()
-        w.exec_()
-
-    @pyqtSlot()  
-    def on_actionSearch_triggered(self):
+    def on_actionProducts_triggered(self):
         self.w.close()
         from caloriestracker.ui.wdgProducts import wdgProducts
         self.w=wdgProducts(self.mem, self)
         self.layout.addWidget(self.w)
         self.w.show()
+        self.w.txt.setFocus()
         

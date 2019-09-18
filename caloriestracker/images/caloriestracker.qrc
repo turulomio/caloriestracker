@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="/caloriestracker">
+    <file>biometrics.png</file>
     <file>companies.png</file>
     <file>meal.png</file>
     <file>meals.svg</file>
