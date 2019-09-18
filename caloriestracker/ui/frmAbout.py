@@ -78,12 +78,9 @@ class frmAbout(QDialog, Ui_frmAbout):
         
         self.tblSoftware.setItem(6, 0, qright(python_version()))
         self.tblSoftware.setItem(6, 1, qleft("https://www.python.org"))
-        
-        self.tblSoftware.setItem(7, 0, qright(stdnum__version__))
-        self.tblSoftware.setItem(7, 1, qleft("https://arthurdejong.org/python-stdnum"))
-        
-        self.tblSoftware.setItem(8, 0, qright(pytz__version__))
-        self.tblSoftware.setItem(8, 1, qleft("https://pypi.org/project/pytz"))
+                
+        self.tblSoftware.setItem(7, 0, qright(pytz__version__))
+        self.tblSoftware.setItem(7, 1, qleft("https://pypi.org/project/pytz"))
         
         self.tblSoftware.applySettings()
 

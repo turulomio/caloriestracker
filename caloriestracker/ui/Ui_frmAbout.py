@@ -101,7 +101,7 @@ class Ui_frmAbout(object):
         self.tblSoftware = myQTableWidget(self.tabSoftware)
         self.tblSoftware.setObjectName("tblSoftware")
         self.tblSoftware.setColumnCount(2)
-        self.tblSoftware.setRowCount(9)
+        self.tblSoftware.setRowCount(8)
         item = QtWidgets.QTableWidgetItem()
         self.tblSoftware.setVerticalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
@@ -118,8 +118,6 @@ class Ui_frmAbout(object):
         self.tblSoftware.setVerticalHeaderItem(6, item)
         item = QtWidgets.QTableWidgetItem()
         self.tblSoftware.setVerticalHeaderItem(7, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tblSoftware.setVerticalHeaderItem(8, item)
         item = QtWidgets.QTableWidgetItem()
         self.tblSoftware.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
@@ -283,7 +281,7 @@ class Ui_frmAbout(object):
         self.verticalLayout_2.addLayout(self.verticalLayout)
 
         self.retranslateUi(frmAbout)
-        self.tab.setCurrentIndex(0)
+        self.tab.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(frmAbout)
 
     def retranslateUi(self, frmAbout):
@@ -309,8 +307,6 @@ class Ui_frmAbout(object):
         item = self.tblSoftware.verticalHeaderItem(6)
         item.setText(_translate("frmAbout", "Python"))
         item = self.tblSoftware.verticalHeaderItem(7)
-        item.setText(_translate("frmAbout", "Python-stdnum"))
-        item = self.tblSoftware.verticalHeaderItem(8)
         item.setText(_translate("frmAbout", "Pytz"))
         item = self.tblSoftware.horizontalHeaderItem(0)
         item.setText(_translate("frmAbout", "Version"))

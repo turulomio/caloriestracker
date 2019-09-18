@@ -924,87 +924,82 @@
 <context>
     <name>frmAbout</name>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="291"/>
+        <location filename="../ui/Ui_frmAbout.py" line="289"/>
         <source>Xulpymoney</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="320"/>
+        <location filename="../ui/Ui_frmAbout.py" line="316"/>
         <source>License</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="294"/>
+        <location filename="../ui/Ui_frmAbout.py" line="292"/>
         <source>Products</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="319"/>
+        <location filename="../ui/Ui_frmAbout.py" line="315"/>
         <source>Software used</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="298"/>
+        <location filename="../ui/Ui_frmAbout.py" line="296"/>
         <source>Colorama</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="300"/>
+        <location filename="../ui/Ui_frmAbout.py" line="298"/>
         <source>OfficeGenerator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="306"/>
+        <location filename="../ui/Ui_frmAbout.py" line="304"/>
         <source>PyQt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="308"/>
+        <location filename="../ui/Ui_frmAbout.py" line="306"/>
         <source>PyQtCharts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="310"/>
+        <location filename="../ui/Ui_frmAbout.py" line="308"/>
         <source>Python</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="318"/>
+        <location filename="../ui/Ui_frmAbout.py" line="314"/>
         <source>Url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmAbout.py" line="312"/>
-        <source>Python-stdnum</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmAbout.py" line="316"/>
         <source>Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="295"/>
+        <location filename="../ui/Ui_frmAbout.py" line="293"/>
         <source>Xulpymoney is an Open Source application. It uses the following software:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="296"/>
+        <location filename="../ui/Ui_frmAbout.py" line="294"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Make click in the url to open link to the project main page&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="302"/>
+        <location filename="../ui/Ui_frmAbout.py" line="300"/>
         <source>PostgreSQL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="304"/>
+        <location filename="../ui/Ui_frmAbout.py" line="302"/>
         <source>Psycopg</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="314"/>
+        <location filename="../ui/Ui_frmAbout.py" line="310"/>
         <source>Pytz</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1024,7 +1019,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="293"/>
+        <location filename="../ui/Ui_frmAbout.py" line="291"/>
         <source>Calories Tracker</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1632,28 +1627,28 @@
 <context>
     <name>frmSettings</name>
     <message>
-        <location filename="../ui/Ui_frmSettings.py" line="105"/>
+        <location filename="../ui/Ui_frmSettings.py" line="106"/>
         <source>User settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmSettings.py" line="106"/>
+        <location filename="../ui/Ui_frmSettings.py" line="107"/>
         <source>Select a language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmSettings.py" line="107"/>
-        <source>User datetime zone</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmSettings.py" line="103"/>
+        <location filename="../ui/Ui_frmSettings.py" line="104"/>
         <source>Application settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmSettings.py" line="104"/>
+        <location filename="../ui/Ui_frmSettings.py" line="105"/>
         <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmSettings.py" line="108"/>
+        <source>User time zone</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -114,7 +114,7 @@
      <item>
       <widget class="QTabWidget" name="tab">
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="tabGLParchis">
         <attribute name="title">
@@ -216,11 +216,6 @@
            <row>
             <property name="text">
              <string>Python</string>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>Python-stdnum</string>
             </property>
            </row>
            <row>
