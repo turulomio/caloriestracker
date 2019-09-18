@@ -10,9 +10,9 @@ class frmProductsElaboratedAdd(QDialog, Ui_frmProductsElaboratedAdd):
         QDialog.__init__(self, parent)
         self.setupUi(self)
         self.mem=mem
-        self.resize(self.mem.settings.value("frmProductsElaboratedAdd", QSize(800, 600)))
+        self.resize(self.mem.settings.value("frmProductsElaboratedAdd/qdialog", QSize(800, 600)))
         self.elaboratedproduct=elaboratedproduct
-        self.tblProductsIn.settings(self.mem, "frmProductsElaboratedAdd/qdialog")
+        self.tblProductsIn.settings(self.mem, "frmProductsElaboratedAdd")
         if self.elaboratedproduct==None:
             self.lbl.setText(self.tr("Add a new personal and elaborated product"))
             self.spnFinalAmount.setEnabled(False)
