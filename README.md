@@ -64,7 +64,6 @@ How to colaborate with Calories Tracker
 
 In Calories tracker you can add your own products and you can share them with us, if you wish
 
-
 Changelog
 =========
 0.1.0

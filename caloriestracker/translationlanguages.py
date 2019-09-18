@@ -9,6 +9,7 @@ from logging import info
 class TranslationLanguageManager(ObjectManager_With_IdName_Selectable):
     def __init__(self):
         ObjectManager_With_IdName_Selectable.__init__(self)
+        self.qtranslator=None
 
     def load_all(self):
         self.append(TranslationLanguage("en","English" ))
@@ -21,6 +22,8 @@ class TranslationLanguageManager(ObjectManager_With_IdName_Selectable):
     def cambiar(self, id, module):
         from PyQt5.QtCore import QTranslator
         from PyQt5.QtWidgets import qApp
+        if self.qtranslator!=None:
+            qApp.removeTranslator(self.qtranslator)
         self.qtranslator=QTranslator(qApp)
         filename=package_filename(module, "i18n/{}_{}.qm".format(module,id))
         self.qtranslator.load(filename)
