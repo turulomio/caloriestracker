@@ -14,6 +14,8 @@ SOURCES         = \
                   caloriestracker/ui/frmProductsAdd.py \
                   caloriestracker/ui/Ui_frmProductsElaboratedAdd.py \
                   caloriestracker/ui/frmProductsElaboratedAdd.py \
+                  caloriestracker/ui/Ui_frmProductsInElaboratedProductAdd.py \
+                  caloriestracker/ui/frmProductsInElaboratedProductAdd.py \
                   caloriestracker/ui/Ui_frmHelp.py \
                   caloriestracker/ui/frmHelp.py \
                   caloriestracker/ui/Ui_frmMain.py \
@@ -79,6 +81,7 @@ FORMS           = \
                   caloriestracker/ui/frmSettings.ui \
                   caloriestracker/ui/frmProductsAdd.ui \
                   caloriestracker/ui/frmProductsElaboratedAdd.ui \
+                  caloriestracker/ui/frmProductsInElaboratedProductAdd.ui \
                   caloriestracker/ui/wdgBiometrics.ui \
                   caloriestracker/ui/wdgDatetime.ui \
                   caloriestracker/ui/wdgMeals.ui \

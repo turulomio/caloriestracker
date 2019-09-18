@@ -74,18 +74,43 @@
          <property name="suffix">
           <string> g</string>
          </property>
+         <property name="decimals">
+          <number>1</number>
+         </property>
+         <property name="minimum">
+          <double>1.000000000000000</double>
+         </property>
          <property name="maximum">
           <double>1000000.000000000000000</double>
          </property>
+         <property name="singleStep">
+          <double>100.000000000000000</double>
+         </property>
          <property name="value">
-          <double>0.000000000000000</double>
+          <double>1.000000000000000</double>
          </property>
         </widget>
        </item>
       </layout>
      </item>
      <item>
-      <widget class="myQTableWidget" name="tblProductsIn"/>
+      <widget class="myQTableWidget" name="tblProductsIn">
+       <property name="contextMenuPolicy">
+        <enum>Qt::CustomContextMenu</enum>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="alternatingRowColors">
+        <bool>true</bool>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::SingleSelection</enum>
+       </property>
+       <property name="selectionBehavior">
+        <enum>QAbstractItemView::SelectRows</enum>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QDialogButtonBox" name="bb">
@@ -97,6 +122,42 @@
     </layout>
    </item>
   </layout>
+  <action name="actionProductInNew">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/add.png</normaloff>:/caloriestracker/add.png</iconset>
+   </property>
+   <property name="text">
+    <string>New product in elaboration</string>
+   </property>
+   <property name="toolTip">
+    <string>New product in elaboration</string>
+   </property>
+  </action>
+  <action name="actionProductInDelete">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/list-remove.png</normaloff>:/caloriestracker/list-remove.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete product in elaboration</string>
+   </property>
+   <property name="toolTip">
+    <string>Delete product in elaboration</string>
+   </property>
+  </action>
+  <action name="actionProductInEdit">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/document-edit.png</normaloff>:/caloriestracker/document-edit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Edit product in elaboration</string>
+   </property>
+   <property name="toolTip">
+    <string>Edit product in elaboration</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
