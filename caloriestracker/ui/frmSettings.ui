@@ -147,12 +147,16 @@
             <item>
              <widget class="QLabel" name="label_2">
               <property name="text">
-               <string>User datetime zone</string>
+               <string>User time zone</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="cmbZones"/>
+             <widget class="QComboBox" name="cmbZones">
+              <property name="editable">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>

@@ -84,6 +84,7 @@ class Ui_frmSettings(object):
         self.label_2.setObjectName("label_2")
         self.horizontalLayout_2.addWidget(self.label_2)
         self.cmbZones = QtWidgets.QComboBox(self.groupBox_2)
+        self.cmbZones.setEditable(True)
         self.cmbZones.setObjectName("cmbZones")
         self.horizontalLayout_2.addWidget(self.cmbZones)
         self.verticalLayout_4.addLayout(self.horizontalLayout_2)
@@ -104,5 +105,5 @@ class Ui_frmSettings(object):
         self.lblTitulo.setText(_translate("frmSettings", "Settings"))
         self.groupBox_2.setTitle(_translate("frmSettings", "User settings"))
         self.label_4.setText(_translate("frmSettings", "Select a language"))
-        self.label_2.setText(_translate("frmSettings", "User datetime zone"))
+        self.label_2.setText(_translate("frmSettings", "User time zone"))
 import caloriestracker.images.caloriestracker_rc

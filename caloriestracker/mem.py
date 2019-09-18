@@ -91,7 +91,7 @@ class MemInit(Mem):
         self.qtranslator=QTranslator(self.app)
         self.languages=TranslationLanguageManager()
         self.languages.load_all()
-        self.languages.selected=self.languages.find_by_id(self.settings.value("mem/language", "en"))
+        self.languages.selected=self.languages.find_by_id(self.settings.value("frmAccess/language", "en"))
         filename=package_filename("caloriestracker", "i18n/caloriestracker_{}.qm".format(self.languages.selected.id))
         self.qtranslator.load(filename)
         info("TranslationLanguage changed to {}".format(self.languages.selected.id))
@@ -128,7 +128,7 @@ class MemConsole(Mem):
     def load_translation(self):
         self.languages=TranslationLanguageManager()
         self.languages.load_all()
-        self.languages.selected=self.languages.find_by_id(self.settings.value("mem/language", "en"))
+        self.languages.selected=self.languages.find_by_id(self.settings.value("frmAccess/language", "en"))
         self.languages.cambiar(self.languages.selected.id, "caloriestracker")
 
     def connection(self):

@@ -1054,8 +1054,7 @@
     <message>
         <location filename="../ui/Ui_frmAccess.py" line="164"/>
         <source>Port</source>
-        <translation>
-Пуэрто-</translation>
+        <translation>Пуэрто-</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmAccess.py" line="165"/>

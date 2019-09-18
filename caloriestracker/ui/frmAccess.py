@@ -32,25 +32,25 @@ class frmAccess(QDialog, Ui_frmAccess):
         self.settings=QSettings()
         self.settingsroot=settings_root
         self.module=module
-
+        
         self.setModal(True)
         self.setupUi(self)
         self.parent=parent
-
-#        self.cmbLanguages.disconnect()
+        
+        self.cmbLanguages.disconnect()
         self.languages=TranslationLanguageManager()
         self.languages.load_all()
         self.languages.selected=self.languages.find_by_id(self.settings.value(self.settingsroot+"/language", "en"))
         self.languages.qcombobox(self.cmbLanguages, self.languages.selected)
-#        self.cmbLanguages.currentIndexChanged.connect(self.on_cmbLanguages_currentIndexChanged)
-
+        self.cmbLanguages.currentIndexChanged.connect(self.on_cmbLanguages_currentIndexChanged)
+        
         self.setTitle(self.tr("Log in PostreSQL database"))
         self.txtDB.setText(self.settings.value(self.settingsroot +"/db", "" ))
         self.txtPort.setText(self.settings.value(self.settingsroot +"/port", "5432"))
         self.txtUser.setText(self.settings.value(self.settingsroot +"/user", "postgres" ))
         self.txtServer.setText(self.settings.value(self.settingsroot +"/server", "127.0.0.1" ))
         self.txtPass.setFocus()
-
+        
         self.con=ConnectionQt()#Pointer to connection
 
     def setResources(self, pixmap, icon):
@@ -58,20 +58,20 @@ class frmAccess(QDialog, Ui_frmAccess):
         self.pixmap=QPixmap(pixmap)
         self.lblPixmap.setPixmap(self.pixmap)
         self.setWindowIcon(self.icon)        
-
+        
     def setTitle(self, text):
         self.setWindowTitle(text)
-
+        
     def setLabel(self, text):
         self.lbl.setText(text)
-
-    @pyqtSlot(int)
+                
+    @pyqtSlot(int)      
     def on_cmbLanguages_currentIndexChanged(self, stri):
         self.languages.selected=self.languages.find_by_id(self.cmbLanguages.itemData(self.cmbLanguages.currentIndex()))
         self.settings.setValue(self.settingsroot+"/language", self.languages.selected.id)
-        self.languages.cambiar(self.languages.selected.id, self.module)
+        self.languages.cambiar(self.languages.selected.id, module)
         self.retranslateUi(self)
-
+   
     @pyqtSlot() 
     def on_cmdYN_accepted(self):
         self.settings.setValue(self.settingsroot +"/db", self.txtDB.text() )
@@ -96,8 +96,8 @@ class frmAccess(QDialog, Ui_frmAccess):
         m.setWindowIcon(self.qicon)
         m.setIcon(QMessageBox.Information)
         m.setText(text)
-        m.exec_()
-
+        m.exec_()   
+        
     def qcombobox(self, combo, selected=None):
         """Selected is the object"""
         self.order_by_name()
