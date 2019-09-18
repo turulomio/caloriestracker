@@ -94,4 +94,6 @@ FORMS           = \
 TRANSLATIONS    = caloriestracker/i18n/caloriestracker_es.ts \
                   caloriestracker/i18n/caloriestracker_fr.ts \
                   caloriestracker/i18n/caloriestracker_ru.ts \
-                  caloriestracker/i18n/caloriestracker_ro.ts
+                  caloriestracker/i18n/caloriestracker_ro.ts \
+                  caloriestracker/i18n/caloriestracker_en.ts
+

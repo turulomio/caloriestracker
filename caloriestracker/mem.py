@@ -39,7 +39,6 @@ class Mem(QObject):
     def __del__(self):
         if self.con:#Cierre por reject en frmAccess
             self.con.disconnect()
-        self.settings.sync()
             
 
     ## Sets debug sustem, needs
@@ -76,6 +75,9 @@ class MemInit(Mem):
         
         self.settings=QSettings()
         
+    def __del__(self):
+        self.settings.sync()
+
     def run(self):
         self.args=self.parse_arguments()
         self.addDebugSystem(self.args.debug) #Must be before QCoreApplication
@@ -108,8 +110,8 @@ class MemConsole(Mem):
         
         self.settings=QSettings()
         self.localzone=self.settings.value("mem/localzone", "Europe/Madrid")
-    def setQTranslator(self, qtranslator):
-        self.qtranslator=qtranslator
+    def __del__(self):
+        self.settings.sync()
     def run(self):
         self.args=self.parse_arguments()
         self.addDebugSystem(self.args.debug) #Must be before QCoreApplication
@@ -124,14 +126,10 @@ class MemConsole(Mem):
         self.user=self.data.users.find_by_id(1)
                 
     def load_translation(self):
-        self.setQTranslator(QTranslator(self.app))
         self.languages=TranslationLanguageManager()
         self.languages.load_all()
         self.languages.selected=self.languages.find_by_id(self.settings.value("mem/language", "en"))
-        filename=package_filename("caloriestracker", "i18n/caloriestracker_{}.qm".format(self.languages.selected.id))
-        self.qtranslator.load(filename)
-        info("TranslationLanguage changed to {}".format(self.languages.selected.id))
-        self.app.installTranslator(self.qtranslator)
+        self.languages.cambiar(self.languages.selected.id, "caloriestracker")
 
     def connection(self):
         con=Connection()
