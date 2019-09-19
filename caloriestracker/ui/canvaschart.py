@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QAction, QMenu, QFileDialog, QProgressDialog, QAppli
 from caloriestracker.libcaloriestracker import Percentage
 from caloriestracker.datetime_functions import epochms2dtaware, dtaware2epochms, dtnaive2string, eDtStrings
 from datetime import timedelta, datetime
-from PyQt5.QtChart import QChart,  QLineSeries, QChartView, QValueAxis, QDateTimeAxis,  QPieSeries
+from PyQt5.QtChart import QChart,  QLineSeries, QChartView, QValueAxis, QDateTimeAxis,  QPieSeries, QScatterSeries
 
 class VCCommons(QChartView):
     def __init__(self):
@@ -114,7 +114,19 @@ class VCTemporalSeries(VCCommons):
         self.setRenderHint(QPainter.Antialiasing);
         
         self.series=[]
+            
+    def appendScatterSeries(self, name,  currency=None):
+        """
+            currency is a Currency object
+        """
+        self.currency=currency
+        ls=QScatterSeries()
+        ls.setName(name)
+        self.series.append(ls)
+        return ls
 
+    def appendScatterSeriesData(self, ls, x, y):
+        self.appendTemporalSeriesData(ls, x, y)
     def setAxisFormat(self, axis,  min, max, type, zone=None):
         """
             type=0 #Value

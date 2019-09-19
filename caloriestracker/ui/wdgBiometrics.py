@@ -100,30 +100,50 @@ class VCWeight(VCTemporalSeries):
             group by datetime::date
             order by datetime::date
             """, (self.mem.user.id, date_from))
-        self.data=DVManager()
+        self.weight=DVManager()
         self.sma_period=15
         for row in self.mem.con.cursor_rows(sql):
-            self.data.appendDV(dtaware_day_start_from_date(row['datetime'], self.mem.localzone),  row['avg'])
-        self.sma_data=self.data.sma(self.sma_period)
+            self.weight.appendDV(dtaware_day_start_from_date(row['datetime'], self.mem.localzone),  row['avg'])
+        self.sma_data=self.weight.sma(self.sma_period)
+
+        sql=self.mem.con.mogrify("""
+            select 
+                max(height), 
+                datetime::date 
+            from 
+                biometrics 
+            where 
+                users_id=%s and 
+                datetime::date>%s 
+            group by datetime::date
+            order by datetime::date
+            """, (self.mem.user.id, date_from))
+        self.height=DVManager()
+        for row in self.mem.con.cursor_rows(sql):
+            self.height.appendDV(dtaware_day_start_from_date(row['datetime'], self.mem.localzone),  row['max'])
+
     ## Just draw the chart with selected options. To update it just close this object and create another one
     def generate(self):
         #Progress dialog 
         self.setProgressDialogEnabled(True)
         self.setProgressDialogAttributes(
                 None, 
-                self.tr("Loading {} biometrics").format(self.data.length()), 
+                self.tr("Loading {} biometrics").format(self.weight.length()), 
                 QIcon(":caloriestracker/books.png"), 
                 0, 
-                self.data.length()
+                self.weight.length()
         )
         weight=self.appendTemporalSeries(self.tr("Weight evolution"), None)
         sma=self.appendTemporalSeries(self.tr("Simple movil average {}").format(self.sma_period), None)
-        for i, o in enumerate(self.data.arr):
+        height=self.appendTemporalSeries(self.tr("Height evolution"), None)
+        for i in range(self.weight.length()):
             #Shows progress dialog
             self.setProgressDialogNumber(i+1)
             #Weight
-            self.appendTemporalSeriesData(weight, o.datetime, o.value)
+            self.appendTemporalSeriesData(weight, self.weight.arr[i].datetime, self.weight.arr[i].value)
             #sma
             if i>=self.sma_period:
                 self.appendTemporalSeriesData(sma, self.sma_data.arr[i-self.sma_period].datetime, self.sma_data.arr[i-self.sma_period].value)
+            #height
+            self.appendTemporalSeriesData(height, self.height.arr[i].datetime, self.height.arr[i].value)
         self.display()
