@@ -170,6 +170,18 @@
     <string>Edit product</string>
    </property>
   </action>
+  <action name="actionFormats">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/cube.png</normaloff>:/caloriestracker/cube.png</iconset>
+   </property>
+   <property name="text">
+    <string>Show formats</string>
+   </property>
+   <property name="toolTip">
+    <string>Show formats</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

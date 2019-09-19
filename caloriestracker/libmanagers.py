@@ -305,12 +305,15 @@ class ObjectManager_With_IdName(ObjectManager_With_Id):
         except:
             return False
 
-    def qcombobox(self, combo,  selected=None):
+    ## @param needtoselect Adds a foo item with value==None with the text select one
+    def qcombobox(self, combo,  selected=None, needtoselect=False):
         """Load set items in a comobo using id and name
         Selected is and object
         It sorts by name the arr""" 
         self.order_by_name()
         combo.clear()
+        if needtoselect==True:
+            combo.addItem(combo.tr("Select an option"), None)
         for a in self.arr:
             combo.addItem(a.name, a.id)
 

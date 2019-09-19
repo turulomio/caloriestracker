@@ -1,10 +1,11 @@
+from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QDialog
 from caloriestracker.ui.Ui_frmMealsAdd import Ui_frmMealsAdd
 from caloriestracker.libcaloriestracker import Meal
 from datetime import datetime
 
 class frmMealsAdd(QDialog, Ui_frmMealsAdd):
-    def __init__(self, mem, meal=None, parent=None, ):
+    def __init__(self, mem, meal=None, parent=None ):
         QDialog.__init__(self, parent)
         self.setupUi(self)
         self.mem=mem
@@ -19,6 +20,20 @@ class frmMealsAdd(QDialog, Ui_frmMealsAdd):
             self.mem.data.products.qcombobox(self.cmbProducts, self.meal.product)
             self.wdgDT.set(self.meal.datetime, self.mem.localzone)
             self.spnAmount.setValue(self.meal.amount)
+
+    @pyqtSlot(int)
+    def on_cmbProducts_currentIndexChanged(self, index):
+        product=self.mem.data.products.find_by_string_id(self.cmbProducts.itemData(self.cmbProducts.currentIndex()))
+        if product!=None:
+            product.needStatus(1)
+            product.formats.qcombobox(self.cmbFormats, needtoselect=True)
+            
+    @pyqtSlot(int)
+    def on_cmbFormats_currentIndexChanged(self, index):
+        product=self.mem.data.products.find_by_string_id(self.cmbProducts.itemData(self.cmbProducts.currentIndex()))
+        format=product.formats.find_by_id(self.cmbFormats.itemData(self.cmbFormats.currentIndex()))
+        if format!=None:
+            self.spnAmount.setValue(format.amount)
 
     def on_bb_accepted(self):
         product=self.mem.data.products.find_by_string_id(self.cmbProducts.itemData(self.cmbProducts.currentIndex()))

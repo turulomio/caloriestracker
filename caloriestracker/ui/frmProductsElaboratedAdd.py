@@ -18,7 +18,7 @@ class frmProductsElaboratedAdd(QDialog, Ui_frmProductsElaboratedAdd):
             self.spnFinalAmount.setEnabled(False)
             self.tblProductsIn.setEnabled(False)
         else:
-            self.elaboratedproduct.load_products_in()
+            self.elaboratedproduct.needStatus(1)
             self.txtName.setText(self.elaboratedproduct.name)
             self.spnFinalAmount.setValue(self.elaboratedproduct.final_amount)
             self.lbl.setText(self.tr("Edit a personal and elaborated product"))
@@ -82,6 +82,4 @@ class frmProductsElaboratedAdd(QDialog, Ui_frmProductsElaboratedAdd):
 
     def on_bb_rejected(self):
         self.mem.settings.setValue("frmProductsElaboratedAdd/qdialog", self.size())
-        self.reject()  
-
 

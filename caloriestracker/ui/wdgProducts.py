@@ -60,6 +60,12 @@ class wdgProducts(QWidget, Ui_wdgProducts):
                 w.exec_()
                 self.on_cmd_pressed()
 
+    @pyqtSlot() 
+    def on_actionFormats_triggered(self):
+        from caloriestracker.ui.frmFormats import frmFormats
+        w=frmFormats(self.mem, self.products.selected, self)
+        w.exec_()
+
     def on_txt_returnPressed(self):
         self.on_cmd_pressed()
         
@@ -82,14 +88,18 @@ class wdgProducts(QWidget, Ui_wdgProducts):
         menu.addAction(self.actionProductNew)
         menu.addAction(self.actionProductDelete)
         menu.addAction(self.actionProductEdit)
+        menu.addSeparator()
+        menu.addAction(self.actionFormats)
         
         #Enabled disabled  
         if self.products.selected==None:
             self.actionProductDelete.setEnabled(False)
             self.actionProductEdit.setEnabled(False)
+            self.actionFormats.setEnabled(False)
         else:
             self.actionProductDelete.setEnabled(True)
             self.actionProductEdit.setEnabled(True)
+            self.actionFormats.setEnabled(True)
         menu.exec_(self.tblProducts.mapToGlobal(pos))
 
     def on_tblProducts_itemSelectionChanged(self):

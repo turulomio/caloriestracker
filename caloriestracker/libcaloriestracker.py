@@ -420,6 +420,23 @@ class ProductElaborated:
             init__create(None,None, None)
         elif len(args)==2:
             init__create(args[1]['name'],args[1]['final_amount'], args[1]['id'])
+        self.status=0
+        
+    ## ESTA FUNCION VA AUMENTANDO STATUS SIN MOLESTAR LOS ANTERIORES, SOLO CARGA CUANDO stsatus_to es mayor que self.status
+    ## @param statusneeded  Integer with the status needed 
+    ## @param downgrade_to Integer with the status to downgrade before checking needed status. If None it does nothing
+    ## 0 campos del producto
+    ## 1  products in 
+    def needStatus(self, statusneeded, downgrade_to=None):
+        if downgrade_to!=None:
+            self.status=downgrade_to
+        
+        if self.status==statusneeded:
+            return
+        #0
+        if self.status==0 and statusneeded==1: #MAIN            
+            self.load_products_in()
+            self.status=1
 
     def load_products_in(self):
             self.products_in=ProductInElaboratedProductManager(self.mem, self, self.mem.con.mogrify("select * from products_in_elaboratedproducts where elaboratedproducts_id=%s",(self.id,)))
@@ -1123,10 +1140,27 @@ class Product(QObject):
         elif len(args)==21:#Product(mem,datetime,product,name,amount,users_id,id)
             init__create(*args[1:])
         self.system_product=True
+        self.status=0
 
     def __repr__(self):
         return self.fullName(True)
 
+
+    ## ESTA FUNCION VA AUMENTANDO STATUS SIN MOLESTAR LOS ANTERIORES, SOLO CARGA CUANDO stsatus_to es mayor que self.status
+    ## @param statusneeded  Integer with the status needed 
+    ## @param downgrade_to Integer with the status to downgrade before checking needed status. If None it does nothing
+    ## 0 campos del producto
+    ## 1 formats
+    def needStatus(self, statusneeded, downgrade_to=None):
+        if downgrade_to!=None:
+            self.status=downgrade_to
+        
+        if self.status==statusneeded:
+            return
+        #0
+        if self.status==0 and statusneeded==1: #MAIN
+            self.formats=FormatManager(self.mem, self, self.mem.con.mogrify("select * from formats where products_id=%s and system_product=%s", (self.id, self.system_product)))
+            self.status=1
 
     def fullName(self,  with_id=False):
         if with_id==True:
@@ -1258,6 +1292,74 @@ class ProductPersonal(Product):
         else:
             debug("I did not delete personalproducts because is not deletable")
 
+## There is no need of system_formats or personal_formats because it's relacionated with the product as its properties
+class Format:
+    ##Format(mem)
+    ##Format(mem,rows) #Uses products_id and users_id in row
+    ##Format(mem, name, product, system_product,amount, starts, ends,  id):
+    def __init__(self, *args):        
+        def init__create( name, product, system_product,amount, starts, ends,  id):
+            self.name=name
+            self.product=product
+            self.system_product=system_product
+            self.amount=amount
+            self.starts=starts
+            self.ends=ends
+            self.id=id
+            return self
+        # #########################################
+        self.mem=args[0]
+        if len(args)==1:#Format(mem)
+            init__create(*[None]*7)
+        elif len(args)==2:#Format(mem,rows)
+            product=self.mem.data.products.find_by_id_system(args[1]['products_id'], args[1]['system_product'])
+            init__create(args[1]['name'], product, args[1]['system_product'], args[1]['amount'], args[1]['starts'], args[1]['ends'],  args[1]['id'])
+        elif len(args)==8:#Format(mem, name, product, system_product,amount, starts, ends,  id):
+            init__create(*args[1:])
+            
+    def save(self):
+        if self.id==None:
+            self.id=self.mem.con.cursor_one_field("insert into formats(name, products_id, system_product, amount, starts, ends) values (%s, %s, %s, %s, %s, %s) returning id",
+                    (self.name,  self.product.id, self.system_product, self.amount, self.starts, self.ends))
+        else:
+            self.mem.con.execute("update formats set name=%s, products_id=%s, system_product=%s, amount=%s,starts=%s, ends=%s where id=%s", 
+                    (self.name,  self.product.id, self.system_product, self.amount, self.starts, self.ends, self.id))
+
+    def delete(self):
+        self.mem.con.execute("delete from formats where id=%s", (self.id, ))
+        
+    def qicon(self):
+        return QIcon(":/caloriestracker/cube.png")
+
+class FormatManager(QObject, ObjectManager_With_IdName_Selectable):
+    ##FormatManager(mem,product)
+    ##FormatManager(mem,product,sql)
+    def __init__(self, *args ):
+        QObject.__init__(self)
+        ObjectManager_With_IdName_Selectable.__init__(self)
+        self.mem=args[0]
+        self.product=args[1]
+        if len(args)==3:
+            self.load_db_data(args[2])
+        self.setSelectionMode(ManagerSelectionMode.Object)
+
+    def load_db_data(self, sql):
+        rows=self.mem.con.cursor_rows(sql)
+        for row in rows:
+            self.append(Format(self.mem, row))
+        return self
+
+    def qtablewidget(self, table):        
+        table.setColumnCount(2)
+        table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Name")))
+        table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Grams")))
+        table.applySettings()
+        table.clearContents()
+        table.setRowCount(self.length())
+        for i, o in enumerate(self.arr):
+            table.setItem(i, 0, qleft(o.name))
+            table.item(i, 0).setIcon(o.qicon())
+            table.setItem(i, 1, qnumber(o.amount))
 
 class Meal:
     ##Meal(mem)

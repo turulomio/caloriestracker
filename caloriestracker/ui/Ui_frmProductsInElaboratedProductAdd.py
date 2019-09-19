@@ -14,7 +14,7 @@ class Ui_frmProductsInElaboratedProductAdd(object):
     def setupUi(self, frmProductsInElaboratedProductAdd):
         frmProductsInElaboratedProductAdd.setObjectName("frmProductsInElaboratedProductAdd")
         frmProductsInElaboratedProductAdd.setWindowModality(QtCore.Qt.WindowModal)
-        frmProductsInElaboratedProductAdd.resize(549, 172)
+        frmProductsInElaboratedProductAdd.resize(581, 223)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/caloriestracker/books.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         frmProductsInElaboratedProductAdd.setWindowIcon(icon)
@@ -43,6 +43,16 @@ class Ui_frmProductsInElaboratedProductAdd(object):
         self.cmbProducts.setObjectName("cmbProducts")
         self.horizontalLayout_3.addWidget(self.cmbProducts)
         self.verticalLayout_3.addLayout(self.horizontalLayout_3)
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        self.label_4 = QtWidgets.QLabel(frmProductsInElaboratedProductAdd)
+        self.label_4.setObjectName("label_4")
+        self.horizontalLayout_4.addWidget(self.label_4)
+        self.cmbFormats = QtWidgets.QComboBox(frmProductsInElaboratedProductAdd)
+        self.cmbFormats.setEditable(False)
+        self.cmbFormats.setObjectName("cmbFormats")
+        self.horizontalLayout_4.addWidget(self.cmbFormats)
+        self.verticalLayout_3.addLayout(self.horizontalLayout_4)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.label_3 = QtWidgets.QLabel(frmProductsInElaboratedProductAdd)
@@ -70,6 +80,7 @@ class Ui_frmProductsInElaboratedProductAdd(object):
         _translate = QtCore.QCoreApplication.translate
         frmProductsInElaboratedProductAdd.setWindowTitle(_translate("frmProductsInElaboratedProductAdd", "Managing products in an elaborated product"))
         self.label_2.setText(_translate("frmProductsInElaboratedProductAdd", "Select a product"))
+        self.label_4.setText(_translate("frmProductsInElaboratedProductAdd", "Select a format"))
         self.label_3.setText(_translate("frmProductsInElaboratedProductAdd", "Amount"))
         self.spnAmount.setSuffix(_translate("frmProductsInElaboratedProductAdd", " g"))
 from caloriestracker.ui.myqdoublespinbox import myQDoubleSpinBox

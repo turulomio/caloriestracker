@@ -14,7 +14,7 @@ class Ui_frmMealsAdd(object):
     def setupUi(self, frmMealsAdd):
         frmMealsAdd.setObjectName("frmMealsAdd")
         frmMealsAdd.setWindowModality(QtCore.Qt.WindowModal)
-        frmMealsAdd.resize(538, 364)
+        frmMealsAdd.resize(538, 373)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/caloriestracker/meals.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         frmMealsAdd.setWindowIcon(icon)
@@ -46,6 +46,16 @@ class Ui_frmMealsAdd(object):
         self.cmbProducts.setObjectName("cmbProducts")
         self.horizontalLayout_3.addWidget(self.cmbProducts)
         self.verticalLayout.addLayout(self.horizontalLayout_3)
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        self.label_4 = QtWidgets.QLabel(frmMealsAdd)
+        self.label_4.setObjectName("label_4")
+        self.horizontalLayout_4.addWidget(self.label_4)
+        self.cmbFormats = QtWidgets.QComboBox(frmMealsAdd)
+        self.cmbFormats.setEditable(False)
+        self.cmbFormats.setObjectName("cmbFormats")
+        self.horizontalLayout_4.addWidget(self.cmbFormats)
+        self.verticalLayout.addLayout(self.horizontalLayout_4)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.label_3 = QtWidgets.QLabel(frmMealsAdd)
@@ -72,6 +82,7 @@ class Ui_frmMealsAdd(object):
         _translate = QtCore.QCoreApplication.translate
         frmMealsAdd.setWindowTitle(_translate("frmMealsAdd", "Managing meals"))
         self.label_2.setText(_translate("frmMealsAdd", "Select a product"))
+        self.label_4.setText(_translate("frmMealsAdd", "Select a format"))
         self.label_3.setText(_translate("frmMealsAdd", "Add an amount"))
         self.spnAmount.setSuffix(_translate("frmMealsAdd", " g"))
 from caloriestracker.ui.myqdoublespinbox import myQDoubleSpinBox

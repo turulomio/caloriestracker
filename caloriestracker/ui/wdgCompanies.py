@@ -38,7 +38,7 @@ class wdgCompanies(QWidget, Ui_wdgCompanies):
     def on_actionCompanyEdit_triggered(self):
         if self.companies.selected.system_company==True:
             qmessagebox(
-                self.tr("This is a system product so you can't edit it.") + "\n" +
+                self.tr("This is a system company so you can't edit it.") + "\n" +
                 self.tr("Please, if it's something wrong with it create an issue at") + "\n" + 
                 "https://github.com/turulomio/caloriestracker/issues"+ "\n" +
                 self.tr("I'll fix it as soon as posible. ;)")

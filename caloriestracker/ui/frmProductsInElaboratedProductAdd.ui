@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>549</width>
-    <height>172</height>
+    <width>581</width>
+    <height>223</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -56,6 +56,24 @@
         <widget class="QComboBox" name="cmbProducts">
          <property name="editable">
           <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Select a format</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="cmbFormats">
+         <property name="editable">
+          <bool>false</bool>
          </property>
         </widget>
        </item>

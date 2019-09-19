@@ -104,6 +104,11 @@ class Ui_wdgProducts(object):
         icon3.addPixmap(QtGui.QPixmap(":/caloriestracker/document-edit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionProductEdit.setIcon(icon3)
         self.actionProductEdit.setObjectName("actionProductEdit")
+        self.actionFormats = QtWidgets.QAction(wdgProducts)
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap(":/caloriestracker/cube.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionFormats.setIcon(icon4)
+        self.actionFormats.setObjectName("actionFormats")
 
         self.retranslateUi(wdgProducts)
         QtCore.QMetaObject.connectSlotsByName(wdgProducts)
@@ -122,5 +127,7 @@ class Ui_wdgProducts(object):
         self.actionProductDelete.setToolTip(_translate("wdgProducts", "Delete user product"))
         self.actionProductEdit.setText(_translate("wdgProducts", "Edit product"))
         self.actionProductEdit.setToolTip(_translate("wdgProducts", "Edit product"))
+        self.actionFormats.setText(_translate("wdgProducts", "Show formats"))
+        self.actionFormats.setToolTip(_translate("wdgProducts", "Show formats"))
 from caloriestracker.ui.myqtablewidget import myQTableWidget
 import caloriestracker.images.caloriestracker_rc

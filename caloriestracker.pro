@@ -6,6 +6,10 @@ SOURCES         = \
                   caloriestracker/ui/frmAccess.py \
                   caloriestracker/ui/Ui_frmCompaniesAdd.py \
                   caloriestracker/ui/frmCompaniesAdd.py \
+                  caloriestracker/ui/Ui_frmFormats.py \
+                  caloriestracker/ui/frmFormats.py \
+                  caloriestracker/ui/Ui_frmFormatsAdd.py \
+                  caloriestracker/ui/frmFormatsAdd.py \
                   caloriestracker/ui/Ui_frmInit.py \
                   caloriestracker/ui/frmInit.py \
                   caloriestracker/ui/Ui_frmBiometricsAdd.py \
@@ -77,6 +81,8 @@ FORMS           = \
                   caloriestracker/ui/frmCompaniesAdd.ui \
                   caloriestracker/ui/frmHelp.ui \
                   caloriestracker/ui/frmMain.ui \
+                  caloriestracker/ui/frmFormats.ui \
+                  caloriestracker/ui/frmFormatsAdd.ui \
                   caloriestracker/ui/frmMealsAdd.ui \
                   caloriestracker/ui/frmSettings.ui \
                   caloriestracker/ui/frmProductsAdd.ui \
