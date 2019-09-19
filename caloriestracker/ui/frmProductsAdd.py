@@ -23,8 +23,6 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
             self.spnProtein.setValue(self.product.protein)
             self.spnCarbohydrate.setValue(self.product.carbohydrate)
             self.spnCalories.setValue(self.product.calories)
-            print(self.product)
-            print(self.product.salt)
             self.spnSalt.setValue(self.product.salt)
             self.spnCholesterol.setValue(self.product.cholesterol)
             self.spnSodium.setValue(self.product.sodium)
@@ -37,8 +35,7 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
     def on_bb_accepted(self):
         cmb_index=self.cmbCompanies.findText(self.cmbCompanies.currentText())
         company=None if cmb_index==-1 else self.mem.data.companies.find_by_string_id(self.cmbCompanies.itemData(cmb_index))
-        system_company=None if company==None else False
-        print(self.cmbCompanies.currentText(), company, system_company)
+        system_company=None if company==None else company.system_company
         if self.product==None:        
             self.product=ProductPersonal(
             self.mem, 

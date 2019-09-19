@@ -222,19 +222,15 @@ def string2dtnaive(s, type):
         dat=datetime.strptime( s, "%Y%m%d%H%M" )
         return dat
 
-## Puede ser dateime o date
-## Si viene con zona datetime tz_name aware, se convierte a UTC y se da el valor en UTC
+## epoch is the time from 1,1,1970 in UTC
 ## return now(timezone(self.name))
 def dtaware2epochms(d):
-    debug("MAL HAY UN DESFASE DE 15 MINUTOS")
-    utc=dtaware_changes_tz(d, 'UTC')
-    return utc.timestamp()*1000
+    return d.timestamp()*1000
     
 ## Return a UTC datetime aware
 def epochms2dtaware(n, tz="UTC"):
-    debug("MAL HAY UN DESFASE DE 15 MINUTOS")
     utc_unaware=datetime.utcfromtimestamp(n/1000)
-    utc_aware=utc_unaware.replace(tzinfo=timezone(tz))
+    utc_aware=utc_unaware.replace(tzinfo=timezone('UTC'))#Due to epoch is in UTC
     return dtaware_changes_tz(utc_aware, tz)
 
 
@@ -291,7 +287,7 @@ if __name__ == "__main__":
     print("DtAware:", now_aware)
     epochms=dtaware2epochms(now_aware)
     print("Epoch in miliseconds:", epochms)
-    print("Dtaware reconverting epoch {} <== MAL HAY UN DESFASE DE 15 MINUTOS".format(epochms2dtaware(epochms, tz)) )
+    print("Dtaware reconverting epoch {}".format(epochms2dtaware(epochms, tz)) )
     print("This is a dataware string wight eDtStrings.QTableWidgetItem:", dtaware2string(now_aware, eDtStrings.QTableWidgetItem))
     print("This is a dataware string wight eDtStrings.Filename:", dtaware2string(now_aware, eDtStrings.Filename))
     print("This is a dataware string wight eDtStrings.String:", dtaware2string(now_aware, eDtStrings.String))
