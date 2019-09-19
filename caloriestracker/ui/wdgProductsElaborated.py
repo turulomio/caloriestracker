@@ -1,7 +1,8 @@
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSlot, QSize
 from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox
 from caloriestracker.ui.Ui_wdgProductsElaborated import Ui_wdgProductsElaborated
 from caloriestracker.libcaloriestracker import ProductElaboratedManager
+from caloriestracker.ui.frmProductsElaboratedAdd import frmProductsElaboratedAdd
 from caloriestracker.libcaloriestrackerfunctions import qmessagebox
 from caloriestracker.libmanagers import ManagerSelectionMode
 from logging import debug
@@ -11,19 +12,16 @@ class wdgProductsElaborated(QWidget, Ui_wdgProductsElaborated):
         QWidget.__init__(self, parent)
         self.setupUi(self)
         self.mem=mem
+        self.resize(self.mem.settings.value("wdgProductsElaborated/qdialog", QSize(800, 600)))
         self.tblProductsElaborated.settings(self.mem, "wdgProductsElaborated")
         self.elaboratedproducts=ProductElaboratedManager(self.mem)
 
     @pyqtSlot() 
     def on_actionProductDelete_triggered(self):
         if self.products.selected.is_deletable()==False:
-            qmessagebox(self.tr("This product can't be removed, because is marked as not remavable"))
+            qmessagebox(self.tr("This elaborated product can't be removed, because is marked as not remavable"))
             return
-            
-        if self.products.selected.elaboratedproducts_id!=None:#Elaborated:
-            qmessagebox(self.tr("Not developed yet, for elaborated product"))
-            return
-            
+
         reply = QMessageBox.question(None, self.tr('Asking your confirmation'), self.tr("This action can't be undone.\nDo you want to delete this record?"), QMessageBox.Yes, QMessageBox.No)                  
         if reply==QMessageBox.Yes:
             self.products.selected.delete()
@@ -33,14 +31,12 @@ class wdgProductsElaborated(QWidget, Ui_wdgProductsElaborated):
 
     @pyqtSlot() 
     def on_actionProductNew_triggered(self):
-        from caloriestracker.ui.frmProductsElaboratedAdd import frmProductsElaboratedAdd
         w=frmProductsElaboratedAdd(self.mem, None, self)
         w.exec_()
         self.on_cmd_pressed()
 
     @pyqtSlot() 
     def on_actionProductEdit_triggered(self):
-        from caloriestracker.ui.frmProductsElaboratedAdd import frmProductsElaboratedAdd
         w=frmProductsElaboratedAdd(self.mem, self.elaboratedproducts.selected, self)
         w.exec_()
         self.on_cmd_pressed()
@@ -53,11 +49,7 @@ class wdgProductsElaborated(QWidget, Ui_wdgProductsElaborated):
         self.on_cmd_pressed()
 
     def on_cmd_pressed(self):
-        #        if len(self.txt.text().upper())<=2:            
-        #            qmessagebox(self.tr("Search too wide. You need more than 2 characters"))
-        #            return
         del self.elaboratedproducts
-        print(self.txt.text(), *self.mem.data.products.args)
         self.elaboratedproducts=self.mem.data.elaboratedproducts.ObjectManager_with_name_contains_string(self.txt.text(), False, *self.mem.data.products.args)
         self.elaboratedproducts.setSelectionMode(ManagerSelectionMode.Object)
         self.elaboratedproducts.qtablewidget(self.tblProductsElaborated)
@@ -85,3 +77,9 @@ class wdgProductsElaborated(QWidget, Ui_wdgProductsElaborated):
                 self.elaboratedproducts.selected=self.elaboratedproducts.arr[i.row()]
         debug("Selected elaboratedproducts: " + str(self.elaboratedproducts.selected))
       
+    def on_bb_accepted(self):
+        self.mem.settings.setValue("wdgProductsElaborated/qdialog", self.size())
+        self.accept()
+        
+    def on_bb_rejected(self):
+        self.mem.settings.setValue("wdgProductsElaborated/qdialog", self.size())

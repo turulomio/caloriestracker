@@ -38,7 +38,7 @@ class frmProductsElaboratedAdd(QDialog, Ui_frmProductsElaboratedAdd):
         self.elaboratedproduct.products_in.qtablewidget(self.tblProductsIn)
 
     @pyqtSlot() 
-    def on_actionProductEdit_triggered(self):
+    def on_actionProductInEdit_triggered(self):
         w=frmProductsInElaboratedProductAdd(self.mem, self.elaboratedproduct, self.elaboratedproduct.products_in.selected, self)
         w.exec_()
         self.elaboratedproduct.products_in.qtablewidget(self.tblProductsIn)

@@ -609,7 +609,7 @@ class ProductInElaboratedProduct:
                 (self.product.id, self.amount, self.elaboratedproduct.id, self.system_product))
         else:
             self.mem.con.execute("""
-                update from products_in_elaboratedproducts set 
+                update products_in_elaboratedproducts set 
                     products_id=%s,
                     amount=%s,
                     elaboratedproducts_id=%s, 
