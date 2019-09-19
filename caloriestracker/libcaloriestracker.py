@@ -833,11 +833,10 @@ class DBData:
         self.products.load_all()
         
         self.elaboratedproducts=ProductElaboratedManager(self.mem)
-        self.elaboratedproducts.load_from_db("select * from elaboratedproducts order by name", True)
+        self.elaboratedproducts.load_from_db("select * from elaboratedproducts order by name", progress)
         
         self.users=UserManager(self.mem, "select * from users", progress)
         self.users.load_last_biometrics()
-        
         
         debug("DBData took {}".format(datetime.now()-start))
 
@@ -1554,7 +1553,7 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
 class User:
     ##User(mem)
     ##User(mem,rows) #Uses products_id and users_id in row
-    ##User( name, male, birthday, starts, ends, dietwish, id):
+    ##User(mem, name, male, birthday, starts, ends, id):
     def __init__(self, *args):        
         def init__create( name, male, birthday, starts, ends, id):
             self.name=name
@@ -1566,10 +1565,10 @@ class User:
         # #########################################
         self.mem=args[0]
         if len(args)==1:#User(mem)
-            init__create(*[None]*7)
+            init__create(*[None]*6)
         elif len(args)==2:#User(mem,rows)
             init__create(args[1]['name'], args[1]['male'], args[1]['birthday'], args[1]['starts'],  args[1]['ends'], args[1]['id'])
-        elif len(args)==8:#User( name, male, birthday, starts, ends, dietwish, id):
+        elif len(args)==7:#User(mem, name, male, birthday, starts, ends, id):
             init__create(*args[1:])
     
     ##Must be loaded later becaouse usermanager searches in users and is not yet loaded
@@ -1584,7 +1583,6 @@ class User:
             else:
                 self.last_biometrics=Biometrics(self.mem)
 
-
     def age(self):
         return (date.today() - self.birthday) // timedelta(days=365.2425)
 
@@ -1594,7 +1592,7 @@ class User:
 ## UserManager(mem,sql,progress)
 class UserManager(QObject, ObjectManager_With_IdName_Selectable):
     def __init__(self, *args):
-        def load_from_db(sql,  progress=False):
+        def load_from_db(sql,  progress):
             self.clean()
             cur=self.mem.con.cursor()
             cur.execute(sql)
@@ -1609,9 +1607,7 @@ class UserManager(QObject, ObjectManager_With_IdName_Selectable):
                     pd.setValue(cur.rownumber)
                     pd.update()
                     QApplication.processEvents()
-                    
-                inv=User(self.mem, rowms)
-                self.append(inv)
+                self.append(User(self.mem, rowms))
             cur.close()
         # ####################################################
         QObject.__init__(self)
@@ -1619,6 +1615,7 @@ class UserManager(QObject, ObjectManager_With_IdName_Selectable):
         self.mem=args[0]
         if len(args)==3:
             load_from_db(*args[1:])
+    
     def load_last_biometrics(self):
         for user in self.arr:
             user.load_last_biometrics()

@@ -108,7 +108,6 @@ def main():
         exit(0)
 
     user=mem.data.users.find_by_id(mem.args.users_id)
-    user.load_last_biometrics()
 
     meals=MealManager(mem, mem.con.mogrify("select * from meals where datetime::date=%s and users_id=%s", (mem.args.date, user.id))) 
     meals.order_by_datetime()
