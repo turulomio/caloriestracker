@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QDialog
 from caloriestracker.ui.Ui_frmFormatsAdd import Ui_frmFormatsAdd
-from caloriestracker.libcaloriestracker import Format
+from caloriestracker.libcaloriestracker import FormatPersonal
 from datetime import datetime
 
 class frmFormatsAdd(QDialog, Ui_frmFormatsAdd):
@@ -18,7 +18,7 @@ class frmFormatsAdd(QDialog, Ui_frmFormatsAdd):
 
     def on_bb_accepted(self):
         if self.format==None:
-            self.format=Format(self.mem,  self.txtName.text(), self.product, self.product.system_product, self.spnAmount.value(), datetime.now(), None,  None)
+            self.format=FormatPersonal(self.mem,  self.txtName.text(), self.product, self.product.system_product, self.spnAmount.value(), datetime.now(), None,  None)
             self.product.formats.append(self.format)
         else:
             self.format.name=self.txtName.text()

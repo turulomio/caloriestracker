@@ -21,19 +21,25 @@ class frmMealsAdd(QDialog, Ui_frmMealsAdd):
             self.wdgDT.set(self.meal.datetime, self.mem.localzone)
             self.spnAmount.setValue(self.meal.amount)
 
-    @pyqtSlot(int)
-    def on_cmbProducts_currentIndexChanged(self, index):
-        product=self.mem.data.products.find_by_string_id(self.cmbProducts.itemData(self.cmbProducts.currentIndex()))
-        if product!=None:
+    @pyqtSlot(str)
+    def on_cmbProducts_currentTextChanged(self, text):
+        index=self.cmbProducts.findText(text)
+        if index==-1:
+            self.cmbFormats.clear()
+        else:
+            product=self.mem.data.products.find_by_string_id(self.cmbProducts.itemData(index))
             product.needStatus(1)
-            product.formats.qcombobox(self.cmbFormats, needtoselect=True)
+            product.formats.qcombobox(self.cmbFormats, None, needtoselect=True)
             
     @pyqtSlot(int)
     def on_cmbFormats_currentIndexChanged(self, index):
         product=self.mem.data.products.find_by_string_id(self.cmbProducts.itemData(self.cmbProducts.currentIndex()))
-        format=product.formats.find_by_id(self.cmbFormats.itemData(self.cmbFormats.currentIndex()))
-        if format!=None:
-            self.spnAmount.setValue(format.amount)
+        if product==None:
+            self.cmbFormats.clear()
+        else:
+            format=product.formats.find_by_id(self.cmbFormats.itemData(self.cmbFormats.currentIndex()))
+            if format!=None:
+                self.spnAmount.setValue(format.amount)
 
     def on_bb_accepted(self):
         product=self.mem.data.products.find_by_string_id(self.cmbProducts.itemData(self.cmbProducts.currentIndex()))

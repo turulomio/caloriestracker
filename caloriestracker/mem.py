@@ -58,6 +58,7 @@ class Mem(QObject):
         elif level=="CRITICAL":#The program encounters a serious error and may stop running. ERRORS
             basicConfig(level=CRITICAL, format=logFormat, datefmt=dateFormat)
         info("Debug level set to {}".format(level))
+        self.debuglevel=level
         
     ## Adds the commons parameter of the program to argparse
     ## @param parser It's a argparse.ArgumentParser

@@ -97,7 +97,7 @@ def new_database_generates_files_from_personal_data(datestr, newcon):
     new_system_products=ProductManager(mem)
     for product in mem.data.products.arr: 
         if product.system_product==False:
-            question=input_YN("Do you want to convert this product '{}' to a system one?".format(product.fullName(True)), "Y")
+            question=input_YN("Do you want to convert this product '{}' to a system one?".format(product.fullName()), "Y")
             #Selects a company
             if product.company!=None:
                 if product.system_company==False:
