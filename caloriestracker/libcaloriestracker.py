@@ -1670,6 +1670,11 @@ class User:
     def age(self):
         return (date.today() - self.birthday) // timedelta(days=365.2425)
 
+    def qicon(self):
+        if self.male==True:
+            return QIcon(":/caloriestracker/keko.png")
+        else:
+            return QIcon(":/caloriestracker/keka.png")
             
 ## Class to manage users
 ## UserManager(mem)

@@ -38,7 +38,7 @@ class frmMain(QMainWindow, Ui_frmMain):
         self.cmbUsers=QComboBox()
         self.tbMain.addWidget(self.cmbUsers)
         self.mem.user=self.mem.data.users.find_by_id(int(self.mem.settings.value("mem/currentuser", 1)))
-        self.mem.data.users.qcombobox(self.cmbUsers, self.mem.user)
+        self.mem.data.users.qcombobox(self.cmbUsers, self.mem.user, icons=True)
         self.cmbUsers.currentIndexChanged.connect(self.on_cmbUsers_currentIndexChanged)
         
         
