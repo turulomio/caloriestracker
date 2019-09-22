@@ -278,15 +278,16 @@ class CompanyAllManager(QObject, ObjectManager_With_IdName_Selectable):
             company=self.mem.data.companies.find_by_id_system(int(input), system_company)
             if log:
                 print ("  - Selected: {}".format(company))
-            return company    
+            return company
+
     def qcombobox(self, combo, selected=None):
         combo.completer().setCompletionMode(QCompleter.PopupCompletion)
         self.order_by_name()
         for o in self.arr:
-            icon=QIcon(":/caloriestracker/hucha.png") if o.system_company==False else QIcon(":/caloriestracker/order.png")
-            combo.addItem(icon, o.fullName(), o.string_id())
+            combo.addItem(o.qicon(), o.fullName(), o.string_id())
         if selected!=None:
             combo.setCurrentIndex(combo.findData(selected.string_id()))
+
     def qtablewidget(self, table):
         CompanySystemManager.qtablewidget(self, table)
 ## Clase parar trabajar con las opercuentas generadas automaticamente por los movimientos de las inversiones
@@ -797,8 +798,7 @@ class ProductAllManager(QObject, ObjectManager_With_IdName_Selectable):
         combo.completer().setCompletionMode(QCompleter.PopupCompletion)
         self.order_by_name()
         for o in self.arr:
-            icon=QIcon(":/caloriestracker/pepa.png") if o.system_product==False else QIcon(":/caloriestracker/book.png")
-            combo.addItem(icon, o.fullName(), o.string_id())
+            combo.addItem(o.qicon(), o.fullName(), o.string_id())
         if selected!=None:
             combo.setCurrentIndex(combo.findData(selected.string_id()))
             
@@ -1041,7 +1041,7 @@ class CompanySystem:
         if self.system_company==True:
             return QIcon(":/caloriestracker/companies.png")
         else:
-            return QIcon(":/caloriestracker/keko.png")
+            return QIcon(":/caloriestracker/hucha.png")
     ## Generates an string with id and system_product
     def string_id(self):
         return "{}#{}".format(self.id, self.system_company)
