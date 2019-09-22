@@ -2,7 +2,7 @@
 ## @brief User interface main window.
 from PyQt5.QtCore import pyqtSlot, QUrl
 from PyQt5.QtGui import QIcon, QDesktopServices
-from PyQt5.QtWidgets import QMainWindow,  QWidget, QLabel
+from PyQt5.QtWidgets import QMainWindow,  QWidget, QLabel, QComboBox
 from caloriestracker.database_update import database_update
 from caloriestracker.libcaloriestracker import ProductManager
 from caloriestracker.libcaloriestrackerfunctions import qmessagebox
@@ -27,13 +27,27 @@ class frmMain(QMainWindow, Ui_frmMain):
         self.statusBar.addWidget(QLabel(self.mem.con.url_string()))
 
         self.mem.load_db_data() ##CARGA TODOS LOS DATOS Y LOS VINCULA       
-        self.mem.user=self.mem.data.users.find_by_id(1)
   
         if self.mem.con.is_superuser():
             self.setWindowTitle(self.tr("Calories Tracker 2019-{0} \xa9 (Admin mode)").format(__versiondate__.year))#print ("Xulpymoney 2010-{0} © €".encode('unicode-escape'))
             self.setWindowIcon(self.mem.qicon_admin())
         else:
             self.setWindowTitle(self.tr("Calories Tracker 2019-{0} \xa9").format(__versiondate__.year))
+            
+        self.tbMain.addSeparator()
+        self.cmbUsers=QComboBox()
+        self.tbMain.addWidget(self.cmbUsers)
+        self.mem.user=self.mem.data.users.find_by_id(int(self.mem.settings.value("mem/currentuser", 1)))
+        self.mem.data.users.qcombobox(self.cmbUsers, self.mem.user)
+        self.cmbUsers.currentIndexChanged.connect(self.on_cmbUsers_currentIndexChanged)
+        
+        
+    @pyqtSlot(int)
+    def on_cmbUsers_currentIndexChanged(self, index):
+        self.mem.user=self.mem.data.users.find_by_id(self.cmbUsers.itemData(self.cmbUsers.currentIndex()))
+        self.mem.settings.setValue("mem/currentuser", self.mem.user.id)
+        self.on_actionBiometrics_triggered()
+        qmessagebox("Changed user to {}".format(self.mem.user.name))        
 
     def inactivity_timeout(self):
         self.hide()
