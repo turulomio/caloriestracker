@@ -97,11 +97,3 @@ class frmAccess(QDialog, Ui_frmAccess):
         m.setIcon(QMessageBox.Information)
         m.setText(text)
         m.exec_()
-
-    def qcombobox(self, combo, selected=None):
-        """Selected is the object"""
-        self.order_by_name()
-        for l in self.arr:
-            combo.addItem(l.name, l.id)
-        if selected!=None:
-                combo.setCurrentIndex(combo.findData(selected.id))

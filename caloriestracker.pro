@@ -28,6 +28,8 @@ SOURCES         = \
                   caloriestracker/ui/frmMealsAdd.py \
                   caloriestracker/ui/Ui_frmSettings.py \
                   caloriestracker/ui/frmSettings.py \
+                  caloriestracker/ui/Ui_frmUsersAdd.py \
+                  caloriestracker/ui/frmUsersAdd.py \
                   caloriestracker/ui/myqlineedit.py \
                   caloriestracker/ui/myqtablewidget.py \
                   caloriestracker/ui/Ui_wdgBiometrics.py \
@@ -46,6 +48,8 @@ SOURCES         = \
                   caloriestracker/ui/wdgProductsElaborated.py \
                   caloriestracker/ui/Ui_wdgProductsDataMove.py \
                   caloriestracker/ui/wdgProductsDataMove.py \
+                  caloriestracker/ui/Ui_wdgUsers.py \
+                  caloriestracker/ui/wdgUsers.py \
                   caloriestracker/ui/Ui_wdgYear.py \
                   caloriestracker/ui/wdgYear.py \
                   caloriestracker/ui/Ui_wdgYearMonth.py \
@@ -88,12 +92,14 @@ FORMS           = \
                   caloriestracker/ui/frmProductsAdd.ui \
                   caloriestracker/ui/frmProductsElaboratedAdd.ui \
                   caloriestracker/ui/frmProductsInElaboratedProductAdd.ui \
+                  caloriestracker/ui/frmUsersAdd.ui \
                   caloriestracker/ui/wdgBiometrics.ui \
                   caloriestracker/ui/wdgDatetime.ui \
                   caloriestracker/ui/wdgMeals.ui \
                   caloriestracker/ui/wdgProducts.ui \
                   caloriestracker/ui/wdgProductsElaborated.ui \
                   caloriestracker/ui/wdgProductsDataMove.ui \
+                  caloriestracker/ui/wdgUsers.ui \
                   caloriestracker/ui/wdgYear.ui \
                   caloriestracker/ui/wdgYearMonth.ui
 

@@ -9,7 +9,7 @@ from decimal import Decimal
 from caloriestracker.libcaloriestrackerfunctions import str2bool, a2s, ca2s, n2s, rca2s, b2s
 from caloriestracker.text_inputs import input_boolean, input_integer_or_none
 from caloriestracker.libcaloriestrackertypes import eProductComponent, eActivity, eWeightWish
-from caloriestracker.ui.qtablewidgetitems import qtime, qleft, qright, qnumber_limited, qnumber, qdatetime
+from caloriestracker.ui.qtablewidgetitems import qtime, qleft, qright, qnumber_limited, qnumber, qdatetime, qdate, qbool
 from caloriestracker.libmanagers import ObjectManager_With_Id_Selectable,  ManagerSelectionMode, ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime_Selectable
 from colorama import Fore, Style
 from logging import debug
@@ -1709,3 +1709,19 @@ class UserManager(QObject, ObjectManager_With_IdName_Selectable):
         for user in self.arr:
             user.load_last_biometrics()
 
+    ## It's a staticmethod due to it will be used in ProductAllManager
+    def qtablewidget(self, table):        
+        table.setColumnCount(4)
+        table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Name")))
+        table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Male")))
+        table.setHorizontalHeaderItem(2, QTableWidgetItem(self.tr("Birthday")))
+        table.setHorizontalHeaderItem(3, QTableWidgetItem(self.tr("Starts")))
+   
+        table.applySettings()
+        table.clearContents()
+        table.setRowCount(self.length())
+        for i, o in enumerate(self.arr):
+            table.setItem(i, 0, qleft(o.name))
+            table.setItem(i, 1, qbool(o.male))
+            table.setItem(i, 2, qdate(o.birthday))
+            table.setItem(i, 3, qdatetime(o.starts, self.mem.localzone))

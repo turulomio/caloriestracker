@@ -63,6 +63,9 @@
     <property name="title">
      <string>Calories tracker</string>
     </property>
+    <addaction name="actionUsers"/>
+    <addaction name="actionBiometrics"/>
+    <addaction name="separator"/>
     <addaction name="actionMemory"/>
     <addaction name="separator"/>
     <addaction name="actionSettings"/>
@@ -93,19 +96,10 @@
     <addaction name="separator"/>
     <addaction name="actionCompaniesAdd"/>
    </widget>
-   <widget class="QMenu" name="menuBiometrics">
-    <property name="title">
-     <string>Biometrics</string>
-    </property>
-    <addaction name="actionBiometrics"/>
-    <addaction name="separator"/>
-    <addaction name="actionBiometricsAdd"/>
-   </widget>
    <addaction name="menuXulpymoney"/>
    <addaction name="menuCompanies"/>
    <addaction name="menuProducts"/>
    <addaction name="menuMealss"/>
-   <addaction name="menuBiometrics"/>
    <addaction name="menuAyuda"/>
   </widget>
   <widget class="QToolBar" name="tbMain">
@@ -144,6 +138,7 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionUsers"/>
    <addaction name="actionSettings"/>
    <addaction name="actionCuriosities"/>
    <addaction name="actionExit"/>
@@ -326,6 +321,18 @@
    </property>
    <property name="toolTip">
     <string>Companies list</string>
+   </property>
+  </action>
+  <action name="actionUsers">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/list-add-user.png</normaloff>:/caloriestracker/list-add-user.png</iconset>
+   </property>
+   <property name="text">
+    <string>Users list</string>
+   </property>
+   <property name="toolTip">
+    <string>Users list</string>
    </property>
   </action>
  </widget>
