@@ -358,7 +358,7 @@ class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
         table.clearContents()
         table.setRowCount(self.length())
         for i, o in enumerate(self.arr):
-            table.setItem(i, 0, qleft(o.fullName(True)))
+            table.setItem(i, 0, qleft(o.fullName()))
             table.item(i, 0).setIcon(o.qicon())
             if o.company==None:
                 company=""
@@ -559,8 +559,8 @@ class ProductInElaboratedProduct:
         elif len(args)==6:
             init__create(*args[1:])
 
-    def fullName(self,  with_id=False):
-        return self.product.fullName(with_id) 
+    def fullName(self):
+        return self.product.fullName() 
 
     def calories(self):
         return self.amount * self.product.calories/self.product.amount
@@ -1021,9 +1021,12 @@ class CompanySystem:
         return True
         
     def fullName(self):
-        system="S" if self.system_company==True else "P"
-        return "{}. #{}{}".format(self.name, system, self.id)
-        
+        if self.mem.debuglevel=="DEBUG":
+            system="S" if self.system_company==True else "P"
+            return "{}. #{}{}".format(self.name, system, self.id)
+        else:
+            return "{}".format(self.name)
+
     def save(self):
         if self.id==None:
             self.id=self.mem.con.cursor_one_field("insert into companies(name,starts,ends) values (%s, %s, %s) returning id", (self.name, self.starts, self.ends))
@@ -1082,7 +1085,7 @@ class CompaniesAndProducts(QObject):
         print (self.mem.tr("Products:"))
         for o in self.mem.data.products.arr:
             if o.fullName().upper().find(find.upper())!=-1:
-                print ("  + {}".format(o.fullName(True)))
+                print ("  + {}".format(o.fullName()))
 
     ## Used in frmAbout statistics
     def qtablewidget_products_in_companies(self, table):
@@ -1142,8 +1145,7 @@ class Product(QObject):
         self.status=0
 
     def __repr__(self):
-        return self.fullName(True)
-
+        return self.fullName()
 
     ## ESTA FUNCION VA AUMENTANDO STATUS SIN MOLESTAR LOS ANTERIORES, SOLO CARGA CUANDO stsatus_to es mayor que self.status
     ## @param statusneeded  Integer with the status needed 
@@ -1158,15 +1160,17 @@ class Product(QObject):
             return
         #0
         if self.status==0 and statusneeded==1: #MAIN
-            self.formats=FormatManager(self.mem, self, self.mem.con.mogrify("select * from formats where products_id=%s and system_product=%s", (self.id, self.system_product)))
+            self.formats=FormatAllManager(self.mem, self)
+            self.formats.load_all()
             self.status=1
 
-    def fullName(self,  with_id=False):
-        if with_id==True:
+    def fullName(self):
+        if self.mem.debuglevel=="DEBUG":
             system="S" if self.system_product==True else "P"
             str_with_id=". #{}{}".format(system,self.id)
         else:
             str_with_id=""
+            
         if self.company==None:
             if self.elaboratedproducts_id==None:
                 return "{}{}".format(self.name, str_with_id)
@@ -1315,34 +1319,58 @@ class Format:
             init__create(args[1]['name'], product, args[1]['system_product'], args[1]['amount'], args[1]['starts'], args[1]['ends'],  args[1]['id'])
         elif len(args)==8:#Format(mem, name, product, system_product,amount, starts, ends,  id):
             init__create(*args[1:])
-            
+        self.system_format=True
+
+    def __repr__(self):
+        return self.fullName()
+                   
+    def is_deletable(self):
+        if self.system_company==True:
+            return False
+        return True
+        
+    def fullName(self):
+        system="S" if self.system_format==True else "P"
+        if self.mem.debuglevel=="DEBUG":
+            return "{}. #{}{}".format(self.name, system, self.id)
+        else:
+            return "{}".format(self.name)
+
+        
+    def qicon(self):
+        if self.system_format==True:
+            return QIcon(":/caloriestracker/cube.png")
+        else:
+            return QIcon(":/caloriestracker/keko.png")
+    ## Generates an string with id and system_product
+    def string_id(self):
+        return "{}#{}".format(self.id, self.system_format)
+class FormatPersonal(Format):
+    def __init__(self, *args):
+        Format.__init__(self,  *args)
+        self.system_format=False           
+
     def save(self):
         if self.id==None:
-            self.id=self.mem.con.cursor_one_field("insert into formats(name, products_id, system_product, amount, starts, ends) values (%s, %s, %s, %s, %s, %s) returning id",
+            self.id=self.mem.con.cursor_one_field("insert into personalformats(name, products_id, system_product, amount, starts, ends) values (%s, %s, %s, %s, %s, %s) returning id",
                     (self.name,  self.product.id, self.system_product, self.amount, self.starts, self.ends))
         else:
-            self.mem.con.execute("update formats set name=%s, products_id=%s, system_product=%s, amount=%s,starts=%s, ends=%s where id=%s", 
+            self.mem.con.execute("update personalformats set name=%s, products_id=%s, system_product=%s, amount=%s,starts=%s, ends=%s where id=%s", 
                     (self.name,  self.product.id, self.system_product, self.amount, self.starts, self.ends, self.id))
 
     def delete(self):
-        self.mem.con.execute("delete from formats where id=%s", (self.id, ))
-        
-    def qicon(self):
-        return QIcon(":/caloriestracker/cube.png")
+        self.mem.con.execute("delete from personalformats where id=%s", (self.id, ))
 
 class FormatManager(QObject, ObjectManager_With_IdName_Selectable):
     ##FormatManager(mem,product)
-    ##FormatManager(mem,product,sql)
     def __init__(self, *args ):
         QObject.__init__(self)
         ObjectManager_With_IdName_Selectable.__init__(self)
         self.mem=args[0]
         self.product=args[1]
-        if len(args)==3:
-            self.load_db_data(args[2])
         self.setSelectionMode(ManagerSelectionMode.Object)
 
-    def load_db_data(self, sql):
+    def load_from_db(self, sql):
         rows=self.mem.con.cursor_rows(sql)
         for row in rows:
             self.append(Format(self.mem, row))
@@ -1359,7 +1387,62 @@ class FormatManager(QObject, ObjectManager_With_IdName_Selectable):
             table.setItem(i, 0, qleft(o.name))
             table.item(i, 0).setIcon(o.qicon())
             table.setItem(i, 1, qnumber(o.amount))
+            
+        
+class FormatPersonalManager(FormatManager):
+    def __init__(self, *args):
+        FormatManager.__init__(self, *args)
+    def load_from_db(self, sql):
+        rows=self.mem.con.cursor_rows(sql)
+        for row in rows:
+            self.append(FormatPersonal(self.mem, row))
+        return self
 
+class FormatAllManager(QObject, ObjectManager_With_IdName_Selectable):
+    ## ProductAllManager(mem,product)#Loads all database
+    def __init__(self, *args):
+        QObject.__init__(self)
+        ObjectManager_With_IdName_Selectable.__init__(self)
+        self.mem=args[0]
+        self.product=args[1]
+
+    def load_all(self):
+        system=FormatManager(self.mem, self.product)
+        system.load_from_db(self.mem.con.mogrify("select * from formats where products_id=%s", (self.product.id, )))
+        for o in system.arr:
+            self.append(o)
+        personal=FormatPersonalManager(self.mem, self.product)
+        personal.load_from_db(self.mem.con.mogrify("select * from personalformats where products_id=%s", (self.product.id, )))
+        for o in personal.arr:
+            self.append(o)
+        self.order_by_name()
+
+    def find_by_id_system(self,  id ,  system):
+        for o in self.arr:
+            if o.id==id and o.system_format==system:
+                return o
+        return None
+                    
+    ## Find by generated string with id and system_product
+    def find_by_string_id(self, stringid):
+        if stringid==None:
+            return None
+        return self.find_by_id_system(*CompanySystem.string_id2tuple(stringid))#The same for formats
+        
+    def qcombobox(self, combo, selected=None, needtoselect=False):
+        self.order_by_name()
+        combo.clear()
+        if needtoselect==True:
+            combo.addItem(combo.tr("Select an option"), None)
+        for o in self.arr:
+            combo.addItem(o.qicon(), o.fullName(), o.string_id())
+        if selected!=None:
+            combo.setCurrentIndex(combo.findData(selected.string_id()))
+
+    def qtablewidget(self, table):
+        FormatManager.qtablewidget(self, table)
+
+## Clase parar trabajar con las opercuentas generadas automaticam
 class Meal:
     ##Meal(mem)
     ##Meal(mem,rows) #Uses products_id and users_id in row
@@ -1384,8 +1467,8 @@ class Meal:
         elif len(args)==7:#Meal(mem,datetime,product, amount,users_id,id)
             init__create(*args[1:])
 
-    def fullName(self,  with_id=False):
-        return self.product.fullName(with_id) 
+    def fullName(self):
+        return self.product.fullName() 
 
     def calories(self):
         return self.amount * self.product.calories/self.product.amount
@@ -1426,6 +1509,7 @@ class Meal:
 
     def delete(self):
         self.mem.con.execute("delete from meals where id=%s", (self.id, ))
+
 
 class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
     ##MealManager(mem)
