@@ -18,7 +18,7 @@ class frmCompaniesAdd(QDialog, Ui_frmCompaniesAdd):
 
     def on_bb_accepted(self):
         if self.company==None:
-            self.company=CompanyPersonal(self.mem, self.txtName.text(),  datetime.now(), None, None)
+            self.company=CompanyPersonal(self.mem, self.txtName.text(),  datetime.now(), None)
         else:
             self.company.name=self.txtName.text()
         self.company.save()

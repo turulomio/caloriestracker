@@ -45,7 +45,6 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
             self.spnProtein.value(), 
             self.spnCarbohydrate.value(), 
             company, 
-            None, 
             datetime.now(), 
             None, 
             None, 

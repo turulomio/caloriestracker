@@ -28,6 +28,9 @@ def generate_contribution_dump(mem):
     for product in mem.data.products.arr:
         if product.system_product==False and product.elaboratedproducts_id==None:
             f.write(product.insert_string("personalproducts") + ";\n")
+    for format in mem.data.formats.arr:
+        if format.system_formats==False:
+            f.write(format.insert_string("personalformats") + ";\n")
     f.close()
     print(Style.BRIGHT + Fore.GREEN + "Generated '{}'. Please send to '' without rename it".format(filename)+ Style.RESET_ALL)
 
@@ -85,7 +88,7 @@ def new_database_generates_files_from_personal_data(datestr, newcon):
         if company.system_company==False:
             question=input_YN("Do you want to convert this company '{}' to a system one?".format(company), "Y")
             if question==True:
-                system_company=CompanySystem(mem, company.name, company.starts, company.ends, new_system_companies_id)
+                system_company=CompanySystem(mem, company.name, company.last, new_system_companies_id)
                 new_system_companies.append(system_company)
                 companies_map[company.string_id()]=system_company.string_id()
                 new_system_companies_id=new_system_companies_id+1
@@ -118,8 +121,7 @@ def new_database_generates_files_from_personal_data(datestr, newcon):
                     product.protein, 
                     product.carbohydrate, 
                     company, 
-                    product.ends, 
-                    product.starts, 
+                    product.last,
                     product.elaboratedproducts_id, 
                     product.languages, 
                     product.calories, 

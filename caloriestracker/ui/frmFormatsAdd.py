@@ -18,7 +18,7 @@ class frmFormatsAdd(QDialog, Ui_frmFormatsAdd):
 
     def on_bb_accepted(self):
         if self.format==None:
-            self.format=FormatPersonal(self.mem,  self.txtName.text(), self.product, self.product.system_product, self.spnAmount.value(), datetime.now(), None,  None)
+            self.format=FormatPersonal(self.mem,  self.txtName.text(), self.product, self.product.system_product, self.spnAmount.value(), datetime.now(), None)
             self.product.formats.append(self.format)
         else:
             self.format.name=self.txtName.text()

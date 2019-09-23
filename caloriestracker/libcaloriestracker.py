@@ -993,12 +993,11 @@ class BiometricsManager(QObject, ObjectManager_With_IdName_Selectable):
 class CompanySystem:
     ##CompanySystem(mem)
     ##CompanySystem(mem,rows)
-    ##CompanySystem(mem,name,starts,ends,id)
+    ##CompanySystem(mem,name,last, id)
     def __init__(self, *args):        
-        def init__create(name,  starts, ends, id):
+        def init__create(name,  last, id):
             self.name=name
-            self.starts=starts
-            self.ends=ends
+            self.last=last
             self.id=id
             return self
         # #########################################
@@ -1006,12 +1005,11 @@ class CompanySystem:
         if len(args)==1:#CompanySystem(mem)
             init__create(*[None]*4)
         elif len(args)==2:#CompanySystem(mem,rows)
-            init__create(args[1]['name'], args[1]['starts'], args[1]['ends'], args[1]['id'])
-        elif len(args)==5:#CompanySystem(mem,name,starts,ends,id)
-            init__create(args[1], args[2], args[3], args[4])
+            init__create(args[1]['name'], args[1]['last'], args[1]['id'])
+        elif len(args)==4:#CompanySystem(mem,name,last,id)
+            init__create(*args[1:])
         self.system_company=True
 
-        
     def __repr__(self):
         return self.fullName()
                    
@@ -1029,13 +1027,12 @@ class CompanySystem:
 
     def save(self):
         if self.id==None:
-            self.id=self.mem.con.cursor_one_field("insert into companies(name,starts,ends) values (%s, %s, %s) returning id", (self.name, self.starts, self.ends))
+            self.id=self.mem.con.cursor_one_field("insert into companies(name,last) values (%s, %s) returning id", (self.name, self.last))
         else:
-            self.mem.con.execute("update companies set name=%s,starts=%s, ends=%s where id=%s", (self.name, self.starts, self.ends, self.id))
+            self.mem.con.execute("update companies set name=%s,last=%s where id=%s", (self.name, datetime.now(), self.id))
     
     def insert_string(self, table="companies"):
-        return b2s(self.mem.con.mogrify("insert into "+table +"(name,starts,ends, id) values (%s, %s, %s, %s);", (self.name, self.starts, self.ends, self.id)))
-
+        return b2s(self.mem.con.mogrify("insert into "+table +"(name, last, id) values (%s, %s, %s);", (self.name, self.last, self.id)))
 
     def qicon(self):
         if self.system_company==True:
@@ -1060,9 +1057,9 @@ class CompanyPersonal(CompanySystem):
         
     def save(self):
         if self.id==None:
-            self.id=self.mem.con.cursor_one_field("insert into personalcompanies(name,starts,ends) values (%s, %s, %s) returning id", (self.name, self.starts, self.ends))
+            self.id=self.mem.con.cursor_one_field("insert into personalcompanies(name,last) values (%s, %s) returning id", (self.name, self.last))
         else:
-            self.mem.con.execute("update personalcompanies set name=%s,starts=%s, ends=%s where id=%s", (self.name, self.starts, self.ends, self.id))
+            self.mem.con.execute("update personalcompanies set name=%s, last=%s where id=%s", (self.name, self.last, self.id))
 
     def delete(self):
         if self.is_deletable()==True:
@@ -1107,15 +1104,14 @@ class Product(QObject):
     ##Product(mem,rows) #Uses products_id and users_id in row
     ##Product(mem,datetime,product,name,amount,users_id,id)
     def __init__(self, *args):        
-        def init__create( name, amount, fat, protein, carbohydrate, company, ends, starts, elaboratedproducts_id, languages_id, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat, system_company, id):
+        def init__create( name, amount, fat, protein, carbohydrate, company, last, elaboratedproducts_id, languages_id, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat, system_company, id):
             self.name=name
             self.amount=amount
             self.fat=fat
             self.protein=protein
             self.carbohydrate=carbohydrate
             self.company=company
-            self.ends=ends
-            self.starts=starts
+            self.last=last
             self.elaboratedproducts_id=elaboratedproducts_id
             self.languages=languages_id
             self.calories=calories
@@ -1133,13 +1129,13 @@ class Product(QObject):
         QObject.__init__(self)
         self.mem=args[0]
         if len(args)==1:#Product(mem)
-            init__create(*[None]*20)
+            init__create(*[None]*19)
         elif len(args)==2:#Product(mem,rows)
             company=self.mem.data.companies.find_by_id_system(args[1]['companies_id'], args[1]['system_company'])
             init__create(args[1]['name'], args[1]['amount'], args[1]['fat'], args[1]['protein'], args[1]['carbohydrate'], company, 
-            args[1]['ends'], args[1]['starts'], args[1]['elaboratedproducts_id'], args[1]['languages'], args[1]['calories'], args[1]['salt'], 
+            args[1]['last'], args[1]['elaboratedproducts_id'], args[1]['languages'], args[1]['calories'], args[1]['salt'], 
             args[1]['cholesterol'], args[1]['sodium'], args[1]['potassium'], args[1]['fiber'], args[1]['sugars'], args[1]['saturated_fat'], args[1]['system_company'], args[1]['id'])
-        elif len(args)==21:#Product(mem,datetime,product,name,amount,users_id,id)
+        elif len(args)==20:#Product(mem,datetime,product,name,amount,users_id,id)
             init__create(*args[1:])
         self.system_product=True
         self.status=0
@@ -1193,18 +1189,18 @@ class Product(QObject):
         companies_id=None if self.company==None else self.company.id
         if self.id==None:
             self.id=self.mem.con.cursor_one_field("""insert into products (
-                    name, amount, fat, protein, carbohydrate, companies_id, ends, starts, 
+                    name, amount, fat, protein, carbohydrate, companies_id, last,
                     elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, 
                     potassium, fiber, sugars, saturated_fat, system_company
-                    )values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning id""",  
-                    (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.ends, self.starts, 
+                    )values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning id""",  
+                    (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.last, 
                     self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, 
                     self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company))
         else:
-            self.mem.con.cursor_one_field("""update products set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, ends=%s, starts=%s, 
+            self.mem.con.cursor_one_field("""update products set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, last=%s,
             elaboratedproducts_id=%s, languages=%s, calories=%s, salt=%s, cholesterol=%s, sodium=%s, potassium=%s, fiber=%s, sugars=%s, saturated_fat=%s, system_company=%s
             where id=%s returning id""", 
-            (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.ends, self.starts, 
+            (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, datetime.now(), 
             self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company,  self.id))
 
     ## Generates an string with id and system_product
@@ -1217,8 +1213,8 @@ class Product(QObject):
         
     def insert_string(self, table="products"):
         companies_id=None if self.company==None else self.company.id
-        return b2s(self.mem.con.mogrify("insert into " + table +" (name, amount, fat, protein, carbohydrate, companies_id, ends, starts, elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat,system_company, id) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);",  
-            (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.ends, self.starts, self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company, self.id)))
+        return b2s(self.mem.con.mogrify("insert into " + table +" (name, amount, fat, protein, carbohydrate, companies_id, last, elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat,system_company, id) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);",  
+            (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.last, self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company, self.id)))
            
     def is_deletable(self):
         if self.system_product==True:
@@ -1275,18 +1271,18 @@ class ProductPersonal(Product):
         companies_id=None if self.company==None else self.company.id
         if self.id==None:
             self.id=self.mem.con.cursor_one_field("""insert into personalproducts (
-                    name, amount, fat, protein, carbohydrate, companies_id, ends, starts, 
+                    name, amount, fat, protein, carbohydrate, companies_id, last,
                     elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, 
                     potassium, fiber, sugars, saturated_fat, system_company
-                    )values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning id""",  
-                    (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.ends, self.starts, 
+                    )values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning id""",  
+                    (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.last, 
                     self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, 
                     self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company))
         else:
-            self.mem.con.cursor_one_field("""update personalproducts set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, ends=%s, starts=%s, 
+            self.mem.con.cursor_one_field("""update personalproducts set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, last=%s,
             elaboratedproducts_id=%s, languages=%s, calories=%s, salt=%s, cholesterol=%s, sodium=%s, potassium=%s, fiber=%s, sugars=%s, saturated_fat=%s, system_company=%s
             where id=%s returning id""", 
-            (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.ends, self.starts, 
+            (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, datetime.now(), 
             self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company,  self.id))
 
     def delete(self):
@@ -1299,15 +1295,14 @@ class ProductPersonal(Product):
 class Format:
     ##Format(mem)
     ##Format(mem,rows) #Uses products_id and users_id in row
-    ##Format(mem, name, product, system_product,amount, starts, ends,  id):
+    ##Format(mem, name, product, system_product,amount, last,  id):
     def __init__(self, *args):        
-        def init__create( name, product, system_product,amount, starts, ends,  id):
+        def init__create( name, product, system_product,amount, last,  id):
             self.name=name
             self.product=product
             self.system_product=system_product
             self.amount=amount
-            self.starts=starts
-            self.ends=ends
+            self.last=last
             self.id=id
             return self
         # #########################################
@@ -1316,16 +1311,19 @@ class Format:
             init__create(*[None]*7)
         elif len(args)==2:#Format(mem,rows)
             product=self.mem.data.products.find_by_id_system(args[1]['products_id'], args[1]['system_product'])
-            init__create(args[1]['name'], product, args[1]['system_product'], args[1]['amount'], args[1]['starts'], args[1]['ends'],  args[1]['id'])
-        elif len(args)==8:#Format(mem, name, product, system_product,amount, starts, ends,  id):
+            init__create(args[1]['name'], product, args[1]['system_product'], args[1]['amount'], args[1]['last'], args[1]['id'])
+        elif len(args)==7:#Format(mem, name, product, system_product,amount, last, id):
             init__create(*args[1:])
         self.system_format=True
 
     def __repr__(self):
         return self.fullName()
-                   
+
+    def insert_string(self, table="formats"):
+        return b2s(self.mem.con.mogrify("insert into "+table +"(name, last, id) values (%s, %s, %s);", (self.name, self.last, self.id)))
+
     def is_deletable(self):
-        if self.system_company==True:
+        if self.system_format==True:
             return False
         return True
         
@@ -1342,9 +1340,11 @@ class Format:
             return QIcon(":/caloriestracker/cube.png")
         else:
             return QIcon(":/caloriestracker/keko.png")
+
     ## Generates an string with id and system_product
     def string_id(self):
         return "{}#{}".format(self.id, self.system_format)
+
 class FormatPersonal(Format):
     def __init__(self, *args):
         Format.__init__(self,  *args)
@@ -1352,11 +1352,11 @@ class FormatPersonal(Format):
 
     def save(self):
         if self.id==None:
-            self.id=self.mem.con.cursor_one_field("insert into personalformats(name, products_id, system_product, amount, starts, ends) values (%s, %s, %s, %s, %s, %s) returning id",
-                    (self.name,  self.product.id, self.system_product, self.amount, self.starts, self.ends))
+            self.id=self.mem.con.cursor_one_field("insert into personalformats(name, products_id, system_product, amount, last) values (%s, %s, %s, %s, %s) returning id",
+                    (self.name,  self.product.id, self.system_product, self.amount, self.last))
         else:
-            self.mem.con.execute("update personalformats set name=%s, products_id=%s, system_product=%s, amount=%s,starts=%s, ends=%s where id=%s", 
-                    (self.name,  self.product.id, self.system_product, self.amount, self.starts, self.ends, self.id))
+            self.mem.con.execute("update personalformats set name=%s, products_id=%s, system_product=%s, amount=%s, last=%s where id=%s", 
+                    (self.name,  self.product.id, self.system_product, self.amount, self.last, self.id))
 
     def delete(self):
         self.mem.con.execute("delete from personalformats where id=%s", (self.id, ))
