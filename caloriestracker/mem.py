@@ -113,8 +113,8 @@ class MemConsole(Mem):
         self.localzone=self.settings.value("mem/localzone", "Europe/Madrid")
     def __del__(self):
         self.settings.sync()
-    def run(self):
-        self.args=self.parse_arguments()
+    def run(self, args=None):
+        self.args=self.parse_arguments(args)
         self.addDebugSystem(self.args.debug) #Must be before QCoreApplication
         self.app=QCoreApplication(argv)
         self.app.setOrganizationName("caloriestracker")
@@ -142,7 +142,7 @@ class MemConsole(Mem):
         con.connect()
         return con
 
-    def parse_arguments(self):
+    def parse_arguments(self, args):
         self.parser=ArgumentParser(prog='caloriestracker_console', description=self.tr('Report of calories'), epilog=self.epilog(), formatter_class=RawTextHelpFormatter)
         self. addCommonToArgParse(self.parser)
         argparse_connection_arguments_group(self.parser, default_db="caloriestracker")
@@ -158,8 +158,9 @@ class MemConsole(Mem):
         group.add_argument('--parse_contribution_dump', help=self.tr("Parses a dump and generates sql for the package and other for the collaborator"), action="store", default=None)
         group.add_argument('--update_after_contribution',  help=self.tr("Converts data from personal database to system after collaboration"),  action="store", default=None)
         group.add_argument('--elaborated', help=self.tr("Show elaborated product"), action="store", default=None)
+        group.add_argument('test', help=self.tr("Used for testing"), action="store", default=False)
 
-        args=self.parser.parse_args()
+        args=self.parser.parse_args(args)
         #Changing types of args
         args.date=string2date(args.date)
         args.users_id=int(args.users_id)

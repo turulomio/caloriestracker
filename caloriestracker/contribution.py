@@ -27,20 +27,21 @@ def generate_contribution_dump(mem):
         if company.system_company==False:
             f.write(company.insert_string("personalcompanies") + ";\n")
     for product in mem.data.products.arr:
+        product.needStatus(1)
         if product.system_product==False and product.elaboratedproducts_id==None:
             f.write(product.insert_string("personalproducts") + ";\n")
-    for format in mem.data.formats.arr:
-        if format.system_formats==False:
-            f.write(format.insert_string("personalformats") + ";\n")
+            for format in product.formats.arr:
+                f.write(format.insert_string("personalformats") + ";\n")
     f.close()
     print(Style.BRIGHT + Fore.GREEN + "Generated '{}'. Please send to '' without rename it".format(filename)+ Style.RESET_ALL)
+    return filename
 
 ## Parses generated dump of the collborator. 
 ## 1. Uses mem.con to generate a new conexión an database
 ## 2. Load personal data from collaborator
 ## 3. Generates files to pass personal data to system data
 ## 4. Tries generated files and shows results
-def parse_contribution_dump(mem):        
+def parse_contribution_dump(mem, contribution_dump, args):
         datestr=dtnaive2string(datetime.now(), 3).replace(" ", "")
         database="caloriestracker"+datestr
         admin=AdminPG(mem.con.user, mem.con.password, mem.con.server, mem.con.port)
@@ -48,11 +49,11 @@ def parse_contribution_dump(mem):
         database_update(newcon)        
         print ("1. After setting database to default",  *print_table_status(newcon))
         
-        newcon.load_script(mem.args.parse_contribution_dump)
+        newcon.load_script(contribution_dump)
         newcon.commit()
         print ("2. After loading personal data from collaborator",  *print_table_status(newcon))
         
-        new_database_generates_files_from_personal_data(datestr, newcon)
+        new_database_generates_files_from_personal_data(datestr, newcon, args)
         print ("3. After generating files collaboration. Emulates launching update_table",  *print_table_status(newcon))
 
         newcon.load_script("XXXXXXXXXXXX.sql")
@@ -72,9 +73,9 @@ def parse_contribution_dump(mem):
             system("mv XXXXXXXXXXXX_version_needed_update_first_in_github.sql {}_version_needed_update_first_in_github.sql".format(datestr))
 
 ## With th new database generate files to convert local to string, asking wich one
-def new_database_generates_files_from_personal_data(datestr, newcon):
+def new_database_generates_files_from_personal_data(datestr, newcon, args):
     mem=MemConsole()
-    mem.run()
+    mem.run(args)
     
     ## GENERATING XXXXXXXXXXXX.sql
     package_sql_filename="XXXXXXXXXXXX.sql".format(datestr)        

@@ -99,7 +99,7 @@ def main():
         exit(0)
     
     if mem.args.parse_contribution_dump!=None:
-        parse_contribution_dump(mem)
+        parse_contribution_dump(mem, mem.args.parse_contribution_dump)
         exit(0)
         
     if mem.args.update_after_contribution!=None:

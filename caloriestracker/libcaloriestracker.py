@@ -456,7 +456,6 @@ class ProductElaborated:
             self.products_in.protein(), 
             self.products_in.carbohydrate(), 
             None, 
-            None, 
             datetime.now(), 
             self.id, 
             None, 
