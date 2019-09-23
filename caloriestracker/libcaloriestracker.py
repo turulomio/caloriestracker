@@ -856,7 +856,7 @@ class Biometrics:
         # #########################################
         self.mem=args[0]
         if len(args)==1:#Biometrics(mem)
-            init__create(*[None]*6)
+            init__create(*[None]*7)
         elif len(args)==2:#Biometrics(mem,rows)
             user=self.mem.data.users.find_by_id(args[1]['users_id'])
             activity=self.mem.data.activities.find_by_id(args[1]['activity'])

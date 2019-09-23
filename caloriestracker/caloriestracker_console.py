@@ -94,16 +94,16 @@ def main():
         print("Biometrics added with id={}".format(id))
         exit(0)
 
-    if mem.args.collaboration_dump==True:
+    if mem.args.contribution_dump==True:
         generate_contribution_dump(mem)
         exit(0)
     
-    if mem.args.parse_collaboration_dump!=None:
+    if mem.args.parse_contribution_dump!=None:
         parse_contribution_dump(mem)
         exit(0)
         
-    if mem.args.update_after_collaboration!=None:
-        mem.con.load_script(mem.args.update_after_collaboration)
+    if mem.args.update_after_contribution!=None:
+        mem.con.load_script(mem.args.update_after_contribution)
         mem.con.commit()
         exit(0)
 

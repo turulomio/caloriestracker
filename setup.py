@@ -309,7 +309,7 @@ setup(name='caloriestracker',
                         'procedure': Procedure,
                         'pyinstaller': PyInstaller,
                      }, 
-#    test_suite = 'caloriestracker.test',
+    test_suite = 'caloriestracker.test',
     zip_safe=False,
     include_package_data=True
     )

@@ -48,7 +48,7 @@ def parse_contribution_dump(mem):
         database_update(newcon)        
         print ("1. After setting database to default",  *print_table_status(newcon))
         
-        newcon.load_script(mem.args.parse_collaboration_dump)
+        newcon.load_script(mem.args.parse_contribution_dump)
         newcon.commit()
         print ("2. After loading personal data from collaborator",  *print_table_status(newcon))
         

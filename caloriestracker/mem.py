@@ -154,9 +154,9 @@ class MemConsole(Mem):
         group.add_argument('--add_product', help=self.tr("Adds a product"), action="store_true", default=False)
         group.add_argument('--add_meal', help=self.tr("Adds a company"), action="store_true", default=False)
         group.add_argument('--add_biometrics', help=self.tr("Adds biometrics"), action="store_true", default=False)
-        group.add_argument('--collaboration_dump', help=self.tr("Generate a dump to collaborate updating companies and products"), action="store_true", default=False)
-        group.add_argument('--parse_collaboration_dump', help=self.tr("Parses a dump and generates sql for the package and other for the collaborator"), action="store", default=None)
-        group.add_argument('--update_after_collaboration',  help=self.tr("Converts data from personal database to system after collaboration"),  action="store", default=None)
+        group.add_argument('--contribution_dump', help=self.tr("Generate a dump to collaborate updating companies and products"), action="store_true", default=False)
+        group.add_argument('--parse_contribution_dump', help=self.tr("Parses a dump and generates sql for the package and other for the collaborator"), action="store", default=None)
+        group.add_argument('--update_after_contribution',  help=self.tr("Converts data from personal database to system after collaboration"),  action="store", default=None)
         group.add_argument('--elaborated', help=self.tr("Show elaborated product"), action="store", default=None)
 
         args=self.parser.parse_args()

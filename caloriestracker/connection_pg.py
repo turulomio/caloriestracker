@@ -59,9 +59,11 @@ class Connection:
 
     def load_script(self, file):
         cur= self._con.cursor()
-        procedures  = open(file,'r', encoding='utf-8').read() 
+        f  = open(file,'r', encoding='utf-8')
+        procedures=f.read() 
         cur.execute(procedures)
-        cur.close()       
+        cur.close()
+        f.close()
 
     def cursor_one_column(self, sql, arr=[]):
         """Returns un array with the results of the column"""
