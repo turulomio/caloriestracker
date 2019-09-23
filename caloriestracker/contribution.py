@@ -1,6 +1,6 @@
 from caloriestracker.mem import MemConsole
 from caloriestracker.datetime_functions import dtnaive2string
-from caloriestracker.libcaloriestracker import Product, CompanySystem, CompanySystemManager, ProductManager
+from caloriestracker.libcaloriestracker import Product, CompanySystem, CompanySystemManager, ProductManager, Format
 from caloriestracker.libcaloriestrackerfunctions import b2s
 from caloriestracker.admin_pg import AdminPG
 from caloriestracker.database_update import database_update
@@ -13,7 +13,8 @@ def print_table_status(con):
     personalproducts=con.cursor_one_field("select count(*) from personalproducts")
     products=con.cursor_one_field("select count(*) from products")
     companies=con.cursor_one_field("select count(*) from companies")
-    return (companies, products, personalproducts)
+    formats=con.cursor_one_field("select count(*) from formats")
+    return (companies, products, personalproducts, formats)
 
 ## Generate a dump for the collaborator
 ## @param mem Current database to extract personal data only
@@ -46,19 +47,19 @@ def parse_contribution_dump(mem):
         newcon=admin.create_new_database_and_return_new_conexion(database)
         database_update(newcon)        
         print ("1. After setting database to default",  *print_table_status(newcon))
+        
         newcon.load_script(mem.args.parse_collaboration_dump)
         newcon.commit()
         print ("2. After loading personal data from collaborator",  *print_table_status(newcon))
-        new_database_generates_files_from_personal_data(datestr, newcon)
-        #Checking
         
+        new_database_generates_files_from_personal_data(datestr, newcon)
         print ("3. After generating files collaboration. Emulates launching update_table",  *print_table_status(newcon))
+
         newcon.load_script("XXXXXXXXXXXX.sql")
         print ("4. After trying XXXXXXXXXXXX.sql",  *print_table_status(newcon))
         
-        print("5. After updating collaborator database")
         newcon.load_script("XXXXXXXXXXXX_version_needed_update_first_in_github.sql")
-        print ("After loading updating collaborator return.sql",  *print_table_status(newcon))
+        print("5. After updating collaborator database", *print_table_status(newcon))
        
         newcon.commit()
         newcon.disconnect()
@@ -79,9 +80,12 @@ def new_database_generates_files_from_personal_data(datestr, newcon):
     package_sql_filename="XXXXXXXXXXXX.sql".format(datestr)        
     package_sql=open(package_sql_filename, "w")
     package_sql.write("select;\n")#For no personal data empty files
-    #companies
+
     companies_map={}
     products_map={}
+    formats_map={}
+    
+    #companies
     new_system_companies_id=newcon.cursor_one_field("select max(id)+1 from companies")
     new_system_companies=CompanySystemManager(mem)
     for company in mem.data.companies.arr:
@@ -95,6 +99,7 @@ def new_database_generates_files_from_personal_data(datestr, newcon):
                 package_sql.write(system_company.insert_string("companies")+ ";\n")
                 mem.data.companies.append(system_company) ##Appends new sistem company to mem.data
                 #print ("Company will change from {} to {}".format(company.string_id(), system_company.string_id()))
+
     #products
     new_system_products_id=newcon.cursor_one_field("select max(id)+1 from products")
     new_system_products=ProductManager(mem)
@@ -141,6 +146,27 @@ def new_database_generates_files_from_personal_data(datestr, newcon):
                 #if company!=None:
                 #    print ("Its company will change from {} to {}".format(product.company.string_id(), company.string_id()))
                 package_sql.write(system_product.insert_string("products") + ";\n")
+    
+    #formats
+    new_system_formats_id=newcon.cursor_one_field("select max(id)+1 from formats")
+    for product in mem.data.products.arr:
+        if product.system_product==False:
+            product.needStatus(1)
+            if product.formats.length()==0:
+                continue
+            for format in product.formats.arr:
+                question=input_YN("Do you want to convert this format '{}' to a system one?".format(format), "Y")
+                if question==True:
+                    system_product=new_system_products.find_by_string_id(products_map[format.product.string_id()])#Recently created in systemproducts
+                    system_format=Format(mem, format.name, system_product, system_product.system_product, format.amount, format.last, new_system_formats_id)
+                    system_product.needStatus(1)#Creates empty format manager
+                    system_product.formats.append(system_format)
+                    formats_map[format.string_id()]=system_format.string_id()
+                    new_system_formats_id=new_system_formats_id+1
+                    package_sql.write(system_format.insert_string("formats")+ ";\n")
+                    mem.data.formats.append(system_format) ##Appends new sistem format to mem.data
+                    #print ("Format will change from {} to {}".format(format.string_id(), system_format.string_id()))
+
     package_sql.close()
     
     ## GENERATING COLLABORATION UPDATE FOR COLLABORATOR
@@ -160,12 +186,18 @@ def new_database_generates_files_from_personal_data(datestr, newcon):
     for origin, destiny in products_map.items():
         origin_personal_product=ProductManager.find_by_string_id(mem.data.products, origin)
         destiny_system_product=ProductManager.find_by_string_id(new_system_products, destiny)
-        #Delete old personal companies
+        #Delete old personal products
         return_sql.write("-- " + origin_personal_product.fullName() + "\n")
         return_sql.write(b2s(mem.con.mogrify("delete from personalproducts where id=%s;", (origin_personal_product.id, )))+"\n")
         #UPDATING PRODUCTS IN THE REST OF TABLES
         for table in ['formats', 'meals', 'products_in_elaboratedproducts']:
             return_sql.write(b2s(mem.con.mogrify("update "+table+" set products_id=%s, system_product=%s where products_id=%s and system_product=%s;", 
                 (destiny_system_product.id, destiny_system_product.system_product, origin_personal_product.id, origin_personal_product.system_product)))+"\n")
+        #Formats
+        for format in origin_personal_product.formats.arr:
+            #Delete old personal formats
+            return_sql.write("-- " + origin_personal_product.fullName() +  "-" + format.name+ "\n")
+            return_sql.write(b2s(mem.con.mogrify("delete from personalformats where id=%s;", (format.id, )))+"\n")
+
         return_sql.write("\n")
     return_sql.close()

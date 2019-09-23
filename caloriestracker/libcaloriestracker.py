@@ -1320,7 +1320,7 @@ class Format:
         return self.fullName()
 
     def insert_string(self, table="formats"):
-        return b2s(self.mem.con.mogrify("insert into "+table +"(name, last, id) values (%s, %s, %s);", (self.name, self.last, self.id)))
+        return b2s(self.mem.con.mogrify("insert into "+table +"(name, amount, last, products_id, system_product, id) values (%s, %s, %s, %s, %s, %s);", (self.name, self.amount, self.last, self.product.id, self.product.system_product, self.id)))
 
     def is_deletable(self):
         if self.system_format==True:
