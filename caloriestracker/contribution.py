@@ -1,4 +1,3 @@
-from caloriestracker.mem import MemConsole
 from caloriestracker.datetime_functions import dtnaive2string
 from caloriestracker.libcaloriestracker import Product, CompanySystem, CompanySystemManager, ProductManager, Format
 from caloriestracker.libcaloriestrackerfunctions import b2s
@@ -41,10 +40,12 @@ def generate_contribution_dump(mem):
 ## 2. Load personal data from collaborator
 ## 3. Generates files to pass personal data to system data
 ## 4. Tries generated files and shows results
-def parse_contribution_dump(mem, contribution_dump, args):
+
+## auxiliar_con, it's only used to generate admin and new connection with same parameters, but it's not used
+def parse_contribution_dump(auxiliar_con, contribution_dump):
         datestr=dtnaive2string(datetime.now(), 3).replace(" ", "")
         database="caloriestracker"+datestr
-        admin=AdminPG(mem.con.user, mem.con.password, mem.con.server, mem.con.port)
+        admin=AdminPG(auxiliar_con.user, auxiliar_con.password, auxiliar_con.server, auxiliar_con.port)
         newcon=admin.create_new_database_and_return_new_conexion(database)
         database_update(newcon)        
         print ("1. After setting database to default",  *print_table_status(newcon))
@@ -53,7 +54,7 @@ def parse_contribution_dump(mem, contribution_dump, args):
         newcon.commit()
         print ("2. After loading personal data from collaborator",  *print_table_status(newcon))
         
-        new_database_generates_files_from_personal_data(datestr, newcon, args)
+        new_database_generates_files_from_personal_data(datestr, newcon)
         print ("3. After generating files collaboration. Emulates launching update_table",  *print_table_status(newcon))
 
         newcon.load_script("XXXXXXXXXXXX.sql")
@@ -73,10 +74,7 @@ def parse_contribution_dump(mem, contribution_dump, args):
             system("mv XXXXXXXXXXXX_version_needed_update_first_in_github.sql {}_version_needed_update_first_in_github.sql".format(datestr))
 
 ## With th new database generate files to convert local to string, asking wich one
-def new_database_generates_files_from_personal_data(datestr, newcon, args):
-    mem=MemConsole()
-    mem.run(args)
-    
+def new_database_generates_files_from_personal_data(datestr, mem, args):   
     ## GENERATING XXXXXXXXXXXX.sql
     package_sql_filename="XXXXXXXXXXXX.sql".format(datestr)        
     package_sql=open(package_sql_filename, "w")
@@ -87,7 +85,7 @@ def new_database_generates_files_from_personal_data(datestr, newcon, args):
     formats_map={}
     
     #companies
-    new_system_companies_id=newcon.cursor_one_field("select max(id)+1 from companies")
+    new_system_companies_id=mem.con.cursor_one_field("select max(id)+1 from companies")
     new_system_companies=CompanySystemManager(mem)
     for company in mem.data.companies.arr:
         if company.system_company==False:
@@ -102,7 +100,7 @@ def new_database_generates_files_from_personal_data(datestr, newcon, args):
                 #print ("Company will change from {} to {}".format(company.string_id(), system_company.string_id()))
 
     #products
-    new_system_products_id=newcon.cursor_one_field("select max(id)+1 from products")
+    new_system_products_id=mem.con.cursor_one_field("select max(id)+1 from products")
     new_system_products=ProductManager(mem)
     for product in mem.data.products.arr: 
         if product.system_product==False:
@@ -149,7 +147,7 @@ def new_database_generates_files_from_personal_data(datestr, newcon, args):
                 package_sql.write(system_product.insert_string("products") + ";\n")
     
     #formats
-    new_system_formats_id=newcon.cursor_one_field("select max(id)+1 from formats")
+    new_system_formats_id=mem.con.cursor_one_field("select max(id)+1 from formats")
     for product in mem.data.products.arr:
         if product.system_product==False:
             product.needStatus(1)
