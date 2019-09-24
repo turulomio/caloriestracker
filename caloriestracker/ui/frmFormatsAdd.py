@@ -25,6 +25,7 @@ class frmFormatsAdd(QDialog, Ui_frmFormatsAdd):
             self.format.amount=self.spnAmount.value()
         self.format.save()
         self.mem.con.commit()
+        self.product.needStatus(1, downgrade_to=0)
         self.accept()
 
     def on_bb_rejected(self):
