@@ -1,7 +1,6 @@
 from colorama import __version__ as colorama__version__
 from officegenerator import __version__ as officegenerator__version__
 from platform import python_version
-from stdnum import __version__ as stdnum__version__
 from psycopg2 import __version__ as psycopg2__version__
 from pytz import __version__ as pytz__version__
 from PyQt5.QtWidgets import QDialog
@@ -40,7 +39,7 @@ class frmAbout(QDialog, Ui_frmAbout):
         self.tblSoftware.settings(self.mem, "frmAbout")
         self.tblStatistics.settings(self.mem, "frmAbout")
         cp=CompaniesAndProducts(self.mem)
-        cp.qtablewidget_products_in_companies(self.tblStatistics)
+        cp.qtablewdiget_database_registers(self.tblStatistics)
         self.load_tblSoftware()
         self.tblSoftware.itemClicked.connect(self.OpenLink)
 

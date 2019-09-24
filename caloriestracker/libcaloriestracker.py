@@ -1102,6 +1102,19 @@ class CompaniesAndProducts(QObject):
             name="Personal products" if row[0]==None else row[0]
             table.setItem(i, 0, qleft(name))
             table.setItem(i, 1, qright(row[1], digits=0))
+            
+    def qtablewdiget_database_registers(self, table):
+        rows=self.mem.con.cursor_one_column("SELECT tablename FROM pg_catalog.pg_tables where schemaname='public' order by tablename") 
+        table.setColumnCount(2)
+        table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Table")))
+        table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Number of registers")))
+        table.applySettings()
+        table.clearContents()
+        table.setRowCount(len(rows))
+        for i, row in enumerate(rows):
+            table.setItem(i, 0, qleft(row))
+            table.setItem(i, 1, qnumber(self.mem.con.cursor_one_field("select count(*) from "+ row), digits=0))
+
 
 
 class Product(QObject):
