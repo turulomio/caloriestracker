@@ -4,7 +4,7 @@ from caloriestracker.admin_pg import AdminPG
 from caloriestracker.database_update import database_update
 from caloriestracker.mem import MemConsole
 from caloriestracker.libcaloriestracker import CompanyPersonal, ProductPersonal, FormatPersonal, Meal
-from caloriestracker.contribution import generate_contribution_dump, parse_contribution_dump
+from caloriestracker.contribution import generate_contribution_dump, parse_contribution_dump_generate_files_and_validates_them
 from datetime import datetime
 from os import environ
 from sys import argv
@@ -96,7 +96,7 @@ class TestCollaborationProcess(unittest.TestCase):
         filename_dump=generate_contribution_dump(mem_to_test)
 
         ##Creates other database
-        parse_contribution_dump(mem_to_test.con, filename_dump)
+        parse_contribution_dump_generate_files_and_validates_them(mem_to_test.con, filename_dump)
 
 
 #        newcon.commit()
@@ -112,7 +112,7 @@ class TestCollaborationProcess(unittest.TestCase):
 #        
 #        generate_contribution_dump(mem)
 #    
-#        parse_contribution_dump(mem)
+#        parse_contribution_dump_generate_files_and_validates_them(mem)
 #        mem.con.load_script(mem.args.update_after_contribution)
 #        mem.con.commit()
 

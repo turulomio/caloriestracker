@@ -2,7 +2,7 @@ from datetime import datetime
 from caloriestracker.libcaloriestracker import MealManager, CompanyPersonal, Meal, ProductPersonal, ProductElaborated, CompaniesAndProducts
 from caloriestracker.text_inputs import input_boolean, input_decimal, input_int, input_string
 from caloriestracker.mem import MemConsole
-from caloriestracker.contribution import generate_contribution_dump, parse_contribution_dump
+from caloriestracker.contribution import generate_contribution_dump, parse_contribution_dump_generate_files_and_validates_them
 from logging import debug
 from sys import exit
 
@@ -99,7 +99,7 @@ def main():
         exit(0)
     
     if mem.args.parse_contribution_dump!=None:
-        parse_contribution_dump(mem, mem.args.parse_contribution_dump)
+        parse_contribution_dump_generate_files_and_validates_them(mem.con, mem.args.parse_contribution_dump)
         exit(0)
         
     if mem.args.update_after_contribution!=None:
