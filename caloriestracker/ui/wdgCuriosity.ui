@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>508</width>
-    <height>78</height>
+    <height>84</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -31,7 +31,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap>:/xulpymoney/curiosity.png</pixmap>
+        <pixmap resource="../images/caloriestracker.qrc">:/caloriestracker/curiosity.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>

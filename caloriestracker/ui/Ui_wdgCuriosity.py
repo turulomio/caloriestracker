@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_wdgCuriosity(object):
     def setupUi(self, wdgCuriosity):
         wdgCuriosity.setObjectName("wdgCuriosity")
-        wdgCuriosity.resize(508, 78)
+        wdgCuriosity.resize(508, 84)
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout(wdgCuriosity)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
@@ -22,7 +22,7 @@ class Ui_wdgCuriosity(object):
         self.lblPixmap.setMinimumSize(QtCore.QSize(32, 32))
         self.lblPixmap.setMaximumSize(QtCore.QSize(32, 32))
         self.lblPixmap.setText("")
-        self.lblPixmap.setPixmap(QtGui.QPixmap(":/xulpymoney/curiosity.png"))
+        self.lblPixmap.setPixmap(QtGui.QPixmap(":/caloriestracker/curiosity.png"))
         self.lblPixmap.setScaledContents(True)
         self.lblPixmap.setObjectName("lblPixmap")
         self.horizontalLayout_3.addWidget(self.lblPixmap)
