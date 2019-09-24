@@ -37,14 +37,13 @@ class frmMain(QMainWindow, Ui_frmMain):
         self.tbMain.addSeparator()
         self.cmbUsers=QComboBox()
         self.tbMain.addWidget(self.cmbUsers)
-        self.mem.user=self.mem.data.users.find_by_id(int(self.mem.settings.value("mem/currentuser", 1)))
         self.mem.data.users.qcombobox(self.cmbUsers, self.mem.user, icons=True)
         self.cmbUsers.currentIndexChanged.connect(self.on_cmbUsers_currentIndexChanged)
         
         
     @pyqtSlot(int)
     def on_cmbUsers_currentIndexChanged(self, index):
-        self.mem.user=self.mem.data.users.find_by_id(self.cmbUsers.itemData(self.cmbUsers.currentIndex()))
+        self.mem.user=self.mem.data.users.find_by_id(int(self.cmbUsers.itemData(self.cmbUsers.currentIndex())))
         self.mem.settings.setValue("mem/currentuser", self.mem.user.id)
         self.on_actionBiometrics_triggered()
         qmessagebox("Changed user to {}".format(self.mem.user.name))        

@@ -836,6 +836,7 @@ class DBData:
         
         self.users=UserManager(self.mem, "select * from users", progress)
         self.users.load_last_biometrics()
+        self.mem.user=self.mem.data.users.find_by_id(int(self.mem.settings.value("mem/currentuser", 1)))
         
         debug("DBData took {}".format(datetime.now()-start))
 
@@ -1665,6 +1666,27 @@ class User:
                 self.last_biometrics=biometrics.first()
             else:
                 self.last_biometrics=Biometrics(self.mem)
+           
+    def is_deletable(self):
+        biometrics=self.mem.con.cursor_one_field("select count(*) from biometrics")
+        meals=self.mem.con.cursor_one_field("select count(*) from meals")
+        if biometrics+meals>0 or self.id==1:
+            return False
+        return True
+        
+    def delete(self):
+        if self.is_deletable()==True:
+            self.mem.con.execute("delete from users where id=%s", (self.id, ))
+        else:
+            debug("I couldn't delete the user because it has dependent data")
+
+    def save(self):
+        if self.id==None:
+            self.id=self.mem.con.cursor_one_field("insert into users (name, male, birthday, starts, ends) values ( %s, %s, %s, %s, %s) returning id",  
+                    (self.name, self.male, self.birthday, self.starts, self.ends))
+        else:
+            self.mem.con.execute("update users set name=%s, male=%s, birthday=%s, starts=%s, ends=%s where id=%s", 
+                    (self.name, self.male, self.birthday, self.starts, self.ends, self.id))
 
     def age(self):
         return (date.today() - self.birthday) // timedelta(days=365.2425)

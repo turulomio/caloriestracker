@@ -15,18 +15,21 @@ class wdgUsers(QWidget, Ui_wdgUsers):
     def update(self):
         self.mem.data.users.qtablewidget(self.tblUsers)
         self.lblFound.setText(self.tr("{} products found").format(self.mem.data.users.length()))
+        self.mem.frmMain.cmbUsers.blockSignals(True)
+        self.mem.data.users.qcombobox(self.mem.frmMain.cmbUsers, self.mem.user, icons=True)
+        self.mem.frmMain.cmbUsers.blockSignals(False)
 
     @pyqtSlot() 
     def on_actionUserDelete_triggered(self):
-        if self.users.selected.is_deletable()==False:
+        if self.mem.data.users.selected.is_deletable()==False:
             qmessagebox(self.tr("This product can't be removed, because is marked as not remavable"))
             return
             
         reply = QMessageBox.question(None, self.tr('Asking your confirmation'), self.tr("This action can't be undone.\nDo you want to delete this record?"), QMessageBox.Yes, QMessageBox.No)                  
         if reply==QMessageBox.Yes:
-            self.users.selected.delete()
+            self.mem.data.users.selected.delete()
             self.mem.con.commit()
-            self.mem.data.users.remove(self.users.selected)
+            self.mem.data.users.remove(self.mem.data.users.selected)
             self.update()
 
     @pyqtSlot() 
@@ -38,18 +41,10 @@ class wdgUsers(QWidget, Ui_wdgUsers):
 
     @pyqtSlot() 
     def on_actionUserEdit_triggered(self):
-        if self.users.selected.system_company==True:
-            qmessagebox(
-                self.tr("This is a system company so you can't edit it.") + "\n" +
-                self.tr("Please, if it's something wrong with it create an issue at") + "\n" + 
-                "https://github.com/turulomio/caloriestracker/issues"+ "\n" +
-                self.tr("I'll fix it as soon as posible. ;)")
-            )
-        elif self.users.selected.system_company==False:
-            from caloriestracker.ui.frmUsersAdd import frmUsersAdd
-            w=frmUsersAdd(self.mem, self.users.selected, self)
-            w.exec_()
-            self.update()
+        from caloriestracker.ui.frmUsersAdd import frmUsersAdd
+        w=frmUsersAdd(self.mem, self.mem.data.users.selected, self)
+        w.exec_()
+        self.update()
 
 
     def on_tblUsers_customContextMenuRequested(self,  pos):
@@ -68,7 +63,7 @@ class wdgUsers(QWidget, Ui_wdgUsers):
         menu.exec_(self.tblUsers.mapToGlobal(pos))
 
     def on_tblUsers_itemSelectionChanged(self):
-        self.users.cleanSelection()
+        self.mem.data.users.cleanSelection()
         for i in self.tblUsers.selectedItems():
             if i.column()==0:#only once per row
                 self.mem.data.users.selected=self.mem.data.users.arr[i.row()]

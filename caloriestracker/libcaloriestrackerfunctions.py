@@ -9,12 +9,6 @@ from os import path, makedirs, remove
 import inspect
 import socket
 
-
-_=str
-
-
-
-
 def qmessagebox(text):
     m=QMessageBox()
     m.setWindowIcon(QIcon(":/xulpymoney/coins.png"))
