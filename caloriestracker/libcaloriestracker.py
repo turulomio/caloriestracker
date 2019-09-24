@@ -201,9 +201,10 @@ class CompanySystemManager(QObject, ObjectManager_With_IdName_Selectable):
     ## It's a staticmethod due to it will be used in ProductAllManager
     @staticmethod
     def qtablewidget(self, table):        
-        table.setColumnCount(2)
+        table.setColumnCount(3)
         table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Name")))
         table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Number of products")))   
+        table.setHorizontalHeaderItem(2, QTableWidgetItem(self.tr("Last update")))
         table.applySettings()
         table.clearContents()
         table.setRowCount(self.length())
@@ -211,6 +212,7 @@ class CompanySystemManager(QObject, ObjectManager_With_IdName_Selectable):
             table.setItem(i, 0, qleft(o.fullName()))
             table.item(i, 0).setIcon(o.qicon())
             table.setItem(i, 1, qnumber(self.mem.con.cursor_one_field("select count(*) from companies, products where companies.id=products.companies_id and companies.id=%s", (o.id, ))))
+            table.setItem(i, 2, qdatetime(o.last, self.mem.localzone))
 
 
 class CompanyPersonalManager(CompanySystemManager):
@@ -345,15 +347,16 @@ class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
     ## It's a staticmethod due to it will be used in ProductAllManager
     @staticmethod
     def qtablewidget(self, table):        
-        table.setColumnCount(7)
+        table.setColumnCount(9)
         table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Name")))
         table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Company")))
-        table.setHorizontalHeaderItem(2, QTableWidgetItem(self.tr("Grams")))
-        table.setHorizontalHeaderItem(3, QTableWidgetItem(self.tr("Calories")))
-        table.setHorizontalHeaderItem(4, QTableWidgetItem(self.tr("Carbohydrates")))
-        table.setHorizontalHeaderItem(5, QTableWidgetItem(self.tr("Protein")))
-        table.setHorizontalHeaderItem(6, QTableWidgetItem(self.tr("Fat")))
-        table.setHorizontalHeaderItem(7, QTableWidgetItem(self.tr("Fiber")))
+        table.setHorizontalHeaderItem(2, QTableWidgetItem(self.tr("Last update")))
+        table.setHorizontalHeaderItem(3, QTableWidgetItem(self.tr("Grams")))
+        table.setHorizontalHeaderItem(4, QTableWidgetItem(self.tr("Calories")))
+        table.setHorizontalHeaderItem(5, QTableWidgetItem(self.tr("Carbohydrates")))
+        table.setHorizontalHeaderItem(6, QTableWidgetItem(self.tr("Protein")))
+        table.setHorizontalHeaderItem(7, QTableWidgetItem(self.tr("Fat")))
+        table.setHorizontalHeaderItem(8, QTableWidgetItem(self.tr("Fiber")))
    
         table.applySettings()
         table.clearContents()
@@ -367,12 +370,13 @@ class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
                 company=o.company.fullName()
                 
             table.setItem(i, 1, qleft(company))
-            table.setItem(i, 2, qnumber(100))
-            table.setItem(i, 3, qnumber(o.component_in_100g(eProductComponent.Calories)))
-            table.setItem(i, 4, qnumber(o.component_in_100g(eProductComponent.Carbohydrate)))
-            table.setItem(i, 5, qnumber(o.component_in_100g(eProductComponent.Protein)))
-            table.setItem(i, 6, qnumber(o.component_in_100g(eProductComponent.Fat)))
-            table.setItem(i, 7, qnumber(o.component_in_100g(eProductComponent.Fiber)))
+            table.setItem(i, 2, qdatetime(o.last, self.mem.localzone))
+            table.setItem(i, 3, qnumber(100))
+            table.setItem(i, 4, qnumber(o.component_in_100g(eProductComponent.Calories)))
+            table.setItem(i, 5, qnumber(o.component_in_100g(eProductComponent.Carbohydrate)))
+            table.setItem(i, 6, qnumber(o.component_in_100g(eProductComponent.Protein)))
+            table.setItem(i, 7, qnumber(o.component_in_100g(eProductComponent.Fat)))
+            table.setItem(i, 8, qnumber(o.component_in_100g(eProductComponent.Fiber)))
 
    
     ## Removes a product and return a boolean. NO HACE COMMIT
