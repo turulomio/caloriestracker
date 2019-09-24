@@ -23,7 +23,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Xulpymoney curiosities</string>
+        <string>Calories Tracker curiosities</string>
        </property>
        <property name="scaledContents">
         <bool>false</bool>
@@ -50,7 +50,7 @@
           <x>0</x>
           <y>0</y>
           <width>382</width>
-          <height>240</height>
+          <height>237</height>
          </rect>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_3">

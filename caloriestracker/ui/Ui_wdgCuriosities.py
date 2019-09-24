@@ -33,7 +33,7 @@ class Ui_wdgCuriosities(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 382, 240))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 382, 237))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
@@ -49,5 +49,5 @@ class Ui_wdgCuriosities(object):
 
     def retranslateUi(self, wdgCuriosities):
         _translate = QtCore.QCoreApplication.translate
-        self.lblApp.setText(_translate("wdgCuriosities", "Xulpymoney curiosities"))
+        self.lblApp.setText(_translate("wdgCuriosities", "Calories Tracker curiosities"))
 import caloriestracker.images.caloriestracker_rc
