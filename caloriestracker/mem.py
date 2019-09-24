@@ -12,7 +12,7 @@ from colorama import Fore, Style
 from caloriestracker.database_update import database_update
 from caloriestracker.package_resources import package_filename
 from signal import signal, SIGINT
-from sys import argv
+from sys import argv, exit
 from caloriestracker.translationlanguages import TranslationLanguageManager
 from logging import basicConfig, DEBUG, INFO, CRITICAL, ERROR, WARNING, info
 
@@ -122,6 +122,8 @@ class MemConsole(Mem):
         self.app.setApplicationName("caloriestracker")
         self.load_translation()
         self.con=self.connection()
+        if self.con.is_active()==False:
+            exit(1)
         database_update(self.con)
         self.load_db_data(False)
         self.user=self.data.users.find_by_id(1)
@@ -158,7 +160,6 @@ class MemConsole(Mem):
         group.add_argument('--parse_contribution_dump', help=self.tr("Parses a dump and generates sql for the package and other for the collaborator"), action="store", default=None)
         group.add_argument('--update_after_contribution',  help=self.tr("Converts data from personal database to system after collaboration"),  action="store", default=None)
         group.add_argument('--elaborated', help=self.tr("Show elaborated product"), action="store", default=None)
-        group.add_argument('test', help=self.tr("Used for testing"), action="store", default=False)
 
         args=self.parser.parse_args(args)
         #Changing types of args

@@ -237,17 +237,14 @@ class CompanyPersonalManager(CompanySystemManager):
             o=CompanyPersonal(self.mem, row)
             self.append(o)
         cur.close()
-        
-        
-        
+   
 class CompanyAllManager(QObject, ObjectManager_With_IdName_Selectable):
     ## ProductAllManager(mem)#Loads all database
     def __init__(self, *args):
         QObject.__init__(self)
         ObjectManager_With_IdName_Selectable.__init__(self)
         self.mem=args[0]
-        
-        
+
     def load_all(self):
         system=CompanySystemManager(self.mem)
         system.load_from_db("select * from companies")
