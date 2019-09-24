@@ -27,7 +27,7 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QLabel" name="lblTitulo">
+      <widget class="QLabel" name="lbl">
        <property name="font">
         <font>
          <pointsize>14</pointsize>

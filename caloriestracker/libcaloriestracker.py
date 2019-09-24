@@ -1017,12 +1017,15 @@ class CompanySystem:
 
     def __repr__(self):
         return self.fullName()
-                   
+
     def is_deletable(self):
-        if self.system_company==True:
+        products=self.mem.con.cursor_one_field("select count(*) from companies where companies_id =%s and system_company=%s", (self.id, self.system_company))
+        personalproducts=self.mem.con.cursor_one_field("select count(*) from personalcompanies where companies_id =%s and system_company=%s", (self.id, self.system_company))
+        sum=products+personalproducts
+        if self.system_company==True or sum>0:
             return False
         return True
-        
+
     def fullName(self):
         if self.mem.debuglevel=="DEBUG":
             system="S" if self.system_company==True else "P"
@@ -1235,7 +1238,11 @@ class Product(QObject):
             (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.last, self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company, self.id)))
            
     def is_deletable(self):
-        if self.system_product==True:
+        self.needStatus(1)
+        meals=self.mem.con.cursor_one_field("select count(*) from meals where products_id =%s and system_product=%s", (self.id, self.system_product))
+        products_in=self.mem.con.cursor_one_field("select count(*) from products_in_elaboratedproducts where products_id =%s and system_product=%s", (self.id, self.system_product))
+        sum=meals+products_in
+        if self.system_product==True or self.formats.length()>0 or sum>0:
             return False
         return True
         
@@ -1348,9 +1355,9 @@ class Format:
     def fullName(self):
         system="S" if self.system_format==True else "P"
         if self.mem.debuglevel=="DEBUG":
-            return "{}. #{}{}".format(self.name, system, self.id)
+            return "{} ({} g). #{}{}".format(self.name, self.amount, system, self.id)
         else:
-            return "{}".format(self.name)
+            return "{} ({} g)".format(self.name, self.amount)
 
         
     def qicon(self):

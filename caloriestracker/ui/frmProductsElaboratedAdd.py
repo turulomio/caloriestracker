@@ -82,4 +82,5 @@ class frmProductsElaboratedAdd(QDialog, Ui_frmProductsElaboratedAdd):
 
     def on_bb_rejected(self):
         self.mem.settings.setValue("frmProductsElaboratedAdd/qdialog", self.size())
+        self.reject()
 
