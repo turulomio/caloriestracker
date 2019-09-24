@@ -28,10 +28,11 @@ class wdgBiometrics(QWidget, Ui_wdgBiometrics):
         if self.viewChart!=None:
             self.layChart.removeWidget(self.viewChart)
             self.viewChart.close()
-        self.viewChart=VCWeight()
-        self.viewChart.setData(self.mem, date.today()-timedelta(days=365*3))
-        self.viewChart.generate()
-        self.layChart.addWidget(self.viewChart)
+        if self.biometrics.length()>0:
+            self.viewChart=VCWeight()
+            self.viewChart.setData(self.mem, date.today()-timedelta(days=365*3))
+            self.viewChart.generate()
+            self.layChart.addWidget(self.viewChart)
         
     @pyqtSlot()
     def on_actionBiometricsNew_triggered(self):

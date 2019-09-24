@@ -1,5 +1,5 @@
 from caloriestracker.datetime_functions import dtnaive2string
-from caloriestracker.libcaloriestracker import Product, CompanySystem, CompanySystemManager, ProductManager, Format
+from caloriestracker.libcaloriestracker import Product, CompanySystem, CompanySystemManager, ProductManager, Format, Meal
 from caloriestracker.libcaloriestrackerfunctions import b2s
 from caloriestracker.admin_pg import AdminPG
 from caloriestracker.database_update import database_update
@@ -198,6 +198,14 @@ def parse_contribution_dump_generate_files_and_validates_them(auxiliar_con, cont
         return_sql.write("\n")
     return_sql.close()
     print ("3. After generating files collaboration. Emulates launching update_table",  *print_table_status(newcon))
+    
+    ## 5. GENERATES MEALS OF PERSONAL PRODUCTS FOR TESTING
+    for origin, destiny in products_map.items():
+        origin_personal_product=ProductManager.find_by_string_id(mem_temporary.data.products, origin)
+        destiny_system_product=ProductManager.find_by_string_id(new_system_products, destiny)        
+        meal=Meal(mem_temporary, datetime.now(), origin_personal_product, 100, mem_temporary.user, origin_personal_product.system_product, None)
+        meal.save()
+        
     
     ## 4. TRIES SYSTEM.SQL
     newcon.load_script("XXXXXXXXXXXX.sql")

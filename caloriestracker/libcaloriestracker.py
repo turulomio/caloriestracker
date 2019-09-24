@@ -838,6 +838,10 @@ class DBData:
         self.users=UserManager(self.mem, "select * from users", progress)
         self.users.load_last_biometrics()
         self.mem.user=self.mem.data.users.find_by_id(int(self.mem.settings.value("mem/currentuser", 1)))
+        if self.mem.user==None:
+            self.mem.user=self.mem.data.users.find_by_id(1)#For empty databases (contribution)
+        print(self.mem.user, self.mem.user.male)
+            
         
         debug("DBData took {}".format(datetime.now()-start))
 
@@ -1619,21 +1623,22 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
             table.setItem(i, 5, qnumber(o.protein()))
             table.setItem(i, 6, qnumber(o.fat()))
             table.setItem(i, 7, qnumber(o.fiber()))
-        #Totals
-        table.setItem(self.length(), 1, qleft(self.tr("Total")))
-        table.setItem(self.length(), 2, qnumber(self.grams()))
-        table.setItem(self.length(), 3, qnumber_limited(self.calories(), self.mem.user.last_biometrics.bmr()))
-        table.setItem(self.length(), 4, qnumber_limited(self.carbohydrate(), self.mem.user.last_biometrics.carbohydrate()))
-        table.setItem(self.length(), 5, qnumber_limited(self.protein(), self.mem.user.last_biometrics.protein()))
-        table.setItem(self.length(), 6, qnumber_limited(self.fat(), self.mem.user.last_biometrics.fat()))
-        table.setItem(self.length(), 7, qnumber_limited(self.fiber(), self.mem.user.last_biometrics.fiber(), reverse=True))
-        #Recomendatios
-        table.setItem(self.length()+1, 1, qleft(self.tr("Recomendations")))
-        table.setItem(self.length()+1, 3, qnumber(self.mem.user.last_biometrics.bmr()))
-        table.setItem(self.length()+1, 4, qnumber(self.mem.user.last_biometrics.carbohydrate()))
-        table.setItem(self.length()+1, 5, qnumber(self.mem.user.last_biometrics.protein()))
-        table.setItem(self.length()+1, 6, qnumber(self.mem.user.last_biometrics.fat()))
-        table.setItem(self.length()+1, 7, qnumber(self.mem.user.last_biometrics.fiber()))
+        if self.mem.user.last_biometrics.height!=None:#Without last_biometrics
+            #Totals
+            table.setItem(self.length(), 1, qleft(self.tr("Total")))
+            table.setItem(self.length(), 2, qnumber(self.grams()))
+            table.setItem(self.length(), 3, qnumber_limited(self.calories(), self.mem.user.last_biometrics.bmr()))
+            table.setItem(self.length(), 4, qnumber_limited(self.carbohydrate(), self.mem.user.last_biometrics.carbohydrate()))
+            table.setItem(self.length(), 5, qnumber_limited(self.protein(), self.mem.user.last_biometrics.protein()))
+            table.setItem(self.length(), 6, qnumber_limited(self.fat(), self.mem.user.last_biometrics.fat()))
+            table.setItem(self.length(), 7, qnumber_limited(self.fiber(), self.mem.user.last_biometrics.fiber(), reverse=True))
+            #Recomendatios
+            table.setItem(self.length()+1, 1, qleft(self.tr("Recomendations")))
+            table.setItem(self.length()+1, 3, qnumber(self.mem.user.last_biometrics.bmr()))
+            table.setItem(self.length()+1, 4, qnumber(self.mem.user.last_biometrics.carbohydrate()))
+            table.setItem(self.length()+1, 5, qnumber(self.mem.user.last_biometrics.protein()))
+            table.setItem(self.length()+1, 6, qnumber(self.mem.user.last_biometrics.fat()))
+            table.setItem(self.length()+1, 7, qnumber(self.mem.user.last_biometrics.fiber()))
         
 class User:
     ##User(mem)
@@ -1655,6 +1660,12 @@ class User:
             init__create(args[1]['name'], args[1]['male'], args[1]['birthday'], args[1]['starts'],  args[1]['ends'], args[1]['id'])
         elif len(args)==7:#User(mem, name, male, birthday, starts, ends, id):
             init__create(*args[1:])
+    
+    def __repr__(self):
+        if self.mem.debuglevel=="DEBUG":
+            return "User: {}. #{}".format(self.name,self.id)
+        else:
+            return "{}".format(self.name)
     
     ##Must be loaded later becaouse usermanager searches in users and is not yet loaded
     def load_last_biometrics(self):

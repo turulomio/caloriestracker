@@ -44,6 +44,7 @@ class frmMain(QMainWindow, Ui_frmMain):
     @pyqtSlot(int)
     def on_cmbUsers_currentIndexChanged(self, index):
         self.mem.user=self.mem.data.users.find_by_id(int(self.cmbUsers.itemData(self.cmbUsers.currentIndex())))
+        print(self.mem.user, index)
         self.mem.settings.setValue("mem/currentuser", self.mem.user.id)
         self.on_actionBiometrics_triggered()
         qmessagebox("Changed user to {}".format(self.mem.user.name))        
