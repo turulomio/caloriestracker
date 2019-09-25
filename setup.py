@@ -216,26 +216,26 @@ class Doc(Command):
         pass
 
     def run(self):
-#        from caloriestracker.connection_pg import Connection
-#        con=Connection()
-
-#        con.user=self.user
-#        con.server=self.server
-#        con.port=self.port
-#        con.db=self.db
-
-#        con.get_password("", "")
-#        con.connect()
+        from caloriestracker.connection_pg import Connection
+        con=Connection()
+        con.user=self.user
+        con.server=self.server
+        con.port=self.port
+        con.db=self.db
+        con.get_password("", "")
+        con.connect()
+        print("Is connection active?",  con.is_active())
         
-#        rows=con.cursor_rows("select * from conceptos where id_conceptos < 100 order by id_conceptos")
-#        f=open("caloriestracker/hardcoded_strings.py", "w")
-#        f.write("from PyQt5.QtCore import QCoreApplication\n")
-#        f.write("QCoreApplication.translate('Core','Personal Management')\n")
-#        f.write("QCoreApplication.translate('Core','Cash')\n")
-#        for row in rows:
-#            f.write("QCoreApplication.translate('Core', '{}')\n".format(row["concepto"]))
-#        f.close()
-#        print("Is connection active?",  con.is_active())
+        rows=con.cursor_rows("select name from products where companies_id is Null order by name")
+        f=open("caloriestracker/hardcoded_strings.py", "w")
+        f.write("from PyQt5.QtCore import QT_TRANSLATE_NOOP,QObject\n")
+        for row in rows:
+            f.write("QT_TRANSLATE_NOOP('HardcodedStrings', '{}')\n".format(row["name"]))
+#        f.write("print(QObject.tr('bread'))\n")
+        f.write("a=QT_TRANSLATE_NOOP('HardcodedStrings', 'Bread')\n")
+#        f.write("print(QObject.tr('bread'), 'bread',a)\n")
+        f.close()
+        con.disconnect()
 
         os.system("pylupdate5 -noobsolete -verbose caloriestracker.pro")
         os.system("lrelease -qt5 caloriestracker.pro")

@@ -1126,7 +1126,7 @@ class Product(QObject):
     ##Product(mem,datetime,product,name,amount,users_id,id)
     def __init__(self, *args):        
         def init__create( name, amount, fat, protein, carbohydrate, company, last, elaboratedproducts_id, languages_id, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat, system_company, id):
-            self.name=name
+            self.name=self.tr(name)
             self.amount=amount
             self.fat=fat
             self.protein=protein
@@ -1160,6 +1160,8 @@ class Product(QObject):
             init__create(*args[1:])
         self.system_product=True
         self.status=0
+        if self.id==9 and self.system_product==True:
+            print(self.name, self.tr(self.name), self.mem.frmAccess.languages.selected.id)
 
     def __repr__(self):
         return self.fullName()

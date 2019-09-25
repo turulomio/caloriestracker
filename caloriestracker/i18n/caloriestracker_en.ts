@@ -213,439 +213,347 @@
 &apos;{}&apos;?</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="2"/>
-        <source>Personal Management</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="3"/>
-        <source>Cash</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="4"/>
-        <source>Desconocido</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="5"/>
-        <source>Inicio de Cuenta</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="6"/>
-        <source>Supermercado</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="7"/>
-        <source>Restaurante</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="8"/>
-        <source>Transferencia. Origen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="9"/>
-        <source>Transferencia. Destino</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="10"/>
-        <source>Impuestos. Devolución</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="11"/>
-        <source>Gasolina</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="12"/>
-        <source>Ocio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="13"/>
-        <source>Teléfono</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="14"/>
-        <source>Nómina</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="15"/>
-        <source>Televisión &amp; Video &amp; Cine</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="16"/>
-        <source>Casa. Comunidad</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="17"/>
-        <source>Universidad &amp; Estudios</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="18"/>
-        <source>Viajes (Billetes y autopistas)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="19"/>
-        <source>Hoteles</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="20"/>
-        <source>Loterías</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="21"/>
-        <source>Regalos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="22"/>
-        <source>Electricidad</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="23"/>
-        <source>Gas</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="24"/>
-        <source>Intereses Negativos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="25"/>
-        <source>Ropa</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="26"/>
-        <source>Médicos </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="27"/>
-        <source>Intereses Positivos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="28"/>
-        <source>Loterías Premios</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="29"/>
-        <source>Informática</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="30"/>
-        <source>Coche</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="31"/>
-        <source>Herencia</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="32"/>
-        <source>Compra producto de inversión</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="33"/>
-        <source>Pagas</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="34"/>
-        <source>Invitaciones</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="35"/>
-        <source>Otros Ingresos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="36"/>
-        <source>Casa. Compra</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="37"/>
-        <source>Venta producto de inversión</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="38"/>
-        <source>Casa. Infraestructura</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="39"/>
-        <source>Impuestos. Pago</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="40"/>
-        <source>Comisiones bancarias</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="41"/>
-        <source>Dividendos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="42"/>
-        <source>Facturacion Tarjeta</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="43"/>
-        <source>Añadido de acciones</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="44"/>
-        <source>Ajustes negativos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="45"/>
-        <source>Casa. Compra pareja</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="46"/>
-        <source>Préstamo (Me devuelven)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="47"/>
-        <source>Seguro</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="48"/>
-        <source>Boda</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="49"/>
-        <source>Regalos económicos recibidos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="50"/>
-        <source>Prima asistencia</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="51"/>
-        <source>Otros Ingresos Pareja</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="52"/>
-        <source>Casa. Asistenta</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="53"/>
-        <source>Taxi</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="54"/>
-        <source>Copas</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="55"/>
-        <source>Gimnasio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="56"/>
-        <source>Divorcio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="57"/>
-        <source>Donaciones</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="58"/>
-        <source>Garage</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="59"/>
-        <source>Comisión de custodia de valores</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="60"/>
-        <source>Casa. Alquiler</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="61"/>
-        <source>Dividendos. Venta derechos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="62"/>
-        <source>Renta fija. Pago cupón corrido</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="63"/>
-        <source>Pareja. Apoyo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="64"/>
-        <source>Renta fija. Cobro cupón corrido</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="65"/>
-        <source>Renta fija. Pago cupón</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="66"/>
-        <source>Credit card refund</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="67"/>
-        <source>HL adjustment income</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="68"/>
-        <source>HL adjustment expense</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="69"/>
-        <source>HL Guarantee payment</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="70"/>
-        <source>HL Guarantee return</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="71"/>
-        <source>HL Operation commission</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="72"/>
-        <source>HL Paid interest</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="73"/>
-        <source>HL Received interest</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="74"/>
-        <source>Rollover Paid</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="75"/>
-        <source>Rollover Received</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>FormatManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1406"/>
+        <location filename="../libcaloriestracker.py" line="1408"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1407"/>
+        <location filename="../libcaloriestracker.py" line="1409"/>
         <source>Grams</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>HardcodedStrings</name>
+    <message>
+        <location filename="../hardcoded_strings.py" line="2"/>
+        <source>Aceite de girasol</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="3"/>
+        <source>Aceite de oliva virgen extra</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="4"/>
+        <source>Agua</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="5"/>
+        <source>Ajo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="6"/>
+        <source>Arroz crudo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="7"/>
+        <source>Banana</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="8"/>
+        <source>Barritas de arándanos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="9"/>
+        <source>Bebida de arándanos y frutas rojas</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="57"/>
+        <source>Bread</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="11"/>
+        <source>Cacahuetes fritos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="12"/>
+        <source>Cebolla</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="13"/>
+        <source>Cerveza sin alcohol</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="14"/>
+        <source>Cola Cao Original</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="15"/>
+        <source>Costillas de cerdo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="16"/>
+        <source>Croquetas de jamón</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="17"/>
+        <source>Espárragos trigueros</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="18"/>
+        <source>Gambas</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="19"/>
+        <source>Helado</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="20"/>
+        <source>Hojaldre de langostinos y puerros</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="21"/>
+        <source>Huevos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="22"/>
+        <source>Huevos fritos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="23"/>
+        <source>Jamón serrano</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="24"/>
+        <source>Kiwi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="25"/>
+        <source>Lambrusco</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="26"/>
+        <source>Leche condensada desnatada. Nutricia</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="27"/>
+        <source>Leche entera</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="28"/>
+        <source>Leche evaporada</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="29"/>
+        <source>Mantequilla</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="30"/>
+        <source>Manzana</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="31"/>
+        <source>Mayonesa</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="32"/>
+        <source>Menestra de verduras</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="33"/>
+        <source>Mermelada</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="34"/>
+        <source>Mermelada de fresa</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="35"/>
+        <source>Miel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="36"/>
+        <source>Mousse de foie de pato</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="37"/>
+        <source>Nectarina</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="38"/>
+        <source>Palmera de chocolate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="39"/>
+        <source>Pan blanco</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="40"/>
+        <source>Pan de molde</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="41"/>
+        <source>Paraguaya</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="42"/>
+        <source>Patatas fritas</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="43"/>
+        <source>Pera</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="44"/>
+        <source>Picadillo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="45"/>
+        <source>Pimiento verde</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="46"/>
+        <source>Pimientos de padrón</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="47"/>
+        <source>Pizza genérica de masa gruesa con queso</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="48"/>
+        <source>Plátano</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="49"/>
+        <source>Puerro</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="50"/>
+        <source>Queso de cabra</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="51"/>
+        <source>Queso marcarpone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="52"/>
+        <source>Ron</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="53"/>
+        <source>Setas</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="54"/>
+        <source>Tortilla de patata</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="55"/>
+        <source>Uva</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="56"/>
+        <source>Zanahoria</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MealManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1624"/>
+        <location filename="../libcaloriestracker.py" line="1626"/>
         <source>Hour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1625"/>
+        <location filename="../libcaloriestracker.py" line="1627"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1626"/>
+        <location filename="../libcaloriestracker.py" line="1628"/>
         <source>Grams</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1627"/>
+        <location filename="../libcaloriestracker.py" line="1629"/>
         <source>Calories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1628"/>
+        <location filename="../libcaloriestracker.py" line="1630"/>
         <source>Carbohydrates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1629"/>
+        <location filename="../libcaloriestracker.py" line="1631"/>
         <source>Protein</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1630"/>
+        <location filename="../libcaloriestracker.py" line="1632"/>
         <source>Fat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1631"/>
+        <location filename="../libcaloriestracker.py" line="1633"/>
         <source>Fiber</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1648"/>
+        <location filename="../libcaloriestracker.py" line="1650"/>
         <source>Total</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1656"/>
+        <location filename="../libcaloriestracker.py" line="1658"/>
         <source>Recomendations</source>
         <translation type="unfinished"></translation>
     </message>
@@ -740,7 +648,7 @@
 <context>
     <name>Product</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1195"/>
+        <location filename="../libcaloriestracker.py" line="1197"/>
         <source>Elaborated by me</source>
         <translation type="unfinished"></translation>
     </message>
@@ -880,32 +788,32 @@
 <context>
     <name>UserManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1742"/>
+        <location filename="../libcaloriestracker.py" line="1744"/>
         <source>Loading {0} users from database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1745"/>
+        <location filename="../libcaloriestracker.py" line="1747"/>
         <source>Loading users...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1768"/>
+        <location filename="../libcaloriestracker.py" line="1770"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1769"/>
+        <location filename="../libcaloriestracker.py" line="1771"/>
         <source>Male</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1770"/>
+        <location filename="../libcaloriestracker.py" line="1772"/>
         <source>Birthday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1771"/>
+        <location filename="../libcaloriestracker.py" line="1773"/>
         <source>Starts</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1529,22 +1437,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmMain.py" line="32"/>
+        <location filename="../ui/frmMain.py" line="33"/>
         <source>Calories Tracker 2019-{0} &#xa9; (Admin mode)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmMain.py" line="35"/>
+        <location filename="../ui/frmMain.py" line="36"/>
         <source>Calories Tracker 2019-{0} &#xa9;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmMain.py" line="54"/>
+        <location filename="../ui/frmMain.py" line="58"/>
         <source>Disconnecting due to {} minutes of inactivity.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmMain.py" line="176"/>
+        <location filename="../ui/frmMain.py" line="180"/>
         <source>Update products from Internet</source>
         <translation type="unfinished"></translation>
     </message>

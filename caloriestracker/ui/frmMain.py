@@ -12,6 +12,7 @@ from caloriestracker.ui.frmSettings import frmSettings
 from caloriestracker.version import __versiondate__
 from os import environ
 
+import caloriestracker.hardcoded_strings
 class frmMain(QMainWindow, Ui_frmMain):
     def __init__(self, mem, parent = 0,  flags = False):
         QMainWindow.__init__(self, None)
@@ -40,6 +41,9 @@ class frmMain(QMainWindow, Ui_frmMain):
         self.mem.data.users.qcombobox(self.cmbUsers, self.mem.user, icons=True)
         self.cmbUsers.currentIndexChanged.connect(self.on_cmbUsers_currentIndexChanged)
         
+        print(self.tr(caloriestracker.hardcoded_strings.a))
+        b="Bread"
+        print(self.tr(b))
         
     @pyqtSlot(int)
     def on_cmbUsers_currentIndexChanged(self, index):
