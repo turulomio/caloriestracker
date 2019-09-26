@@ -1160,8 +1160,6 @@ class Product(QObject):
             init__create(*args[1:])
         self.system_product=True
         self.status=0
-        if self.id==9 and self.system_product==True:
-            print(self.name, self.tr(self.name), self.mem.frmAccess.languages.selected.id)
 
     def __repr__(self):
         return self.fullName()
