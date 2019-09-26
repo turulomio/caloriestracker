@@ -726,19 +726,20 @@ class ProductInElaboratedProductManager(QObject, ObjectManager_With_IdDatetime_S
         maxlength=maxname+2+7+2+7+2+7+2+7+2+7+2+7
     
         print (Style.BRIGHT+ "="*(maxlength) + Style.RESET_ALL)
-        print (Style.BRIGHT+ "ELABORATED PRODUCT '{}' NUTRICIONAL REPORT".format(self.elaboratedproduct.name.upper()).center(maxlength,' ') + Style.RESET_ALL)
+        print (Style.BRIGHT+ self.tr("ELABORATED PRODUCT '{}' NUTRICIONAL REPORT").format(self.elaboratedproduct.name.upper()).center(maxlength,' ') + Style.RESET_ALL)
         print (Style.BRIGHT+ "="*(maxlength) + Style.RESET_ALL)
 
-        print (Style.BRIGHT+ "{}  {}  {}  {}  {}  {}  {}".format("NAME".ljust(maxname," "),"GRAMS".rjust(7,' '), "CALORIE".rjust(7,' '), "CARBOHY".rjust(7,' '), "PROTEIN".rjust(7,' '), "FAT".rjust(7,' '), "FIBER".rjust(7,' ')) + Style.RESET_ALL)
+        print (Style.BRIGHT+ "{}  {}  {}  {}  {}  {}  {}".format(self.tr("NAME").ljust(maxname," "),self.tr("GRAMS").rjust(7,' '), self.tr("CALORIE").rjust(7,' '), self.tr("CARBOHY").rjust(7,' '), self.tr("PROTEIN").rjust(7,' '), self.tr("FAT").rjust(7,' '), self.tr("FIBER").rjust(7,' ')) + Style.RESET_ALL)
         for product_in in self.arr:
             print ( "{}  {}  {}  {}  {}  {}  {}".format(product_in.fullName().ljust(maxname), a2s(product_in.amount),a2s(product_in.calories()), a2s(product_in.carbohydrate()), a2s(product_in.protein()), a2s(product_in.fat()),a2s(product_in.fiber())) + Style.RESET_ALL)
 
         print (Style.BRIGHT+ "-"*(maxlength) + Style.RESET_ALL)
-        total="ELABORATED WITH {} PRODUCTS".format(self.length())
+        total=self.tr("ELABORATED WITH {} PRODUCTS").format(self.length())
         print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}  {}".format(total.ljust(maxname), a2s(self.grams()), a2s(self.calories()), a2s(self.carbohydrate()), a2s(self.protein()), a2s(self.fat()), a2s(self.fiber())) + Style.RESET_ALL)
-        recomendations="FINAL PRODUCT"
+        recomendations=self.tr("FINAL PRODUCT")
         product=self.mem.data.products.find_by_elaboratedproducts_id(self.elaboratedproduct.id)
         print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}  {}".format(recomendations.ljust(maxname), a2s(product.amount), a2s(product.calories), a2s(product.carbohydrate), a2s(product.protein), a2s(product.fat), a2s(product.fiber)) + Style.RESET_ALL)
+        print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}  {}".format(self.tr("FINAL PRODUCT (100G)").ljust(maxname), a2s(100), a2s(product.component_in_100g(eProductComponent.Calories)), a2s(product.component_in_100g(eProductComponent.Carbohydrate)), a2s(product.component_in_100g(eProductComponent.Protein)), a2s(product.component_in_100g(eProductComponent.Fat)), a2s(product.component_in_100g(eProductComponent.Fiber))) + Style.RESET_ALL)
         print (Style.BRIGHT + "="*(maxlength) + Style.RESET_ALL)
 
 
@@ -839,9 +840,7 @@ class DBData:
         self.users.load_last_biometrics()
         self.mem.user=self.mem.data.users.find_by_id(int(self.mem.settings.value("mem/currentuser", 1)))
         if self.mem.user==None:
-            self.mem.user=self.mem.data.users.find_by_id(1)#For empty databases (contribution)
-        print(self.mem.user, self.mem.user.male)
-            
+            self.mem.user=self.mem.data.users.find_by_id(1)#For empty databases (contribution)            
         
         debug("DBData took {}".format(datetime.now()-start))
 

@@ -109,23 +109,31 @@ class MemConsole(Mem):
     def __init__(self):
         Mem.__init__(self)
         
-        self.settings=QSettings()
-        self.localzone=self.settings.value("mem/localzone", "Europe/Madrid")
+
     def __del__(self):
         self.settings.sync()
+
     def run(self, args=None):
         self.args=self.parse_arguments(args)
         self.addDebugSystem(self.args.debug) #Must be before QCoreApplication
+        
         self.app=QCoreApplication(argv)
         self.app.setOrganizationName("caloriestracker")
         self.app.setOrganizationDomain("caloriestracker")
         self.app.setApplicationName("caloriestracker")
+        
+        self.settings=QSettings()
+        self.localzone=self.settings.value("mem/localzone", "Europe/Madrid")
         self.load_translation()
+        
         self.con=self.connection()
         if self.con.is_active()==False:
             exit(1)
+        
         database_update(self.con)
+        
         self.load_db_data(False)
+        
         self.user=self.data.users.find_by_id(1)
                 
     def load_translation(self):

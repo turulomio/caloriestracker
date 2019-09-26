@@ -8,6 +8,7 @@ from sys import exit
 
 def main():
     mem=MemConsole()
+    
     mem.run()   
     debug(mem.tr("Start mem took {}".format(datetime.now()-mem.inittime)))
 
