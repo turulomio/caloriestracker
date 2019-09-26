@@ -165,6 +165,8 @@ class MemConsole(Mem):
         #Changing types of args
         args.date=string2date(args.date)
         args.users_id=int(args.users_id)
+        if args.elaborated!=None:
+            args.elaborated=int(args.elaborated)
         return args
 
 class MemCaloriestracker(Mem):

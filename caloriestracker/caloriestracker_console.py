@@ -1,5 +1,5 @@
 from datetime import datetime
-from caloriestracker.libcaloriestracker import MealManager, CompanyPersonal, Meal, ProductPersonal, ProductElaborated, CompaniesAndProducts
+from caloriestracker.libcaloriestracker import MealManager, CompanyPersonal, Meal, ProductPersonal, CompaniesAndProducts
 from caloriestracker.text_inputs import input_boolean, input_decimal, input_int, input_string
 from caloriestracker.mem import MemConsole
 from caloriestracker.contribution import generate_contribution_dump, parse_contribution_dump_generate_files_and_validates_them
@@ -24,9 +24,8 @@ def main():
         print("CompanySystem added with id={}".format(o.id))
         exit(0)
     if mem.args.elaborated!=None:
-       elaborated=ProductElaborated(mem,mem.args.elaborated)
-       elaborated.register_in_personal_products()
-       mem.con.commit()
+       elaborated=mem.data.elaboratedproducts.find_by_id(mem.args.elaborated)
+       elaborated.load_products_in()
        elaborated.show_table()
        exit(0)
     if mem.args.add_meal==True:
