@@ -1,0 +1,13 @@
+INSERT INTO public.formats(name, amount, last, products_id, system_product, id) VALUES ('Unidad', 125, NOW(), 39, TRUE, 4);
+INSERT INTO public.formats(name, amount, last, products_id, system_product, id) VALUES ('Lata', 80, NOW(), 93, TRUE, 5);
+INSERT INTO public.formats(name, amount, last, products_id, system_product, id) VALUES ('Pastilla', 12, NOW(), 63, TRUE, 6);
+INSERT INTO public.formats(name, amount, last, products_id, system_product, id) VALUES ('Barrita', 20, NOW(), 64, TRUE, 7);
+INSERT INTO public.formats(name, amount, last, products_id, system_product, id) VALUES ('Unidad', 125, NOW(), 1, TRUE, 8);
+INSERT INTO public.formats(name, amount, last, products_id, system_product, id) VALUES ('Unidad', 100, NOW(), 17, TRUE, 9);
+INSERT INTO public.formats(name, amount, last, products_id, system_product, id) VALUES ('Unidad', 100, NOW(), 33, TRUE, 10);
+INSERT INTO public.formats(name, amount, last, products_id, system_product, id) VALUES ('Unidad', 100, NOW(), 69, TRUE, 11);
+INSERT INTO public.formats(name, amount, last, products_id, system_product, id) VALUES ('Unidad', 300, NOW(), 41, TRUE, 12);
+INSERT INTO public.formats(name, amount, last, products_id, system_product, id) VALUES ('Bandeja', 250, NOW(), 23, TRUE, 13);
+INSERT INTO public.formats(name, amount, last, products_id, system_product, id) VALUES ('Lata', 75, NOW(), 83, TRUE, 14);
+INSERT INTO public.formats(name, amount, last, products_id, system_product, id) VALUES ('Unidad', 50, NOW(), 58, TRUE, 15);
+INSERT INTO public.formats(name, amount, last, products_id, system_product, id) VALUES ('Unidad', 125, NOW(), 43, TRUE, 16);
