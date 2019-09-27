@@ -494,6 +494,9 @@ class ProductElaborated:
             self.mem.con.execute("""update elaboratedproducts set name=%s, final_amount=%s
             where id=%s""", 
             (self.name, self.final_amount, self.id))
+        self.needStatus(1)
+        self.register_in_personal_products()
+
             
     def is_deletable(self):
         self.needStatus(1)
@@ -626,6 +629,8 @@ class ProductInElaboratedProduct:
                     system_product=%s
                 where id=%s""", 
                 (self.product.id, self.amount, self.elaboratedproduct.id, self.system_product,  self.id))
+        self.elaboratedproduct.needStatus(1)
+        self.elaboratedproduct.register_in_personal_products()
 
     def delete(self):
         self.mem.con.execute("delete from products_in_elaboratedproducts where id=%s", (self.id, ))
