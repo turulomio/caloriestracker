@@ -16,7 +16,8 @@ class wdgBiometrics(QWidget, Ui_wdgBiometrics):
         self.mem=mem
         self.biometrics=BiometricsManager(self.mem)
         self.tblBiometrics.settings(self.mem, "wdgBiometrics")    
-        self.viewChart=None
+        self.viewChartHeight=None
+        self.viewChartWeight=None
         self.wdgYM.initiate(1900,  date.today().year, date.today().year, date.today().month)
         
     @pyqtSlot() 
@@ -25,14 +26,21 @@ class wdgBiometrics(QWidget, Ui_wdgBiometrics):
         sql=self.mem.con.mogrify("select * from biometrics where users_id=%s and date_part('year',datetime)=%s and date_part('month',datetime)=%s order by datetime", (self.mem.user.id, self.wdgYM.year, self.wdgYM.month ))
         self.biometrics=BiometricsManager(self.mem, sql, True)
         self.biometrics.qtablewidget(self.tblBiometrics)
-        if self.viewChart!=None:
-            self.layChart.removeWidget(self.viewChart)
-            self.viewChart.close()
+        if self.viewChartHeight!=None:
+            self.layHeight.removeWidget(self.viewChartHeight)
+            self.viewChartHeight.close()
+            self.layWeight.removeWidget(self.viewChartWeight)
+            self.viewChartWeight.close()
         if self.biometrics.length()>0:
-            self.viewChart=VCWeight()
-            self.viewChart.setData(self.mem, date.today()-timedelta(days=365*3))
-            self.viewChart.generate()
-            self.layChart.addWidget(self.viewChart)
+            self.viewChartHeight=VCHeight()
+            self.viewChartHeight.setData(self.mem, date.today()-timedelta(days=365*3))
+            self.viewChartHeight.generate()
+            self.layHeight.addWidget(self.viewChartHeight)
+            
+            self.viewChartWeight=VCWeight()
+            self.viewChartWeight.setData(self.mem, date.today()-timedelta(days=365*3))
+            self.viewChartWeight.generate()
+            self.layWeight.addWidget(self.viewChartWeight)
         
     @pyqtSlot()
     def on_actionBiometricsNew_triggered(self):
@@ -107,6 +115,38 @@ class VCWeight(VCTemporalSeries):
             self.weight.appendDV(dtaware_day_start_from_date(row['datetime'], self.mem.localzone),  row['avg'])
         self.sma_data=self.weight.sma(self.sma_period)
 
+    ## Just draw the chart with selected options. To update it just close this object and create another one
+    def generate(self):
+        #Progress dialog 
+        self.setProgressDialogEnabled(True)
+        self.setProgressDialogAttributes(
+                None, 
+                self.tr("Loading {} biometrics").format(self.weight.length()), 
+                QIcon(":caloriestracker/books.png"), 
+                0, 
+                self.weight.length()
+        )
+        weight=self.appendTemporalSeries(self.tr("Weight evolution"), None)
+        sma=self.appendTemporalSeries(self.tr("Simple movil average {}").format(self.sma_period), None)
+        for i in range(self.weight.length()):
+            #Shows progress dialog
+            self.setProgressDialogNumber(i+1)
+            #Weight
+            self.appendTemporalSeriesData(weight, self.weight.arr[i].datetime, self.weight.arr[i].value)
+            #sma
+            if i>=self.sma_period:
+                self.appendTemporalSeriesData(sma, self.sma_data.arr[i-self.sma_period].datetime, self.sma_data.arr[i-self.sma_period].value)
+        self.display()
+
+
+##View chart of an biometrics
+class VCHeight(VCTemporalSeries):
+    def __init__(self):
+        VCTemporalSeries.__init__(self)
+        self.setTitle(self.tr("Height evolution chart"))
+        
+    def setData(self, mem, date_from):
+        self.mem=mem
         sql=self.mem.con.mogrify("""
             select 
                 max(height), 
@@ -129,22 +169,15 @@ class VCWeight(VCTemporalSeries):
         self.setProgressDialogEnabled(True)
         self.setProgressDialogAttributes(
                 None, 
-                self.tr("Loading {} biometrics").format(self.weight.length()), 
+                self.tr("Loading {} biometrics").format(self.height.length()), 
                 QIcon(":caloriestracker/books.png"), 
                 0, 
-                self.weight.length()
+                self.height.length()
         )
-        weight=self.appendTemporalSeries(self.tr("Weight evolution"), None)
-        sma=self.appendTemporalSeries(self.tr("Simple movil average {}").format(self.sma_period), None)
         height=self.appendTemporalSeries(self.tr("Height evolution"), None)
-        for i in range(self.weight.length()):
+        for i in range(self.height.length()):
             #Shows progress dialog
             self.setProgressDialogNumber(i+1)
-            #Weight
-            self.appendTemporalSeriesData(weight, self.weight.arr[i].datetime, self.weight.arr[i].value)
-            #sma
-            if i>=self.sma_period:
-                self.appendTemporalSeriesData(sma, self.sma_data.arr[i-self.sma_period].datetime, self.sma_data.arr[i-self.sma_period].value)
             #height
             self.appendTemporalSeriesData(height, self.height.arr[i].datetime, self.height.arr[i].value)
         self.display()
