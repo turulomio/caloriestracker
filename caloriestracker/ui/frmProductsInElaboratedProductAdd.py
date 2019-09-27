@@ -39,6 +39,7 @@ class frmProductsInElaboratedProductAdd(QDialog, Ui_frmProductsInElaboratedProdu
             self.productinelaboratedproduct.amount=self.spnAmount.value()
             self.productinelaboratedproduct.system_product=self.product.system_product
         self.productinelaboratedproduct.save()
+        self.elaboratedproduct.register_in_personal_products()
         self.mem.con.commit()
         self.accept()
 

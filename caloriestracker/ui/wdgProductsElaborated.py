@@ -15,18 +15,19 @@ class wdgProductsElaborated(QWidget, Ui_wdgProductsElaborated):
         self.resize(self.mem.settings.value("wdgProductsElaborated/qdialog", QSize(800, 600)))
         self.tblProductsElaborated.settings(self.mem, "wdgProductsElaborated")
         self.elaboratedproducts=ProductElaboratedManager(self.mem)
+        self.on_cmd_pressed()
 
     @pyqtSlot() 
     def on_actionProductDelete_triggered(self):
-        if self.products.selected.is_deletable()==False:
+        if self.elaboratedproducts.selected.is_deletable()==False:
             qmessagebox(self.tr("This elaborated product can't be removed, because is marked as not remavable"))
             return
 
         reply = QMessageBox.question(None, self.tr('Asking your confirmation'), self.tr("This action can't be undone.\nDo you want to delete this record?"), QMessageBox.Yes, QMessageBox.No)                  
         if reply==QMessageBox.Yes:
-            self.products.selected.delete()
+            self.elaboratedproducts.selected.delete()
             self.mem.con.commit()
-            self.mem.data.products.remove(self.products.selected)
+            self.mem.data.elaboratedproducts.remove(self.elaboratedproducts.selected)
             self.on_cmd_pressed()
 
     @pyqtSlot() 

@@ -494,13 +494,22 @@ class ProductElaborated:
             self.mem.con.execute("""update elaboratedproducts set name=%s, final_amount=%s
             where id=%s""", 
             (self.name, self.final_amount, self.id))
-        self.register_in_personal_products()
+            
+    def is_deletable(self):
+        self.needStatus(1)
+        if self.products_in.length()>0:
+            return False
+        
+        selected=self.mem.data.products.find_by_elaboratedproducts_id(self.id)
+        if selected!=None and selected.is_deletable()==False:
+            return False
+        return True
 
     def delete(self):
         if self.is_deletable()==True:
-            self.mem.con.execute("delete from elaboratedproduct where id=%s", (self.id, ))
+            self.mem.con.execute("delete from elaboratedproducts where id=%s", (self.id, ))
         else:
-            debug("I did not delete elaboratedproduct because is not deletable")
+            debug("I did not delete the elaborated product because is not deletable")
         
 
 class ProductElaboratedManager(QObject, ObjectManager_With_IdName_Selectable):
@@ -576,7 +585,7 @@ class ProductInElaboratedProduct:
         return self.amount * self.product.carbohydrate/self.product.amount
 
     def salt(self):
-        return self.amount * self.product.salt/self.product.amoun
+        return self.amount * self.product.salt/self.product.amount
 
     def fiber(self):
         return self.amount * self.product.fiber/self.product.amount

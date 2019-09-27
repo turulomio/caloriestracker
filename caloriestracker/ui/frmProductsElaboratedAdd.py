@@ -68,7 +68,7 @@ class frmProductsElaboratedAdd(QDialog, Ui_frmProductsElaboratedAdd):
     def on_bb_accepted(self):
         if self.elaboratedproduct==None:        
             self.elaboratedproduct=ProductElaborated(self.mem)
-            self.elaboratedproduct.name=self.txtName.text(), 
+            self.elaboratedproduct.name=self.txtName.text()
             self.elaboratedproduct.final_amount=self.spnFinalAmount.value()
             self.mem.data.elaboratedproducts.append(self.elaboratedproduct)
             self.mem.data.elaboratedproducts.order_by_name()
