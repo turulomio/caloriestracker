@@ -771,7 +771,7 @@ class ProductInElaboratedProductManager(QObject, ObjectManager_With_IdDatetime_S
         table.clearContents()
         table.setRowCount(self.length()+1)
         for i, o in enumerate(self.arr):
-            table.setItem(i, 0, qleft(o.product.name))
+            table.setItem(i, 0, qleft(o.product.fullName()))
             table.setItem(i, 1, qright(o.amount))
             table.setItem(i, 2, qright(o.calories()))
             table.setItem(i, 3, qright(o.carbohydrate()))
