@@ -22,7 +22,7 @@ If you use another distribution, you nee to install PyQtChart and PyQtWebEngine 
 Install in Windows
 ==================
 
-You just download caloriestracker-X.X.X.exe and caloriestracker_init-X.X.X.exe and execute them. They are portable apps so they took a little more time to start.
+You just download caloriestracker-X.X.X.exe and caloriestracker_init-X.X.X.exe and execute them. They are portable apps so they took a little more time to start, be patient.
 
 Install in Windows with Python
 ==============================
@@ -32,7 +32,9 @@ Open a CMD console
 
 `pip install caloriestracker`
 
-If you want to create a Desktop shortcut you can write in console
+Now you have in the python scripts path `caloriestracker.exe` and `caloriestracker_init.exe`
+
+If you want to create a Desktop shortcut, for this commands, you can write in console
 
 `caloriestracker_shortcuts`
 

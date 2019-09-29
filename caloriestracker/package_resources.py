@@ -2,7 +2,7 @@
 ## DO NOT UPDATE IT IN YOUR CODE IT WILL BE REPLACED USING FUNCTION IN README
 
 from pkg_resources import resource_filename
-from os import path
+from os import path, listdir
 from logging import info, debug
 
 ## Returns the path searching in a pkg_resource model and a url. Due to PYinstaller packager doesn't supportpkg_resource
@@ -21,3 +21,11 @@ def package_filename(module, url):
             return filename
     debug("Not found {} in module {}".format(url, module))
 
+def package_listdir(module, url):
+    for dirname in [
+            resource_filename(module, url), #Used in pypi and Linux
+            url, #Used in pyinstaller --onedir, becaouse pkg_resources is not supported
+            resource_filename(module,"../{}".format(url)), #Used in pyinstaller --onefile, becaouse pkg_resources is not supported
+        ]:
+        if dirname!=None and path.isdir(dirname):
+            return listdir(dirname)

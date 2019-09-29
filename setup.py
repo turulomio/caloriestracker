@@ -51,8 +51,6 @@ class PyInstaller(Command):
     ## @param module strings with the module to import
     ## @param name string with the name of the name of the file
     def entry_point(self,module,name):
-        from stdnum import __file__
-        iban_dat=os.path.dirname(__file__)+"/iban.dat" #Due to package resources in pyinstaller doesn't work fine 
         filename=module.replace(".","_")+".py"
         f=open(filename,"w")
         f.write("""import {0}
@@ -68,13 +66,13 @@ print(sys.path)
         ##Para depurar poner --debug bootloader y quitar --onefile y --windowed
         os.system("""pyinstaller -n {}-{} --icon caloriestracker/images/caloriestracker.ico --onefile --windowed \
             --noconfirm  --distpath ./dist  --clean {}  \
+            --add-data caloriestracker/i18n/caloriestracker_en.qm;i18n \
             --add-data caloriestracker/i18n/caloriestracker_es.qm;i18n \
             --add-data caloriestracker/i18n/caloriestracker_fr.qm;i18n \
             --add-data caloriestracker/i18n/caloriestracker_ro.qm;i18n \
             --add-data caloriestracker/i18n/caloriestracker_ru.qm;i18n \
-            --add-data caloriestracker/sql/caloriestracker.sql;sql \
-            --add-data "{};stdnum" \
-        """.format(name,__version__,filename, iban_dat))
+            --add-data caloriestracker/sql/*.sql;sql
+        """.format(name,__version__,filename))
 
 class Compile(Command):
     description = "Compile ui and images"
