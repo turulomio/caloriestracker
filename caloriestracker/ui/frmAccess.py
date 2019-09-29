@@ -85,7 +85,7 @@ class frmAccess(QDialog, Ui_frmAccess):
             self.accept()
         else:
             self.qmessagebox(self.tr("Error conecting to {} database in {} server").format(self.con.db, self.con.server))
-            self.reject()
+            return
 
     @pyqtSlot() 
     def on_cmdYN_rejected(self):
@@ -93,7 +93,7 @@ class frmAccess(QDialog, Ui_frmAccess):
 
     def qmessagebox(self,  text):
         m=QMessageBox()
-        m.setWindowIcon(self.qicon)
+        m.setWindowIcon(self.icon)
         m.setIcon(QMessageBox.Information)
         m.setText(text)
         m.exec_()
