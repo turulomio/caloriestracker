@@ -7,7 +7,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1458</width>
+    <width>811</width>
     <height>625</height>
    </rect>
   </property>
@@ -45,13 +45,13 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1458</width>
-     <height>34</height>
+     <width>811</width>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAyuda">
     <property name="title">
-     <string>He&amp;lp</string>
+     <string>&amp;Help</string>
     </property>
     <addaction name="actionAbout"/>
     <addaction name="separator"/>
@@ -61,10 +61,8 @@
    </widget>
    <widget class="QMenu" name="menuXulpymoney">
     <property name="title">
-     <string>Calories tracker</string>
+     <string>C&amp;alories tracker</string>
     </property>
-    <addaction name="actionUsers"/>
-    <addaction name="actionBiometrics"/>
     <addaction name="separator"/>
     <addaction name="actionMemory"/>
     <addaction name="separator"/>
@@ -74,7 +72,7 @@
    </widget>
    <widget class="QMenu" name="menuProducts">
     <property name="title">
-     <string>Prod&amp;ucts</string>
+     <string>&amp;Products</string>
     </property>
     <addaction name="separator"/>
     <addaction name="actionProducts"/>
@@ -84,19 +82,29 @@
    </widget>
    <widget class="QMenu" name="menuMealss">
     <property name="title">
-     <string>Meals</string>
+     <string>&amp;Meals</string>
     </property>
     <addaction name="actionMeals"/>
    </widget>
    <widget class="QMenu" name="menuCompanies">
     <property name="title">
-     <string>Companies</string>
+     <string>&amp;Companies</string>
     </property>
     <addaction name="actionCompanies"/>
     <addaction name="separator"/>
     <addaction name="actionCompaniesAdd"/>
    </widget>
+   <widget class="QMenu" name="menuUsers">
+    <property name="title">
+     <string>&amp;Users</string>
+    </property>
+    <addaction name="actionUsers"/>
+    <addaction name="separator"/>
+    <addaction name="actionBiometricsAdd"/>
+    <addaction name="actionBiometrics"/>
+   </widget>
    <addaction name="menuXulpymoney"/>
+   <addaction name="menuUsers"/>
    <addaction name="menuCompanies"/>
    <addaction name="menuProducts"/>
    <addaction name="menuMealss"/>
@@ -126,11 +134,15 @@
    <addaction name="actionElaboratedProducts"/>
    <addaction name="actionCompanies"/>
    <addaction name="actionProducts"/>
+   <addaction name="separator"/>
+   <addaction name="actionSettings"/>
+   <addaction name="actionCuriosities"/>
+   <addaction name="actionExit"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <widget class="QToolBar" name="tbSettings">
+  <widget class="QToolBar" name="tbUsers">
    <property name="windowTitle">
-    <string>Settings toolbar</string>
+    <string>toolBar</string>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -138,10 +150,6 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionUsers"/>
-   <addaction name="actionSettings"/>
-   <addaction name="actionCuriosities"/>
-   <addaction name="actionExit"/>
   </widget>
   <action name="actionExit">
    <property name="icon">

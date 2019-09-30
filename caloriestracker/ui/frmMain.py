@@ -36,8 +36,11 @@ class frmMain(QMainWindow, Ui_frmMain):
             self.setWindowTitle(self.tr("Calories Tracker 2019-{0} \xa9").format(__versiondate__.year))
             
         self.tbMain.addSeparator()
+        self.lblUsers=QLabel()
+        self.lblUsers.setText(self.tr("Select a user"))
+        self.tbUsers.addWidget(self.lblUsers)
         self.cmbUsers=QComboBox()
-        self.tbMain.addWidget(self.cmbUsers)
+        self.tbUsers.addWidget(self.cmbUsers)
         self.mem.data.users.qcombobox(self.cmbUsers, self.mem.user, icons=True)
         self.cmbUsers.currentIndexChanged.connect(self.on_cmbUsers_currentIndexChanged)
         
