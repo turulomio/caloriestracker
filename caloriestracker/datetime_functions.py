@@ -7,7 +7,7 @@
 
 from datetime import timedelta, datetime, date, time
 from pytz import timezone
-from logging import debug, error
+from logging import error
 
 ## Types for dt strings. Used in dtaware2string function
 class eDtStrings:

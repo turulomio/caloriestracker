@@ -5,8 +5,11 @@
 from PyQt5.QtCore import pyqtSignal,  pyqtSlot
 from PyQt5.QtWidgets import QWidget, QCompleter
 from datetime import datetime
-from caloriestracker.ui.Ui_wdgDatetime import Ui_wdgDatetime
+from .Ui_wdgDatetime import Ui_wdgDatetime
+from .. datetime_functions import dtaware
+from logging import debug
 from pytz import all_timezones, timezone
+
 
 
 class wdgDatetime(QWidget, Ui_wdgDatetime):
@@ -20,26 +23,18 @@ class wdgDatetime(QWidget, Ui_wdgDatetime):
         QWidget.__init__(self,  parent)
         self.setupUi(self)
         self.mem=None
-        self.teMicroseconds.setSuffix(self.tr(" \u03bcs"))        
+        self.teMicroseconds.setSuffix(self.tr(" \u03bcs"))
         self.showMicroseconds=True
         self.showSeconds=True
         self.showZone=True
         self.localzone='UTC'#Used for now button
-
-    ## Function to create a datetime aware object
-    ## @param date date object
-    ## @param hour hour object
-    ## @param zonename String with datetime zone name. For example "Europe/Madrid"
-    ## @return datetime aware
-    def dtaware(self, date, hour, zonename):
-        z=timezone(zonename)
-        a=datetime(date.year,  date.month,  date.day,  hour.hour,  hour.minute,  hour.second, hour.microsecond)
-        a=z.localize(a)
-        return a
+        self.cmbZone.blockSignals(True)
+        self.pytz_zones_qcombobox(self.cmbZone, None)
+        self.cmbZone.blockSignals(False)
 
     def setLocalzone(self, localzone):
         self.localzone=localzone
-        
+
     def show_microseconds(self, show):
         self.showMicroseconds=show
         if show==True:
@@ -55,7 +50,7 @@ class wdgDatetime(QWidget, Ui_wdgDatetime):
             self.teTime.setDisplayFormat("HH:mm:ss")
         else:
             self.teTime.setDisplayFormat("HH:mm")
-        
+
     def show_timezone(self, show):
         """Hiding this all zones will have localzone defined in self.mem.localzone"""
         self.showZone=show
@@ -63,7 +58,7 @@ class wdgDatetime(QWidget, Ui_wdgDatetime):
             self.cmbZone.show()
         else:
             self.cmbZone.hide()
-            
+
     def on_cmdNow_released(self):
         self.set(datetime.now(), self.localzone)
 
@@ -86,38 +81,40 @@ class wdgDatetime(QWidget, Ui_wdgDatetime):
         
     ## @param zone pytz name
     ## @param localzone pytz name
-    def set(self, dt=None,  zone=None):
-        if self.cmbZone.count()==0:#Load combo zone, before, problems with on_changed
-            self.pytz_zones_qcombobox(self.cmbZone, zone)
-        else:
-            self.cmbZone.setCurrentIndex(self.cmbZone.findData(zone))
-            
+    def set(self, dt=None, zone=None):
         if dt==None or zone==None:
             self.on_cmdNow_released()
             return
-        
+
+        self.cmbZone.setCurrentIndex(self.cmbZone.findData(zone))
+
         self.teDate.setSelectedDate(dt.date())
-        
+
         if self.showSeconds==False:
             dt=dt.replace(second=0)
         self.teTime.setTime(dt.time())
-        
+
         if self.showMicroseconds==False:
             dt=dt.replace(microsecond=0)
         self.teMicroseconds.setValue(dt.microsecond)
-        
+
         self.updateTooltip()
         self.changed.emit()
-        
-        
+
     def date(self):
         return self.teDate.selectedDate().toPyDate()
-        
+
     def datetime(self):
         #qt only miliseconds
         time=self.teTime.time().toPyTime()
         time=time.replace(microsecond=self.teMicroseconds.value())
-        return self.dtaware(self.teDate.selectedDate().toPyDate(), time , self.cmbZone.currentText())
+        if self.cmbZone.currentText() not in all_timezones:
+            debug("Something wrong using self.localzone")
+            zone=self.localzone
+        else:
+            zone=self.cmbZone.currentText()
+
+        return dtaware(self.teDate.selectedDate().toPyDate(), time , zone)
 
     def on_teDate_selectionChanged(self):
         self.updateTooltip()
@@ -131,14 +128,11 @@ class wdgDatetime(QWidget, Ui_wdgDatetime):
     def on_teMicroseconds_valueChanged(self):
         self.updateTooltip()
         self.changed.emit()
-        
+
     @pyqtSlot(str)      
     def on_cmbZone_currentIndexChanged(self, stri):
         self.updateTooltip()
         self.changed.emit()
-        
+
     def updateTooltip(self):
         self.setToolTip(self.tr("Selected datetime:\n{0}").format(self.datetime()))
-
-        
-
