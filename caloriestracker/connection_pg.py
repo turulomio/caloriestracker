@@ -15,6 +15,7 @@ class Connection:
         self.db=None
         self._con=None
         self.init=None
+        self.last_sql=""
 
     def init__create(self, user, password, server, port, db):
         self.user=user
@@ -31,36 +32,40 @@ class Connection:
         cur=self._con.cursor()
         s=cur.mogrify(sql, arr)
         cur.close()
+        self.last_sql=s
         return  s
 
     def setAutocommit(self, b):
         self._con.autocommit = b
-        
+
     ## Used to execute an sql command without returning anything
     def execute(self, sql, arr=[]):
         cur=self._con.cursor()
-        cur.execute(sql, arr)
+        s=self.mogrify(sql,arr)
+        cur.execute(s)
         cur.close()
-
 
     def cursor_one_row(self, sql, arr=[]):
         cur=self._con.cursor()
-        cur.execute(sql, arr)
+        s=self.mogrify(sql,arr)
+        cur.execute(s)
         row=cur.fetchone()
         cur.close()
         return row
 
     def cursor_rows(self, sql, arr=[]):
         cur=self._con.cursor()
-        cur.execute(sql, arr)
+        s=self.mogrify(sql,arr)
+        cur.execute(s)
         rows=cur.fetchall()
         cur.close()
         return rows
 
     def load_script(self, file):
         cur= self._con.cursor()
-        f  = open(file,'r', encoding='utf-8')
-        procedures=f.read() 
+        f = open(file,'r', encoding='utf-8')
+        procedures=f.read()
+        self.last_sql=procedures
         cur.execute(procedures)
         cur.close()
         f.close()
@@ -68,7 +73,8 @@ class Connection:
     def cursor_one_column(self, sql, arr=[]):
         """Returns un array with the results of the column"""
         cur=self._con.cursor()
-        cur.execute(sql, arr)
+        s=self.mogrify(sql,arr)
+        cur.execute(s)
         for row in cur:
             arr.append(row[0])
         cur.close()
@@ -77,7 +83,8 @@ class Connection:
     def cursor_one_field(self, sql, arr=[]):
         """Returns only one field"""
         cur=self._con.cursor()
-        cur.execute(sql, arr)
+        s=self.mogrify(sql,arr)
+        cur.execute(s)
         row=cur.fetchone()[0]
         cur.close()
         return row
@@ -189,4 +196,6 @@ def script_with_connection_arguments(name="",  description="", epilog="", versio
 if __name__ == "__main__":
     con=script_with_connection_arguments("connection_pg_demo", "This is a connection script demo",  "Developed by Mariano Muñoz", "",  None, None)
     print("Is connection active?",  con.is_active())
+    con.execute("SELECT datname FROM pg_database WHERE datistemplate = false;")
+    print(con.last_sql)
     

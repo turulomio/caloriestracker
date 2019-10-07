@@ -262,6 +262,20 @@ class ObjectManager_With_IdName(ObjectManager_With_Id):
     def __init__(self):
         ObjectManager_With_Id.__init__(self)
         
+    ##Returns an array with all object name
+    ## @param sort Boolean to sort or not the array
+    ## @oaram nones Boolean. If True adds None and empty strings values to the list. If False it doesn't
+    def array_of_names(self, sort=True, nones=False):
+        r=[]
+        for o in self.arr:
+            if nones==False:
+                if o.name==None or o.name=="":
+                    continue
+            r.append(o.name)
+        if sort==True:
+            r.sort()
+        return r
+
     ## Find an object searching in its name to match the parameter
     def find_by_name(self, name,  log=False):
         """self.find_by_id() search by id (number).

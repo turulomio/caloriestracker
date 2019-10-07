@@ -5,8 +5,8 @@
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
 from PyQt5.QtWidgets import QWidget
 import datetime
-from caloriestracker.ui.Ui_wdgYearMonth import Ui_wdgYearMonth
-from caloriestracker.libcaloriestrackerfunctions import function_name, qmessagebox
+from .Ui_wdgYearMonth import Ui_wdgYearMonth
+#from ..li qmessagebox
 
 class wdgYearMonth(QWidget, Ui_wdgYearMonth):
     changed=pyqtSignal()
@@ -20,7 +20,7 @@ class wdgYearMonth(QWidget, Ui_wdgYearMonth):
         self.blockSignals(True)
         if firstyear==None:
             self.setEnabled(False)
-            print (function_name(self), "Firstyear is None")
+            #print (function_name(self), "Firstyear is None")
             return
         
         self.firstyear=firstyear

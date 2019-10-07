@@ -11,25 +11,27 @@
 ## access.setResources(":/calores.png","calores.png"
 ## access.exec_()
 
-from PyQt5.QtCore import pyqtSlot, QTranslator, QSettings
+from PyQt5.QtCore import pyqtSlot, QSettings
 from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtWidgets import QDialog, qApp, QMessageBox
+from PyQt5.QtWidgets import QDialog, QMessageBox
 from .Ui_frmAccess import Ui_frmAccess
 from .. connection_pg_qt import ConnectionQt
 from .. translationlanguages import TranslationLanguageManager
-from .. package_resources import package_filename
-from logging import info
 
 ##After execute it you can link to a singleton for example
 ##mem.settings=access.settings
 ##mem.con=access.con
 
 ## @param module From this string we get the module translation path and de root 
-## @param settings_root string
+## @param settings_root string for example "frmAccess" or "frmSync"
+## @param settings QSettings of the app. If it's None it creates a Qsettings object, and you can get it with self.settings
 class frmAccess(QDialog, Ui_frmAccess):
-    def __init__(self, module, settings_root, parent = None):
+    def __init__(self, module, settings_root, settings=None, parent = None):
         QDialog.__init__(self,  parent)
-        self.settings=QSettings()
+        if settings==None:
+            self.settings=QSettings()
+        else:
+            self.settings=settings
         self.settingsroot=settings_root
         self.module=module
 
@@ -64,6 +66,11 @@ class frmAccess(QDialog, Ui_frmAccess):
 
     def setLabel(self, text):
         self.lbl.setText(text)
+
+    def setLanguagesVisible(self, boolean):
+        if boolean==False:
+            self.lblLanguage.hide()
+            self.cmbLanguages.hide()
 
     @pyqtSlot(int)
     def on_cmbLanguages_currentIndexChanged(self, stri):

@@ -65,11 +65,6 @@ class wdgDatetime(QWidget, Ui_wdgDatetime):
     def setTitle(self, title):
         self.grp.setTitle(title)
 
-    def setCombine(self, mem, date, time, zone):
-        """Use datetime combine to pass date and time"""
-        self.set(mem, datetime.datetime.combine(date, time), zone)
-
-
     @staticmethod
     ## @param selected is a pytz name
     def pytz_zones_qcombobox(combo, selected):
@@ -78,7 +73,8 @@ class wdgDatetime(QWidget, Ui_wdgDatetime):
             combo.addItem(tz, tz)
         if selected!=None:
             combo.setCurrentIndex(combo.findData(selected))
-        
+
+    ## @param dt can be a naive or aware. If aware it ignore it and set as naive with parmeter zone. If naive just put the zone to the dtnaive
     ## @param zone pytz name
     ## @param localzone pytz name
     def set(self, dt=None, zone=None):

@@ -1471,9 +1471,13 @@ class FormatAllManager(QObject, ObjectManager_With_IdName_Selectable):
         self.order_by_name()
         combo.clear()
         if needtoselect==True:
-            combo.addItem(combo.tr("Select an option"), None)
+            if self.length()>0:
+                combo.addItem(combo.tr("Select an option"), None)
+            else:
+                combo.addItem(combo.tr("No options to select"), None)
         for o in self.arr:
             combo.addItem(o.qicon(), o.fullName(), o.string_id())
+
         if selected!=None:
             combo.setCurrentIndex(combo.findData(selected.string_id()))
 

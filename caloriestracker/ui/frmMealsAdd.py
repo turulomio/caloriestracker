@@ -36,7 +36,7 @@ class frmMealsAdd(QDialog, Ui_frmMealsAdd):
         else:
             self.product=self.mem.data.products.find_by_string_id(self.cmbProducts.itemData(index))
             self.product.needStatus(1)
-            self.product.formats.qcombobox(self.cmbFormats, None, needtoselect=True)
+            self.product.formats.qcombobox(self.cmbFormats, selected=None, needtoselect=True)
             
     @pyqtSlot(int)
     def on_cmbFormats_currentIndexChanged(self, index):
