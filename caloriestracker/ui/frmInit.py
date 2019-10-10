@@ -3,7 +3,7 @@ from PyQt5.QtCore import pyqtSlot, QLocale
 from PyQt5.QtWidgets import QDialog, QMessageBox
 from caloriestracker.admin_pg import AdminPG
 from caloriestracker.database_update import database_update
-from caloriestracker.libcaloriestrackerfunctions import qmessagebox
+from caloriestracker.ui.myqwidgets import qmessagebox
 from caloriestracker.ui.Ui_frmInit import Ui_frmInit
 
 class frmInit(QDialog, Ui_frmInit):
@@ -30,12 +30,12 @@ class frmInit(QDialog, Ui_frmInit):
         if respuesta==QMessageBox.Ok:                
             admin=AdminPG(self.txtUser.text(), self.txtPass.text(), self.txtServer.text(),  self.txtPort.text())
             if admin.db_exists(self.txtDB.text())==True:
-                qmessagebox("Database already exists")
+                qmessagebox("Database already exists", self.mem.app_resouce())
                 return
             if admin.create_db(self.txtDB.text())==True: 
                 newcon=admin.connect_to_database(self.txtDB.text())
                 database_update(newcon)
-                qmessagebox(self.tr("Database created. Please run Calories Tracker and login"))        
+                qmessagebox(self.tr("Database created. Please run Calories Tracker and login"), self.mem.app_resouce())        
                 logging.info ("App correctly closed")
                 self.close()
             else:

@@ -1,21 +1,12 @@
 ## @namespace caloriestracker.libcaloriestrackerfunctions
 ## @brief Package with all xulpymoney auxiliar functions.
 from PyQt5.QtCore import Qt,  QLocale
-from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QWidget,  QMessageBox, QApplication, QCheckBox, QHBoxLayout
 from colorama import Fore
 from decimal import Decimal
 from os import path, makedirs, remove
 import inspect
 import socket
-
-def qmessagebox(text):
-    m=QMessageBox()
-    m.setWindowIcon(QIcon(":/xulpymoney/coins.png"))
-    m.setIcon(QMessageBox.Information)
-    m.setText(text)
-    m.exec_()   
-
  
 def list2string(lista):
         """Covierte lista a string"""

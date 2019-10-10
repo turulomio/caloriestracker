@@ -6,7 +6,7 @@ from PyQt5.QtCore import pyqtSignal, pyqtSlot
 from PyQt5.QtWidgets import QWidget
 import datetime
 from .Ui_wdgYearMonth import Ui_wdgYearMonth
-#from ..li qmessagebox
+from .myqwidgets import qmessagebox
 
 class wdgYearMonth(QWidget, Ui_wdgYearMonth):
     changed=pyqtSignal()

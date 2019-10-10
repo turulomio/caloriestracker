@@ -1,7 +1,7 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox
 from caloriestracker.libcaloriestracker import CompanyAllManager
-from caloriestracker.libcaloriestrackerfunctions import qmessagebox
+from caloriestracker.ui.myqwidgets import qmessagebox
 from caloriestracker.libmanagers import ManagerSelectionMode
 from caloriestracker.ui.Ui_wdgCompanies import Ui_wdgCompanies
 from logging import debug

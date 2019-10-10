@@ -18,12 +18,29 @@ class wdgBiometrics(QWidget, Ui_wdgBiometrics):
         self.tblBiometrics.settings(self.mem, "wdgBiometrics")    
         self.viewChartHeight=None
         self.viewChartWeight=None
+        self.datefrom= date(1900, 1, 1)
+        self.wdgYM.label.hide()
+        self.wdgYM.blockSignals(True)
         self.wdgYM.initiate(1900,  date.today().year, date.today().year, date.today().month)
+        self.wdgYM.blockSignals(False)
+        self.on_rad20days_toggled(True)
         
     @pyqtSlot() 
     def on_wdgYM_changed(self):
+        self.update()
+        
+        
+    def update(self):
         del self.biometrics
-        sql=self.mem.con.mogrify("select * from biometrics where users_id=%s and date_part('year',datetime)=%s and date_part('month',datetime)=%s order by datetime", (self.mem.user.id, self.wdgYM.year, self.wdgYM.month ))
+        if self.rad20days.isChecked()==False:
+            sql=self.mem.con.mogrify("select * from biometrics where users_id=%s and date_part('year',datetime)=%s and date_part('month',datetime)=%s order by datetime", (self.mem.user.id, self.wdgYM.year, self.wdgYM.month ))
+        else:
+            sql=self.mem.con.mogrify("""
+WITH t AS (
+    select * from biometrics where users_id=%s order by datetime desc limit 20
+)
+SELECT * FROM t ORDER BY datetime ASC""", (self.mem.user.id, ))
+            
         self.biometrics=BiometricsManager(self.mem, sql, True)
         self.biometrics.qtablewidget(self.tblBiometrics)
         if self.viewChartHeight!=None:
@@ -33,21 +50,34 @@ class wdgBiometrics(QWidget, Ui_wdgBiometrics):
             self.viewChartWeight.close()
         if self.biometrics.length()>0:
             self.viewChartHeight=VCHeight()
-            self.viewChartHeight.setData(self.mem, date.today()-timedelta(days=365*3))
+            self.viewChartHeight.setData(self.mem, self.datefrom)
             self.viewChartHeight.generate()
             self.layHeight.addWidget(self.viewChartHeight)
             
             self.viewChartWeight=VCWeight()
-            self.viewChartWeight.setData(self.mem, date.today()-timedelta(days=365*3))
+            self.viewChartWeight.setData(self.mem, self.datefrom)
             self.viewChartWeight.generate()
             self.layWeight.addWidget(self.viewChartWeight)
+
+        
+
+    @pyqtSlot(int)
+    def on_cmbChart_currentIndexChanged(self, index):
+        if index==0:
+            self.datefrom= date(1900, 1, 1)
+        elif index==1:
+            self.datefrom= date.today()-timedelta(days=365)
+        elif index==2:
+            self.datefrom= date.today()-timedelta(days=365*3)
+        self.update()
+        
         
     @pyqtSlot()
     def on_actionBiometricsNew_triggered(self):
         from caloriestracker.ui.frmBiometricsAdd import frmBiometricsAdd
         w=frmBiometricsAdd(self.mem, None, self)
         w.exec_()
-        self.on_wdgYM_changed()
+        self.update()
 
     @pyqtSlot()
     def on_actionBiometricsDelete_triggered(self):
@@ -56,14 +86,14 @@ class wdgBiometrics(QWidget, Ui_wdgBiometrics):
             self.biometrics.selected.delete()
             self.mem.con.commit()
             self.mem.user.load_last_biometrics()
-        self.on_wdgYM_changed()
+        self.update()
 
     @pyqtSlot()
     def on_actionBiometricsEdit_triggered(self):
         from caloriestracker.ui.frmBiometricsAdd import frmBiometricsAdd
         w=frmBiometricsAdd(self.mem, self.biometrics.selected, self)
         w.exec_()
-        self.on_wdgYM_changed()
+        self.update()
 
     def on_tblBiometrics_itemSelectionChanged(self):
         self.biometrics.cleanSelection()
@@ -87,6 +117,10 @@ class wdgBiometrics(QWidget, Ui_wdgBiometrics):
             self.actionBiometricsEdit.setEnabled(True)
 
         menu.exec_(self.tblBiometrics.mapToGlobal(pos))
+        
+    def on_rad20days_toggled(self, checked):
+        self.wdgYM.setEnabled(not self.rad20days.isChecked())
+        self.update()
 
 
 ##View chart of an biometrics

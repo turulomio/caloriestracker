@@ -70,9 +70,27 @@ class Mem(QObject):
             print(Style.BRIGHT+Fore.RED+"You pressed 'Ctrl+C', exiting...")
             exit(1)
 
-class MemInit(Mem):
+class MemGui(Mem):
     def __init__(self):
         Mem.__init__(self)
+        
+    def app_resource(self):
+        return ":/caloriestracker/caloriestracker.svg"
+
+    def qicon(self):
+        icon = QIcon()
+        icon.addPixmap(QPixmap(":/caloriestracker/caloriestracker.svg"), QIcon.Normal, QIcon.Off)
+        return icon
+
+    ## Returns an icon for admin 
+    def qicon_admin(self):
+        icon = QIcon()
+        icon.addPixmap(QPixmap(":/caloriestracker/admin.png"), QIcon.Normal, QIcon.Off)
+        return icon
+
+class MemInit(MemGui):
+    def __init__(self):
+        MemGui.__init__(self)
         
         self.settings=QSettings()
         
@@ -177,9 +195,9 @@ class MemConsole(Mem):
             args.elaborated=int(args.elaborated)
         return args
 
-class MemCaloriestracker(Mem):
+class MemCaloriestracker(MemGui):
     def __init__(self):        
-        Mem.__init__(self)
+        MemGui.__init__(self)
     
     def run(self):
         self.args=self.parse_arguments()
@@ -202,14 +220,4 @@ class MemCaloriestracker(Mem):
         
     def setLocalzone(self):
         self.localzone=self.settings.value("mem/localzone", "Europe/Madrid")
-    
-    def qicon(self):
-        icon = QIcon()
-        icon.addPixmap(QPixmap(":/caloriestracker/caloriestracker.svg"), QIcon.Normal, QIcon.Off)
-        return icon
 
-    ## Returns an icon for admin 
-    def qicon_admin(self):
-        icon = QIcon()
-        icon.addPixmap(QPixmap(":/caloriestracker/admin.png"), QIcon.Normal, QIcon.Off)
-        return icon

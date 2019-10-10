@@ -9,7 +9,7 @@
 ## You have to use dictionary objects i f you are going to make unordered access to the dictionary. It consumes more memory. To access a selected item in a table you have to hide a column with the id and getit when selecting a row
 ##
 
-import logging
+from logging import debug
 
 
 ## Defines who self.selected is managed
@@ -283,7 +283,7 @@ class ObjectManager_With_IdName(ObjectManager_With_Id):
         for a in self.arr:
             if a.name==name:
                 return a
-        logging.debug("{} didn't find the name: {}".format(self.__class__, name))
+        debug("{} didn't find the name: {}".format(self.__class__, name))
         return None
 
 
@@ -325,8 +325,13 @@ class ObjectManager_With_IdName(ObjectManager_With_Id):
     def qcombobox(self, combo,  selected=None, needtoselect=False, icons=False):
         self.order_by_name()
         combo.clear()
+
         if needtoselect==True:
-            combo.addItem(combo.tr("Select an option"), None)
+            if self.length()>0:
+                combo.addItem(combo.tr("Select an option"), None)
+            else:
+                combo.addItem(combo.tr("No options to select"), None)
+
         for a in self.arr:
             if icons==True:
                 combo.addItem(a.qicon(), a.name, a.id)

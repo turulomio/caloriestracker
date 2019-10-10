@@ -1,7 +1,7 @@
 from PyQt5.QtCore import QSize, pyqtSlot
 from PyQt5.QtWidgets import QDialog, QMenu
 from caloriestracker.ui.Ui_frmFormats import Ui_frmFormats
-from caloriestracker.libcaloriestrackerfunctions import qmessagebox
+from caloriestracker.ui.myqwidgets import qmessagebox
 from logging import debug
 
 class frmFormats(QDialog, Ui_frmFormats):
@@ -28,8 +28,7 @@ class frmFormats(QDialog, Ui_frmFormats):
                 self.tr("This format is of a system product so you can't edit it.") + "\n" +
                 self.tr("Please, if it's something wrong with it create an issue at") + "\n" + 
                 "https://github.com/turulomio/caloriestracker/issues"+ "\n" +
-                self.tr("I'll fix it as soon as posible. ;)")
-            )
+                self.tr("I'll fix it as soon as posible. ;)"),  self.mem.app_resource())
 
     @pyqtSlot() 
     def on_actionFormatNew_triggered(self):
@@ -43,8 +42,8 @@ class frmFormats(QDialog, Ui_frmFormats):
                 self.tr("This format is of a system product so you can't edit it.") + "\n" +
                 self.tr("Please, if it's something wrong with it create an issue at") + "\n" + 
                 "https://github.com/turulomio/caloriestracker/issues"+ "\n" +
-                self.tr("I'll fix it as soon as posible. ;)")
-            )
+                self.tr("I'll fix it as soon as posible. ;)"),  self.mem.app_resource())
+
     @pyqtSlot() 
     def on_actionFormatEdit_triggered(self):
         if self.product.system_product==False:
@@ -57,8 +56,8 @@ class frmFormats(QDialog, Ui_frmFormats):
                 self.tr("This format is of a system product so you can't edit it.") + "\n" +
                 self.tr("Please, if it's something wrong with it create an issue at") + "\n" + 
                 "https://github.com/turulomio/caloriestracker/issues"+ "\n" +
-                self.tr("I'll fix it as soon as posible. ;)")
-            )
+                self.tr("I'll fix it as soon as posible. ;)"),  self.mem.app_resource())
+
 
     def on_tblFormats_customContextMenuRequested(self,  pos):
         menu=QMenu()
