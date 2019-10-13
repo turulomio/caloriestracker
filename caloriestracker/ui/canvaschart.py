@@ -188,10 +188,42 @@ class VCTemporalSeries(VCCommons):
 
         
     def mouseMoveEvent(self, event):
-        """
-            event is a QMouseEvent
-        """
-        pass
+#        x = event.pos().x()
+#        y = event.pos().y()
+
+        xVal = self.chart().mapToValue(event.pos()).x()
+        yVal = self.chart().mapToValue(event.pos()).y()
+
+#        maxX = self.axisX.max()
+#        minX = self.axisX.min()
+#        maxY = self.axisY.max()
+#        minY = self.axisY.min()
+
+#        if xVal <= maxX and  xVal >= minX and yVal <= maxY and yVal >= minY:
+#            xPosOnAxis = self.chart().mapToPosition(QPoint(x, 0))#QPoing
+#            yPosOnAxis = self.chart().mapToPosition(QPoint(0, y))
+
+            #m_coordX and m_coordY are `QGraphicsSimpleTextItem` 
+#            m_coordX.setPos(x, xPosOnAxis.y() + 5)
+#            m_coordY.setPos(yPosOnAxis.x() - 27, y)
+
+            # Displaying value of the mouse on the label 
+            
+        print(epochms2dtaware(xVal), yVal)
+        for s in self.series:
+            print(epochms2dtaware(xVal), self.series_value(s, xVal))
+#            print("%1").arg(xVal, 4, 'f', 1, '0'))
+#            print("%1").arg(yVal, 4, 'f', 1, '0'))
+
+        QChartView.mouseMoveEvent(self, event)
+
+    ## Return the value of the serie in x
+    def series_value(self, serie, x):
+        for point in serie.pointsVector():
+            if point.x()>=x:
+                return point.y()
+        
+
 
     @pyqtSlot()
     def on_marker_clicked(self):

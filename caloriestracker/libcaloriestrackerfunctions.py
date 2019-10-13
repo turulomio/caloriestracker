@@ -2,7 +2,6 @@
 ## @brief Package with all xulpymoney auxiliar functions.
 from colorama import Fore
 from os import path, makedirs
-import inspect
 
 def dirs_create():
     """
@@ -15,14 +14,6 @@ def dirs_create():
         pass
     return dir_tmp
 
-    
-def function_name(clas):
-    #    print (inspect.stack()[0][0].f_code.co_name)
-    #    print (inspect.stack()[0][3],  inspect.stack())
-    #    print (inspect.stack()[1][3],  inspect.stack())
-    #    print (clas.__class__.__name__)
-    #    print (clas.__module__)
-    return "{0}.{1}".format(clas.__class__.__name__,inspect.stack()[1][3])
     
 
 ## Check if a number is positive
