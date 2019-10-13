@@ -160,7 +160,7 @@ def month2int(s):
         return 12
 
 def string2time(s, format="HH:MM"):
-    allowed=["HH:MM", "HH:MM:SS"]
+    allowed=["HH:MM", "HH:MM:SS","HH:MMxx"]
     if format in allowed:
         if format=="HH:MM":#12:12
             a=s.split(":")
@@ -168,6 +168,16 @@ def string2time(s, format="HH:MM"):
         elif format=="HH:MM:SS":#12:12:12
             a=s.split(":")
             return time(int(a[0]), int(a[1]), int(a[2]))
+        elif format=="HH:MMxx": #5:12am o pm
+            s=s.upper()
+            s=s.replace("AM", "")
+            if s.find("PM"):
+                s=s.replace("PM", "")
+                points=s.split(":")
+                return time(int(points[0])+12, int(points[1]))
+            else:#AM
+                points=s.split(":")
+                return time(int(points[0]), int(points[1]))
     else:
         error("I can't convert this format '{}'. I only support this {}".format(format, allowed))
 

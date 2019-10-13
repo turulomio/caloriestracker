@@ -1,6 +1,6 @@
 from caloriestracker.datetime_functions import dtnaive2string
 from caloriestracker.libcaloriestracker import Product, CompanySystem, CompanySystemManager, ProductManager, Format, Meal
-from caloriestracker.libcaloriestrackerfunctions import b2s
+from caloriestracker.casts import b2s
 from caloriestracker.admin_pg import AdminPG
 from caloriestracker.database_update import database_update
 from caloriestracker.text_inputs import input_YN

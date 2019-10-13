@@ -6,7 +6,8 @@ from PyQt5.QtWidgets import QTableWidgetItem, QApplication, QProgressDialog, QCo
 from datetime import date,  timedelta, datetime
 
 from decimal import Decimal
-from caloriestracker.libcaloriestrackerfunctions import str2bool, a2s, ca2s, n2s, rca2s, b2s
+from caloriestracker.libcaloriestrackerfunctions import a2s, ca2s, n2s, rca2s
+from caloriestracker.casts import str2bool, b2s
 from caloriestracker.text_inputs import input_boolean, input_integer_or_none
 from caloriestracker.libcaloriestrackertypes import eProductComponent, eActivity, eWeightWish
 from caloriestracker.ui.qtablewidgetitems import qtime, qleft, qright, qnumber_limited, qnumber, qdatetime, qdate, qbool
