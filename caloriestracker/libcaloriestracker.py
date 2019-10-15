@@ -1204,12 +1204,12 @@ class Product(QObject):
             
         if self.company==None:
             if self.elaboratedproducts_id==None:
-                return "{}{}".format(self.name, str_with_id)
+                return "{}{}".format(self.mem.trHS(self.name), str_with_id)
             else:
                 elaborated=self.tr("Elaborated by me")
-                return "{}{} ({})".format(self.name, str_with_id, elaborated)
+                return "{}{} ({})".format(self.mem.trHS(self.name), str_with_id, elaborated)
         else:
-            return "{} ({}){}".format(self.name, self.company.name, str_with_id)
+            return "{} ({}){}".format(self.mem.trHS(self.name), self.company.name, str_with_id)
 
     def init__db(self, id):
         """Se pasa id porque se debe usar cuando todavía no se ha generado."""

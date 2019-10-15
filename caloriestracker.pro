@@ -109,3 +109,5 @@ TRANSLATIONS    = caloriestracker/i18n/caloriestracker_es.ts \
                   caloriestracker/i18n/caloriestracker_ro.ts \
                   caloriestracker/i18n/caloriestracker_en.ts
 
+CODECFORTR = UTF-8
+CODECFORSRC = UTF-8

@@ -1,6 +1,6 @@
 from PyQt5.QtCore import  QSettings, QCoreApplication, QTranslator, QObject
 from PyQt5.QtGui import QIcon,  QPixmap
-from PyQt5.QtWidgets import  QApplication
+from PyQt5.QtWidgets import  QApplication, qApp
 from argparse import ArgumentParser, RawTextHelpFormatter
 from datetime import date,  datetime
 
@@ -69,6 +69,9 @@ class Mem(QObject):
     def signal_handler(self, signal, frame):
             print(Style.BRIGHT+Fore.RED+"You pressed 'Ctrl+C', exiting...")
             exit(1)
+            
+    def trHS(self, s):
+        return qApp.translate("HardcodedStrings", s)
 
 class MemGui(Mem):
     def __init__(self):
