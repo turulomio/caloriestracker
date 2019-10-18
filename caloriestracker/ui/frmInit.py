@@ -34,7 +34,7 @@ class frmInit(QDialog, Ui_frmInit):
                 return
             if admin.create_db(self.txtDB.text())==True: 
                 newcon=admin.connect_to_database(self.txtDB.text())
-                database_update(newcon)
+                database_update(newcon, "caloriestracker")
                 qmessagebox(self.tr("Database created. Please run Calories Tracker and login"), self.mem.app_resouce())        
                 logging.info ("App correctly closed")
                 self.close()

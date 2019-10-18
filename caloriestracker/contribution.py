@@ -56,7 +56,7 @@ def parse_contribution_dump_generate_files_and_validates_them(auxiliar_con, cont
         admin.drop_db(database)
     admin.create_db(database)
     newcon=admin.connect_to_database(database)
-    database_update(newcon)        
+    database_update(newcon, "caloriestracker")
     print ("1. After setting database to default",  *print_table_status(newcon))
     
     ## 2. ADDS CONTRIBUTOR PERSONAL DATA TO CALORIESTRACKER_CONTRIBUTION

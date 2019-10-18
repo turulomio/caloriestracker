@@ -21,7 +21,7 @@ class frmMain(QMainWindow, Ui_frmMain):
         self.mem=mem
         self.mem.con.inactivity_timeout.connect(self.inactivity_timeout)
         
-        database_update(self.mem.con)
+        database_update(self.mem.con, "caloriestracker")
         
         self.w=QWidget()       
         self.statusBar.addWidget(QLabel(self.mem.con.url_string()))

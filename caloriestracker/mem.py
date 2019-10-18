@@ -151,7 +151,7 @@ class MemConsole(Mem):
         if self.con.is_active()==False:
             exit(1)
         
-        database_update(self.con)
+        database_update(self.con, "caloriestracker")
         
         self.load_db_data(False)
         

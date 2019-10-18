@@ -98,6 +98,7 @@ class Compile(Command):
     def run(self):
         self.download_from_github('turulomio','reusingcode','python/admin_pg.py', 'caloriestracker')
         self.download_from_github('turulomio','reusingcode','python/casts.py', 'caloriestracker')
+        self.download_from_github('turulomio','reusingcode','python/database_update.py', 'caloriestracker')
         self.download_from_github('turulomio','reusingcode','python/libmanagers.py', 'caloriestracker')
         self.download_from_github('turulomio','reusingcode','python/connection_pg.py', 'caloriestracker')
         self.download_from_github('turulomio','reusingcode','python/connection_pg_qt.py', 'caloriestracker')
