@@ -1,0 +1,103 @@
+## @brief my Percentage object
+## THIS IS FILE IS FROM https://github.com/turulomio/reusingcode IF YOU NEED TO UPDATE IT PLEASE MAKE A PULL REQUEST IN THAT PROJECT
+## DO NOT UPDATE IT IN YOUR CODE IT WILL BE REPLACED USING FUNCTION IN README
+
+from logging import warning
+from decimal import Decimal
+from .currency import Currency
+
+## Class to manage percentages in spreadsheets
+class Percentage:
+    def __init__(self, numerator=None, denominator=None):
+        self.value=None
+        self.setValue(self.toDecimal(numerator),self.toDecimal(denominator))
+
+    def toDecimal(self, o):
+        if o==None:
+            return o
+        if o.__class__==Currency:
+            return o.amount
+        elif o.__class__==Decimal:
+            return o
+        elif o.__class__ in ( int, float):
+            return Decimal(o)
+        elif o.__class__==Percentage:
+            return o.value
+        else:
+            warning (o.__class__)
+            return None
+
+    def __repr__(self):
+        return self.string()
+
+    def __neg__(self):
+        if self.value==None:
+            return self
+        return Percentage(-self.value, 1)
+
+    def __lt__(self, other):
+        if self.value==None:
+            value1=Decimal('-Infinity')
+        else:
+            value1=self.value
+        if other.value==None:
+            value2=Decimal('-Infinity')
+        else:
+            value2=other.value
+        if value1<value2:
+            return True
+        return False
+
+    def __mul__(self, value):
+        if self.value==None or value==None:
+            r=None
+        else:
+            r=self.value*self.toDecimal(value)
+        return Percentage(r, 1)
+
+    def __truediv__(self, value):
+        try:
+            r=self.value/self.toDecimal(value)
+        except:
+            r=None
+        return Percentage(r, 1)
+
+    def setValue(self, numerator,  denominator):
+        try:
+            self.value=Decimal(numerator/denominator)
+        except:
+            self.value=None
+
+    def value_100(self):
+        if self.value==None:
+            return None
+        else:
+            return self.value*Decimal(100)
+
+    def string(self, rnd=2):
+        if self.value==None:
+            return "None %"
+        return "{} %".format(round(self.value_100(), rnd))
+
+    ## Returns if the percentage is valid. I mean it's value different of None
+    def isValid(self):
+        if self.value!=None:
+            return True
+        return False
+
+    def isGETZero(self):
+        if self.value>=0:
+            return True
+        return False
+
+    def isGTZero(self):
+        if self.value>0:
+            return True
+        return False
+
+    def isLTZero(self):
+        if self.value<0:
+            return True
+        return False
+
+

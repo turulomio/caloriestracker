@@ -1,8 +1,8 @@
 from PyQt5.QtCore import  Qt,  pyqtSlot,  QObject
 from PyQt5.QtGui import QPainter, QFont,  QIcon
-from PyQt5.QtWidgets import QAction, QMenu, QFileDialog, QProgressDialog, QApplication
-from caloriestracker.libcaloriestracker import Percentage
-from caloriestracker.datetime_functions import epochms2dtaware, dtaware2epochms, dtnaive2string, eDtStrings
+from PyQt5.QtWidgets import QAction, QMenu, QFileDialog, QProgressDialog, QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout
+from .. objects.percentage import Percentage
+from .. datetime_functions import epochms2dtaware, dtaware2epochms, dtnaive2string, eDtStrings
 from datetime import timedelta, datetime
 from PyQt5.QtChart import QChart,  QLineSeries, QChartView, QValueAxis, QDateTimeAxis,  QPieSeries, QScatterSeries
 
@@ -114,6 +114,7 @@ class VCTemporalSeries(VCCommons):
         self.setRenderHint(QPainter.Antialiasing);
         
         self.series=[]
+        self.popup=MyPopup()
             
     def appendScatterSeries(self, name,  currency=None):
         """
@@ -188,42 +189,25 @@ class VCTemporalSeries(VCCommons):
 
         
     def mouseMoveEvent(self, event):
-#        x = event.pos().x()
-#        y = event.pos().y()
-
+        QChartView.mouseMoveEvent(self, event)
         xVal = self.chart().mapToValue(event.pos()).x()
         yVal = self.chart().mapToValue(event.pos()).y()
 
-#        maxX = self.axisX.max()
-#        minX = self.axisX.min()
-#        maxY = self.axisY.max()
-#        minY = self.axisY.min()
-
-#        if xVal <= maxX and  xVal >= minX and yVal <= maxY and yVal >= minY:
-#            xPosOnAxis = self.chart().mapToPosition(QPoint(x, 0))#QPoing
-#            yPosOnAxis = self.chart().mapToPosition(QPoint(0, y))
-
-            #m_coordX and m_coordY are `QGraphicsSimpleTextItem` 
-#            m_coordX.setPos(x, xPosOnAxis.y() + 5)
-#            m_coordY.setPos(yPosOnAxis.x() - 27, y)
-
-            # Displaying value of the mouse on the label 
-            
-        print(epochms2dtaware(xVal), yVal)
-        for s in self.series:
-            print(epochms2dtaware(xVal), self.series_value(s, xVal))
-#            print("%1").arg(xVal, 4, 'f', 1, '0'))
-#            print("%1").arg(yVal, 4, 'f', 1, '0'))
-
-        QChartView.mouseMoveEvent(self, event)
+        maxX = self.axisX.max().toMSecsSinceEpoch()
+        minX = self.axisX.min().toMSecsSinceEpoch()
+        maxY = self.axisY.max()
+        minY = self.axisY.min()
+        if xVal <= maxX and  xVal >= minX and yVal <= maxY and yVal >= minY:
+            self.popup.refresh(self, xVal, yVal)
+            self.popup.show()
+        else:
+            self.popup.hide()
 
     ## Return the value of the serie in x
     def series_value(self, serie, x):
         for point in serie.pointsVector():
             if point.x()>=x:
                 return point.y()
-        
-
 
     @pyqtSlot()
     def on_marker_clicked(self):
@@ -335,3 +319,37 @@ class VCPie(VCCommons):
         self.serie.setPieStartAngle(90)
         self.serie.setPieEndAngle(450)
 
+
+class MyPopup(QWidget):
+    def __init__(self, parent=None):
+        QWidget.__init__(self, parent)
+        self.parent=parent
+        
+    def refresh(self, vc, xVal, yVal):
+        self.vc=vc
+        self.xVal=xVal
+        self.yVal=yVal
+        
+        #Creating empy labels
+        if hasattr(self, 'lblTitles')==False:
+            self.labelXY=QLabel("XY")
+            self.lay = QVBoxLayout(self)
+            self.lay.addWidget(self.labelXY)
+            self.lblTitles=[]
+            self.lblValues=[]
+            for serie in self.vc.series:
+                title=QLabel()
+                value=QLabel()
+                self.lblTitles.append(title)
+                self.lblValues.append(value)
+                layh=QHBoxLayout(self)
+                layh.addWidget(title)
+                layh.addWidget(value)
+                self.lay.addLayout(layh)
+            self.setLayout(self.lay)
+
+        #Displaying values
+        self.labelXY.setText("X: {}, Y: {}".format(epochms2dtaware(self.xVal), self.yVal))
+        for i, serie in enumerate(self.vc.series):
+            self.lblTitles[i].setText(serie.name())
+            self.lblValues[i].setText(str(self.vc.series_value(serie, self.xVal)))

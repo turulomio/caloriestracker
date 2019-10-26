@@ -115,6 +115,8 @@ class Compile(Command):
         self.download_from_github('turulomio','reusingcode','python/datetime_functions.py', 'caloriestracker')
         self.download_from_github('turulomio','reusingcode','python/text_inputs.py', 'caloriestracker')
         self.download_from_github('turulomio','reusingcode','python/decorators.py', 'caloriestracker')
+        self.download_from_github('turulomio','reusingcode','python/objects/currency.py', 'caloriestracker/objects')
+        self.download_from_github('turulomio','reusingcode','python/objects/percentage.py', 'caloriestracker/objects')
 
 
         futures=[]
@@ -128,7 +130,7 @@ class Compile(Command):
         for filename in os.listdir("caloriestracker/ui/"):
              if filename.startswith("Ui_"):
                  os.system("sed -i -e 's/caloriestracker_rc/caloriestracker.images.caloriestracker_rc/' caloriestracker/ui/{}".format(filename))
-                 os.system("sed -i -e 's/from canvaschart/from caloriestracker.ui.canvaschart/' caloriestracker/ui/{}".format(filename))
+                 os.system("sed -i -e 's/from myqcharts/from caloriestracker.ui.myqcharts/' caloriestracker/ui/{}".format(filename))
                  os.system("sed -i -e 's/from myqlineedit/from caloriestracker.ui.myqlineedit/' caloriestracker/ui/{}".format(filename))
                  os.system("sed -i -e 's/from myqtablewidget/from caloriestracker.ui.myqtablewidget/' caloriestracker/ui/{}".format(filename))
                  os.system("sed -i -e 's/from myqdoublespinbox/from caloriestracker.ui.myqdoublespinbox/' caloriestracker/ui/{}".format(filename))

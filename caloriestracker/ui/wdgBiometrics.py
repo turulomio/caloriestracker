@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox
 from caloriestracker.libcaloriestracker import BiometricsManager
 from caloriestracker.datetime_functions import dtaware_day_start_from_date
 from caloriestracker.ui.Ui_wdgBiometrics import Ui_wdgBiometrics
-from caloriestracker.ui.canvaschart import VCTemporalSeries
+from caloriestracker.ui.myqcharts import VCTemporalSeries
 from caloriestracker.libmanagers import DVManager
 from logging import debug
 from datetime import date, timedelta
