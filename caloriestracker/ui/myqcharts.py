@@ -1,6 +1,6 @@
-from PyQt5.QtCore import  Qt,  pyqtSlot,  QObject
+from PyQt5.QtCore import  Qt,  pyqtSlot,  QObject, QPoint
 from PyQt5.QtGui import QPainter, QFont,  QIcon
-from PyQt5.QtWidgets import QAction, QMenu, QFileDialog, QProgressDialog, QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout
+from PyQt5.QtWidgets import QAction, QMenu, QFileDialog, QProgressDialog, QApplication, QDialog, QLabel, QVBoxLayout, QHBoxLayout
 from .. objects.percentage import Percentage
 from .. datetime_functions import epochms2dtaware, dtaware2epochms, dtnaive2string, eDtStrings
 from datetime import timedelta, datetime
@@ -186,9 +186,18 @@ class VCTemporalSeries(VCCommons):
         if x<self.minx:
             self.minx=x
 
-
         
-    def mouseMoveEvent(self, event):
+    def mouseMoveEvent(self, event):     
+        ##Sets the place of the popup in the windows to avoid getout of the screen
+        ##frmshow can be a frmShowCasilla or a frmShowFicha
+        def placePopUp():
+            resultado=QPoint(event.x()+1, event.y())
+            if event.x()>self.width()-self.popup.width()-1:
+                resultado.setX(event.x()-self.popup.width()-1)
+            if event.y()>self.height()-self.popup.height():
+                resultado.setY(event.y()-self.popup.height())
+            return resultado
+        # ---------------------------------------
         QChartView.mouseMoveEvent(self, event)
         xVal = self.chart().mapToValue(event.pos()).x()
         yVal = self.chart().mapToValue(event.pos()).y()
@@ -198,8 +207,10 @@ class VCTemporalSeries(VCCommons):
         maxY = self.axisY.max()
         minY = self.axisY.min()
         if xVal <= maxX and  xVal >= minX and yVal <= maxY and yVal >= minY:
+            self.popup.move(self.mapToGlobal(placePopUp()))
             self.popup.refresh(self, xVal, yVal)
             self.popup.show()
+#            self.setFocus()
         else:
             self.popup.hide()
 
@@ -320,9 +331,10 @@ class VCPie(VCCommons):
         self.serie.setPieEndAngle(450)
 
 
-class MyPopup(QWidget):
+class MyPopup(QDialog):
     def __init__(self, parent=None):
-        QWidget.__init__(self, parent)
+        QDialog.__init__(self, parent, Qt.ToolTip|Qt.WindowStaysOnTopHint)
+        self.setAttribute( Qt.WA_ShowWithoutActivating)
         self.parent=parent
         
     def refresh(self, vc, xVal, yVal):
@@ -342,14 +354,14 @@ class MyPopup(QWidget):
                 value=QLabel()
                 self.lblTitles.append(title)
                 self.lblValues.append(value)
-                layh=QHBoxLayout(self)
+                layh=QHBoxLayout()
                 layh.addWidget(title)
                 layh.addWidget(value)
                 self.lay.addLayout(layh)
             self.setLayout(self.lay)
 
         #Displaying values
-        self.labelXY.setText("X: {}, Y: {}".format(epochms2dtaware(self.xVal), self.yVal))
+        self.labelXY.setText("X: {}, Y: {}".format(epochms2dtaware(self.xVal).date(), round(self.yVal, 2)))
         for i, serie in enumerate(self.vc.series):
             self.lblTitles[i].setText(serie.name())
-            self.lblValues[i].setText(str(self.vc.series_value(serie, self.xVal)))
+            self.lblValues[i].setText(self.tr("{} (Last: {})").format(round(self.vc.series_value(serie, self.xVal), 2), round(serie.pointsVector()[len(serie.pointsVector())-1].y(), 2)))
