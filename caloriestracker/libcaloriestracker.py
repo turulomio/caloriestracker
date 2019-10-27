@@ -1446,11 +1446,11 @@ class FormatAllManager(QObject, ObjectManager_With_IdName_Selectable):
 
     def load_all(self):
         system=FormatManager(self.mem, self.product)
-        system.load_from_db(self.mem.con.mogrify("select * from formats where products_id=%s", (self.product.id, )))
+        system.load_from_db(self.mem.con.mogrify("select * from formats where products_id=%s and system_product=%s", (self.product.id, self.product.system_product )))
         for o in system.arr:
             self.append(o)
         personal=FormatPersonalManager(self.mem, self.product)
-        personal.load_from_db(self.mem.con.mogrify("select * from personalformats where products_id=%s", (self.product.id, )))
+        personal.load_from_db(self.mem.con.mogrify("select * from personalformats where products_id=%s and system_product=%s", (self.product.id, self.product.system_product)))
         for o in personal.arr:
             self.append(o)
         self.order_by_name()

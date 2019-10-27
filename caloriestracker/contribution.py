@@ -4,9 +4,9 @@ from caloriestracker.casts import b2s
 from caloriestracker.admin_pg import AdminPG
 from caloriestracker.database_update import database_update
 from caloriestracker.text_inputs import input_YN
-from caloriestracker.mem import MemConsole
+from caloriestracker.mem import MemConsole, MemInit
 from colorama import Style, Fore
-from datetime import datetime
+from datetime import datetime, date
 from os import system
 
 def print_table_status(con):
@@ -65,14 +65,15 @@ def parse_contribution_dump_generate_files_and_validates_them(auxiliar_con, cont
     print ("2. After loading personal data from collaborator",  *print_table_status(newcon))
     
     ## 3. GENERATES SYSTEM.SQL FILE AND RETURN TO CONTRIBUTOR
-    mem_temporary=MemConsole()
+    mem_temporary=MemInit()#It's an internal and temporaray Mem. Better to pass parameters
     mem_temporary.con=newcon
     mem_temporary.debuglevel="DEBUG"
     if mem_temporary.con.is_active()==False:
         exit(1)
     mem_temporary.load_db_data(False)
     mem_temporary.user=mem_temporary.data.users.find_by_id(1)
-        
+
+
     ## GENERATING XXXXXXXXXXXX.sql
     package_sql_filename="XXXXXXXXXXXX.sql".format(datestr)        
     package_sql=open(package_sql_filename, "w")

@@ -8,7 +8,6 @@ from sys import exit
 
 def main():
     mem=MemConsole()
-    
     mem.run()   
     debug(mem.tr("Start mem took {}".format(datetime.now()-mem.inittime)))
 
@@ -99,6 +98,7 @@ def main():
         exit(0)
     
     if mem.args.parse_contribution_dump!=None:
+        print(mem.args)
         parse_contribution_dump_generate_files_and_validates_them(mem.con, mem.args.parse_contribution_dump)
         exit(0)
         
