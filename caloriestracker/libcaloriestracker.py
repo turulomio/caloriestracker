@@ -1329,7 +1329,7 @@ class ProductPersonal(Product):
             debug("I did not delete personalproducts because is not deletable")
 
 ## There is no need of system_formats or personal_formats because it's relacionated with the product as its properties
-class Format:
+class Format(QObject):
     ##Format(mem)
     ##Format(mem,rows) #Uses products_id and users_id in row
     ##Format(mem, name, product, system_product,amount, last,  id):
@@ -1343,6 +1343,7 @@ class Format:
             self.id=id
             return self
         # #########################################
+        QObject.__init__(self)
         self.mem=args[0]
         if len(args)==1:#Format(mem)
             init__create(*[None]*7)
@@ -1364,14 +1365,14 @@ class Format:
             return False
         return True
         
-    def fullName(self):
+    def fullName(self, grams=True):
         system="S" if self.system_format==True else "P"
+        sgrams=self.tr(" ({} g)").format(self.amount) if grams==True else ""
         if self.mem.debuglevel=="DEBUG":
-            return "{} ({} g). #{}{}".format(self.name, self.amount, system, self.id)
+            return "{}{}. #{}{}".format(self.name, sgrams, system, self.id)
         else:
-            return "{} ({} g)".format(self.name, self.amount)
+            return "{}{}".format(self.name, sgrams)
 
-        
     def qicon(self):
         if self.system_format==True:
             return QIcon(":/caloriestracker/cube.png")
@@ -1413,6 +1414,7 @@ class FormatManager(QObject, ObjectManager_With_IdName_Selectable):
             self.append(Format(self.mem, row))
         return self
 
+    @staticmethod
     def qtablewidget(self, table):        
         table.setColumnCount(2)
         table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Name")))
@@ -1421,11 +1423,10 @@ class FormatManager(QObject, ObjectManager_With_IdName_Selectable):
         table.clearContents()
         table.setRowCount(self.length())
         for i, o in enumerate(self.arr):
-            table.setItem(i, 0, qleft(o.name))
+            table.setItem(i, 0, qleft(o.fullName(grams=False)))
             table.item(i, 0).setIcon(o.qicon())
             table.setItem(i, 1, qnumber(o.amount))
-            
-        
+
 class FormatPersonalManager(FormatManager):
     def __init__(self, *args):
         FormatManager.__init__(self, *args)
