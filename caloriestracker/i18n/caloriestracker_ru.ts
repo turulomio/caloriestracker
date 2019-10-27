@@ -855,41 +855,41 @@
 <context>
     <name>VCHeight</name>
     <message>
-        <location filename="../ui/wdgBiometrics.py" line="185"/>
+        <location filename="../ui/wdgBiometrics.py" line="192"/>
         <source>Height evolution chart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/wdgBiometrics.py" line="209"/>
-        <source>Loading {} biometrics</source>
+        <location filename="../ui/wdgBiometrics.py" line="227"/>
+        <source>Height evolution</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/wdgBiometrics.py" line="216"/>
-        <source>Height evolution</source>
+        <location filename="../ui/wdgBiometrics.py" line="220"/>
+        <source>Loading {} biometric information</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>VCWeight</name>
     <message>
-        <location filename="../ui/wdgBiometrics.py" line="135"/>
+        <location filename="../ui/wdgBiometrics.py" line="134"/>
         <source>Weight evolution chart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/wdgBiometrics.py" line="161"/>
-        <source>Loading {} biometrics</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/wdgBiometrics.py" line="168"/>
+        <location filename="../ui/wdgBiometrics.py" line="171"/>
         <source>Weight evolution</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/wdgBiometrics.py" line="169"/>
+        <location filename="../ui/wdgBiometrics.py" line="173"/>
         <source>Simple movil average {}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/wdgBiometrics.py" line="164"/>
+        <source>Loading {} biometric information</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -914,12 +914,12 @@
 <context>
     <name>combo</name>
     <message>
-        <location filename="../libmanagers.py" line="331"/>
+        <location filename="../libmanagers.py" line="333"/>
         <source>Select an option</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libmanagers.py" line="333"/>
+        <location filename="../libmanagers.py" line="335"/>
         <source>No options to select</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1876,12 +1876,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/wdgBiometrics.py" line="89"/>
+        <location filename="../ui/wdgBiometrics.py" line="88"/>
         <source>Asking your confirmation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/wdgBiometrics.py" line="89"/>
+        <location filename="../ui/wdgBiometrics.py" line="88"/>
         <source>This action can&apos;t be undone.
 Do you want to delete this record?</source>
         <translation type="unfinished"></translation>

@@ -2,10 +2,9 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox
 from caloriestracker.libcaloriestracker import BiometricsManager
-from caloriestracker.datetime_functions import dtaware_day_start_from_date
 from caloriestracker.ui.Ui_wdgBiometrics import Ui_wdgBiometrics
 from caloriestracker.ui.myqcharts import VCTemporalSeries
-from caloriestracker.libmanagers import DVManager
+from caloriestracker.libmanagers import DateValueManager
 from logging import debug
 from datetime import date, timedelta
 
@@ -148,11 +147,15 @@ class VCWeight(VCTemporalSeries):
             group by datetime::date
             order by datetime::date
             """, (self.mem.user.id, date_from))
-        self.weight=DVManager()
-        self.sma_period=15
+        weight=DateValueManager()#Date and value
+        self.sma_period=30
         for row in self.mem.con.cursor_rows(sql):
-            self.weight.appendDV(dtaware_day_start_from_date(row['datetime'], self.mem.localzone),  row['avg'])
-        self.sma_data=self.weight.sma(self.sma_period)
+            weight.appendDV(row['datetime'],  row['avg'])
+        weight_filled=weight.DateValueManager_filling_empty()# Date and value filled
+        self.weight=weight_filled.DatetimeValueManager(start=True, timezone=self.mem.localzone)# Datetime aware and value
+
+        self.sma_data_50=self.weight.sma(50)
+        self.sma_data_200=self.weight.sma(200)
 
     ## Just draw the chart with selected options. To update it just close this object and create another one
     def generate(self):
@@ -160,21 +163,25 @@ class VCWeight(VCTemporalSeries):
         self.setProgressDialogEnabled(True)
         self.setProgressDialogAttributes(
                 None, 
-                self.tr("Loading {} biometrics").format(self.weight.length()), 
+                self.tr("Loading {} biometric information").format(self.weight.length()), 
                 QIcon(":caloriestracker/books.png"), 
                 0, 
                 self.weight.length()
         )
         weight=self.appendTemporalSeries(self.tr("Weight evolution"), None)
-        sma=self.appendTemporalSeries(self.tr("Simple movil average {}").format(self.sma_period), None)
+        sma50=self.appendTemporalSeries(self.tr("Simple movil average {}").format(50), None)
+        sma200=self.appendTemporalSeries(self.tr("Simple movil average {}").format(200), None)
         for i in range(self.weight.length()):
             #Shows progress dialog
             self.setProgressDialogNumber(i+1)
             #Weight
             self.appendTemporalSeriesData(weight, self.weight.arr[i].datetime, self.weight.arr[i].value)
             #sma
-            if i>=self.sma_period:
-                self.appendTemporalSeriesData(sma, self.sma_data.arr[i-self.sma_period].datetime, self.sma_data.arr[i-self.sma_period].value)
+            if i>=50:
+                self.appendTemporalSeriesData(sma50, self.sma_data_50.arr[i-50].datetime, self.sma_data_50.arr[i-50].value)
+            #sma
+            if i>=200:
+                self.appendTemporalSeriesData(sma200, self.sma_data_200.arr[i-200].datetime, self.sma_data_200.arr[i-200].value)
         self.display()
 
 
@@ -186,6 +193,7 @@ class VCHeight(VCTemporalSeries):
         
     def setData(self, mem, date_from):
         self.mem=mem
+        self.sma_period=15
         sql=self.mem.con.mogrify("""
             select 
                 max(height), 
@@ -198,9 +206,12 @@ class VCHeight(VCTemporalSeries):
             group by datetime::date
             order by datetime::date
             """, (self.mem.user.id, date_from))
-        self.height=DVManager()
+        height=DateValueManager()
         for row in self.mem.con.cursor_rows(sql):
-            self.height.appendDV(dtaware_day_start_from_date(row['datetime'], self.mem.localzone),  row['max'])
+            height.appendDV(row['datetime'],   row['max'])
+        height_filled=height.DateValueManager_filling_empty()# Date and value filled
+        self.height=height_filled.DatetimeValueManager(start=True, timezone=self.mem.localzone)# Datetime aware and value
+        self.sma_data=self.height.sma(self.sma_period)
 
     ## Just draw the chart with selected options. To update it just close this object and create another one
     def generate(self):
@@ -208,7 +219,7 @@ class VCHeight(VCTemporalSeries):
         self.setProgressDialogEnabled(True)
         self.setProgressDialogAttributes(
                 None, 
-                self.tr("Loading {} biometrics").format(self.height.length()), 
+                self.tr("Loading {} biometric information").format(self.height.length()), 
                 QIcon(":caloriestracker/books.png"), 
                 0, 
                 self.height.length()

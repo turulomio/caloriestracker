@@ -9,7 +9,9 @@
 ## You have to use dictionary objects i f you are going to make unordered access to the dictionary. It consumes more memory. To access a selected item in a table you have to hide a column with the id and getit when selecting a row
 ##
 
+from datetime import datetime, timedelta, date
 from logging import debug
+from .datetime_functions import dtaware_day_end_from_date, dtaware_day_start_from_date, dtnaive_day_end_from_date, dtnaive_day_start_from_date
 
 
 ## Defines who self.selected is managed
@@ -341,6 +343,30 @@ class ObjectManager_With_IdName(ObjectManager_With_Id):
         if selected!=None:
             combo.setCurrentIndex(combo.findData(selected.id))
 
+    ## Creates a libreoffice sheet from the ObjectManager
+    ##
+    ## This function needs the officegenerator package
+    ## @param sheetname String with the name of the libreoffice sheet
+    ## @param Officegenerator ODS_Write object
+    ## @param titles List of strings with the titles of the columns
+    ## @param order_by_name Boolean. True: orders by name. False: orders by id
+    ## @returns Officegenerator OdfSheet
+    def ods_sheet(self, ods, sheetname, titles=["Id", "Name"],  order_by_name=True):
+        from officegenerator import Coord
+        if order_by_name==True:
+            self.order_by_name()
+        else:
+            self.order_by_id()
+        s=ods.createSheet(sheetname)
+        s.setColumnsWidth([80, 240])
+        s.add("A1", [titles], "OrangeCenter")
+        for number, o in enumerate(self.arr):
+            s.add(Coord("A2").addRow(number), o.id, "WhiteRight")        
+            s.add(Coord("B2").addRow(number), o.name, "WhiteLeft")
+        s.setSplitPosition("A1")
+        s.setCursorPosition(Coord("B2").addRow(self.length()))
+        return s
+
 ## Objects has a field called id, whose string is the key of the item of dict
 ## It Can be a DictObjectManager without id
 ## It doesn't need to cfreate DictListObjectManager_With_IdName, because all funcions are used with ObjectManager_With_IdName
@@ -491,31 +517,98 @@ class ObjectManager_With_IdName_Selectable(ObjectManager_With_IdName, ManagerSel
 
 
 
-## THIS IS A NEW SERIE OF MANAGERS DATA VALUE
-class DV:
+## THIS IS A NEW SERIE OF MANAGERS DATETIME VALUE
+class DatetimeValue:
     def __init__(self):
         self.datetime=None
         self.value=None
 
     def __repr__(self):
-        return "DV {} = {}".format(self.date,self.value)
+        return "DatetimeValue {} = {}".format(self.date,self.value)
 
-class DVManager(ObjectManager):
+class DatetimeValueManager(ObjectManager):
     def __init__(self):
         ObjectManager.__init__(self)
     def appendDV(self, datetime, value):
-        o=DV()
+        o=DatetimeValue()
         o.datetime=datetime
         o.value=value
         self.append(o)    ## Returns a date value manager with the simple movil average 3 of weight
     
     ## Returns a DVManager with the simple movil average of the array
     def sma(self, period):
-        r=DVManager()
+        r=DatetimeValueManager()
         for i in range(period, self.length()):
-            sma=DV()
+            sma=DatetimeValue()
             sma.value=0
             sma.datetime=self.arr[i].datetime
+            for p in range(period):
+                sma.value=sma.value+self.arr[i-p].value
+            sma.value=sma.value/period
+            r.append(sma)
+        return r
+        
+## THIS IS A NEW SERIE OF MANAGERS DATE VALUE
+class DateValue:
+    def __init__(self):
+        self.date=None
+        self.value=None
+
+    def __repr__(self):
+        return "DateValue {} = {}".format(self.date,self.value)
+
+class DateValueManager(ObjectManager):
+    def __init__(self):
+        ObjectManager.__init__(self)
+
+    def appendDV(self, date, value):
+        o=DateValue()
+        o.date=date
+        o.value=value
+        self.append(o)    ## Returns a date value manager with the simple movil average 3 of weight
+        
+    ## Fills days without data  with the data before or after
+    def DateValueManager_filling_empty(self, with_data_before=True):
+        r=DateValueManager()
+        last=self.first()
+        r.append(last)
+        for o in self.arr[1:]:
+            while o.date!=last.date+timedelta(days=1):
+                missing=DateValue()
+                missing.date=last.date+timedelta(days=1)
+                missing.value=last.value
+                r.append(missing)
+                last=missing
+            r.append(o)
+            last=o
+            
+        return r
+        
+    ## Converts a DateValueManager to a DatetimeValueManager.
+    ## @param start Boolean. If true date is converted to the start of the day. If false to the end of the day
+    ## @param timezone String with pytz timexone. If None datetimes will be naive, else datetimes will be aware
+    def DatetimeValueManager(self, start=True, timezone=None):
+        r=DatetimeValueManager()
+        for o in self.arr:
+            if start==True:
+                if timezone==None:
+                    r.appendDV(dtnaive_day_start_from_date(o.date), o.value)
+                else:
+                    r.appendDV(dtaware_day_start_from_date(o.date, timezone), o.value)
+            else:#end of day
+                if timezone==None:
+                    r.appendDV(dtnaive_day_end_from_date(o.date), o.value)
+                else:
+                    r.appendDV(dtaware_day_end_from_date(o.date, timezone), o.value)
+        return r
+
+    ## Returns a DVManager with the simple movil average of the array
+    def sma(self, period):
+        r=DateValueManager()
+        for i in range(period, self.length()):
+            sma=DateValue()
+            sma.value=0
+            sma.date=self.arr[i].date
             for p in range(period):
                 sma.value=sma.value+self.arr[i-p].value
             sma.value=sma.value/period
@@ -524,27 +617,35 @@ class DVManager(ObjectManager):
 
 
 
-
 if __name__ == "__main__":
-     import datetime
-     sizes=(1,10,100,1000,10000,100000,1000000,3000000)
-     for size in sizes:
-         l=ObjectManager_With_Id()
-         d=DictObjectManager_With_Id()
-         for number in range(size):
-             o=Object_With_IdName(number,"Name {}".format(number))
-             l.append(o)
-             d.append(o)
-         middle=size*2//3
-         start=datetime.datetime.now()
-         l.find_by_id(middle)
-         ltime=datetime.datetime.now()-start
-         start=datetime.datetime.now()
-         d.find_by_id(middle)
-         dtime=datetime.datetime.now()-start
-         print("Benchmarking search_by_id in to element {} with {} objects".format(middle,size))
-         if ltime>=dtime:
-             print("  * ObjectManager took {} more time than DictObjectManager".format(ltime-dtime))
-         else:
-             print("  * DictObjectManager took {} more time than ObjectManager".format(dtime-ltime))
+    print("TESTING FILLING DATEVALUEMANAGER")
+    r=DateValueManager()
+    r.appendDV(date(2019, 1, 10), 1)
+    r.appendDV(date(2019, 1, 17), 2)
+    r.print()
+    filled=r.DateValueManager_filling_empty()
+    filled.print()
+
+    sizes=(1,10,100,1000,10000,100000,1000000,3000000)
+    for size in sizes:
+        l=ObjectManager_With_Id()
+        d=DictObjectManager_With_Id()
+        for number in range(size):
+            o=Object_With_IdName(number,"Name {}".format(number))
+            l.append(o)
+            d.append(o)
+        middle=size*2//3
+        start=datetime.now()
+        l.find_by_id(middle)
+        ltime=datetime.now()-start
+        start=datetime.now()
+        d.find_by_id(middle)
+        dtime=datetime.now()-start
+        print()
+        print("Benchmarking search_by_id in to element {} with {} objects".format(middle,size))
+        if ltime>=dtime:
+            print("  * ObjectManager took {} more time than DictObjectManager".format(ltime-dtime))
+        else:
+            print("  * DictObjectManager took {} more time than ObjectManager".format(dtime-ltime))
+
 
