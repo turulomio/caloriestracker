@@ -41,8 +41,13 @@ WITH t AS (
 )
 SELECT * FROM t ORDER BY datetime ASC""", (self.mem.user.id, ))
             
+        #Update table
         self.biometrics=BiometricsManager(self.mem, sql, True)
         self.biometrics.qtablewidget(self.tblBiometrics)
+        if self.biometrics.selected==None:#Selects last row if there is no selection
+            self.tblBiometrics.selectRow(self.biometrics.length()-1)
+        
+        #Update viewcharts
         if self.viewChartHeight!=None:
             self.layHeight.removeWidget(self.viewChartHeight)
             self.viewChartHeight.close()

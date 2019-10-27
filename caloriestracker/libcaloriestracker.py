@@ -987,7 +987,7 @@ class BiometricsManager(QObject, ObjectManager_With_IdName_Selectable):
             self.append(o)
         cur.close()
 
-    def qtablewidget(self, table):        
+    def qtablewidget(self, table):     
         table.setColumnCount(6)
         table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Date and time")))
         table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Weight")))
@@ -1006,8 +1006,6 @@ class BiometricsManager(QObject, ObjectManager_With_IdName_Selectable):
             table.setItem(i, 3, qleft(o.activity.name))
             table.setItem(i, 4, qleft(o.weightwish.name))
             table.setItem(i, 5, qleft(o.imc_comment()))
-            
-
 
 class CompanySystem:
     ##CompanySystem(mem)
