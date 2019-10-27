@@ -204,14 +204,22 @@
     </message>
 </context>
 <context>
+    <name>Format</name>
+    <message>
+        <location filename="../libcaloriestracker.py" line="1370"/>
+        <source> ({} g)</source>
+        <translation> ({} g)</translation>
+    </message>
+</context>
+<context>
     <name>FormatManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1418"/>
+        <location filename="../libcaloriestracker.py" line="1420"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1419"/>
+        <location filename="../libcaloriestracker.py" line="1421"/>
         <source>Grams</source>
         <translation>Gramos</translation>
     </message>
@@ -239,12 +247,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="6"/>
+        <location filename="../hardcoded_strings.py" line="7"/>
         <source>Arroz crudo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="7"/>
+        <location filename="../hardcoded_strings.py" line="9"/>
         <source>Banana</source>
         <translation type="unfinished"></translation>
     </message>
@@ -259,227 +267,272 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="12"/>
+        <location filename="../hardcoded_strings.py" line="13"/>
         <source>Cebolla</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="13"/>
+        <location filename="../hardcoded_strings.py" line="14"/>
         <source>Cerveza sin alcohol</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="14"/>
+        <location filename="../hardcoded_strings.py" line="16"/>
         <source>Cola Cao Original</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="15"/>
+        <location filename="../hardcoded_strings.py" line="18"/>
         <source>Costillas de cerdo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="18"/>
+        <location filename="../hardcoded_strings.py" line="21"/>
         <source>Gambas</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="19"/>
+        <location filename="../hardcoded_strings.py" line="22"/>
         <source>Helado</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="20"/>
+        <location filename="../hardcoded_strings.py" line="24"/>
         <source>Huevos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="21"/>
+        <location filename="../hardcoded_strings.py" line="25"/>
         <source>Huevos fritos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="23"/>
+        <location filename="../hardcoded_strings.py" line="27"/>
         <source>Kiwi</source>
         <translation>Kiwi</translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="24"/>
+        <location filename="../hardcoded_strings.py" line="28"/>
         <source>Lambrusco</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="25"/>
+        <location filename="../hardcoded_strings.py" line="29"/>
         <source>Leche condensada desnatada. Nutricia</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="26"/>
+        <location filename="../hardcoded_strings.py" line="30"/>
         <source>Leche entera</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="27"/>
+        <location filename="../hardcoded_strings.py" line="31"/>
         <source>Leche evaporada</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="28"/>
+        <location filename="../hardcoded_strings.py" line="34"/>
         <source>Mantequilla</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="29"/>
+        <location filename="../hardcoded_strings.py" line="35"/>
         <source>Manzana</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="30"/>
+        <location filename="../hardcoded_strings.py" line="36"/>
         <source>Mayonesa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="31"/>
+        <location filename="../hardcoded_strings.py" line="37"/>
         <source>Mermelada</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="32"/>
+        <location filename="../hardcoded_strings.py" line="38"/>
         <source>Mermelada de fresa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="33"/>
+        <location filename="../hardcoded_strings.py" line="39"/>
         <source>Miel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="34"/>
+        <location filename="../hardcoded_strings.py" line="40"/>
         <source>Mousse de foie de pato</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="35"/>
+        <location filename="../hardcoded_strings.py" line="41"/>
         <source>Nectarina</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="36"/>
+        <location filename="../hardcoded_strings.py" line="42"/>
         <source>Palmera de chocolate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="37"/>
+        <location filename="../hardcoded_strings.py" line="43"/>
         <source>Pan blanco</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="38"/>
+        <location filename="../hardcoded_strings.py" line="44"/>
         <source>Pan de molde</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="39"/>
+        <location filename="../hardcoded_strings.py" line="45"/>
         <source>Paraguaya</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="40"/>
+        <location filename="../hardcoded_strings.py" line="47"/>
         <source>Patatas fritas</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="41"/>
+        <location filename="../hardcoded_strings.py" line="48"/>
         <source>Pera</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="42"/>
+        <location filename="../hardcoded_strings.py" line="50"/>
         <source>Picadillo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="43"/>
+        <location filename="../hardcoded_strings.py" line="51"/>
         <source>Pimiento verde</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="47"/>
+        <location filename="../hardcoded_strings.py" line="55"/>
         <source>Puerro</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="48"/>
+        <location filename="../hardcoded_strings.py" line="56"/>
         <source>Queso de cabra</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="49"/>
+        <location filename="../hardcoded_strings.py" line="57"/>
         <source>Queso marcarpone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="50"/>
+        <location filename="../hardcoded_strings.py" line="58"/>
         <source>Ron</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="51"/>
+        <location filename="../hardcoded_strings.py" line="60"/>
         <source>Setas</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="52"/>
+        <location filename="../hardcoded_strings.py" line="61"/>
         <source>Tortilla de patata</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="53"/>
+        <location filename="../hardcoded_strings.py" line="62"/>
         <source>Uva</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="54"/>
+        <location filename="../hardcoded_strings.py" line="63"/>
         <source>Zanahoria</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="15"/>
+        <source>Chirimoya</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="17"/>
+        <source>Cordero asado</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="23"/>
+        <source>Huevo duro</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="32"/>
+        <source>Lentejas</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="33"/>
+        <source>Mango</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="46"/>
+        <source>Patata cruda</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="59"/>
+        <source>Sal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="6"/>
+        <source>Arándanos</source>
         <translation type="unfinished"></translation>
     </message>
     <message encoding="UTF-8">
         <location filename="../hardcoded_strings.py" line="8"/>
-        <source>Barritas de arándanos</source>
+        <source>Azúcar</source>
         <translation type="unfinished"></translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="9"/>
-        <source>Bebida de arándanos y frutas rojas</source>
+        <location filename="../hardcoded_strings.py" line="12"/>
+        <source>Castañas</source>
         <translation type="unfinished"></translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="16"/>
+        <location filename="../hardcoded_strings.py" line="19"/>
         <source>Croquetas de jamón</source>
         <translation type="unfinished"></translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="17"/>
+        <location filename="../hardcoded_strings.py" line="20"/>
         <source>Espárragos trigueros</source>
         <translation type="unfinished"></translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="22"/>
+        <location filename="../hardcoded_strings.py" line="26"/>
         <source>Jamón serrano</source>
         <translation type="unfinished"></translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="44"/>
+        <location filename="../hardcoded_strings.py" line="49"/>
+        <source>Persimón</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="52"/>
         <source>Pimientos de padrón</source>
         <translation type="unfinished"></translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="45"/>
+        <location filename="../hardcoded_strings.py" line="53"/>
         <source>Pizza genérica de masa gruesa con queso</source>
         <translation type="unfinished"></translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="46"/>
+        <location filename="../hardcoded_strings.py" line="54"/>
         <source>Plátano</source>
         <translation type="unfinished"></translation>
     </message>
@@ -487,52 +540,52 @@
 <context>
     <name>MealManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1640"/>
+        <location filename="../libcaloriestracker.py" line="1641"/>
         <source>Hour</source>
         <translation>Hora</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1641"/>
+        <location filename="../libcaloriestracker.py" line="1642"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1642"/>
+        <location filename="../libcaloriestracker.py" line="1643"/>
         <source>Grams</source>
         <translation>Gramos</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1643"/>
+        <location filename="../libcaloriestracker.py" line="1644"/>
         <source>Calories</source>
         <translation>Calorías</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1644"/>
+        <location filename="../libcaloriestracker.py" line="1645"/>
         <source>Carbohydrates</source>
         <translation>Carbohidratos</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1645"/>
+        <location filename="../libcaloriestracker.py" line="1646"/>
         <source>Protein</source>
         <translation>Proteína</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1646"/>
+        <location filename="../libcaloriestracker.py" line="1647"/>
         <source>Fat</source>
         <translation>Grasa</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1647"/>
+        <location filename="../libcaloriestracker.py" line="1648"/>
         <source>Fiber</source>
         <translation>Fibra</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1664"/>
+        <location filename="../libcaloriestracker.py" line="1665"/>
         <source>Total</source>
         <translation>Total</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1672"/>
+        <location filename="../libcaloriestracker.py" line="1673"/>
         <source>Recomendations</source>
         <translation>Recomendaciones</translation>
     </message>
@@ -553,7 +606,7 @@
 <context>
     <name>MemCaloriestracker</name>
     <message>
-        <location filename="../mem.py" line="219"/>
+        <location filename="../mem.py" line="222"/>
         <source>Report of calories</source>
         <translation>Informe de calorías</translation>
     </message>
@@ -561,57 +614,57 @@
 <context>
     <name>MemConsole</name>
     <message>
-        <location filename="../mem.py" line="177"/>
+        <location filename="../mem.py" line="180"/>
         <source>Report of calories</source>
         <translation>Informe de calorías</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="181"/>
+        <location filename="../mem.py" line="184"/>
         <source>Date to show</source>
         <translation>Fecha a mostrar</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="182"/>
+        <location filename="../mem.py" line="185"/>
         <source>User id</source>
         <translation>Id del usuario</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="183"/>
+        <location filename="../mem.py" line="186"/>
         <source>Find data</source>
         <translation>Encontrar datos</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="186"/>
+        <location filename="../mem.py" line="189"/>
         <source>Adds a company</source>
         <translation>Añade una compañía</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="185"/>
+        <location filename="../mem.py" line="188"/>
         <source>Adds a product</source>
         <translation>Añade un producto</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="187"/>
+        <location filename="../mem.py" line="190"/>
         <source>Adds biometrics</source>
         <translation>Añade información biométrica</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="188"/>
+        <location filename="../mem.py" line="191"/>
         <source>Generate a dump to collaborate updating companies and products</source>
         <translation>Genera un volcado de compañías y productos, para colaborar</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="191"/>
+        <location filename="../mem.py" line="194"/>
         <source>Show elaborated product</source>
         <translation>Muestra un producto elaborado</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="189"/>
+        <location filename="../mem.py" line="192"/>
         <source>Parses a dump and generates sql files for the package and for the dump owner</source>
         <translation>Interpreta un volcado y genera ficheros sql para el paquete y para el propietario del volcado</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="190"/>
+        <location filename="../mem.py" line="193"/>
         <source>Converts personal data to system data in the database using generated sql file of the dump owner</source>
         <translation>Convierte la información personal en información del sistema de la base de datos, usando el fichero sql generado para el propietario del volcado</translation>
     </message>
@@ -822,32 +875,32 @@
 <context>
     <name>UserManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1758"/>
+        <location filename="../libcaloriestracker.py" line="1759"/>
         <source>Loading {0} users from database</source>
         <translation>Cargando {0} usuarios de la base de datos</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1761"/>
+        <location filename="../libcaloriestracker.py" line="1762"/>
         <source>Loading users...</source>
         <translation>Cargando usuarios...</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1784"/>
+        <location filename="../libcaloriestracker.py" line="1785"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1785"/>
+        <location filename="../libcaloriestracker.py" line="1786"/>
         <source>Male</source>
         <translation>Hombre</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1786"/>
+        <location filename="../libcaloriestracker.py" line="1787"/>
         <source>Birthday</source>
         <translation>Cumpleaños</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1787"/>
+        <location filename="../libcaloriestracker.py" line="1788"/>
         <source>Starts</source>
         <translation>Inicio</translation>
     </message>
@@ -867,7 +920,7 @@
     <message>
         <location filename="../ui/wdgBiometrics.py" line="220"/>
         <source>Loading {} biometric information</source>
-        <translation type="unfinished"></translation>
+        <translation>Cargando {} informaciones biométricas</translation>
     </message>
 </context>
 <context>
@@ -885,12 +938,12 @@
     <message>
         <location filename="../ui/wdgBiometrics.py" line="173"/>
         <source>Simple movil average {}</source>
-        <translation type="unfinished">Media móvil simple {}</translation>
+        <translation>Media móvil simple {}</translation>
     </message>
     <message>
         <location filename="../ui/wdgBiometrics.py" line="164"/>
         <source>Loading {} biometric information</source>
-        <translation type="unfinished"></translation>
+        <translation>Cargando {} informaciones biométricas</translation>
     </message>
 </context>
 <context>
@@ -927,72 +980,67 @@
 <context>
     <name>frmAbout</name>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="289"/>
-        <source>Xulpymoney</source>
-        <translation>Xulpymoney</translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmAbout.py" line="316"/>
+        <location filename="../ui/Ui_frmAbout.py" line="317"/>
         <source>License</source>
         <translation>Licencia</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="315"/>
+        <location filename="../ui/Ui_frmAbout.py" line="316"/>
         <source>Software used</source>
         <translation>Software usado</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="296"/>
+        <location filename="../ui/Ui_frmAbout.py" line="297"/>
         <source>Colorama</source>
         <translation>Colorama</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="298"/>
+        <location filename="../ui/Ui_frmAbout.py" line="299"/>
         <source>OfficeGenerator</source>
         <translation>OfficeGenerator</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="304"/>
+        <location filename="../ui/Ui_frmAbout.py" line="305"/>
         <source>PyQt</source>
         <translation>PyQt</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="306"/>
+        <location filename="../ui/Ui_frmAbout.py" line="307"/>
         <source>PyQtCharts</source>
         <translation>PyQtCharts</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="308"/>
+        <location filename="../ui/Ui_frmAbout.py" line="309"/>
         <source>Python</source>
         <translation>Python</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="314"/>
+        <location filename="../ui/Ui_frmAbout.py" line="315"/>
         <source>Url</source>
         <translation>Url</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="312"/>
+        <location filename="../ui/Ui_frmAbout.py" line="313"/>
         <source>Version</source>
         <translation>Versión</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="294"/>
+        <location filename="../ui/Ui_frmAbout.py" line="295"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Make click in the url to open link to the project main page&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pulse en la dirección web para abrir el enlace a la página principal del proyecto&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="300"/>
+        <location filename="../ui/Ui_frmAbout.py" line="301"/>
         <source>PostgreSQL</source>
         <translation>PostgreSQL</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="302"/>
+        <location filename="../ui/Ui_frmAbout.py" line="303"/>
         <source>Psycopg</source>
         <translation>Psycopg</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="310"/>
+        <location filename="../ui/Ui_frmAbout.py" line="311"/>
         <source>Pytz</source>
         <translation>Pytz</translation>
     </message>
@@ -1012,7 +1060,7 @@
         <translation>Los avatares son de &lt;a href=&quot;http://www.nobleavatar.com/&quot;&gt;http://www.nobleavatar.com/&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="291"/>
+        <location filename="../ui/Ui_frmAbout.py" line="292"/>
         <source>Calories Tracker</source>
         <translation>Calories Tracker</translation>
     </message>
@@ -1027,14 +1075,19 @@
         <translation>La versión de la base de datos es: {}</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="293"/>
+        <location filename="../ui/Ui_frmAbout.py" line="294"/>
         <source>Calories Tracker is an Open Source application. It uses the following software:</source>
         <translation>Calories Tracker es una aplicación de código abierto. Usa el siguiente software:</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAbout.py" line="292"/>
+        <location filename="../ui/Ui_frmAbout.py" line="293"/>
         <source>Database registers</source>
         <translation>Registros de la base de datos</translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmAbout.py" line="290"/>
+        <source>Calories Traker</source>
+        <translation>Calories Traker</translation>
     </message>
 </context>
 <context>
@@ -1817,7 +1870,7 @@
         <translation>Por favor autentíquese en la base de datos de Calories Tracker</translation>
     </message>
     <message>
-        <location filename="../caloriestracker_console.py" line="13"/>
+        <location filename="../caloriestracker_console.py" line="12"/>
         <source>Start mem took {}</source>
         <translation>Inicializar mem tardó {}</translation>
     </message>

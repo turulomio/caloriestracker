@@ -64,7 +64,7 @@ Dependencies
 How to colaborate with Calories Tracker
 =======================================
 
-In Calories tracker you can add your own products and you can share them with us, if you wish with this [PROCEDURE](PROCEDURE.md)
+In Calories tracker you can add your own products and you can share them with us, if you wish with this [PROCEDURE](COLLABORATION.md)
 
 Changelog
 =========

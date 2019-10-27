@@ -4,9 +4,9 @@ from caloriestracker.casts import b2s
 from caloriestracker.admin_pg import AdminPG
 from caloriestracker.database_update import database_update
 from caloriestracker.text_inputs import input_YN
-from caloriestracker.mem import MemConsole, MemInit
+from caloriestracker.mem import  MemInit
 from colorama import Style, Fore
-from datetime import datetime, date
+from datetime import datetime
 from os import system
 
 def print_table_status(con):
