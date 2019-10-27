@@ -68,6 +68,13 @@ In Calories tracker you can add your own products and you can share them with us
 
 Changelog
 =========
+0.3.0
+  * frmAbout user interface improved
+  * Translations of hardcoded strings improved
+  * Charts are improved
+  * Added more curiosities
+  * Added more products, companies and formats
+
 0.2.0
   * Added formats, elaborated products
   * Updated to PyQt5-5.13.1
