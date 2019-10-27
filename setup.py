@@ -10,12 +10,6 @@ class Doxygen(Command):
     description = "Create/update doxygen documentation in doc/html"
     user_options = []
 
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
     def run(self):
         print("Creating Doxygen Documentation")
         os.system("""sed -i -e "41d" doc/Doxyfile""")#Delete line 41
@@ -29,12 +23,6 @@ class Doxygen(Command):
 class PyInstaller(Command):
     description = "We run pyinstaller in build to avoid doing a ./caloriestracker module imort. I had problems with i18n. Before running this command I must have done a install, removing old installations"
     user_options = []
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
         
     ## TODOS LOS ERRORES VINIERON POR TENER MAL EL __init__ LE PUSE _ALL__
     ## TAMBIEN VINIERON PORQUE EL NOMBRE DEL SCRIPT AUXILIAR ERA EL MISMO QUE EL DEL PAQUETE
@@ -77,12 +65,6 @@ print(sys.path)
 class Compile(Command):
     description = "Compile ui and images"
     user_options = []
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
 
     def download_from_github(self,user,repository,path_filename, destiny_directory):
         cwd=os.getcwd()
@@ -142,12 +124,6 @@ class Uninstall(Command):
     description = "Uninstall installed files with install"
     user_options = []
 
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
     def run(self):
         if platform.system()=="Linux":
             os.system("rm -Rf build") #sql were not erased
@@ -171,12 +147,6 @@ class Uninstall(Command):
 class Procedure(Command):
     description = "Uninstall installed files with install"
     user_options = []
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
 
     def run(self):
         print("""
@@ -216,9 +186,6 @@ class Doc(Command):
         self.port="5432"
         self.server="127.0.0.1"
 
-    def finalize_options(self):
-        pass
-
     def run(self):
         from caloriestracker.connection_pg import Connection
         con=Connection()
@@ -235,9 +202,6 @@ class Doc(Command):
         f.write("from PyQt5.QtCore import QT_TRANSLATE_NOOP\n")
         for row in rows:
             f.write("QT_TRANSLATE_NOOP('HardcodedStrings','{}')\n".format(row["name"]))
-#        f.write("print(QObject.tr('bread'))\n")
-#        f.write("a=QT_TRANSLATE_NOOP('HardcodedStrings', 'Bread')\n")
-#        f.write("print(QObject.tr('bread'), 'bread',a)\n")
         f.close()
         con.disconnect()
 
@@ -313,7 +277,6 @@ setup(name='caloriestracker',
                         'procedure': Procedure,
                         'pyinstaller': PyInstaller,
                      }, 
-#    test_suite = 'caloriestracker.test',
     zip_safe=False,
     include_package_data=True
     )
