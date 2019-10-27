@@ -32,7 +32,7 @@ class frmAbout(QDialog, Ui_frmAbout):
         s=s + self.tr("""Avatars are from <a href="http://www.nobleavatar.com/">http://www.nobleavatar.com/</a>""")
         s=s + "</body></html>"
         
-        self.textEdit.setHtml(s)
+        self.textBrowser.setHtml(s)
         self.lblVersion.setText("{} ({})".format(__version__, __versiondate__))
         dbversion=self.mem.con.cursor_one_field("select value from globals where id=1")
         self.lblProductsVersion.setText(self.tr("Database version is: {}").format(dbversion))
@@ -45,7 +45,6 @@ class frmAbout(QDialog, Ui_frmAbout):
 
 
     def OpenLink(self,item):
-        print(item.text())
         if item.column() == 1:
             QDesktopServices.openUrl(QUrl(item.text()));
 

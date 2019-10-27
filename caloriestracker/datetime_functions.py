@@ -79,13 +79,38 @@ def days2string(days):
         strdays=QApplication.translate("Core", "days")
     return QApplication.translate("Core", "{} {}, {} {} and {} {}").format(years, stryears,  months,  strmonths, days,  strdays)
 
+## Returns a date with the first date of the month
+## @param year Year to search fist day
+## @param month Month to search first day
+def date_first_of_the_month(year, month):
+    return date(year, month, 1)
+
 ## Returns a date with the last date of the month
 ## @param year Year to search last day
 ## @param month Month to search last day
 def date_last_of_the_month(year, month):
     if month==12:
-        return datetime.date(year, month, 31)
-    return datetime.date(year, month+1, 1)-datetime.timedelta(days=1)
+        return date(year, month, 31)
+    return date(year, month+1, 1)-timedelta(days=1)
+    
+## Returns a date with the first date of the month after x months
+## @param year Year to search  day
+## @param month Month to search day
+## @param x Number of months after parameters. Must be positive
+def date_first_of_the_next_x_months(year, month, x):
+    last=date(year, month, 1)
+    for i in range(x):
+        last=date_last_of_the_month(last.year, last.month)
+        last=last+timedelta(days=1)
+    return last    
+
+## Returns a date with the last date of the month after x months
+## @param year Year to search  day
+## @param month Month to search day
+## @param x Number of months after parameters. Must be positive
+def date_last_of_the_next_x_months(year, month, x):
+    first=date_first_of_the_next_x_months(year, month, x)
+    return date_last_of_the_month(first.year, first.month)
 
 def dtaware_month_end(year, month, tz_name):
     return dtaware_day_end_from_date(date_last_of_the_month(year, month), tz_name)
