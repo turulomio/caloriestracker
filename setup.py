@@ -243,8 +243,9 @@ class Doc(Command):
     ########################################################################
 
 #Description
-with open('README.md', encoding='utf-8') as f:
-    long_description = f.read()
+#with open('README.md', encoding='utf-8') as f:
+#    long_description = f.read()
+long_description="Home page is https://github.com/turulomio/caloriestracker" #Just for pypi upload
 
 #entry_points
 entry_points={
