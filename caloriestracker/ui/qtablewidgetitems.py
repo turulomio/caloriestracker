@@ -3,7 +3,7 @@
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import  QColor
-from PyQt5.QtWidgets import QTableWidgetItem, QApplication
+from PyQt5.QtWidgets import QWidget, QCheckBox, QHBoxLayout, QTableWidgetItem, QApplication
 from .. datetime_functions import dtaware2string, dtaware_changes_tz, time2string
 
 def qbool(bool):
@@ -20,8 +20,25 @@ def qbool(bool):
         a.setText(QApplication.translate("Core","False"))
     a.setTextAlignment(Qt.AlignVCenter|Qt.AlignCenter)
     return a
-    
-    
+
+## Center checkbox
+## You must use with table.setCellWidget(0,0,wdgBool)
+## Is disabled to be readonly
+def wdgBool(bool):
+    pWidget = QWidget()
+    pCheckBox = QCheckBox();
+    if bool:
+        pCheckBox.setCheckState(Qt.Checked);
+    else:
+        pCheckBox.setCheckState(Qt.Unchecked);
+    pLayout = QHBoxLayout(pWidget);
+    pLayout.addWidget(pCheckBox);
+    pLayout.setAlignment(Qt.AlignCenter);
+    pLayout.setContentsMargins(0,0,0,0);
+    pWidget.setLayout(pLayout);
+    pCheckBox.setEnabled(False)
+    return pWidget
+
 ## Returns a QTableWidgetItem representing an empty value
 def qempty():
     a=QTableWidgetItem("---")
@@ -81,12 +98,11 @@ def qdatetime(dt, tz_name):
 
 
 def qnumber(n, digits=2):
-    n=round(n, 2)
-    a=qright(n)
     if n==None:
-        a.qempty()
-        a.setForeground(QColor(0, 0, 255))
-    elif n<0:
+        return qempty()
+    n=round(n, digits)
+    a=qright(n)
+    if n<0:
         a.setForeground(QColor(255, 0, 0))
     return a
 

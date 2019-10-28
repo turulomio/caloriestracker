@@ -1276,7 +1276,10 @@ class Product(QObject):
             component_amount=self.protein
         elif eproductcomponent==eProductComponent.Calories:
             component_amount=self.calories
-        return Decimal(100)*Decimal(component_amount)/Decimal(self.amount)
+        try:
+            return Decimal(100)*Decimal(component_amount)/Decimal(self.amount)
+        except:
+            return None
 
     def qicon(self):
         if self.system_product==True:
