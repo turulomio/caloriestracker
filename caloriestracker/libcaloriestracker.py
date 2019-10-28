@@ -1528,7 +1528,7 @@ class Meal:
         return self.amount * self.product.carbohydrate/self.product.amount
 
     def salt(self):
-        return self.amount * self.product.salt/self.product.amoun
+        return self.amount * self.product.salt/self.product.amount
 
     def fiber(self):
         return self.amount * self.product.fiber/self.product.amount
