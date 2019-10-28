@@ -191,11 +191,11 @@ class VCTemporalSeries(VCCommons):
         ##Sets the place of the popup in the windows to avoid getout of the screen
         ##frmshow can be a frmShowCasilla or a frmShowFicha
         def placePopUp():
-            resultado=QPoint(event.x()+1, event.y())
-            if event.x()>self.width()-self.popup.width()-1:
-                resultado.setX(event.x()-self.popup.width()-1)
-            if event.y()>self.height()-self.popup.height():
-                resultado.setY(event.y()-self.popup.height())
+            resultado=QPoint(event.x()+15, event.y()+15)
+            if event.x()>self.width()-self.popup.width()-15:
+                resultado.setX(event.x()-self.popup.width()-15)
+            if event.y()>self.height()-self.popup.height()-15:
+                resultado.setY(event.y()-self.popup.height()-15)
             return resultado
         # ---------------------------------------
         QChartView.mouseMoveEvent(self, event)
