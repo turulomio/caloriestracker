@@ -13,6 +13,7 @@ class frmMealsAdd(QDialog, Ui_frmMealsAdd):
         self.meal=meal
         self.wdgDT.show_microseconds(False)
         self.wdgDT.setLocalzone(self.mem.localzone)
+        
         if self.meal==None:
             self.lbl.setText(self.tr("Add a new meal"))
             self.mem.data.products.qcombobox(self.cmbProducts)
@@ -26,6 +27,9 @@ class frmMealsAdd(QDialog, Ui_frmMealsAdd):
             self.spnAmount.setValue(self.meal.amount)
             self.product=self.meal.product
 
+        for i in range(1, 25):
+            self.cmbMult.addItem("x{}".format(i), i)
+
 
     @pyqtSlot(str)
     def on_cmbProducts_currentTextChanged(self, text):
@@ -37,13 +41,18 @@ class frmMealsAdd(QDialog, Ui_frmMealsAdd):
             self.product=self.mem.data.products.find_by_string_id(self.cmbProducts.itemData(index))
             self.product.needStatus(1)
             self.product.formats.qcombobox(self.cmbFormats, selected=None, needtoselect=True)
+        self.cmbMult.setCurrentIndex(0)
             
     @pyqtSlot(int)
     def on_cmbFormats_currentIndexChanged(self, index):
         if self.product!=None:
             format=self.product.formats.find_by_string_id(self.cmbFormats.itemData(index))
             if format!=None:
-                self.spnAmount.setValue(float(format.amount))
+                self.spnAmount.setValue(float(format.amount)*self.cmbMult.itemData(self.cmbMult.currentIndex()))
+            
+    @pyqtSlot(int)
+    def on_cmbMult_currentIndexChanged(self, index):
+        self.on_cmbFormats_currentIndexChanged(self.cmbFormats.currentIndex())
 
     def on_bb_accepted(self):
         if self.product==None:

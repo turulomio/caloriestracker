@@ -22,6 +22,9 @@ class frmProductsInElaboratedProductAdd(QDialog, Ui_frmProductsInElaboratedProdu
             self.spnAmount.setValue(self.productinelaboratedproduct.amount)
             self.product=self.productinelaboratedproduct.product
 
+        for i in range(1, 25):
+            self.cmbMult.addItem("x{}".format(i), i)
+
     def on_bb_accepted(self):
         if self.product==None:
             qmessagebox(self.tr("You must select a product from the popup list"))
@@ -55,6 +58,7 @@ class frmProductsInElaboratedProductAdd(QDialog, Ui_frmProductsInElaboratedProdu
             self.product=self.mem.data.products.find_by_string_id(self.cmbProducts.itemData(index))
             self.product.needStatus(1)
             self.product.formats.qcombobox(self.cmbFormats, None, needtoselect=True)
+        self.cmbMult.setCurrentIndex(0)
 
             
     @pyqtSlot(int)
@@ -62,4 +66,8 @@ class frmProductsInElaboratedProductAdd(QDialog, Ui_frmProductsInElaboratedProdu
         if self.product!=None:
             format=self.product.formats.find_by_string_id(self.cmbFormats.itemData(index))
             if format!=None:
-                self.spnAmount.setValue(float(format.amount))
+                self.spnAmount.setValue(float(format.amount)*self.cmbMult.itemData(self.cmbMult.currentIndex()))
+
+    @pyqtSlot(int)
+    def on_cmbMult_currentIndexChanged(self, index):
+        self.on_cmbFormats_currentIndexChanged(self.cmbFormats.currentIndex())
