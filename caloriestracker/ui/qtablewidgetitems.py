@@ -108,6 +108,8 @@ def qnumber(n, digits=2):
 
 ## Colorizes a number comparing it with a limit
 def qnumber_limited(n, limit, digits=2, reverse=False):
+    if n==None:
+        return qempty()
     a=qnumber(n, 2)
     if reverse==True:
         color_above=QColor(148, 255, 148)

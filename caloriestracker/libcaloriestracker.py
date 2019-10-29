@@ -1516,22 +1516,40 @@ class Meal:
         return self.product.fullName() 
 
     def calories(self):
-        return self.amount * self.product.calories/self.product.amount
+        try:
+            return self.amount * self.product.calories/self.product.amount
+        except:
+            None
         
     def fat(self):
-        return self.amount * self.product.fat/self.product.amount
+        try:
+            return self.amount * self.product.fat/self.product.amount
+        except:
+            None
 
     def protein(self):
-        return self.amount * self.product.protein/self.product.amount
+        try:
+            return self.amount * self.product.protein/self.product.amount
+        except:
+            None
 
     def carbohydrate(self):
-        return self.amount * self.product.carbohydrate/self.product.amount
+        try:
+            return self.amount * self.product.carbohydrate/self.product.amount
+        except:
+            None
 
     def salt(self):
-        return self.amount * self.product.salt/self.product.amount
+        try:
+            return self.amount * self.product.salt/self.product.amount
+        except:
+            None
 
     def fiber(self):
-        return self.amount * self.product.fiber/self.product.amount
+        try:
+            return self.amount * self.product.fiber/self.product.amount
+        except:
+            None
 
     def meal_hour(self):
         return str(self.datetime.time())[0:5]
@@ -1576,36 +1594,50 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
     def calories(self):
         r=Decimal(0)
         for meal in self.arr:
+            if meal.calories()==None:
+                return None
             r=r+meal.calories()
         return r
     def fat(self):
         r=Decimal(0)
         for meal in self.arr:
+            if meal.fat()==None:
+                return None
             r=r+meal.fat()
         return r
     def protein(self):
         r=Decimal(0)
         for meal in self.arr:
+            if meal.protein()==None:
+                return None
             r=r+meal.protein()
         return r
     def carbohydrate(self):
         r=Decimal(0)
         for meal in self.arr:
+            if meal.carbohydrate()==None:
+                return None
             r=r+meal.carbohydrate()
         return r
     def salt(self):
         r=Decimal(0)
         for meal in self.arr:
+            if meal.salt()==None:
+                return None
             r=r+meal.salt()
         return r
     def fiber(self):
         r=Decimal(0)
         for meal in self.arr:
+            if meal.fiber()==None:
+                return None
             r=r+meal.fiber()
         return r
     def grams(self):
         r=Decimal(0)
         for meal in self.arr:
+            if meal.amount==None:
+                return None
             r=r+meal.amount
         return r
 
