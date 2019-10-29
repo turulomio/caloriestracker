@@ -1,10 +1,15 @@
+## @brief myCharts class
+## THIS IS FILE IS FROM https://github.com/turulomio/reusingcode IF YOU NEED TO UPDATE IT PLEASE MAKE A PULL REQUEST IN THAT PROJECT
+## DO NOT UPDATE IT IN YOUR CODE IT WILL BE REPLACED USING FUNCTION IN README
+
+from PyQt5.QtChart import QChart,  QLineSeries, QChartView, QValueAxis, QDateTimeAxis,  QPieSeries, QScatterSeries
 from PyQt5.QtCore import  Qt,  pyqtSlot,  QObject, QPoint
 from PyQt5.QtGui import QPainter, QFont,  QIcon
 from PyQt5.QtWidgets import QAction, QMenu, QFileDialog, QProgressDialog, QApplication, QDialog, QLabel, QVBoxLayout, QHBoxLayout
 from .. objects.percentage import Percentage
 from .. datetime_functions import epochms2dtaware, dtaware2epochms, dtnaive2string, eDtStrings
 from datetime import timedelta, datetime
-from PyQt5.QtChart import QChart,  QLineSeries, QChartView, QValueAxis, QDateTimeAxis,  QPieSeries, QScatterSeries
+from decimal import Decimal
 
 class VCCommons(QChartView):
     def __init__(self):
@@ -169,13 +174,15 @@ class VCTemporalSeries(VCCommons):
             x is a datetime zone aware
         """
         x=dtaware2epochms(x)
+        x=float(x)
+        y=float(y)
         ls.append(x, y)
         
         if self.maxy==None:#Gives first maxy and miny
-            self.maxy=y
-            self.miny=y
-            self.maxx=x
-            self.minx=x
+            self.maxy=y*1.01
+            self.miny=y*0.99
+            self.maxx=x*1.01
+            self.minx=x*0.99
             
         if y>self.maxy:
             self.maxy=y
