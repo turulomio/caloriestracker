@@ -36,7 +36,7 @@ class frmMain(QMainWindow, Ui_frmMain):
             
         self.tbMain.addSeparator()
         self.lblUsers=QLabel()
-        self.lblUsers.setText(self.tr("Select a user"))
+        self.lblUsers.setText(self.tr("Select a user")+" ")
         self.tbUsers.addWidget(self.lblUsers)
         self.cmbUsers=QComboBox()
         self.tbUsers.addWidget(self.cmbUsers)
@@ -76,6 +76,10 @@ class frmMain(QMainWindow, Ui_frmMain):
     @pyqtSlot()  
     def on_actionMemory_triggered(self):        
         self.mem.data.load()
+
+    @pyqtSlot()  
+    def on_actionReportIssue_triggered(self):        
+            QDesktopServices.openUrl(QUrl("https://github.com/turulomio/caloriestracker/issues/new"))
 
     @pyqtSlot()  
     def on_actionHelp_triggered(self):

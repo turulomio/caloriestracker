@@ -46,7 +46,7 @@
      <x>0</x>
      <y>0</y>
      <width>811</width>
-     <height>20</height>
+     <height>34</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAyuda">
@@ -56,6 +56,8 @@
     <addaction name="actionAbout"/>
     <addaction name="separator"/>
     <addaction name="actionCuriosities"/>
+    <addaction name="separator"/>
+    <addaction name="actionReportIssue"/>
     <addaction name="separator"/>
     <addaction name="actionHelp"/>
    </widget>
@@ -341,6 +343,18 @@
    </property>
    <property name="toolTip">
     <string>Users list</string>
+   </property>
+  </action>
+  <action name="actionReportIssue">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/alarm_clock.png</normaloff>:/caloriestracker/alarm_clock.png</iconset>
+   </property>
+   <property name="text">
+    <string>Report an issue</string>
+   </property>
+   <property name="toolTip">
+    <string>Report an issue</string>
    </property>
   </action>
  </widget>
