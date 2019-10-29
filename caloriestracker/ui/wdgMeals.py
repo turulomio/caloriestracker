@@ -17,6 +17,7 @@ class wdgMeals(QWidget, Ui_wdgMeals):
         del self.meals
         self.meals=MealManager(self.mem, self.mem.con.mogrify("select * from meals where users_id=%s and datetime::date=%s order by datetime", (self.mem.user.id, self.calendar.selectedDate().toPyDate() )))
         self.meals.qtablewidget(self.tblMeals)
+        self.lblFound.setText(self.tr("{} registers found").format(self.meals.length()))
         
     @pyqtSlot()
     def on_actionMealNew_triggered(self):
