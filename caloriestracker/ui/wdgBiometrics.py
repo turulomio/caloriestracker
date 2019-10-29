@@ -212,8 +212,8 @@ class VCHeight(VCTemporalSeries):
         for row in self.mem.con.cursor_rows(sql):
             height.appendDV(row['datetime'],   row['max'])
         height_filled=height.DateValueManager_filling_empty()# Date and value filled
-        self.height=height_filled.DatetimeValueManager(start=True, timezone=self.mem.localzone)# Datetime aware and value
-        self.sma_data=self.height.sma(self.sma_period)
+        self.height_=height_filled.DatetimeValueManager(start=True, timezone=self.mem.localzone)# Datetime aware and value. It has height_ to do not conlict con QWidget.height()
+        self.sma_data=self.height_.sma(self.sma_period)
 
     ## Just draw the chart with selected options. To update it just close this object and create another one
     def generate(self):
@@ -221,15 +221,15 @@ class VCHeight(VCTemporalSeries):
         self.setProgressDialogEnabled(True)
         self.setProgressDialogAttributes(
                 None, 
-                self.tr("Loading {} biometric information").format(self.height.length()), 
+                self.tr("Loading {} biometric information").format(self.height_.length()), 
                 QIcon(":caloriestracker/books.png"), 
                 0, 
-                self.height.length()
+                self.height_.length()
         )
         height=self.appendTemporalSeries(self.tr("Height evolution"), None)
-        for i in range(self.height.length()):
+        for i in range(self.height_.length()):
             #Shows progress dialog
             self.setProgressDialogNumber(i+1)
             #height
-            self.appendTemporalSeriesData(height, self.height.arr[i].datetime, self.height.arr[i].value)
+            self.appendTemporalSeriesData(height, self.height_.arr[i].datetime, self.height_.arr[i].value)
         self.display()
