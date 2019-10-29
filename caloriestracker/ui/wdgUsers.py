@@ -9,7 +9,7 @@ class wdgUsers(QWidget, Ui_wdgUsers):
         QWidget.__init__(self, parent)
         self.setupUi(self)
         self.mem=mem
-        self.tblUsers.settings(self.mem, "wdgProducts")
+        self.tblUsers.settings(self.mem, "wdgUsers")
         self.update()
 
     def update(self):

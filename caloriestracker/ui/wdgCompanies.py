@@ -11,7 +11,7 @@ class wdgCompanies(QWidget, Ui_wdgCompanies):
         QWidget.__init__(self, parent)
         self.setupUi(self)
         self.mem=mem
-        self.tblCompanies.settings(self.mem, "wdgProducts")
+        self.tblCompanies.settings(self.mem, "wdgCompanies")
         self.companies=CompanyAllManager(self.mem)
 
     @pyqtSlot() 

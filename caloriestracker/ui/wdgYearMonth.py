@@ -12,17 +12,17 @@ class wdgYearMonth(QWidget, Ui_wdgYearMonth):
     changed=pyqtSignal()
     def __init__(self,  parent = None, name = None):
         QWidget.__init__(self,  parent)
-        self.setupUi(self)
-        
-        
+
+
+    ## Mandatory. It doesn't emit changed signal when called
     def initiate(self, firstyear,  lastyear, currentyear, currentmonth):
         """Debe ser la primera función después del constructor"""
         self.blockSignals(True)
+        self.setupUi(self)
         if firstyear==None:
             self.setEnabled(False)
             #print (function_name(self), "Firstyear is None")
             return
-        
         self.firstyear=firstyear
         self.lastyear=lastyear
         self.year=currentyear
@@ -30,16 +30,17 @@ class wdgYearMonth(QWidget, Ui_wdgYearMonth):
         for year in range(firstyear, lastyear+1):
             self.cmbYear.addItem(str(year), year)
         self.blockSignals(False)
-        self.set(currentyear, currentmonth)
+        self.set(currentyear, currentmonth, emit=False)
         
-    def set(self,  year , month):
+    def set(self,  year , month, emit=True):
         self.blockSignals(True)
         self.year=year
         self.month=month
         self.cmbYear.setCurrentIndex(self.year-self.firstyear)
         self.cmbMonth.setCurrentIndex(self.month-1)
         self.blockSignals(False)
-        self.changed.emit()
+        if emit==True:
+            self.changed.emit()
 
     @pyqtSlot(str)      
     def on_cmbYear_currentIndexChanged(self, text):

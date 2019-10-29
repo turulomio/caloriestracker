@@ -17,18 +17,14 @@ class wdgBiometrics(QWidget, Ui_wdgBiometrics):
         self.tblBiometrics.settings(self.mem, "wdgBiometrics")    
         self.viewChartHeight=None
         self.viewChartWeight=None
-        self.datefrom= date(1900, 1, 1)
-        self.wdgYM.label.hide()
-        self.wdgYM.blockSignals(True)
         self.wdgYM.initiate(1900,  date.today().year, date.today().year, date.today().month)
-        self.wdgYM.blockSignals(False)
-#        self.on_rad20days_toggled(True)
+        self.wdgYM.label.hide()
+        self.cmbChart.setCurrentIndex(int(self.mem.settings.value("wdgBiometrics/cmbChart_index", 1)))
         
     @pyqtSlot() 
     def on_wdgYM_changed(self):
         self.update()
-        
-        
+
     def update(self):
         del self.biometrics
         if self.rad20days.isChecked()==False:
@@ -79,6 +75,7 @@ SELECT * FROM t ORDER BY datetime ASC""", (self.mem.user.id, ))
             self.datefrom= date.today()-timedelta(days=365)
         elif index==2:
             self.datefrom= date.today()-timedelta(days=365*3)
+        self.mem.settings.setValue("wdgBiometrics/cmbChart_index", self.cmbChart.currentIndex())
         self.update()
         
         
@@ -131,7 +128,6 @@ SELECT * FROM t ORDER BY datetime ASC""", (self.mem.user.id, ))
     def on_rad20days_toggled(self, checked):
         self.wdgYM.setEnabled(not self.rad20days.isChecked())
         self.update()
-
 
 ##View chart of an biometrics
 class VCWeight(VCTemporalSeries):
