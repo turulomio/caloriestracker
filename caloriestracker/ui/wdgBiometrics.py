@@ -22,7 +22,7 @@ class wdgBiometrics(QWidget, Ui_wdgBiometrics):
         self.wdgYM.blockSignals(True)
         self.wdgYM.initiate(1900,  date.today().year, date.today().year, date.today().month)
         self.wdgYM.blockSignals(False)
-        self.on_rad20days_toggled(True)
+#        self.on_rad20days_toggled(True)
         
     @pyqtSlot() 
     def on_wdgYM_changed(self):
@@ -46,24 +46,30 @@ SELECT * FROM t ORDER BY datetime ASC""", (self.mem.user.id, ))
         if self.biometrics.selected==None:#Selects last row if there is no selection
             self.tblBiometrics.selectRow(self.biometrics.length()-1)
         
-        #Update viewcharts
+        #Remove old objects
         if self.viewChartHeight!=None:
             self.layHeight.removeWidget(self.viewChartHeight)
             self.viewChartHeight.close()
+        if self.viewChartWeight!=None:
             self.layWeight.removeWidget(self.viewChartWeight)
             self.viewChartWeight.close()
-        if self.biometrics.length()>0:
-            self.viewChartHeight=VCHeight()
-            self.viewChartHeight.setData(self.mem, self.datefrom)
-            self.viewChartHeight.generate()
-            self.layHeight.addWidget(self.viewChartHeight)
-            
-            self.viewChartWeight=VCWeight()
-            self.viewChartWeight.setData(self.mem, self.datefrom)
-            self.viewChartWeight.generate()
-            self.layWeight.addWidget(self.viewChartWeight)
-
         
+        #Create new objects
+        if self.biometrics.length()>0:
+            if self.tabWidget.currentIndex()==1:
+                self.viewChartHeight=VCHeight()
+                self.viewChartHeight.setData(self.mem, self.datefrom)
+                self.viewChartHeight.generate()
+                self.layHeight.addWidget(self.viewChartHeight)
+            
+            if self.tabWidget.currentIndex()==0:
+                self.viewChartWeight=VCWeight()
+                self.viewChartWeight.setData(self.mem, self.datefrom)
+                self.viewChartWeight.generate()
+                self.layWeight.addWidget(self.viewChartWeight)
+
+    def on_tabWidget_currentChanged(self, index):
+        self.update()
 
     @pyqtSlot(int)
     def on_cmbChart_currentIndexChanged(self, index):
