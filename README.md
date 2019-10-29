@@ -7,6 +7,20 @@ Doxygen documentation:
 Pypi web page:
     https://pypi.org/project/caloriestracker/
 
+Snapshots
+=========
+        nuevo archivo:  doc/Screenshot_20191029_194701.png
+        nuevo archivo:  doc/Screenshot_20191029_194726.png
+        nuevo archivo:  doc/Screenshot_20191029_194824.png
+        nuevo archivo:  doc/Screenshot_20191029_194920.png
+        nuevo archivo:  doc/Screenshot_20191029_195007.png
+        nuevo archivo:  doc/Screenshot_20191029_195038.png
+A | B
+- | - 
+![alt](doc/Screenshot_20191029_194701.png) | ![alt](doc/Screenshot_20191029_194726.png)
+
+
+
 Install in Linux
 ================
 If you use Gentoo, you can find the ebuild in https://github.com/turulomio/myportage/tree/master/app-office/caloriestracker
