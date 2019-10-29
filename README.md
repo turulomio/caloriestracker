@@ -9,17 +9,8 @@ Pypi web page:
 
 Snapshots
 =========
-        nuevo archivo:  doc/Screenshot_20191029_194701.png
-        nuevo archivo:  doc/Screenshot_20191029_194726.png
-        nuevo archivo:  doc/Screenshot_20191029_194824.png
-        nuevo archivo:  doc/Screenshot_20191029_194920.png
-        nuevo archivo:  doc/Screenshot_20191029_195007.png
-        nuevo archivo:  doc/Screenshot_20191029_195038.png
-A | B
-- | - 
-![alt](doc/Screenshot_20191029_194701.png) | ![alt](doc/Screenshot_20191029_194726.png)
-
-
+        
+<img src="doc/Screenshot_20191029_194701.png" height="200"/> <img src="doc/Screenshot_20191029_194726.png" height="200"/> <img src="doc/Screenshot_20191029_194824.png" height="200"/> <img src="doc/Screenshot_20191029_194920.png" height="200"/> <img src="doc/Screenshot_20191029_195007.png" height="200"/> <img src="doc/Screenshot_20191029_195038.png" height="200"/> 
 
 Install in Linux
 ================
