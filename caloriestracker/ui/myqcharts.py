@@ -364,4 +364,12 @@ class MyPopup(QDialog):
         self.labelXY.setText("X: {}, Y: {}".format(epochms2dtaware(self.xVal).date(), round(self.yVal, 2)))
         for i, serie in enumerate(self.vc.series):
             self.lblTitles[i].setText(serie.name())
-            self.lblValues[i].setText(self.tr("{} (Last: {})").format(round(self.vc.series_value(serie, self.xVal), 2), round(serie.pointsVector()[len(serie.pointsVector())-1].y(), 2)))
+            try:
+                value=round(self.vc.series_value(serie, self.xVal),2)
+            except:
+                value="---"
+            try:
+                last=round(serie.pointsVector()[len(serie.pointsVector())-1].y(),2)
+            except:
+                last="---"
+            self.lblValues[i].setText(self.tr("{} (Last: {})").format(value,last))
