@@ -16,7 +16,7 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
         self.qlepAmount.setLabel(self.tr("Amount"))
         self.qlepFat.setLabel(self.tr("Fat"))
         self.qlepProtein.setLabel(self.tr("Protein"))
-        self.qlepCarbohydrate.setLabel(self.tr("Carbohydrate"))
+        self.qlepCarbohydrate.setLabel(self.tr("Carbohydrates"))
         self.qlepCalories.setLabel(self.tr("Calories"))
         self.qlepSalt.setLabel(self.tr("Salt"))
         self.qlepCholesterol.setLabel(self.tr("Cholesterol"))

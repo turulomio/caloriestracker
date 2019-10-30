@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="es_ES" sourcelanguage="en">
+<!DOCTYPE TS>
+<TS version="2.1" language="es_ES" sourcelanguage="en">
 <context>
     <name>ActivityManager</name>
     <message>
@@ -206,7 +207,7 @@
 <context>
     <name>Format</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1370"/>
+        <location filename="../libcaloriestracker.py" line="1373"/>
         <source> ({} g)</source>
         <translation> ({} g)</translation>
     </message>
@@ -214,12 +215,12 @@
 <context>
     <name>FormatManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1420"/>
+        <location filename="../libcaloriestracker.py" line="1423"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1421"/>
+        <location filename="../libcaloriestracker.py" line="1424"/>
         <source>Grams</source>
         <translation>Gramos</translation>
     </message>
@@ -227,365 +228,370 @@
 <context>
     <name>HardcodedStrings</name>
     <message>
-        <location filename="../hardcoded_strings.py" line="2"/>
-        <source>Aceite de girasol</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="3"/>
-        <source>Aceite de oliva virgen extra</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../hardcoded_strings.py" line="4"/>
-        <source>Agua</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="5"/>
-        <source>Ajo</source>
-        <translation type="unfinished"></translation>
+        <source>Banana</source>
+        <translation>Banana</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="7"/>
-        <source>Arroz crudo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="9"/>
-        <source>Banana</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="10"/>
         <source>Bread</source>
         <translation>Pan</translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="11"/>
-        <source>Cacahuetes fritos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="13"/>
-        <source>Cebolla</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../hardcoded_strings.py" line="14"/>
-        <source>Cerveza sin alcohol</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="16"/>
         <source>Cola Cao Original</source>
-        <translation type="unfinished"></translation>
+        <translation>Cola Cao Original</translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="18"/>
-        <source>Costillas de cerdo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="21"/>
-        <source>Gambas</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="22"/>
-        <source>Helado</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="24"/>
-        <source>Huevos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="25"/>
-        <source>Huevos fritos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="27"/>
+        <location filename="../hardcoded_strings.py" line="31"/>
         <source>Kiwi</source>
         <translation>Kiwi</translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="28"/>
-        <source>Lambrusco</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="29"/>
-        <source>Leche condensada desnatada. Nutricia</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="30"/>
-        <source>Leche entera</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="31"/>
-        <source>Leche evaporada</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="34"/>
-        <source>Mantequilla</source>
-        <translation type="unfinished"></translation>
+        <location filename="../hardcoded_strings.py" line="42"/>
+        <source>Palmera de chocolate</source>
+        <translation>Palmera de chocolate</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="35"/>
-        <source>Manzana</source>
-        <translation type="unfinished"></translation>
+        <source>Mango</source>
+        <translation>Mango</translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="36"/>
-        <source>Mayonesa</source>
-        <translation type="unfinished"></translation>
+        <location filename="../hardcoded_strings.py" line="2"/>
+        <source>Alcohol-free beer</source>
+        <translation>Cerveza sin alcohol</translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="37"/>
-        <source>Mermelada</source>
-        <translation type="unfinished"></translation>
+        <location filename="../hardcoded_strings.py" line="3"/>
+        <source>Apple</source>
+        <translation>Manzana</translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="38"/>
-        <source>Mermelada de fresa</source>
-        <translation type="unfinished"></translation>
+        <location filename="../hardcoded_strings.py" line="5"/>
+        <source>Blueberries</source>
+        <translation>Arándanos</translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="39"/>
-        <source>Miel</source>
-        <translation type="unfinished"></translation>
+        <location filename="../hardcoded_strings.py" line="6"/>
+        <source>Boiled egg</source>
+        <translation>Huevo duro</translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="40"/>
-        <source>Mousse de foie de pato</source>
-        <translation type="unfinished"></translation>
+        <location filename="../hardcoded_strings.py" line="8"/>
+        <source>Butter</source>
+        <translation>Mantequilla</translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="41"/>
-        <source>Nectarina</source>
-        <translation type="unfinished"></translation>
+        <location filename="../hardcoded_strings.py" line="9"/>
+        <source>Carrot</source>
+        <translation>Zanahoria</translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="42"/>
-        <source>Palmera de chocolate</source>
-        <translation type="unfinished"></translation>
+        <location filename="../hardcoded_strings.py" line="10"/>
+        <source>Cherimoya</source>
+        <translation>Chirimoya</translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="43"/>
-        <source>Pan blanco</source>
-        <translation type="unfinished"></translation>
+        <location filename="../hardcoded_strings.py" line="11"/>
+        <source>Chestnuts</source>
+        <translation>Castañas</translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="44"/>
-        <source>Pan de molde</source>
-        <translation type="unfinished"></translation>
+        <location filename="../hardcoded_strings.py" line="12"/>
+        <source>Chips</source>
+        <translation>Patatas fritas</translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="45"/>
-        <source>Paraguaya</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="47"/>
-        <source>Patatas fritas</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="48"/>
-        <source>Pera</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="50"/>
-        <source>Picadillo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="51"/>
-        <source>Pimiento verde</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="55"/>
-        <source>Puerro</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="56"/>
-        <source>Queso de cabra</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="57"/>
-        <source>Queso marcarpone</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="58"/>
-        <source>Ron</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="60"/>
-        <source>Setas</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="61"/>
-        <source>Tortilla de patata</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="62"/>
-        <source>Uva</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../hardcoded_strings.py" line="63"/>
-        <source>Zanahoria</source>
-        <translation type="unfinished"></translation>
+        <location filename="../hardcoded_strings.py" line="13"/>
+        <source>Churros</source>
+        <translation>Churros</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="15"/>
-        <source>Chirimoya</source>
-        <translation type="unfinished"></translation>
+        <source>Croissant</source>
+        <translation>Cruasán</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="16"/>
+        <source>Duck foie grass mousse</source>
+        <translation>Muosse de foie de pato</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="17"/>
-        <source>Cordero asado</source>
-        <translation type="unfinished"></translation>
+        <source>Eggs</source>
+        <translation>Huevos</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="18"/>
+        <source>Extra virgin olive oil</source>
+        <translation>Aceite de oliva extra virgen</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="19"/>
+        <source>Fried eggs</source>
+        <translation>Huevos fritos</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="20"/>
+        <source>Fried peanuts</source>
+        <translation>Cacahuetes fritos</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="21"/>
+        <source>Garlic</source>
+        <translation>Ajo</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="22"/>
+        <source>Goat cheese</source>
+        <translation>Queso de cabra</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="23"/>
-        <source>Huevo duro</source>
-        <translation type="unfinished"></translation>
+        <source>Grape</source>
+        <translation>Uva</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="24"/>
+        <source>Green asparagus</source>
+        <translation>Espárragos trigueros</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="25"/>
+        <source>Green pepper</source>
+        <translation>Pimiento verde</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="26"/>
+        <source>Ham</source>
+        <translation>Jamón serrano</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="27"/>
+        <source>Ham croquettes</source>
+        <translation>Croquetas de jamón</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="28"/>
+        <source>Honey</source>
+        <translation>Miel</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="29"/>
+        <source>Ice cream</source>
+        <translation>Helado</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="30"/>
+        <source>Jam</source>
+        <translation>Mermelada</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="32"/>
-        <source>Lentejas</source>
-        <translation type="unfinished"></translation>
+        <source>Lambrusco wine</source>
+        <translation>Vino Lambrusco</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="33"/>
-        <source>Mango</source>
-        <translation type="unfinished"></translation>
+        <source>Leek</source>
+        <translation>Puerro</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="34"/>
+        <source>Lentils</source>
+        <translation>Lentejas</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="36"/>
+        <source>Mascarpone cheese</source>
+        <translation>Queso Marcarpone</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="37"/>
+        <source>Mayonnaise</source>
+        <translation>Mayonesa</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="38"/>
+        <source>Minced meat</source>
+        <translation>Picadillo</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="39"/>
+        <source>Mushrooms (Fungi)</source>
+        <translation>Setas</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="40"/>
+        <source>Nectarine</source>
+        <translation>Nectarina</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="41"/>
+        <source>Onion</source>
+        <translation>Cebolla</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="43"/>
+        <source>Pear</source>
+        <translation>Pera</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="44"/>
+        <source>Persimmon</source>
+        <translation>Persimón</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="46"/>
-        <source>Patata cruda</source>
-        <translation type="unfinished"></translation>
+        <source>Plantain</source>
+        <translation>Plátano</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="47"/>
+        <source>Pork ribs</source>
+        <translation>Costillas de cerdo</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="48"/>
+        <source>Prawns</source>
+        <translation>Gambas</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="49"/>
+        <source>Roast lamb</source>
+        <translation>Cordero asado</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="50"/>
+        <source>Rum</source>
+        <translation>Ron</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="51"/>
+        <source>Salt</source>
+        <translation>Sal</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="52"/>
+        <source>Sandwich loaf</source>
+        <translation>Pan de molde</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="53"/>
+        <source>Saturn peach</source>
+        <translation>Paraguaya</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="54"/>
+        <source>Spanish omelette</source>
+        <translation>Tortilla de patatas</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="55"/>
+        <source>Strawberry jam</source>
+        <translation>Mermelada de fresa</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="56"/>
+        <source>Sugar</source>
+        <translation>Azúcar</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="57"/>
+        <source>Sunflower oil</source>
+        <translation>Aceite de girasol</translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="58"/>
+        <source>Tangerines</source>
+        <translation>Mandarinas</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="59"/>
-        <source>Sal</source>
-        <translation type="unfinished"></translation>
+        <source>Thick Crust Pizza with cheese</source>
+        <translation>Pizza genérica con masa gorda de queso</translation>
     </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="6"/>
-        <source>Arándanos</source>
-        <translation type="unfinished"></translation>
+    <message>
+        <location filename="../hardcoded_strings.py" line="60"/>
+        <source>Uncooked patato</source>
+        <translation>Patata cruda</translation>
     </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="8"/>
-        <source>Azúcar</source>
-        <translation type="unfinished"></translation>
+    <message>
+        <location filename="../hardcoded_strings.py" line="61"/>
+        <source>Uncooked rice</source>
+        <translation>Arroz crudo</translation>
     </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="12"/>
-        <source>Castañas</source>
-        <translation type="unfinished"></translation>
+    <message>
+        <location filename="../hardcoded_strings.py" line="62"/>
+        <source>Water</source>
+        <translation>Agua</translation>
     </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="19"/>
-        <source>Croquetas de jamón</source>
-        <translation type="unfinished"></translation>
+    <message>
+        <location filename="../hardcoded_strings.py" line="63"/>
+        <source>White bread</source>
+        <translation>Pan blanco</translation>
     </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="20"/>
-        <source>Espárragos trigueros</source>
-        <translation type="unfinished"></translation>
+    <message>
+        <location filename="../hardcoded_strings.py" line="64"/>
+        <source>Whole milk</source>
+        <translation>Leche entera</translation>
     </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="26"/>
-        <source>Jamón serrano</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="49"/>
-        <source>Persimón</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="52"/>
+    <message>
+        <location filename="../hardcoded_strings.py" line="45"/>
         <source>Pimientos de padrón</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="53"/>
-        <source>Pizza genérica de masa gruesa con queso</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="54"/>
-        <source>Plátano</source>
-        <translation type="unfinished"></translation>
+        <translation>Pimientos de padrón</translation>
     </message>
 </context>
 <context>
     <name>MealManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1641"/>
+        <location filename="../libcaloriestracker.py" line="1676"/>
         <source>Hour</source>
         <translation>Hora</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1642"/>
+        <location filename="../libcaloriestracker.py" line="1677"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1643"/>
+        <location filename="../libcaloriestracker.py" line="1678"/>
         <source>Grams</source>
         <translation>Gramos</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1644"/>
+        <location filename="../libcaloriestracker.py" line="1679"/>
         <source>Calories</source>
         <translation>Calorías</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1645"/>
+        <location filename="../libcaloriestracker.py" line="1680"/>
         <source>Carbohydrates</source>
         <translation>Carbohidratos</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1646"/>
+        <location filename="../libcaloriestracker.py" line="1681"/>
         <source>Protein</source>
         <translation>Proteína</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1647"/>
+        <location filename="../libcaloriestracker.py" line="1682"/>
         <source>Fat</source>
         <translation>Grasa</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1648"/>
+        <location filename="../libcaloriestracker.py" line="1683"/>
         <source>Fiber</source>
         <translation>Fibra</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1665"/>
+        <location filename="../libcaloriestracker.py" line="1700"/>
         <source>Total</source>
         <translation>Total</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1673"/>
+        <location filename="../libcaloriestracker.py" line="1708"/>
         <source>Recomendations</source>
         <translation>Recomendaciones</translation>
     </message>
@@ -599,14 +605,14 @@
     </message>
     <message>
         <location filename="../mem.py" line="28"/>
-        <source>Developed by Mariano Mu&#xf1;oz 2019-{} &#xa9;</source>
+        <source>Developed by Mariano Muñoz 2019-{} ©</source>
         <translation>Desarrollado por Mariano Muñoz 2019-{} ©</translation>
     </message>
 </context>
 <context>
     <name>MemCaloriestracker</name>
     <message>
-        <location filename="../mem.py" line="222"/>
+        <location filename="../mem.py" line="223"/>
         <source>Report of calories</source>
         <translation>Informe de calorías</translation>
     </message>
@@ -614,57 +620,57 @@
 <context>
     <name>MemConsole</name>
     <message>
-        <location filename="../mem.py" line="180"/>
+        <location filename="../mem.py" line="181"/>
         <source>Report of calories</source>
         <translation>Informe de calorías</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="184"/>
+        <location filename="../mem.py" line="185"/>
         <source>Date to show</source>
         <translation>Fecha a mostrar</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="185"/>
+        <location filename="../mem.py" line="186"/>
         <source>User id</source>
         <translation>Id del usuario</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="186"/>
+        <location filename="../mem.py" line="187"/>
         <source>Find data</source>
         <translation>Encontrar datos</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="189"/>
+        <location filename="../mem.py" line="190"/>
         <source>Adds a company</source>
         <translation>Añade una compañía</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="188"/>
+        <location filename="../mem.py" line="189"/>
         <source>Adds a product</source>
         <translation>Añade un producto</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="190"/>
+        <location filename="../mem.py" line="191"/>
         <source>Adds biometrics</source>
         <translation>Añade información biométrica</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="191"/>
+        <location filename="../mem.py" line="192"/>
         <source>Generate a dump to collaborate updating companies and products</source>
         <translation>Genera un volcado de compañías y productos, para colaborar</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="194"/>
+        <location filename="../mem.py" line="195"/>
         <source>Show elaborated product</source>
         <translation>Muestra un producto elaborado</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="192"/>
+        <location filename="../mem.py" line="193"/>
         <source>Parses a dump and generates sql files for the package and for the dump owner</source>
         <translation>Interpreta un volcado y genera ficheros sql para el paquete y para el propietario del volcado</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="193"/>
+        <location filename="../mem.py" line="194"/>
         <source>Converts personal data to system data in the database using generated sql file of the dump owner</source>
         <translation>Convierte la información personal en información del sistema de la base de datos, usando el fichero sql generado para el propietario del volcado</translation>
     </message>
@@ -672,7 +678,7 @@
 <context>
     <name>MemInit</name>
     <message>
-        <location filename="../mem.py" line="123"/>
+        <location filename="../mem.py" line="124"/>
         <source>Create a new caloriestracker database</source>
         <translation>Crea una nueva base de datos de Calories Tracker</translation>
     </message>
@@ -875,32 +881,32 @@
 <context>
     <name>UserManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1759"/>
+        <location filename="../libcaloriestracker.py" line="1794"/>
         <source>Loading {0} users from database</source>
         <translation>Cargando {0} usuarios de la base de datos</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1762"/>
+        <location filename="../libcaloriestracker.py" line="1797"/>
         <source>Loading users...</source>
         <translation>Cargando usuarios...</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1785"/>
+        <location filename="../libcaloriestracker.py" line="1820"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1786"/>
+        <location filename="../libcaloriestracker.py" line="1821"/>
         <source>Male</source>
         <translation>Hombre</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1787"/>
+        <location filename="../libcaloriestracker.py" line="1822"/>
         <source>Birthday</source>
         <translation>Cumpleaños</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1788"/>
+        <location filename="../libcaloriestracker.py" line="1823"/>
         <source>Starts</source>
         <translation>Inicio</translation>
     </message>
@@ -908,17 +914,17 @@
 <context>
     <name>VCHeight</name>
     <message>
-        <location filename="../ui/wdgBiometrics.py" line="192"/>
+        <location filename="../ui/wdgBiometrics.py" line="194"/>
         <source>Height evolution chart</source>
         <translation>Gráfico de evolución de la altura</translation>
     </message>
     <message>
-        <location filename="../ui/wdgBiometrics.py" line="227"/>
+        <location filename="../ui/wdgBiometrics.py" line="229"/>
         <source>Height evolution</source>
         <translation>Evolución de la altura</translation>
     </message>
     <message>
-        <location filename="../ui/wdgBiometrics.py" line="220"/>
+        <location filename="../ui/wdgBiometrics.py" line="222"/>
         <source>Loading {} biometric information</source>
         <translation>Cargando {} informaciones biométricas</translation>
     </message>
@@ -926,22 +932,22 @@
 <context>
     <name>VCWeight</name>
     <message>
-        <location filename="../ui/wdgBiometrics.py" line="134"/>
+        <location filename="../ui/wdgBiometrics.py" line="136"/>
         <source>Weight evolution chart</source>
         <translation>Grafico de la evolución del peso</translation>
     </message>
     <message>
-        <location filename="../ui/wdgBiometrics.py" line="171"/>
+        <location filename="../ui/wdgBiometrics.py" line="173"/>
         <source>Weight evolution</source>
         <translation>Evolución del peso</translation>
     </message>
     <message>
-        <location filename="../ui/wdgBiometrics.py" line="173"/>
+        <location filename="../ui/wdgBiometrics.py" line="175"/>
         <source>Simple movil average {}</source>
         <translation>Media móvil simple {}</translation>
     </message>
     <message>
-        <location filename="../ui/wdgBiometrics.py" line="164"/>
+        <location filename="../ui/wdgBiometrics.py" line="166"/>
         <source>Loading {} biometric information</source>
         <translation>Cargando {} informaciones biométricas</translation>
     </message>
@@ -1046,7 +1052,7 @@
     </message>
     <message>
         <location filename="../ui/frmAbout.py" line="25"/>
-        <source>This program has been developed by Mariano Mu&#xf1;oz</source>
+        <source>This program has been developed by Mariano Muñoz</source>
         <translation>Este programa ha sido desarrollado por Mariano Muñoz</translation>
     </message>
     <message>
@@ -1136,37 +1142,37 @@
 <context>
     <name>frmBiometricsAdd</name>
     <message>
-        <location filename="../ui/Ui_frmBiometricsAdd.py" line="94"/>
+        <location filename="../ui/Ui_frmBiometricsAdd.py" line="96"/>
         <source>Managing biometrics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmBiometricsAdd.py" line="95"/>
+        <location filename="../ui/Ui_frmBiometricsAdd.py" line="97"/>
         <source>Weight</source>
         <translation>Peso</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmBiometricsAdd.py" line="96"/>
+        <location filename="../ui/Ui_frmBiometricsAdd.py" line="98"/>
         <source> Kg</source>
         <translation> Kg</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmBiometricsAdd.py" line="97"/>
+        <location filename="../ui/Ui_frmBiometricsAdd.py" line="99"/>
         <source>Height</source>
         <translation>Altura</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmBiometricsAdd.py" line="98"/>
+        <location filename="../ui/Ui_frmBiometricsAdd.py" line="100"/>
         <source> cm</source>
         <translation> cm</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmBiometricsAdd.py" line="99"/>
+        <location filename="../ui/Ui_frmBiometricsAdd.py" line="101"/>
         <source>Select your type of activity</source>
         <translation>Selecciona tu tipo de actividad</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmBiometricsAdd.py" line="100"/>
+        <location filename="../ui/Ui_frmBiometricsAdd.py" line="102"/>
         <source>Select your wish of weight</source>
         <translation>Selecciona tu deseo sobre el peso</translation>
     </message>
@@ -1369,72 +1375,72 @@
 <context>
     <name>frmMain</name>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="200"/>
+        <location filename="../ui/Ui_frmMain.py" line="207"/>
         <source>Help</source>
         <translation>Ayuda</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="201"/>
+        <location filename="../ui/Ui_frmMain.py" line="208"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="189"/>
+        <location filename="../ui/Ui_frmMain.py" line="196"/>
         <source>E&amp;xit</source>
         <translation>S&amp;alir</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="190"/>
+        <location filename="../ui/Ui_frmMain.py" line="197"/>
         <source>Exit</source>
         <translation>Salir</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="192"/>
+        <location filename="../ui/Ui_frmMain.py" line="199"/>
         <source>&amp;About</source>
         <translation>A&amp;cerca de</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="193"/>
+        <location filename="../ui/Ui_frmMain.py" line="200"/>
         <source>About</source>
         <translation>Acerca de</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="196"/>
+        <location filename="../ui/Ui_frmMain.py" line="203"/>
         <source>Update memory</source>
         <translation>Actualizar memoria</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="198"/>
+        <location filename="../ui/Ui_frmMain.py" line="205"/>
         <source>Settings</source>
         <translation>Configuración</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="194"/>
+        <location filename="../ui/Ui_frmMain.py" line="201"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="191"/>
+        <location filename="../ui/Ui_frmMain.py" line="198"/>
         <source>Alt+Esc</source>
         <translation>Alt+Esc</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="195"/>
+        <location filename="../ui/Ui_frmMain.py" line="202"/>
         <source>&amp;Update memory</source>
         <translation>Actualizar &amp;memoria</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="197"/>
+        <location filename="../ui/Ui_frmMain.py" line="204"/>
         <source>&amp;Settings</source>
         <translation>&amp;Preferencias</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="199"/>
+        <location filename="../ui/Ui_frmMain.py" line="206"/>
         <source>&amp;Help</source>
         <translation>&amp;Ayuda</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="208"/>
+        <location filename="../ui/Ui_frmMain.py" line="215"/>
         <source>Curiosities</source>
         <translation>Curiosidades</translation>
     </message>
@@ -1444,107 +1450,107 @@
         <translation>Desconectado por {} minutos de inactividad.</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="207"/>
+        <location filename="../ui/Ui_frmMain.py" line="214"/>
         <source>&amp;Curiosities</source>
         <translation>&amp;Curiosidades</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="204"/>
+        <location filename="../ui/Ui_frmMain.py" line="211"/>
         <source>Ctrl+B</source>
         <translation>Ctrl+B</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="187"/>
+        <location filename="../ui/Ui_frmMain.py" line="194"/>
         <source>Main toolbar</source>
         <translation>Barra de herramientas principal</translation>
     </message>
     <message>
-        <location filename="../ui/frmMain.py" line="181"/>
+        <location filename="../ui/frmMain.py" line="185"/>
         <source>Update products from Internet</source>
         <translation>Actualizar productos desde Internet</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="210"/>
+        <location filename="../ui/Ui_frmMain.py" line="217"/>
         <source>Meals</source>
         <translation>Comidas</translation>
     </message>
     <message>
         <location filename="../ui/frmMain.py" line="32"/>
-        <source>Calories Tracker 2019-{0} &#xa9; (Admin mode)</source>
+        <source>Calories Tracker 2019-{0} © (Admin mode)</source>
         <translation>Calories Tracker 2019-{0} © (Modo administrador)</translation>
     </message>
     <message>
         <location filename="../ui/frmMain.py" line="35"/>
-        <source>Calories Tracker 2019-{0} &#xa9;</source>
+        <source>Calories Tracker 2019-{0} ©</source>
         <translation>Calories Tracker 2019-{0} ©</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="212"/>
+        <location filename="../ui/Ui_frmMain.py" line="219"/>
         <source>Add biometrics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="214"/>
+        <location filename="../ui/Ui_frmMain.py" line="221"/>
         <source>Biometric information</source>
         <translation>Información biométrica</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="216"/>
+        <location filename="../ui/Ui_frmMain.py" line="223"/>
         <source>Add an elaborated product</source>
         <translation>Añade un producto elaborado</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="218"/>
+        <location filename="../ui/Ui_frmMain.py" line="225"/>
         <source>Add a company</source>
         <translation>Añade una compañía</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="220"/>
+        <location filename="../ui/Ui_frmMain.py" line="227"/>
         <source>Companies list</source>
         <translation>Listado de compañías</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="203"/>
+        <location filename="../ui/Ui_frmMain.py" line="210"/>
         <source>Products list</source>
         <translation>Listado de productos</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="206"/>
+        <location filename="../ui/Ui_frmMain.py" line="213"/>
         <source>Elaborated products list</source>
         <translation>Lista de productos elaborados</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="222"/>
+        <location filename="../ui/Ui_frmMain.py" line="229"/>
         <source>Users list</source>
         <translation>Listado de usuarios</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="182"/>
+        <location filename="../ui/Ui_frmMain.py" line="189"/>
         <source>C&amp;alories tracker</source>
         <translation>C&amp;alories tracker</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="183"/>
+        <location filename="../ui/Ui_frmMain.py" line="190"/>
         <source>&amp;Products</source>
         <translation>&amp;Productos</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="184"/>
+        <location filename="../ui/Ui_frmMain.py" line="191"/>
         <source>&amp;Meals</source>
         <translation>Co&amp;midas</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="185"/>
+        <location filename="../ui/Ui_frmMain.py" line="192"/>
         <source>&amp;Companies</source>
         <translation>&amp;Compañías</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="186"/>
+        <location filename="../ui/Ui_frmMain.py" line="193"/>
         <source>&amp;Users</source>
         <translation>&amp;Usuarios</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMain.py" line="188"/>
+        <location filename="../ui/Ui_frmMain.py" line="195"/>
         <source>toolBar</source>
         <translation>toolBar</translation>
     </message>
@@ -1553,46 +1559,51 @@
         <source>Select a user</source>
         <translation>Selecciona un usuario</translation>
     </message>
+    <message>
+        <location filename="../ui/Ui_frmMain.py" line="231"/>
+        <source>Report an issue</source>
+        <translation>Informar de un problema</translation>
+    </message>
 </context>
 <context>
     <name>frmMealsAdd</name>
     <message>
-        <location filename="../ui/Ui_frmMealsAdd.py" line="83"/>
+        <location filename="../ui/Ui_frmMealsAdd.py" line="112"/>
         <source>Managing meals</source>
         <translation>Gestionando las comidas</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMealsAdd.py" line="84"/>
+        <location filename="../ui/Ui_frmMealsAdd.py" line="113"/>
         <source>Select a product</source>
         <translation>Selecciona un producto</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMealsAdd.py" line="86"/>
+        <location filename="../ui/Ui_frmMealsAdd.py" line="115"/>
         <source>Add an amount</source>
         <translation>Añade una cantidad</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMealsAdd.py" line="87"/>
+        <location filename="../ui/Ui_frmMealsAdd.py" line="116"/>
         <source> g</source>
         <translation> g</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmMealsAdd.py" line="85"/>
+        <location filename="../ui/Ui_frmMealsAdd.py" line="114"/>
         <source>Select a format</source>
         <translation>Selecciona un formato</translation>
     </message>
     <message>
-        <location filename="../ui/frmMealsAdd.py" line="17"/>
+        <location filename="../ui/frmMealsAdd.py" line="18"/>
         <source>Add a new meal</source>
         <translation>Añade una nueva comida</translation>
     </message>
     <message>
-        <location filename="../ui/frmMealsAdd.py" line="23"/>
+        <location filename="../ui/frmMealsAdd.py" line="24"/>
         <source>Edit a meal</source>
         <translation>Edita una comida</translation>
     </message>
     <message>
-        <location filename="../ui/frmMealsAdd.py" line="50"/>
+        <location filename="../ui/frmMealsAdd.py" line="59"/>
         <source>You must select a product from the popup list</source>
         <translation>Debes seleccionar un producto de la lista desplegada</translation>
     </message>
@@ -1600,109 +1611,109 @@
 <context>
     <name>frmProductsAdd</name>
     <message>
-        <location filename="../ui/Ui_frmProductsAdd.py" line="213"/>
+        <location filename="../ui/Ui_frmProductsAdd.py" line="125"/>
         <source>Managing products</source>
         <translation>Gestión de productos</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmProductsAdd.py" line="214"/>
+        <location filename="../ui/Ui_frmProductsAdd.py" line="126"/>
         <source>Name of the product</source>
         <translation>Nombre del producto</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmProductsAdd.py" line="215"/>
+        <location filename="../ui/Ui_frmProductsAdd.py" line="127"/>
         <source>Select a company</source>
         <translation>Selecciona una compañía</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmProductsAdd.py" line="216"/>
+        <location filename="../ui/Ui_frmProductsAdd.py" line="128"/>
         <source>Basic components information</source>
         <translation>Información de los componentes básicos</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmProductsAdd.py" line="217"/>
+        <location filename="../ui/frmProductsAdd.py" line="20"/>
         <source>Calories</source>
         <translation>Calorías</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmProductsAdd.py" line="241"/>
-        <source> g</source>
-        <translation> g</translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmProductsAdd.py" line="219"/>
+        <location filename="../ui/frmProductsAdd.py" line="16"/>
         <source>Amount</source>
         <translation>Cantidad</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmProductsAdd.py" line="221"/>
-        <source>Carbohidrates</source>
-        <translation>Carbohidratos</translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmProductsAdd.py" line="223"/>
+        <location filename="../ui/frmProductsAdd.py" line="18"/>
         <source>Protein</source>
         <translation>Proteína</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmProductsAdd.py" line="225"/>
+        <location filename="../ui/frmProductsAdd.py" line="27"/>
         <source>Fat</source>
         <translation>Grasa</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmProductsAdd.py" line="227"/>
+        <location filename="../ui/frmProductsAdd.py" line="25"/>
         <source>Fiber</source>
         <translation>Fibra</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmProductsAdd.py" line="229"/>
+        <location filename="../ui/Ui_frmProductsAdd.py" line="129"/>
         <source>Additional information</source>
         <translation>Información adicional</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmProductsAdd.py" line="230"/>
+        <location filename="../ui/frmProductsAdd.py" line="21"/>
         <source>Salt</source>
         <translation>Sal</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmProductsAdd.py" line="232"/>
+        <location filename="../ui/frmProductsAdd.py" line="22"/>
         <source>Cholesterol</source>
         <translation>Colesterol</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmProductsAdd.py" line="237"/>
-        <source> mg</source>
-        <translation> mg</translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmProductsAdd.py" line="234"/>
+        <location filename="../ui/frmProductsAdd.py" line="23"/>
         <source>Sodium</source>
         <translation>Sodio</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmProductsAdd.py" line="236"/>
+        <location filename="../ui/frmProductsAdd.py" line="24"/>
         <source>Potassium</source>
         <translation>Potasio</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmProductsAdd.py" line="238"/>
-        <source>Sugars</source>
-        <translation>Azúcares</translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmProductsAdd.py" line="240"/>
-        <source>Saturated fat</source>
-        <translation>Grasa saturada</translation>
-    </message>
-    <message>
-        <location filename="../ui/frmProductsAdd.py" line="15"/>
+        <location filename="../ui/frmProductsAdd.py" line="44"/>
         <source>Add a new personal product</source>
         <translation>Añade un nuevo producto personal</translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.py" line="33"/>
+        <location filename="../ui/frmProductsAdd.py" line="62"/>
         <source>Edit a personal product</source>
         <translation>Edita un producto personal</translation>
+    </message>
+    <message>
+        <location filename="../ui/frmProductsAdd.py" line="26"/>
+        <source>Sugar</source>
+        <translation>Azúcar</translation>
+    </message>
+    <message>
+        <location filename="../ui/frmProductsAdd.py" line="40"/>
+        <source>g</source>
+        <translation>g</translation>
+    </message>
+    <message>
+        <location filename="../ui/frmProductsAdd.py" line="37"/>
+        <source>mg</source>
+        <translation>mg</translation>
+    </message>
+    <message>
+        <location filename="../ui/frmProductsAdd.py" line="71"/>
+        <source>Amount value must be greater than 0</source>
+        <translation>La cantidad debe ser mayor que 0</translation>
+    </message>
+    <message>
+        <location filename="../ui/frmProductsAdd.py" line="19"/>
+        <source>Carbohydrates</source>
+        <translation>Carbohidratos</translation>
     </message>
 </context>
 <context>
@@ -1756,27 +1767,27 @@
 <context>
     <name>frmProductsInElaboratedProductAdd</name>
     <message>
-        <location filename="../ui/Ui_frmProductsInElaboratedProductAdd.py" line="81"/>
+        <location filename="../ui/Ui_frmProductsInElaboratedProductAdd.py" line="99"/>
         <source>Managing products in an elaborated product</source>
         <translation>Gestionando los componentes de un producto elaborado</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmProductsInElaboratedProductAdd.py" line="82"/>
+        <location filename="../ui/Ui_frmProductsInElaboratedProductAdd.py" line="100"/>
         <source>Select a product</source>
         <translation>Selecciona un producto</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmProductsInElaboratedProductAdd.py" line="84"/>
+        <location filename="../ui/Ui_frmProductsInElaboratedProductAdd.py" line="102"/>
         <source>Amount</source>
         <translation>Cantidad</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmProductsInElaboratedProductAdd.py" line="85"/>
+        <location filename="../ui/Ui_frmProductsInElaboratedProductAdd.py" line="103"/>
         <source> g</source>
         <translation> g</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmProductsInElaboratedProductAdd.py" line="83"/>
+        <location filename="../ui/Ui_frmProductsInElaboratedProductAdd.py" line="101"/>
         <source>Select a format</source>
         <translation>Selecciona un formato</translation>
     </message>
@@ -1791,7 +1802,7 @@
         <translation>Edita un producto en la comida elaborada</translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsInElaboratedProductAdd.py" line="27"/>
+        <location filename="../ui/frmProductsInElaboratedProductAdd.py" line="30"/>
         <source>You must select a product from the popup list</source>
         <translation>Debes seleccionar un producto de la lista desplegada</translation>
     </message>
@@ -1876,6 +1887,14 @@
     </message>
 </context>
 <context>
+    <name>myQLineEditPlus</name>
+    <message>
+        <location filename="../ui/myqlineedit.py" line="169"/>
+        <source>Add a value</source>
+        <translation>Añade un valor</translation>
+    </message>
+</context>
+<context>
     <name>myQTableWidget</name>
     <message>
         <location filename="../ui/myqtablewidget.py" line="96"/>
@@ -1929,12 +1948,12 @@
         <translation>Edita información biométrica</translation>
     </message>
     <message>
-        <location filename="../ui/wdgBiometrics.py" line="88"/>
+        <location filename="../ui/wdgBiometrics.py" line="91"/>
         <source>Asking your confirmation</source>
         <translation>Pidiendo confirmación</translation>
     </message>
     <message>
-        <location filename="../ui/wdgBiometrics.py" line="88"/>
+        <location filename="../ui/wdgBiometrics.py" line="91"/>
         <source>This action can&apos;t be undone.
 Do you want to delete this record?</source>
         <translation>Esta acción no puede deshacerse.
@@ -2117,16 +2136,21 @@ Do you want to delete this record?</source>
         <translation>Editar comida</translation>
     </message>
     <message>
-        <location filename="../ui/wdgMeals.py" line="30"/>
+        <location filename="../ui/wdgMeals.py" line="31"/>
         <source>Asking your confirmation</source>
         <translation>Pidiendo confirmación</translation>
     </message>
     <message>
-        <location filename="../ui/wdgMeals.py" line="30"/>
+        <location filename="../ui/wdgMeals.py" line="31"/>
         <source>This action can&apos;t be undone.
 Do you want to delete this record?</source>
         <translation>Esta acción no puede deshacerse.
 ¿Quieres borrar el registro?</translation>
+    </message>
+    <message>
+        <location filename="../ui/wdgMeals.py" line="20"/>
+        <source>{} registers found</source>
+        <translation>{} registros encontrados</translation>
     </message>
 </context>
 <context>
@@ -2596,12 +2620,12 @@ Do you want to delete this record?</source>
         <translation>Siguiente mes</translation>
     </message>
     <message>
-        <location filename="../ui/wdgYearMonth.py" line="57"/>
+        <location filename="../ui/wdgYearMonth.py" line="58"/>
         <source>I can&apos;t show the next month</source>
         <translation>No puedo mostrar el mes siguiente</translation>
     </message>
     <message>
-        <location filename="../ui/wdgYearMonth.py" line="68"/>
+        <location filename="../ui/wdgYearMonth.py" line="69"/>
         <source>I can&apos;t show the previous month</source>
         <translation>No puedo mostrar el mes anterior</translation>
     </message>
