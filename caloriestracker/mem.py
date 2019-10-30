@@ -70,6 +70,7 @@ class Mem(QObject):
             print(Style.BRIGHT+Fore.RED+"You pressed 'Ctrl+C', exiting...")
             exit(1)
             
+    ## To translate hardcoded strings
     def trHS(self, s):
         return qApp.translate("HardcodedStrings", s)
 

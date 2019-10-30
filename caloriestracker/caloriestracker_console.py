@@ -98,13 +98,24 @@ def main():
         exit(0)
     
     if mem.args.parse_contribution_dump!=None:
-        print(mem.args)
-        parse_contribution_dump_generate_files_and_validates_them(mem.con, mem.args.parse_contribution_dump)
+        dbversion=mem.con.cursor_one_field("select value from globals where id=1")
+        filenameversion=mem.args.parse_contribution_dump.replace("caloriestracker_collaboration_", "").replace(".sql", "")
+        if dbversion==filenameversion:
+            parse_contribution_dump_generate_files_and_validates_them(mem.con, mem.args.parse_contribution_dump)
+        else:
+            print("The dump provided can't be parsed due to is from {} version and developer version is {}. Tell the user to update app and resend dump.".format(filenameversion, dbversion, ))
         exit(0)
         
     if mem.args.update_after_contribution!=None:
-        mem.con.load_script(mem.args.update_after_contribution)
-        mem.con.commit()
+        dbversion=mem.con.cursor_one_field("select value from globals where id=1")
+        filenameversion=mem.args.update_after_contribution[0:12]
+        if dbversion==filenameversion:
+            mem.con.load_script(mem.args.update_after_contribution)
+            mem.con.commit()
+            print("Personal data you sent to us, have been integrated in the Calories Tracker system data. Thank you ;)")
+        else:
+            print("Your Calories Tracker app should be in {} version to parse this script. Please update to that version because it's {}".format(dbversion, filenameversion))
+
         exit(0)
 
     user=mem.data.users.find_by_id(mem.args.users_id)
