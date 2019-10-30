@@ -43,17 +43,15 @@ If you want to create a Desktop shortcut, for this commands, you can write in co
 
 `caloriestracker_shortcuts`
 
-How to launch caloriestracker
-========================
-caloriestracker uses PostgreSQL database as its backend. So you need to create a database and load its schema. Just type:
+How to launch Calories Tracker
+==============================
+Calories Tracker uses PostgreSQL database as its backend. So you need to create a database and load its schema. Just type:
 
 `caloriestracker_init`
 
 Once database has been created, just log into caloriestracker after typing:
 
 `caloriestracker`
-
-Warning: Remember caloriestracker it's still in beta status
 
 Dependencies
 ============
@@ -73,6 +71,14 @@ In Calories tracker you can add your own products and you can share them with us
 
 Changelog
 =========
+0.4.0
+  * Calories Traker init executable is working again
+  * Replaced QSpinwidgets to a personalized widget
+  * Added format multipliers
+  * Now you can report an issue from inside Calories Tracker
+  * Improved products translations
+  * Added more products
+
 0.3.0
   * frmAbout user interface improved
   * Translations of hardcoded strings improved

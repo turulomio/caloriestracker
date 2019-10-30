@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="es_ES" sourcelanguage="en">
+<!DOCTYPE TS><TS version="2.0" language="es_ES" sourcelanguage="en">
 <context>
     <name>ActivityManager</name>
     <message>
@@ -537,10 +536,10 @@
         <source>Whole milk</source>
         <translation>Leche entera</translation>
     </message>
-    <message>
+    <message encoding="UTF-8">
         <location filename="../hardcoded_strings.py" line="45"/>
         <source>Pimientos de padrón</source>
-        <translation>Pimientos de padrón</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -605,7 +604,7 @@
     </message>
     <message>
         <location filename="../mem.py" line="28"/>
-        <source>Developed by Mariano Muñoz 2019-{} ©</source>
+        <source>Developed by Mariano Mu&#xf1;oz 2019-{} &#xa9;</source>
         <translation>Desarrollado por Mariano Muñoz 2019-{} ©</translation>
     </message>
 </context>
@@ -1052,7 +1051,7 @@
     </message>
     <message>
         <location filename="../ui/frmAbout.py" line="25"/>
-        <source>This program has been developed by Mariano Muñoz</source>
+        <source>This program has been developed by Mariano Mu&#xf1;oz</source>
         <translation>Este programa ha sido desarrollado por Mariano Muñoz</translation>
     </message>
     <message>
@@ -1476,12 +1475,12 @@
     </message>
     <message>
         <location filename="../ui/frmMain.py" line="32"/>
-        <source>Calories Tracker 2019-{0} © (Admin mode)</source>
+        <source>Calories Tracker 2019-{0} &#xa9; (Admin mode)</source>
         <translation>Calories Tracker 2019-{0} © (Modo administrador)</translation>
     </message>
     <message>
         <location filename="../ui/frmMain.py" line="35"/>
-        <source>Calories Tracker 2019-{0} ©</source>
+        <source>Calories Tracker 2019-{0} &#xa9;</source>
         <translation>Calories Tracker 2019-{0} ©</translation>
     </message>
     <message>
