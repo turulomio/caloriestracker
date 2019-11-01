@@ -251,6 +251,7 @@ long_description="Home page is https://github.com/turulomio/caloriestracker" #Ju
 entry_points={
         'console_scripts': [
             'caloriestracker_console=caloriestracker.caloriestracker_console:main',
+            'caloriestracker_maintenance_products_system2personal=caloriestracker.caloriestracker_maintenance:products_system2personal',
         ],
         'gui_scripts':  [
             'caloriestracker=caloriestracker.caloriestracker:main',

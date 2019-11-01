@@ -129,26 +129,35 @@ class MemInit(MemGui):
 
 class MemConsole(Mem):
     def __init__(self):
-        Mem.__init__(self)
-        
-
-    def __del__(self):
-        if hasattr(self, "settings")==True:
-            self.settings.sync()
-
-    def run(self, args=None):        
+        Mem.__init__(self)        
         self.app=QCoreApplication(argv)
         self.app.setOrganizationName("caloriestracker")
         self.app.setOrganizationDomain("caloriestracker")
         self.app.setApplicationName("caloriestracker")
         
         self.settings=QSettings()
-        self.args=self.parse_arguments(args)
-        self.addDebugSystem(self.args.debug) #Must be before QCoreApplication
         
 
         self.localzone=self.settings.value("mem/localzone", "Europe/Madrid")
         self.load_translation()
+        
+        self.create_parser()
+        
+
+    def __del__(self):
+        if hasattr(self, "settings")==True:
+            self.settings.sync()
+
+    ##Must be overriden for other MemScripts
+    def run(self, args=None):   
+        self.args=self.parser.parse_args(args)
+        self.addDebugSystem(self.args.debug) #Must be before QCoreApplication
+        #Changing types of args
+        self.args.date=string2date(self.args.date)
+        self.args.users_id=int(self.args.users_id)
+        if self.args.elaborated!=None:
+            self.args.elaborated=int(self.args.elaborated)
+
         
         self.con=self.connection()
         if self.con.is_active()==False:
@@ -176,8 +185,9 @@ class MemConsole(Mem):
         con.get_password()
         con.connect()
         return con
-
-    def parse_arguments(self, args):
+        
+    ## Must be overriden for other MemScripts
+    def create_parser(self):
         self.parser=ArgumentParser(prog='caloriestracker_console', description=self.tr('Report of calories'), epilog=self.epilog(), formatter_class=RawTextHelpFormatter)
         self. addCommonToArgParse(self.parser)
         argparse_connection_arguments_group(self.parser, default_db="caloriestracker")
@@ -193,14 +203,6 @@ class MemConsole(Mem):
         group.add_argument('--parse_contribution_dump', help=self.tr("Parses a dump and generates sql files for the package and for the dump owner"), action="store", default=None)
         group.add_argument('--update_after_contribution',  help=self.tr("Converts personal data to system data in the database using generated sql file of the dump owner"),  action="store", default=None)
         group.add_argument('--elaborated', help=self.tr("Show elaborated product"), action="store", default=None)
-
-        args=self.parser.parse_args(args)
-        #Changing types of args
-        args.date=string2date(args.date)
-        args.users_id=int(args.users_id)
-        if args.elaborated!=None:
-            args.elaborated=int(args.elaborated)
-        return args
 
 class MemCaloriestracker(MemGui):
     def __init__(self):        
@@ -228,3 +230,33 @@ class MemCaloriestracker(MemGui):
     def setLocalzone(self):
         self.localzone=self.settings.value("mem/localzone", "Europe/Madrid")
 
+
+class MemMaintenanceProductSystem2Personal(MemConsole):
+    def __init__(self):
+        MemConsole.__init__(self)
+
+    ##Must be overriden for other MemScripts
+    def run(self, args=None):   
+        self.args=self.parser.parse_args(args)
+        self.addDebugSystem(self.args.debug) #Must be before QCoreApplication
+        #Changing types of args
+        self.args.system=int(self.args.system)
+
+        self.con=self.connection()
+        if self.con.is_active()==False:
+            exit(1)
+        
+        database_update(self.con, "caloriestracker")
+        
+        self.load_db_data(False)
+
+        self.user=self.data.users.find_by_id(1)
+        
+        
+    ## Must be overriden for other MemScripts
+    def create_parser(self):
+        self.parser=ArgumentParser(prog='caloriestracker_maintenance_products_system2personal', description=self.tr('Converts a system product in a personal one'), epilog=self.epilog(), formatter_class=RawTextHelpFormatter)
+        self. addCommonToArgParse(self.parser)
+        argparse_connection_arguments_group(self.parser, default_db="caloriestracker")
+        group = self.parser.add_argument_group("Find parameters")
+        group.add_argument('--system', help=self.tr('System product'), action="store", required=True)

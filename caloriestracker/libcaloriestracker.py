@@ -8,6 +8,7 @@ from datetime import date,  timedelta, datetime
 from decimal import Decimal
 from caloriestracker.libcaloriestrackerfunctions import a2s, ca2s, n2s, rca2s
 from caloriestracker.casts import str2bool, b2s
+from caloriestracker.datetime_functions import dtnaive2string
 from caloriestracker.text_inputs import input_boolean, input_integer_or_none
 from caloriestracker.libcaloriestrackertypes import eProductComponent, eActivity, eWeightWish
 from caloriestracker.ui.qtablewidgetitems import qtime, qleft, qright, qnumber_limited, qnumber, qdatetime, qdate, qbool
@@ -1183,6 +1184,47 @@ class Product(QObject):
         except:
             return None
 
+
+    ## Generates a sql file to convert this system product to a new personal product
+    def sqlfile_convert_to_personal(self):
+        personal=ProductPersonal(self.mem)         
+        personal.name=self.name
+        personal.amount=self.amount
+        personal.fat=self.fat
+        personal.protein=self.protein
+        personal.carbohydrate=self.carbohydrate
+        personal.company=self.company
+        personal.last=self.last
+        personal.elaboratedproducts_id=self.elaboratedproducts_id
+        personal.languages=self.languages
+        personal.calories=self.calories
+        personal.salt=self.salt
+        personal.cholesterol=self.cholesterol
+        personal.sodium=self.sodium
+        personal.potassium=self.potassium
+        personal.fiber=self.fiber
+        personal.sugars=self.sugars
+        personal.saturated_fat=self.saturated_fat
+        personal.system_company=self.system_company
+        personal.save()
+        
+        datestr=dtnaive2string(self.mem.inittime, 3)
+        sql_filename="{}.sql".format(datestr)
+        sql=open(sql_filename, "w")
+        
+        #Delete old personal products
+        sql.write("-- caloriestracker_maintenance_products_system2personal\n")
+        sql.write(personal.insert_string("personalproducts")+"\n")
+        #UPDATING PRODUCTS IN THE REST OF TABLES
+        for table in ['formats', 'meals', 'products_in_elaboratedproducts']:
+            sql.write(b2s(self.mem.con.mogrify("update "+table+" set products_id=%s, system_product=%s where products_id=%s and system_product=%s;", 
+                (personal.id, personal.system_product, self.id, self.system_product)))+"\n")
+        sql.write(b2s(self.mem.con.mogrify("delete from products where id=%s;", (self.id, )))+"\n")
+        sql.write("\n")
+        sql.close()
+        self.mem.con.rollback()#Save it's in script, not in database.
+        print(self.tr("We have generated '{}' to convert the system product '{}' to a personal product '{}'").format(sql_filename, self.fullName(), personal.fullName()))
+
     def qicon(self):
         if self.system_product==True:
             return QIcon(":/caloriestracker/books.png")
@@ -1221,9 +1263,9 @@ class ProductPersonal(Product):
                     self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, 
                     self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company))
         else:
-            self.mem.con.cursor_one_field("""update personalproducts set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, last=%s,
+            self.mem.con.execute("""update personalproducts set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, last=%s,
             elaboratedproducts_id=%s, languages=%s, calories=%s, salt=%s, cholesterol=%s, sodium=%s, potassium=%s, fiber=%s, sugars=%s, saturated_fat=%s, system_company=%s
-            where id=%s returning id""", 
+            where id=%s""", 
             (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, datetime.now(), 
             self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company,  self.id))
 
