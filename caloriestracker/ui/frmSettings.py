@@ -19,12 +19,13 @@ class frmSettings(QDialog, Ui_frmSettings):
     @pyqtSlot()
     def on_buttonbox_accepted(self):
         self.mem.localzone=self.cmbZones.itemData(self.cmbZones.currentIndex())
-        self.mem.settings.setValue("access/language", self.mem.frmAccess.languages.selected.id)
+        self.mem.settings.setValue("frmAccess/language", self.mem.frmAccess.languages.selected.id)
         self.mem.settings.setValue("mem/localzone", self.mem.localzone)
         self.mem.frmAccess.languages.cambiar(self.cmbLanguages.itemData(self.cmbLanguages.currentIndex()), "caloriestracker")       
         self.retranslateUi(self)
         self.mem.frmMain.retranslateUi(self)
         self.mem.settings.sync()
+        self.mem.data.load()
         self.accept() 
 
     @pyqtSlot()
