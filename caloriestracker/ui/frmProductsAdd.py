@@ -65,6 +65,7 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
         self.qlepCarbohydrate.setMandatory(True)
         self.qlepProtein.setMandatory(True)
         self.qlepFat.setMandatory(True)
+        self.qlepCalories.txt.setFocus()
 
     def on_bb_accepted(self):
         if self.qlepAmount.value()<=0:

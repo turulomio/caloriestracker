@@ -149,7 +149,7 @@ class myQLineEditPlus(QWidget):
         self.parent=parent
         self.lbl=QLabel(self)
         self.chk=QCheckBox(self)
-        self.chk.setFocusPolicy(Qt.NoFocus)
+        #self.chk.setFocusPolicy(Qt.NoFocus)
         self.txt=QLineEdit(self)
         self.lblSuffix=QLabel(self)
         self.lay = QHBoxLayout(self)
@@ -224,6 +224,9 @@ class myQLineEditPlus(QWidget):
             self.setValue(None)
         else:
             self.setValue("0")
+            self.chk.setFocusPolicy(Qt.NoFocus)
+            self.txt.setFocus()
+            self.txt.selectAll()
 
     def isChecked(self):
         return self.chk.isChecked()
