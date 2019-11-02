@@ -328,6 +328,13 @@ class ProductElaborated:
             init__create(args[1]['name'],args[1]['final_amount'], args[1]['id'])
         self.status=0
         
+    def fullName(self):
+        if self.mem.debuglevel=="DEBUG":
+            str_with_id=". #E{}".format(self.id)
+        else:
+            str_with_id=""
+            
+        return "{}{}".format(self.name, str_with_id)
     ## ESTA FUNCION VA AUMENTANDO STATUS SIN MOLESTAR LOS ANTERIORES, SOLO CARGA CUANDO stsatus_to es mayor que self.status
     ## @param statusneeded  Integer with the status needed 
     ## @param downgrade_to Integer with the status to downgrade before checking needed status. If None it does nothing
@@ -453,7 +460,7 @@ class ProductElaboratedManager(QObject, ObjectManager_With_IdName_Selectable):
         table.clearContents()
         table.setRowCount(self.length())
         for i, o in enumerate(self.arr):
-            table.setItem(i, 0, qleft(o.name))
+            table.setItem(i, 0, qleft(o.fullName()))
             #table.item(i, 0).setIcon(o.qicon())
 
 class ProductInElaboratedProduct:
@@ -1224,6 +1231,7 @@ class Product(QObject):
         sql.close()
         self.mem.con.rollback()#Save it's in script, not in database.
         print(self.tr("We have generated '{}' to convert the system product '{}' to a personal product '{}'").format(sql_filename, self.fullName(), personal.fullName()))
+        print(self.tr("You mustn't use this file if your are not a caloriestracker developer ;)"))
 
     def qicon(self):
         if self.system_product==True:

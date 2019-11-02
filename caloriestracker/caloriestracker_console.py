@@ -25,7 +25,7 @@ def main():
         exit(0)
     if mem.args.elaborated!=None:
        elaborated=mem.data.elaboratedproducts.find_by_id(mem.args.elaborated)
-       elaborated.load_products_in()
+       elaborated.needStatus(1)
        elaborated.show_table()
        exit(0)
     if mem.args.add_meal==True:
