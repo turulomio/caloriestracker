@@ -3,47 +3,47 @@
 <context>
     <name>ActivityManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="43"/>
+        <location filename="../libcaloriestracker.py" line="44"/>
         <source>Sedentary</source>
         <translation>Sedentario</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="43"/>
+        <location filename="../libcaloriestracker.py" line="44"/>
         <source>If you get minimal or no exercise</source>
         <translation>Si no haces ejercicio o haces algo mínimo</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="44"/>
+        <location filename="../libcaloriestracker.py" line="45"/>
         <source>Lightly active</source>
         <translation>Ligeramente activo</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="45"/>
+        <location filename="../libcaloriestracker.py" line="46"/>
         <source>If you exercise moderately three to five days a week</source>
         <translation>Si haces ejercicio moderado de tres a cinco días a la semana</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="45"/>
+        <location filename="../libcaloriestracker.py" line="46"/>
         <source>Moderately active</source>
         <translation>Moderadamente activo</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="46"/>
+        <location filename="../libcaloriestracker.py" line="47"/>
         <source>Very active</source>
         <translation>Muy activo</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="46"/>
+        <location filename="../libcaloriestracker.py" line="47"/>
         <source>If you engage in hard exercise six to seven days a week</source>
         <translation>Si realiza ejercicio intenso de seis a siete días a la semana</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="47"/>
+        <location filename="../libcaloriestracker.py" line="48"/>
         <source>Extra active</source>
         <translation>Con actividad extraordinaria</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="47"/>
+        <location filename="../libcaloriestracker.py" line="48"/>
         <source>If you engage in very hard exercise six to seven days a week or have a physical job</source>
         <translation>Si realiza ejercicio muy intenso de seis a siete días a la semana o tiene un trabajo físico</translation>
     </message>
@@ -51,42 +51,42 @@
 <context>
     <name>BiometricsManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="976"/>
+        <location filename="../libcaloriestracker.py" line="886"/>
         <source>Loading {0} biometrics from database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="979"/>
+        <location filename="../libcaloriestracker.py" line="889"/>
         <source>Loading biometrics...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="992"/>
+        <location filename="../libcaloriestracker.py" line="902"/>
         <source>Date and time</source>
         <translation>Fecha y hora</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="993"/>
+        <location filename="../libcaloriestracker.py" line="903"/>
         <source>Weight</source>
         <translation>Peso</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="994"/>
+        <location filename="../libcaloriestracker.py" line="904"/>
         <source>Height</source>
         <translation>Altura</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="995"/>
+        <location filename="../libcaloriestracker.py" line="905"/>
         <source>Activity</source>
         <translation>Actividad</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="996"/>
+        <location filename="../libcaloriestracker.py" line="906"/>
         <source>weightwish</source>
         <translation>Deseo</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="997"/>
+        <location filename="../libcaloriestracker.py" line="907"/>
         <source>Situation</source>
         <translation>Situación</translation>
     </message>
@@ -94,22 +94,22 @@
 <context>
     <name>CompaniesAndProducts</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1111"/>
+        <location filename="../libcaloriestracker.py" line="1021"/>
         <source>Company name</source>
         <translation>Nombre de la compañía</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1112"/>
+        <location filename="../libcaloriestracker.py" line="1022"/>
         <source>Products</source>
         <translation>Productos</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1124"/>
+        <location filename="../libcaloriestracker.py" line="1034"/>
         <source>Table</source>
         <translation>Tabla</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1125"/>
+        <location filename="../libcaloriestracker.py" line="1035"/>
         <source>Number of registers</source>
         <translation>Número de registros</translation>
     </message>
@@ -117,12 +117,12 @@
 <context>
     <name>CompanyPersonalManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="227"/>
+        <location filename="../libcaloriestracker.py" line="130"/>
         <source>Loading {0} personal companies from database</source>
         <translation>Cargando {0} compañías de usuario de la base de datos</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="230"/>
+        <location filename="../libcaloriestracker.py" line="133"/>
         <source>Loading personal companies...</source>
         <translation>Cargando compañías de usuario...</translation>
     </message>
@@ -130,27 +130,27 @@
 <context>
     <name>CompanySystemManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="187"/>
+        <location filename="../libcaloriestracker.py" line="90"/>
         <source>Loading {0} system companies from database</source>
         <translation>Cargando {0} compañías de sistema de la base de datos</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="190"/>
+        <location filename="../libcaloriestracker.py" line="93"/>
         <source>Loading system companies...</source>
         <translation>Cargando compañías de sistema...</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="206"/>
+        <location filename="../libcaloriestracker.py" line="109"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="207"/>
+        <location filename="../libcaloriestracker.py" line="110"/>
         <source>Number of products</source>
         <translation>Número de productos</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="208"/>
+        <location filename="../libcaloriestracker.py" line="111"/>
         <source>Last update</source>
         <translation>Última modificación</translation>
     </message>
@@ -206,7 +206,7 @@
 <context>
     <name>Format</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1373"/>
+        <location filename="../libcaloriestracker.py" line="1325"/>
         <source> ({} g)</source>
         <translation> ({} g)</translation>
     </message>
@@ -214,12 +214,12 @@
 <context>
     <name>FormatManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1423"/>
+        <location filename="../libcaloriestracker.py" line="1375"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1424"/>
+        <location filename="../libcaloriestracker.py" line="1376"/>
         <source>Grams</source>
         <translation>Gramos</translation>
     </message>
@@ -541,56 +541,131 @@
         <source>Pimientos de padrón</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="67"/>
+        <source>Bandeja</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="68"/>
+        <source>Barrita</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="69"/>
+        <source>Bolsa</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="70"/>
+        <source>Envase al vacío</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="71"/>
+        <source>Grandes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="72"/>
+        <source>Lata</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="73"/>
+        <source>Lata 33cl</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="74"/>
+        <source>Lata escurrida</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="75"/>
+        <source>Lata pequeña escurrida</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="76"/>
+        <source>Loncha</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="77"/>
+        <source>Medianas</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="78"/>
+        <source>Paquete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="79"/>
+        <source>Pastilla</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="80"/>
+        <source>Tostada</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../hardcoded_strings.py" line="81"/>
+        <source>Unidad</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MealManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1676"/>
+        <location filename="../libcaloriestracker.py" line="1628"/>
         <source>Hour</source>
         <translation>Hora</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1677"/>
+        <location filename="../libcaloriestracker.py" line="1629"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1678"/>
+        <location filename="../libcaloriestracker.py" line="1630"/>
         <source>Grams</source>
         <translation>Gramos</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1679"/>
+        <location filename="../libcaloriestracker.py" line="1631"/>
         <source>Calories</source>
         <translation>Calorías</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1680"/>
+        <location filename="../libcaloriestracker.py" line="1632"/>
         <source>Carbohydrates</source>
         <translation>Carbohidratos</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1681"/>
+        <location filename="../libcaloriestracker.py" line="1633"/>
         <source>Protein</source>
         <translation>Proteína</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1682"/>
+        <location filename="../libcaloriestracker.py" line="1634"/>
         <source>Fat</source>
         <translation>Grasa</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1683"/>
+        <location filename="../libcaloriestracker.py" line="1635"/>
         <source>Fiber</source>
         <translation>Fibra</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1700"/>
+        <location filename="../libcaloriestracker.py" line="1652"/>
         <source>Total</source>
         <translation>Total</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1708"/>
+        <location filename="../libcaloriestracker.py" line="1660"/>
         <source>Recomendations</source>
         <translation>Recomendaciones</translation>
     </message>
@@ -611,7 +686,7 @@
 <context>
     <name>MemCaloriestracker</name>
     <message>
-        <location filename="../mem.py" line="223"/>
+        <location filename="../mem.py" line="225"/>
         <source>Report of calories</source>
         <translation>Informe de calorías</translation>
     </message>
@@ -619,57 +694,57 @@
 <context>
     <name>MemConsole</name>
     <message>
-        <location filename="../mem.py" line="181"/>
+        <location filename="../mem.py" line="191"/>
         <source>Report of calories</source>
         <translation>Informe de calorías</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="185"/>
+        <location filename="../mem.py" line="195"/>
         <source>Date to show</source>
         <translation>Fecha a mostrar</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="186"/>
+        <location filename="../mem.py" line="196"/>
         <source>User id</source>
         <translation>Id del usuario</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="187"/>
+        <location filename="../mem.py" line="197"/>
         <source>Find data</source>
         <translation>Encontrar datos</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="190"/>
+        <location filename="../mem.py" line="200"/>
         <source>Adds a company</source>
         <translation>Añade una compañía</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="189"/>
+        <location filename="../mem.py" line="199"/>
         <source>Adds a product</source>
         <translation>Añade un producto</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="191"/>
+        <location filename="../mem.py" line="201"/>
         <source>Adds biometrics</source>
         <translation>Añade información biométrica</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="192"/>
+        <location filename="../mem.py" line="202"/>
         <source>Generate a dump to collaborate updating companies and products</source>
         <translation>Genera un volcado de compañías y productos, para colaborar</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="195"/>
+        <location filename="../mem.py" line="205"/>
         <source>Show elaborated product</source>
         <translation>Muestra un producto elaborado</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="193"/>
+        <location filename="../mem.py" line="203"/>
         <source>Parses a dump and generates sql files for the package and for the dump owner</source>
         <translation>Interpreta un volcado y genera ficheros sql para el paquete y para el propietario del volcado</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="194"/>
+        <location filename="../mem.py" line="204"/>
         <source>Converts personal data to system data in the database using generated sql file of the dump owner</source>
         <translation>Convierte la información personal en información del sistema de la base de datos, usando el fichero sql generado para el propietario del volcado</translation>
     </message>
@@ -683,27 +758,58 @@
     </message>
 </context>
 <context>
+    <name>MemMaintenanceProductSystem2Personal</name>
+    <message>
+        <location filename="../mem.py" line="258"/>
+        <source>Converts a system product in a personal one</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mem.py" line="262"/>
+        <source>System product</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MyPopup</name>
+    <message>
+        <location filename="../ui/myqcharts.py" line="382"/>
+        <source>{} (Last: {})</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Product</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1207"/>
+        <location filename="../libcaloriestracker.py" line="1117"/>
         <source>Elaborated by me</source>
         <translation>Elaborado por mí</translation>
+    </message>
+    <message>
+        <location filename="../libcaloriestracker.py" line="1233"/>
+        <source>We have generated &apos;{}&apos; to convert the system product &apos;{}&apos; to a personal product &apos;{}&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libcaloriestracker.py" line="1234"/>
+        <source>You mustn&apos;t use this file if your are not a caloriestracker developer ;)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ProductElaboratedManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="530"/>
+        <location filename="../libcaloriestracker.py" line="440"/>
         <source>Loading {0} elaborated products from database</source>
         <translation>Cargando {0} productos elaborados de la base de datos</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="533"/>
+        <location filename="../libcaloriestracker.py" line="443"/>
         <source>Loading elaborated products...</source>
         <translation>Cargando productos elaborados...</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="548"/>
+        <location filename="../libcaloriestracker.py" line="458"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
@@ -711,97 +817,97 @@
 <context>
     <name>ProductInElaboratedProductManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="763"/>
+        <location filename="../libcaloriestracker.py" line="673"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="764"/>
+        <location filename="../libcaloriestracker.py" line="674"/>
         <source>Grams</source>
         <translation>Gramos</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="765"/>
+        <location filename="../libcaloriestracker.py" line="675"/>
         <source>Calories</source>
         <translation>Calorías</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="766"/>
+        <location filename="../libcaloriestracker.py" line="676"/>
         <source>Carbohydrates</source>
         <translation>Carbohidratos</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="767"/>
+        <location filename="../libcaloriestracker.py" line="677"/>
         <source>Protein</source>
         <translation>Proteína</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="768"/>
+        <location filename="../libcaloriestracker.py" line="678"/>
         <source>Fat</source>
         <translation>Grasa</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="769"/>
+        <location filename="../libcaloriestracker.py" line="679"/>
         <source>Fiber</source>
         <translation>Fibra</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="783"/>
+        <location filename="../libcaloriestracker.py" line="693"/>
         <source>Total</source>
         <translation>Total</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="744"/>
+        <location filename="../libcaloriestracker.py" line="654"/>
         <source>ELABORATED PRODUCT &apos;{}&apos; NUTRICIONAL REPORT</source>
         <translation>INFORME NUTRICIONAL DEL PRODUCTO ELABORADO &apos;{}&apos;</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="747"/>
+        <location filename="../libcaloriestracker.py" line="657"/>
         <source>NAME</source>
         <translation>NOMBRE</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="747"/>
+        <location filename="../libcaloriestracker.py" line="657"/>
         <source>GRAMS</source>
         <translation>GRAMOS</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="752"/>
+        <location filename="../libcaloriestracker.py" line="662"/>
         <source>ELABORATED WITH {} PRODUCTS</source>
         <translation>ELABORADO CON {} PRODUCTOS</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="754"/>
+        <location filename="../libcaloriestracker.py" line="664"/>
         <source>FINAL PRODUCT</source>
         <translation>PRODUCTO FINAL</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="747"/>
+        <location filename="../libcaloriestracker.py" line="657"/>
         <source>CALORIE</source>
         <translation>CALORIA</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="747"/>
+        <location filename="../libcaloriestracker.py" line="657"/>
         <source>CARBOHY</source>
         <translation>CARBOHI</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="747"/>
+        <location filename="../libcaloriestracker.py" line="657"/>
         <source>PROTEIN</source>
         <translation>PROTEIN</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="747"/>
+        <location filename="../libcaloriestracker.py" line="657"/>
         <source>FAT</source>
         <translation>GRASA</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="747"/>
+        <location filename="../libcaloriestracker.py" line="657"/>
         <source>FIBER</source>
         <translation>FIBRA</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="757"/>
+        <location filename="../libcaloriestracker.py" line="667"/>
         <source>FINAL PRODUCT (100G)</source>
         <translation>PRODUCTO FINAL (100G)</translation>
     </message>
@@ -809,57 +915,57 @@
 <context>
     <name>ProductManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="308"/>
+        <location filename="../libcaloriestracker.py" line="211"/>
         <source>Loading {0} products from database</source>
         <translation>Cargando {0} productos de la base de datos</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="311"/>
+        <location filename="../libcaloriestracker.py" line="214"/>
         <source>Loading products...</source>
         <translation>Cargando productos...</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="349"/>
+        <location filename="../libcaloriestracker.py" line="252"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="350"/>
+        <location filename="../libcaloriestracker.py" line="253"/>
         <source>Company</source>
         <translation>Compañía</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="352"/>
+        <location filename="../libcaloriestracker.py" line="255"/>
         <source>Grams</source>
         <translation>Gramos</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="353"/>
+        <location filename="../libcaloriestracker.py" line="256"/>
         <source>Calories</source>
         <translation>Calorías</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="354"/>
+        <location filename="../libcaloriestracker.py" line="257"/>
         <source>Carbohydrates</source>
         <translation>Carbohidratos</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="355"/>
+        <location filename="../libcaloriestracker.py" line="258"/>
         <source>Protein</source>
         <translation>Proteína</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="356"/>
+        <location filename="../libcaloriestracker.py" line="259"/>
         <source>Fat</source>
         <translation>Grasa</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="357"/>
+        <location filename="../libcaloriestracker.py" line="260"/>
         <source>Fiber</source>
         <translation>Fibra</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="351"/>
+        <location filename="../libcaloriestracker.py" line="254"/>
         <source>Last update</source>
         <translation>Última modificación</translation>
     </message>
@@ -867,12 +973,12 @@
 <context>
     <name>ProductPersonalManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="397"/>
+        <location filename="../libcaloriestracker.py" line="300"/>
         <source>Loading {0} personal products from database</source>
         <translation>Cargando {0} productos de usuario de la base de datos</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="400"/>
+        <location filename="../libcaloriestracker.py" line="303"/>
         <source>Loading personal products...</source>
         <translation>Cargando productos personales...</translation>
     </message>
@@ -880,34 +986,57 @@
 <context>
     <name>UserManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1794"/>
+        <location filename="../libcaloriestracker.py" line="1746"/>
         <source>Loading {0} users from database</source>
         <translation>Cargando {0} usuarios de la base de datos</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1797"/>
+        <location filename="../libcaloriestracker.py" line="1749"/>
         <source>Loading users...</source>
         <translation>Cargando usuarios...</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1820"/>
+        <location filename="../libcaloriestracker.py" line="1772"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1821"/>
+        <location filename="../libcaloriestracker.py" line="1773"/>
         <source>Male</source>
         <translation>Hombre</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1822"/>
+        <location filename="../libcaloriestracker.py" line="1774"/>
         <source>Birthday</source>
         <translation>Cumpleaños</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1823"/>
+        <location filename="../libcaloriestracker.py" line="1775"/>
         <source>Starts</source>
         <translation>Inicio</translation>
+    </message>
+</context>
+<context>
+    <name>VCCommons</name>
+    <message>
+        <location filename="../ui/myqcharts.py" line="21"/>
+        <source>Save as image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/myqcharts.py" line="35"/>
+        <source>Save File</source>
+        <translation type="unfinished">Guardar fichero</translation>
+    </message>
+    <message>
+        <location filename="../ui/myqcharts.py" line="35"/>
+        <source>PNG Image (*.png)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/myqcharts.py" line="68"/>
+        <source>Creating chart</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -954,17 +1083,17 @@
 <context>
     <name>WeightWishManager</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="60"/>
+        <location filename="../libcaloriestracker.py" line="61"/>
         <source>Lose weight</source>
         <translation>Perder peso</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="61"/>
+        <location filename="../libcaloriestracker.py" line="62"/>
         <source>Mantain weight</source>
         <translation>Mantener el peso</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="62"/>
+        <location filename="../libcaloriestracker.py" line="63"/>
         <source>Gain weight</source>
         <translation>Ganar peso</translation>
     </message>
@@ -1592,17 +1721,17 @@
         <translation>Selecciona un formato</translation>
     </message>
     <message>
-        <location filename="../ui/frmMealsAdd.py" line="18"/>
+        <location filename="../ui/frmMealsAdd.py" line="19"/>
         <source>Add a new meal</source>
         <translation>Añade una nueva comida</translation>
     </message>
     <message>
-        <location filename="../ui/frmMealsAdd.py" line="24"/>
+        <location filename="../ui/frmMealsAdd.py" line="30"/>
         <source>Edit a meal</source>
         <translation>Edita una comida</translation>
     </message>
     <message>
-        <location filename="../ui/frmMealsAdd.py" line="59"/>
+        <location filename="../ui/frmMealsAdd.py" line="65"/>
         <source>You must select a product from the popup list</source>
         <translation>Debes seleccionar un producto de la lista desplegada</translation>
     </message>
@@ -1630,27 +1759,27 @@
         <translation>Información de los componentes básicos</translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.py" line="20"/>
+        <location filename="../ui/frmProductsAdd.py" line="21"/>
         <source>Calories</source>
         <translation>Calorías</translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.py" line="16"/>
+        <location filename="../ui/frmProductsAdd.py" line="17"/>
         <source>Amount</source>
         <translation>Cantidad</translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.py" line="18"/>
+        <location filename="../ui/frmProductsAdd.py" line="19"/>
         <source>Protein</source>
         <translation>Proteína</translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.py" line="27"/>
+        <location filename="../ui/frmProductsAdd.py" line="28"/>
         <source>Fat</source>
         <translation>Grasa</translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.py" line="25"/>
+        <location filename="../ui/frmProductsAdd.py" line="26"/>
         <source>Fiber</source>
         <translation>Fibra</translation>
     </message>
@@ -1660,57 +1789,57 @@
         <translation>Información adicional</translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.py" line="21"/>
+        <location filename="../ui/frmProductsAdd.py" line="22"/>
         <source>Salt</source>
         <translation>Sal</translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.py" line="22"/>
+        <location filename="../ui/frmProductsAdd.py" line="23"/>
         <source>Cholesterol</source>
         <translation>Colesterol</translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.py" line="23"/>
+        <location filename="../ui/frmProductsAdd.py" line="24"/>
         <source>Sodium</source>
         <translation>Sodio</translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.py" line="24"/>
+        <location filename="../ui/frmProductsAdd.py" line="25"/>
         <source>Potassium</source>
         <translation>Potasio</translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.py" line="44"/>
+        <location filename="../ui/frmProductsAdd.py" line="45"/>
         <source>Add a new personal product</source>
         <translation>Añade un nuevo producto personal</translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.py" line="62"/>
+        <location filename="../ui/frmProductsAdd.py" line="64"/>
         <source>Edit a personal product</source>
         <translation>Edita un producto personal</translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.py" line="26"/>
+        <location filename="../ui/frmProductsAdd.py" line="27"/>
         <source>Sugar</source>
         <translation>Azúcar</translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.py" line="40"/>
+        <location filename="../ui/frmProductsAdd.py" line="41"/>
         <source>g</source>
         <translation>g</translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.py" line="37"/>
+        <location filename="../ui/frmProductsAdd.py" line="38"/>
         <source>mg</source>
         <translation>mg</translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.py" line="71"/>
+        <location filename="../ui/frmProductsAdd.py" line="73"/>
         <source>Amount value must be greater than 0</source>
         <translation>La cantidad debe ser mayor que 0</translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.py" line="19"/>
+        <location filename="../ui/frmProductsAdd.py" line="20"/>
         <source>Carbohydrates</source>
         <translation>Carbohidratos</translation>
     </message>
@@ -1909,12 +2038,12 @@
 <context>
     <name>self.mem</name>
     <message>
-        <location filename="../libcaloriestracker.py" line="1098"/>
+        <location filename="../libcaloriestracker.py" line="1008"/>
         <source>Companies:</source>
         <translation>Compañías:</translation>
     </message>
     <message>
-        <location filename="../libcaloriestracker.py" line="1102"/>
+        <location filename="../libcaloriestracker.py" line="1012"/>
         <source>Products:</source>
         <translation>Productos:</translation>
     </message>

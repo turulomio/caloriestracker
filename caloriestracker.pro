@@ -1,5 +1,5 @@
 SOURCES         = \
-                  caloriestracker/ui/canvaschart.py \
+                  caloriestracker/ui/myqcharts.py \
                   caloriestracker/ui/Ui_frmAbout.py \
                   caloriestracker/ui/frmAbout.py \
                   caloriestracker/ui/Ui_frmAccess.py \
