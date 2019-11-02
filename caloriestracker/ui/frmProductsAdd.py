@@ -10,6 +10,7 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
         self.setupUi(self)
         self.mem=mem
         self.product=product
+        self.parent=parent
         
         
         
@@ -42,6 +43,7 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
             self.mem.data.companies.qcombobox(self.cmbCompanies)
             self.cmbCompanies.setCurrentIndex(-1)
             self.lbl.setText(self.tr("Add a new personal product"))
+            self.qlepAmount.setValue(100)
         else:
             self.mem.data.companies.qcombobox(self.cmbCompanies, self.product.company)
             if self.product.company==None:
