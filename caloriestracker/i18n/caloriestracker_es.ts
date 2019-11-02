@@ -536,11 +536,6 @@
         <source>Whole milk</source>
         <translation>Leche entera</translation>
     </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="45"/>
-        <source>Pimientos de padrón</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <location filename="../hardcoded_strings.py" line="67"/>
         <source>Bandeja</source>
@@ -554,11 +549,6 @@
     <message>
         <location filename="../hardcoded_strings.py" line="69"/>
         <source>Bolsa</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="70"/>
-        <source>Envase al vacío</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -579,11 +569,6 @@
     <message>
         <location filename="../hardcoded_strings.py" line="74"/>
         <source>Lata escurrida</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="75"/>
-        <source>Lata pequeña escurrida</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -614,6 +599,21 @@
     <message>
         <location filename="../hardcoded_strings.py" line="81"/>
         <source>Unidad</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="45"/>
+        <source>Pimientos de padrón</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="70"/>
+        <source>Envase al vacío</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="75"/>
+        <source>Lata pequeña escurrida</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -762,12 +762,12 @@
     <message>
         <location filename="../mem.py" line="258"/>
         <source>Converts a system product in a personal one</source>
-        <translation type="unfinished"></translation>
+        <translation>Convierte un producto de sistema en un personal</translation>
     </message>
     <message>
         <location filename="../mem.py" line="262"/>
         <source>System product</source>
-        <translation type="unfinished"></translation>
+        <translation>Producto de sistema</translation>
     </message>
 </context>
 <context>
@@ -775,7 +775,7 @@
     <message>
         <location filename="../ui/myqcharts.py" line="382"/>
         <source>{} (Last: {})</source>
-        <translation type="unfinished"></translation>
+        <translation>{} (Último: {})</translation>
     </message>
 </context>
 <context>
@@ -1021,22 +1021,22 @@
     <message>
         <location filename="../ui/myqcharts.py" line="21"/>
         <source>Save as image</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar como imagen</translation>
     </message>
     <message>
         <location filename="../ui/myqcharts.py" line="35"/>
         <source>Save File</source>
-        <translation type="unfinished">Guardar fichero</translation>
+        <translation>Guardar fichero</translation>
     </message>
     <message>
         <location filename="../ui/myqcharts.py" line="35"/>
         <source>PNG Image (*.png)</source>
-        <translation type="unfinished"></translation>
+        <translation>Imagen PNG (*.png)</translation>
     </message>
     <message>
         <location filename="../ui/myqcharts.py" line="68"/>
         <source>Creating chart</source>
-        <translation type="unfinished"></translation>
+        <translation>Creando gráfico</translation>
     </message>
 </context>
 <context>
@@ -1774,7 +1774,7 @@
         <translation>Proteína</translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.py" line="28"/>
+        <location filename="../ui/frmProductsAdd.py" line="18"/>
         <source>Fat</source>
         <translation>Grasa</translation>
     </message>
@@ -1842,6 +1842,11 @@
         <location filename="../ui/frmProductsAdd.py" line="20"/>
         <source>Carbohydrates</source>
         <translation>Carbohidratos</translation>
+    </message>
+    <message>
+        <location filename="../ui/frmProductsAdd.py" line="28"/>
+        <source>Saturated fat</source>
+        <translation>Grasa saturada</translation>
     </message>
 </context>
 <context>

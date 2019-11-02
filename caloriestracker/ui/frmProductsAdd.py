@@ -11,9 +11,7 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
         self.mem=mem
         self.product=product
         self.parent=parent
-        
-        
-        
+
         self.qlepAmount.setLabel(self.tr("Amount"))
         self.qlepFat.setLabel(self.tr("Fat"))
         self.qlepProtein.setLabel(self.tr("Protein"))
@@ -25,7 +23,7 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
         self.qlepPotassium.setLabel(self.tr("Potassium"))
         self.qlepFiber.setLabel(self.tr("Fiber"))
         self.qlepSugar.setLabel(self.tr("Sugar"))
-        self.qlepSaturatedFat.setLabel(self.tr("Fat"))
+        self.qlepSaturatedFat.setLabel(self.tr("Saturated fat"))
         
         self.qlepAmount.setSuffix(self.tr("g"))
         self.qlepFat.setSuffix(self.tr("g"))

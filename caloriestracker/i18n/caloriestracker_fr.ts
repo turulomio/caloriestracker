@@ -1774,7 +1774,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.py" line="28"/>
+        <location filename="../ui/frmProductsAdd.py" line="18"/>
         <source>Fat</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1841,6 +1841,11 @@
     <message>
         <location filename="../ui/frmProductsAdd.py" line="20"/>
         <source>Carbohydrates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/frmProductsAdd.py" line="28"/>
+        <source>Saturated fat</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
