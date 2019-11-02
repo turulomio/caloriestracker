@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QDialog
 from caloriestracker.ui.Ui_frmMealsAdd import Ui_frmMealsAdd
 from caloriestracker.libcaloriestracker import Meal
 from caloriestracker.ui.myqwidgets import qmessagebox
-from datetime import datetime
+from datetime import datetime, date, timedelta
 
 class frmMealsAdd(QDialog, Ui_frmMealsAdd):
     def __init__(self, mem, meal=None, parent=None ):
@@ -11,6 +11,7 @@ class frmMealsAdd(QDialog, Ui_frmMealsAdd):
         self.setupUi(self)
         self.mem=mem
         self.meal=meal
+        self.parent=parent
         self.wdgDT.show_microseconds(False)
         self.wdgDT.setLocalzone(self.mem.localzone)
         
@@ -18,7 +19,12 @@ class frmMealsAdd(QDialog, Ui_frmMealsAdd):
             self.lbl.setText(self.tr("Add a new meal"))
             self.mem.data.products.qcombobox(self.cmbProducts)
             self.cmbProducts.setCurrentIndex(-1)
-            self.wdgDT.set(datetime.now(), self.mem.localzone)
+            parent_calendar_date=self.parent.calendar.selectedDate().toPyDate()
+            if parent_calendar_date==date.today():#Set parents calendar date if it's different to today
+                self.wdgDT.set(datetime.now(), self.mem.localzone)
+            else:
+                last=self.parent.meals.last().datetime+timedelta(minutes=1) if self.parent.meals.length()>0 else datetime.combine(parent_calendar_date, datetime.now().time())
+                self.wdgDT.set(datetime(parent_calendar_date.year, parent_calendar_date.month, parent_calendar_date.day, last.hour, last.minute, last.second), self.mem.localzone)
             self.product=None
         else:
             self.lbl.setText(self.tr("Edit a meal"))
