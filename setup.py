@@ -102,6 +102,7 @@ class Compile(Command):
         self.download_from_github('turulomio','reusingcode','python/libmanagers.py', 'caloriestracker')
         self.download_from_github('turulomio','reusingcode','python/connection_pg.py', 'caloriestracker')
         self.download_from_github('turulomio','reusingcode','python/connection_pg_qt.py', 'caloriestracker')
+        self.download_from_github('turulomio','reusingcode','python/dialog.py', 'caloriestracker')
         self.download_from_github('turulomio','reusingcode','python/frmAccess.ui', 'caloriestracker/ui')
         self.download_from_github('turulomio','reusingcode','python/frmAccess.py', 'caloriestracker/ui')
         self.download_from_github('turulomio','reusingcode','python/myqcharts.py', 'caloriestracker/ui')

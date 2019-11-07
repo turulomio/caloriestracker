@@ -29,6 +29,10 @@ def main():
        elaborated.show_table()
        exit(0)
     if mem.args.add_meal==True:
+        # user=menubox_manager_id_name("Add a user", "Select a user from this list", mem.data.users)
+        # print("Selected:", user)
+        # product=menubox_manager_id_name("Select a product", "Select a product from this list", mem.data.products)
+
         users_id=input_int("Add a user: ",1)
         user=mem.data.users.find_by_id(users_id)
         print("Selected:", mem.con.cursor_one_field("select name from users where id=%s",(users_id,)))
