@@ -42,10 +42,7 @@ class frmMain(QMainWindow, Ui_frmMain):
         self.tbUsers.addWidget(self.cmbUsers)
         self.mem.data.users.qcombobox(self.cmbUsers, self.mem.user, icons=True)
         self.cmbUsers.currentIndexChanged.connect(self.on_cmbUsers_currentIndexChanged)
-        
-        b="Bread"
-        print(self.mem.trHS(b))
-        
+
     @pyqtSlot(int)
     def on_cmbUsers_currentIndexChanged(self, index):
         self.mem.user=self.mem.data.users.find_by_id(int(self.cmbUsers.itemData(self.cmbUsers.currentIndex())))

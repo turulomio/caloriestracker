@@ -19,7 +19,7 @@ class wdgBiometrics(QWidget, Ui_wdgBiometrics):
         self.viewChartWeight=None
         self.wdgYM.initiate(1900,  date.today().year, date.today().year, date.today().month)
         self.wdgYM.label.hide()
-        self.cmbChart.setCurrentIndex(int(self.mem.settings.value("wdgBiometrics/cmbChart_index", 1)))
+        self.on_cmbChart_currentIndexChanged(int(self.mem.settings.value("wdgBiometrics/cmbChart_index", 1)))
         
     @pyqtSlot() 
     def on_wdgYM_changed(self):
@@ -76,6 +76,7 @@ SELECT * FROM t ORDER BY datetime ASC""", (self.mem.user.id, ))
         elif index==2:
             self.datefrom= date.today()-timedelta(days=365*3)
         self.mem.settings.setValue("wdgBiometrics/cmbChart_index", self.cmbChart.currentIndex())
+        
         self.update()
         
         
