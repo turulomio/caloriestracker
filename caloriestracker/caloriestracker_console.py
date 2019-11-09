@@ -1,7 +1,8 @@
 from datetime import datetime
-from caloriestracker.libcaloriestracker import MealManager, CompanyPersonal, Meal, ProductPersonal, CompaniesAndProducts
-from caloriestracker.text_inputs import input_boolean, input_decimal, input_int, input_string
+from caloriestracker.libcaloriestracker import MealManager, CompanyPersonal, ProductPersonal, CompaniesAndProducts
+from caloriestracker.text_inputs import  input_decimal, input_int, input_string
 from caloriestracker.mem import MemConsole
+from caloriestracker.npyscreen import MealAddApp
 from caloriestracker.contribution import generate_contribution_dump, parse_contribution_dump_generate_files_and_validates_them
 from logging import debug
 from sys import exit
@@ -29,23 +30,9 @@ def main():
        elaborated.show_table()
        exit(0)
     if mem.args.add_meal==True:
-        # user=menubox_manager_id_name("Add a user", "Select a user from this list", mem.data.users)
-        # print("Selected:", user)
-        # product=menubox_manager_id_name("Select a product", "Select a product from this list", mem.data.products)
-
-        users_id=input_int("Add a user: ",1)
-        user=mem.data.users.find_by_id(users_id)
-        print("Selected:", mem.con.cursor_one_field("select name from users where id=%s",(users_id,)))
-        products_id=input_int("Add the product id")
-        system=input_boolean("It's a system product?", "T")
-        product=mem.data.products.find_by_id_system(products_id, system)
-        print("Selected:",  product)
-        amount=input_decimal("Add the product amount: ")
-        dt=input_string("Add the time: ", str(datetime.now()))
-        o=Meal(mem, dt, product, amount, user, product.system_product, None)
-        o.save()
-        mem.con.commit()
-        print("Meal added with id={}".format(o.id))
+        app = MealAddApp(mem)
+        app.run()
+        print(app.object)
         exit(0)
     if mem.args.add_product==True:
         name=input_string("Add a name: ")
