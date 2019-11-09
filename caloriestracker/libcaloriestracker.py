@@ -35,6 +35,9 @@ class Activity(QObject):
             self.description=description
             self.multiplier=multiplier
             self.id=id
+            
+    def __str__(self):
+        return self.name
 
 class ActivityManager(QObject, ObjectManager_With_IdName_Selectable):
     def __init__(self, mem):
@@ -52,6 +55,8 @@ class WeightWish(QObject):
             self.mem=mem
             self.name=name
             self.id=id
+    def __str__(self):
+        return self.name
 
 class WeightWishManager(QObject, ObjectManager_With_IdName_Selectable):
     def __init__(self, mem):

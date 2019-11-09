@@ -1,8 +1,8 @@
 from datetime import datetime
 from caloriestracker.libcaloriestracker import MealManager, CompanyPersonal, ProductPersonal, CompaniesAndProducts
-from caloriestracker.text_inputs import  input_decimal, input_int, input_string
+from caloriestracker.text_inputs import  input_decimal, input_string
 from caloriestracker.mem import MemConsole
-from caloriestracker.npyscreen import MealAddApp
+from caloriestracker.npyscreen import MealAddApp, BiometricDataAddApp
 from caloriestracker.contribution import generate_contribution_dump, parse_contribution_dump_generate_files_and_validates_them
 from logging import debug
 from sys import exit
@@ -32,7 +32,7 @@ def main():
     if mem.args.add_meal==True:
         app = MealAddApp(mem)
         app.run()
-        print(app.object)
+        print(app.log)
         exit(0)
     if mem.args.add_product==True:
         name=input_string("Add a name: ")
@@ -72,16 +72,8 @@ def main():
         exit(0)
 
     if mem.args.add_biometrics==True:
-        users_id=input_int("Add a user: ",1)
-        print("Selected:", mem.con.cursor_one_field("select name from users where id=%s",(users_id,)))
-        last_weight=mem.con.cursor_one_field("select weight from biometrics order by datetime desc limit 1")
-        weight=input_decimal("Add your weight: ", last_weight)
-        last_height=mem.con.cursor_one_field("select height from biometrics order by datetime desc limit 1")
-        height=input_decimal("Add your height: ",last_height)
-        activity=input_int("Add activity: ", 0)
-        id=mem.con.cursor_one_field("insert into biometrics(users_id, height, weight, activity, datetime) values( %s, %s,%s, %s,now()) returning id",(users_id,height, weight, activity))
-        mem.con.commit()
-        print("Biometrics added with id={}".format(id))
+        app = BiometricDataAddApp(mem)
+        app.run()
         exit(0)
 
     if mem.args.contribution_dump==True:
