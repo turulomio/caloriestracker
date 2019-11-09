@@ -5,7 +5,7 @@
 from PyQt5.QtChart import QChart,  QLineSeries, QChartView, QValueAxis, QDateTimeAxis,  QPieSeries, QScatterSeries
 from PyQt5.QtCore import  Qt,  pyqtSlot,  QObject, QPoint
 from PyQt5.QtGui import QPainter, QFont,  QIcon
-from PyQt5.QtWidgets import QAction, QMenu, QFileDialog, QProgressDialog, QApplication, QDialog, QLabel, QVBoxLayout, QHBoxLayout
+from PyQt5.QtWidgets import QAction, QMenu, QFileDialog, QProgressDialog, QApplication, QDialog, QLabel, QVBoxLayout, QHBoxLayout, QGraphicsSimpleTextItem
 from .. objects.percentage import Percentage
 from .. datetime_functions import epochms2dtaware, dtaware2epochms, dtnaive2string, eDtStrings
 from datetime import timedelta, datetime
@@ -193,7 +193,6 @@ class VCTemporalSeries(VCCommons):
         if x<self.minx:
             self.minx=x
 
-        
     def mouseMoveEvent(self, event):     
         ##Sets the place of the popup in the windows to avoid getout of the screen
         ##frmshow can be a frmShowCasilla or a frmShowFicha
@@ -204,6 +203,14 @@ class VCTemporalSeries(VCCommons):
             if event.y()>self.height()-self.popup.height()-15:
                 resultado.setY(event.y()-self.popup.height()-15)
             return resultado
+        def showCurrentPosition():
+            if hasattr(self, "qgstiCurrentX")==False:
+                self.qgstiCurrentX=QGraphicsSimpleTextItem(self.chart())
+                self.qgstiCurrentY=QGraphicsSimpleTextItem(self.chart())
+            self.qgstiCurrentX.setPos(event.pos().x(), maxY-10)
+            self.qgstiCurrentY.setPos(self.chart().size().width()-47, event.pos().y())
+            self.qgstiCurrentX.setText(str(epochms2dtaware(xVal).date()))
+            self.qgstiCurrentY.setText(str(round(yVal,2)))
         # ---------------------------------------
         QChartView.mouseMoveEvent(self, event)
         xVal = self.chart().mapToValue(event.pos()).x()
@@ -216,8 +223,8 @@ class VCTemporalSeries(VCCommons):
         if xVal <= maxX and  xVal >= minX and yVal <= maxY and yVal >= minY:
             self.popup.move(self.mapToGlobal(placePopUp()))
             self.popup.refresh(self, xVal, yVal)
+            showCurrentPosition()
             self.popup.show()
-#            self.setFocus()
         else:
             self.popup.hide()
 
@@ -275,7 +282,7 @@ class VCTemporalSeries(VCCommons):
             s.attachAxis(self.axisX)
             s.attachAxis(self.axisY)
         self.axisY.setRange(self.miny, self.maxy)
-        
+
         #Legend positions
         if len(self.chart().legend().markers())>6:
             self.chart().legend().setAlignment(Qt.AlignLeft)
@@ -351,9 +358,7 @@ class MyPopup(QDialog):
         
         #Creating empy labels
         if hasattr(self, 'lblTitles')==False:
-            self.labelXY=QLabel("XY")
             self.lay = QVBoxLayout(self)
-            self.lay.addWidget(self.labelXY)
             self.lblTitles=[]
             self.lblValues=[]
             for serie in self.vc.series:
@@ -368,15 +373,22 @@ class MyPopup(QDialog):
             self.setLayout(self.lay)
 
         #Displaying values
-        self.labelXY.setText("X: {}, Y: {}".format(epochms2dtaware(self.xVal).date(), round(self.yVal, 2)))
         for i, serie in enumerate(self.vc.series):
-            self.lblTitles[i].setText(serie.name())
-            try:
-                value=round(self.vc.series_value(serie, self.xVal),2)
-            except:
-                value="---"
-            try:
-                last=round(serie.pointsVector()[len(serie.pointsVector())-1].y(),2)
-            except:
-                last="---"
-            self.lblValues[i].setText(self.tr("{} (Last: {})").format(value,last))
+            if serie.isVisible():
+                self.lblValues[i].show()
+                self.lblTitles[i].show()
+            
+                self.lblTitles[i].setText(serie.name())
+                try:
+                    value=round(self.vc.series_value(serie, self.xVal),2)
+                except:
+                    value="---"
+                try:
+                    last=round(serie.pointsVector()[len(serie.pointsVector())-1].y(),2)
+                except:
+                    last="---"
+                self.lblValues[i].setText(self.tr("{} (Last: {})").format(value,last))
+            else:
+                self.lblValues[i].hide()
+                self.lblTitles[i].hide()
+
