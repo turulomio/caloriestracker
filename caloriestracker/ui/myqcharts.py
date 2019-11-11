@@ -350,6 +350,9 @@ class MyPopup(QDialog):
         QDialog.__init__(self, parent, Qt.ToolTip|Qt.WindowStaysOnTopHint)
         self.setAttribute( Qt.WA_ShowWithoutActivating)
         self.parent=parent
+
+    def mouseReleaseEvent(self, event):
+        self.hide()
         
     def refresh(self, vc, xVal, yVal):
         self.vc=vc
