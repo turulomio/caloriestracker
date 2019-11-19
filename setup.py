@@ -84,40 +84,32 @@ class Compile(Command):
     def finalize_options(self):
         pass
 
-    def download_from_github(self,user,repository,path_filename, destiny_directory):
-        cwd=os.getcwd()
-        os.system("touch '{}/{}'".format(destiny_directory,os.path.basename(path_filename)))
-        os.system("rm '{}/{}'".format(destiny_directory, os.path.basename(path_filename)))
-        os.chdir(destiny_directory)
-        comand="wget -q https://raw.githubusercontent.com/{}/{}/master/{}  --no-clobber".format(user,repository, path_filename)
-        os.system(comand)
-        print("Updating {} from https://github.com/turulomio/reusingcode/{}".format(os.path.basename(path_filename),path_filename))
-        os.chdir(cwd)
-
-
     def run(self):
-        self.download_from_github('turulomio','reusingcode','python/admin_pg.py', 'caloriestracker')
-        self.download_from_github('turulomio','reusingcode','python/casts.py', 'caloriestracker')
-        self.download_from_github('turulomio','reusingcode','python/database_update.py', 'caloriestracker')
-        self.download_from_github('turulomio','reusingcode','python/libmanagers.py', 'caloriestracker')
-        self.download_from_github('turulomio','reusingcode','python/connection_pg.py', 'caloriestracker')
-        self.download_from_github('turulomio','reusingcode','python/connection_pg_qt.py', 'caloriestracker')
-        self.download_from_github('turulomio','reusingcode','python/dialog.py', 'caloriestracker')
-        self.download_from_github('turulomio','reusingcode','python/frmAccess.ui', 'caloriestracker/ui')
-        self.download_from_github('turulomio','reusingcode','python/frmAccess.py', 'caloriestracker/ui')
-        self.download_from_github('turulomio','reusingcode','python/myqcharts.py', 'caloriestracker/ui')
-        self.download_from_github('turulomio','reusingcode','python/myqwidgets.py', 'caloriestracker/ui')
-        self.download_from_github('turulomio','reusingcode','python/wdgDatetime.ui', 'caloriestracker/ui')
-        self.download_from_github('turulomio','reusingcode','python/wdgDatetime.py', 'caloriestracker/ui')
-        self.download_from_github('turulomio','reusingcode','python/wdgYearMonth.ui', 'caloriestracker/ui')
-        self.download_from_github('turulomio','reusingcode','python/wdgYearMonth.py', 'caloriestracker/ui')
-        self.download_from_github('turulomio','reusingcode','python/package_resources.py', 'caloriestracker')
-        self.download_from_github('turulomio','reusingcode','python/translationlanguages.py', 'caloriestracker')
-        self.download_from_github('turulomio','reusingcode','python/datetime_functions.py', 'caloriestracker')
-        self.download_from_github('turulomio','reusingcode','python/text_inputs.py', 'caloriestracker')
-        self.download_from_github('turulomio','reusingcode','python/decorators.py', 'caloriestracker')
-        self.download_from_github('turulomio','reusingcode','python/objects/currency.py', 'caloriestracker/objects')
-        self.download_from_github('turulomio','reusingcode','python/objects/percentage.py', 'caloriestracker/objects')
+        from sys import path
+        path.append("caloriestracker")
+        from github import download_from_github
+        download_from_github('turulomio','reusingcode','python/admin_pg.py', 'caloriestracker')
+        download_from_github('turulomio','reusingcode','python/casts.py', 'caloriestracker')
+        download_from_github('turulomio','reusingcode','python/database_update.py', 'caloriestracker')
+        download_from_github('turulomio','reusingcode','python/libmanagers.py', 'caloriestracker')
+        download_from_github('turulomio','reusingcode','python/connection_pg.py', 'caloriestracker')
+        download_from_github('turulomio','reusingcode','python/connection_pg_qt.py', 'caloriestracker')
+        download_from_github('turulomio','reusingcode','python/dialog.py', 'caloriestracker')
+        download_from_github('turulomio','reusingcode','python/frmAccess.ui', 'caloriestracker/ui')
+        download_from_github('turulomio','reusingcode','python/frmAccess.py', 'caloriestracker/ui')
+        download_from_github('turulomio','reusingcode','python/myqcharts.py', 'caloriestracker/ui')
+        download_from_github('turulomio','reusingcode','python/myqwidgets.py', 'caloriestracker/ui')
+        download_from_github('turulomio','reusingcode','python/wdgDatetime.ui', 'caloriestracker/ui')
+        download_from_github('turulomio','reusingcode','python/wdgDatetime.py', 'caloriestracker/ui')
+        download_from_github('turulomio','reusingcode','python/wdgYearMonth.ui', 'caloriestracker/ui')
+        download_from_github('turulomio','reusingcode','python/wdgYearMonth.py', 'caloriestracker/ui')
+        download_from_github('turulomio','reusingcode','python/package_resources.py', 'caloriestracker')
+        download_from_github('turulomio','reusingcode','python/translationlanguages.py', 'caloriestracker')
+        download_from_github('turulomio','reusingcode','python/datetime_functions.py', 'caloriestracker')
+        download_from_github('turulomio','reusingcode','python/text_inputs.py', 'caloriestracker')
+        download_from_github('turulomio','reusingcode','python/decorators.py', 'caloriestracker')
+        download_from_github('turulomio','reusingcode','python/objects/currency.py', 'caloriestracker/objects')
+        download_from_github('turulomio','reusingcode','python/objects/percentage.py', 'caloriestracker/objects')
 
 
         futures=[]
