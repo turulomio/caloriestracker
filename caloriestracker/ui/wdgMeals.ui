@@ -150,6 +150,18 @@
     <string>Edit meal</string>
    </property>
   </action>
+  <action name="actionProductEdit">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/books.png</normaloff>:/caloriestracker/books.png</iconset>
+   </property>
+   <property name="text">
+    <string>Edit product</string>
+   </property>
+   <property name="toolTip">
+    <string>Edit product</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

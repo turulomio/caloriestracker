@@ -429,6 +429,9 @@ class ProductElaborated:
             self.mem.con.execute("delete from elaboratedproducts where id=%s", (self.id, ))
         else:
             debug("I did not delete the elaborated product because is not deletable")
+            
+    def qicon(self):
+        return QIcon(":/caloriestracker/keko.png")
         
 
 class ProductElaboratedManager(QObject, ObjectManager_With_IdName_Selectable):
@@ -466,7 +469,7 @@ class ProductElaboratedManager(QObject, ObjectManager_With_IdName_Selectable):
         table.setRowCount(self.length())
         for i, o in enumerate(self.arr):
             table.setItem(i, 0, qleft(o.fullName()))
-            #table.item(i, 0).setIcon(o.qicon())
+            table.item(i, 0).setIcon(o.qicon())
 
 class ProductInElaboratedProduct:
     ##Biometrics(mem)
@@ -688,6 +691,7 @@ class ProductInElaboratedProductManager(QObject, ObjectManager_With_IdDatetime_S
         table.setRowCount(self.length()+1)
         for i, o in enumerate(self.arr):
             table.setItem(i, 0, qleft(o.product.fullName()))
+            table.item(i, 0).setIcon(o.product.qicon())
             table.setItem(i, 1, qright(o.amount))
             table.setItem(i, 2, qright(o.calories()))
             table.setItem(i, 3, qright(o.carbohydrate()))

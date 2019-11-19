@@ -87,6 +87,9 @@ class Ui_frmProductsElaboratedAdd(object):
         icon3.addPixmap(QtGui.QPixmap(":/caloriestracker/document-edit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionProductInEdit.setIcon(icon3)
         self.actionProductInEdit.setObjectName("actionProductInEdit")
+        self.actionProductEdit = QtWidgets.QAction(frmProductsElaboratedAdd)
+        self.actionProductEdit.setIcon(icon)
+        self.actionProductEdit.setObjectName("actionProductEdit")
 
         self.retranslateUi(frmProductsElaboratedAdd)
         QtCore.QMetaObject.connectSlotsByName(frmProductsElaboratedAdd)
@@ -103,6 +106,8 @@ class Ui_frmProductsElaboratedAdd(object):
         self.actionProductInDelete.setToolTip(_translate("frmProductsElaboratedAdd", "Delete product in elaboration"))
         self.actionProductInEdit.setText(_translate("frmProductsElaboratedAdd", "Edit product in elaboration"))
         self.actionProductInEdit.setToolTip(_translate("frmProductsElaboratedAdd", "Edit product in elaboration"))
+        self.actionProductEdit.setText(_translate("frmProductsElaboratedAdd", "Edit product"))
+        self.actionProductEdit.setToolTip(_translate("frmProductsElaboratedAdd", "Edit product"))
 from caloriestracker.ui.myqdoublespinbox import myQDoubleSpinBox
 from caloriestracker.ui.myqtablewidget import myQTableWidget
 import caloriestracker.images.caloriestracker_rc

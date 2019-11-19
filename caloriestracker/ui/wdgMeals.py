@@ -2,6 +2,7 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox
 from caloriestracker.libcaloriestracker import MealManager
 from caloriestracker.ui.Ui_wdgMeals import Ui_wdgMeals
+from caloriestracker.ui.myqwidgets import qmessagebox
 from logging import debug
 
 class wdgMeals(QWidget, Ui_wdgMeals):
@@ -40,6 +41,27 @@ class wdgMeals(QWidget, Ui_wdgMeals):
         w=frmMealsAdd(self.mem, self.meals.selected, self)
         w.exec_()
         self.on_calendar_selectionChanged()
+        
+    @pyqtSlot() 
+    def on_actionProductEdit_triggered(self):
+        if self.meals.selected.product.system_product==True:
+            qmessagebox(
+                self.tr("This is a system product so you can't edit it.") + "\n" +
+                self.tr("Please, if it's something wrong with it create an issue at") + "\n" + 
+                "https://github.com/turulomio/caloriestracker/issues"+ "\n" +
+                self.tr("I'll fix it as soon as posible. ;)")
+            )
+        elif self.meals.selected.product.system_product==False:
+            if self.meals.selected.product.elaboratedproducts_id==None:
+                from caloriestracker.ui.frmProductsAdd import frmProductsAdd
+                w=frmProductsAdd(self.mem, self.meals.selected.product, self)
+                w.exec_()
+            else:#Elaborated product
+                from caloriestracker.ui.frmProductsElaboratedAdd import frmProductsElaboratedAdd
+                elaborated=self.mem.data.elaboratedproducts.find_by_id(self.meals.selected.product.elaboratedproducts_id)
+                w=frmProductsElaboratedAdd(self.mem, elaborated, self)
+                w.exec_()
+            self.on_calendar_selectionChanged()
 
     def on_tblMeals_itemSelectionChanged(self):
         self.meals.cleanSelection()
@@ -54,12 +76,15 @@ class wdgMeals(QWidget, Ui_wdgMeals):
         menu.addAction(self.actionMealDelete)
         menu.addAction(self.actionMealEdit)
         menu.addSeparator()
+        menu.addAction(self.actionProductEdit)
         
         if self.meals.selected==None:
             self.actionMealDelete.setEnabled(False)
             self.actionMealEdit.setEnabled(False)
+            self.actionProductEdit.setEnabled(False)
         else:
             self.actionMealDelete.setEnabled(True)
             self.actionMealEdit.setEnabled(True)
+            self.actionProductEdit.setEnabled(True)
 
         menu.exec_(self.tblMeals.mapToGlobal(pos))
