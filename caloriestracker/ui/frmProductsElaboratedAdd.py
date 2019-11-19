@@ -29,6 +29,7 @@ class frmProductsElaboratedAdd(QDialog, Ui_frmProductsElaboratedAdd):
     def on_actionProductInDelete_triggered(self):
         self.elaboratedproduct.products_in.selected.delete()
         self.elaboratedproduct.products_in.remove(self.elaboratedproduct.products_in.selected)
+        self.elaboratedproduct.save()
         self.mem.con.commit()
         self.elaboratedproduct.products_in.qtablewidget(self.tblProductsIn)
 
