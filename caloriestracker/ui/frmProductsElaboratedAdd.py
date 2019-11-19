@@ -44,6 +44,14 @@ class frmProductsElaboratedAdd(QDialog, Ui_frmProductsElaboratedAdd):
         w.exec_()
         self.elaboratedproduct.products_in.qtablewidget(self.tblProductsIn)
         
+    @pyqtSlot(float)
+    def on_spnFinalAmount_valueChanged(self, value):
+        print("Changed")
+        self.elaboratedproduct.final_amount=self.spnFinalAmount.value()
+        self.elaboratedproduct.save()
+        self.mem.con.commit()
+        self.elaboratedproduct.products_in.qtablewidget(self.tblProductsIn)
+        
     @pyqtSlot() 
     def on_actionProductEdit_triggered(self):
         if self.elaboratedproduct.products_in.selected.product.system_product==True:

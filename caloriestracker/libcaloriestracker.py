@@ -389,6 +389,7 @@ class ProductElaborated:
             o.save() 
             self.mem.data.products.append(o)
             self.mem.data.products.order_by_name()
+            o.needStatus(1, downgrade_to=0)
         else:#It's already in personalproducts
             selected.name=self.name
             selected.amount=self.final_amount
@@ -398,6 +399,7 @@ class ProductElaborated:
             selected.calories=self.products_in.calories()
             selected.fiber=self.products_in.fiber()
             selected.save()
+            selected.needStatus(1, downgrade_to=0)
 
     #DO NOT EDIT THIS ONE COPY FROM PRODUCT AND CHANGE TABLE
     def save(self):
@@ -410,7 +412,7 @@ class ProductElaborated:
             self.mem.con.execute("""update elaboratedproducts set name=%s, final_amount=%s
             where id=%s""", 
             (self.name, self.final_amount, self.id))
-        self.needStatus(1)
+        self.needStatus(1, downgrade_to=0)
         self.register_in_personal_products()
 
             
@@ -688,7 +690,7 @@ class ProductInElaboratedProductManager(QObject, ObjectManager_With_IdDatetime_S
    
         table.applySettings()
         table.clearContents()
-        table.setRowCount(self.length()+1)
+        table.setRowCount(self.length()+2)
         for i, o in enumerate(self.arr):
             table.setItem(i, 0, qleft(o.product.fullName()))
             table.item(i, 0).setIcon(o.product.qicon())
@@ -706,6 +708,15 @@ class ProductInElaboratedProductManager(QObject, ObjectManager_With_IdDatetime_S
         table.setItem(self.length(), 4, qnumber(self.protein()))
         table.setItem(self.length(), 5, qnumber(self.fat()))
         table.setItem(self.length(), 6, qnumber(self.fiber()))
+        #Amounts in 100 grams of elaboratedproduct
+        product=self.mem.data.products.find_by_elaboratedproducts_id(self.elaboratedproduct.id)
+        table.setItem(self.length()+1, 0, qleft(self.tr("Values in 100 g")))
+        table.setItem(self.length()+1, 1, qnumber(100))
+        table.setItem(self.length()+1, 2, qnumber(product.component_in_100g(eProductComponent.Calories)))
+        table.setItem(self.length()+1, 3, qnumber(product.component_in_100g(eProductComponent.Carbohydrate)))
+        table.setItem(self.length()+1, 4, qnumber(product.component_in_100g(eProductComponent.Protein)))
+        table.setItem(self.length()+1, 5, qnumber(product.component_in_100g(eProductComponent.Fat)))
+        table.setItem(self.length()+1, 6, qnumber(product.component_in_100g(eProductComponent.Fiber)))
 
 
 
