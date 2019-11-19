@@ -1,7 +1,7 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox
 from caloriestracker.ui.Ui_wdgProducts import Ui_wdgProducts
-from caloriestracker.libcaloriestracker import ProductAllManager, ProductElaborated
+from caloriestracker.libcaloriestracker import ProductAllManager
 from caloriestracker.ui.myqwidgets import qmessagebox
 from caloriestracker.libmanagers import ManagerSelectionMode
 from logging import debug
@@ -55,7 +55,7 @@ class wdgProducts(QWidget, Ui_wdgProducts):
                 self.on_cmd_pressed()
             else:#Elaborated product
                 from caloriestracker.ui.frmProductsElaboratedAdd import frmProductsElaboratedAdd
-                elaborated=ProductElaborated(self.mem, self.products.selected.elaboratedproducts_id)
+                elaborated=self.mem.data.elaboratedproducts.find_by_id(self.products.selected.elaboratedproducts_id)
                 w=frmProductsElaboratedAdd(self.mem, elaborated, self)
                 w.exec_()
                 self.on_cmd_pressed()
@@ -74,9 +74,6 @@ class wdgProducts(QWidget, Ui_wdgProducts):
         self.on_cmd_pressed()
 
     def on_cmd_pressed(self):
-        #        if len(self.txt.text().upper())<=2:            
-        #            qmessagebox(self.tr("Search too wide. You need more than 2 characters"))
-        #            return
         del self.products
         self.products=self.mem.data.products.ObjectManager_with_name_contains_string(self.txt.text(), False, *self.mem.data.products.args)
         self.products.setSelectionMode(ManagerSelectionMode.Object)
