@@ -34,6 +34,15 @@ class wdgMeals(QWidget, Ui_wdgMeals):
             self.meals.selected.delete()
             self.mem.con.commit()
             self.on_calendar_selectionChanged()
+            
+    @pyqtSlot()
+    def on_actionMealDeleteDay_triggered(self):
+        reply = QMessageBox.question(None, self.tr('Asking your confirmation'), self.tr("This action can't be undone.\nDo you want to delete all meals from selected day?"), QMessageBox.Yes, QMessageBox.No)                  
+        if reply==QMessageBox.Yes:
+            for meal in self.meals.arr:
+                meal.delete()
+            self.mem.con.commit()
+            self.on_calendar_selectionChanged()
 
     @pyqtSlot()
     def on_actionMealEdit_triggered(self):
@@ -76,7 +85,14 @@ class wdgMeals(QWidget, Ui_wdgMeals):
         menu.addAction(self.actionMealDelete)
         menu.addAction(self.actionMealEdit)
         menu.addSeparator()
+        menu.addAction(self.actionMealDeleteDay)
+        menu.addSeparator()
         menu.addAction(self.actionProductEdit)
+        
+        if self.meals.length()>0:
+            self.actionMealDeleteDay.setEnabled(True)
+        else:
+            self.actionMealDeleteDay.setEnabled(False)
         
         if self.meals.selected==None:
             self.actionMealDelete.setEnabled(False)

@@ -162,6 +162,18 @@
     <string>Edit product</string>
    </property>
   </action>
+  <action name="actionMealDeleteDay">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/button_cancel.png</normaloff>:/caloriestracker/button_cancel.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete selected date meals</string>
+   </property>
+   <property name="toolTip">
+    <string>Delete selected date meals</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

@@ -198,10 +198,10 @@ class Doc(Command):
     description = "Update translation librarys and hardcoded strings"
     user_options = [
       # The format is (long option, short option, description).
-      ( 'user', None, 'Database user'),
-      ( 'db', None, 'Database name'),
-      ( 'port', None, 'Database port'),
-      ( 'server', None, 'Database server'),
+      ( 'user=', None, 'Database user'),
+      ( 'db=', None, 'Database name'),
+      ( 'port=', None, 'Database port'),
+      ( 'server=', None, 'Database server'),
   ]
     def initialize_options(self):
         self.user="postgres"

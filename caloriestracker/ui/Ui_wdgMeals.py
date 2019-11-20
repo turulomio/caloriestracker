@@ -84,6 +84,11 @@ class Ui_wdgMeals(object):
         icon3.addPixmap(QtGui.QPixmap(":/caloriestracker/books.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionProductEdit.setIcon(icon3)
         self.actionProductEdit.setObjectName("actionProductEdit")
+        self.actionMealDeleteDay = QtWidgets.QAction(wdgMeals)
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap(":/caloriestracker/button_cancel.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionMealDeleteDay.setIcon(icon4)
+        self.actionMealDeleteDay.setObjectName("actionMealDeleteDay")
 
         self.retranslateUi(wdgMeals)
         QtCore.QMetaObject.connectSlotsByName(wdgMeals)
@@ -100,5 +105,7 @@ class Ui_wdgMeals(object):
         self.actionMealEdit.setToolTip(_translate("wdgMeals", "Edit meal"))
         self.actionProductEdit.setText(_translate("wdgMeals", "Edit product"))
         self.actionProductEdit.setToolTip(_translate("wdgMeals", "Edit product"))
+        self.actionMealDeleteDay.setText(_translate("wdgMeals", "Delete selected date meals"))
+        self.actionMealDeleteDay.setToolTip(_translate("wdgMeals", "Delete selected date meals"))
 from caloriestracker.ui.myqtablewidget import myQTableWidget
 import caloriestracker.images.caloriestracker_rc
