@@ -1,5 +1,5 @@
 ## @brief Package with package version information
-from datetime import date
+from datetime import datetime
 
-__version__ ='0.4.0'
-__versiondate__=date(2019, 10, 30)
+__version__ ='0.4.9999'
+__versiondatetime__=datetime(2019, 11, 21, 0, 53)

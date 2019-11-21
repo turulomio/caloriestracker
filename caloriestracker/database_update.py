@@ -1,10 +1,13 @@
 from .package_resources import package_listdir, package_filename
+from .datetime_functions import string2dtnaive
+from sys import exit
 _=str
 
 
 ## @param con Connection object
 ## @param package string with the name of the package where sql directory is
-def database_update(con, package):
+## @param environment can be "Qt","Console"
+def database_update(con, package, software_version, environment="Console"):
     sqls=[]
     for name in package_listdir(package, 'sql'):
         if name[-3:]=="sql":
@@ -23,3 +26,14 @@ def database_update(con, package):
             con.cursor_one_field("update globals set value=%s where id=1 returning id",(sql,))
             con.commit()
             print("  + Updated database version from {} to {}".format(database_version, sql))
+
+    #Checks software version
+    database_version=string2dtnaive(con.cursor_one_field("select value from globals where id=1"),"%Y%m%d%H%M")
+    if software_version<database_version:
+        s="Your software version '{}' is older than your database version '{}'. You must update it".format(software_version,database_version)
+        if environment=="Console":
+            print(s)
+        elif environment=="Qt":
+            from .ui.myqwidgets import qmessagebox
+            qmessagebox(s)
+        exit(1)

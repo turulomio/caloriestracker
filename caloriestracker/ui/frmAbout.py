@@ -10,7 +10,7 @@ from PyQt5.QtChart import PYQT_CHART_VERSION_STR
 from caloriestracker.ui.qtablewidgetitems import  qright, qleft
 from caloriestracker.libcaloriestracker import CompaniesAndProducts
 from caloriestracker.ui.Ui_frmAbout import Ui_frmAbout
-from caloriestracker.version import __version__,  __versiondate__
+from caloriestracker.version import __version__,  __versiondatetime__
 
 class frmAbout(QDialog, Ui_frmAbout):
     def __init__(self, mem):
@@ -33,7 +33,7 @@ class frmAbout(QDialog, Ui_frmAbout):
         s=s + "</body></html>"
         
         self.textBrowser.setHtml(s)
-        self.lblVersion.setText("{} ({})".format(__version__, __versiondate__))
+        self.lblVersion.setText("{} ({})".format(__version__, __versiondatetime__.date()))
         dbversion=self.mem.con.cursor_one_field("select value from globals where id=1")
         self.lblProductsVersion.setText(self.tr("Database version is: {}").format(dbversion))
         self.tblSoftware.settings(self.mem, "frmAbout")

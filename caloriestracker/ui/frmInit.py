@@ -5,6 +5,7 @@ from caloriestracker.admin_pg import AdminPG
 from caloriestracker.database_update import database_update
 from caloriestracker.ui.myqwidgets import qmessagebox
 from caloriestracker.ui.Ui_frmInit import Ui_frmInit
+from caloriestracker.version import __versiondatetime__
 
 class frmInit(QDialog, Ui_frmInit):
     def __init__(self, mem, parent = None, name = None, modal = False):
@@ -34,7 +35,7 @@ class frmInit(QDialog, Ui_frmInit):
                 return
             if admin.create_db(self.txtDB.text())==True: 
                 newcon=admin.connect_to_database(self.txtDB.text())
-                database_update(newcon, "caloriestracker")
+                database_update(newcon, "caloriestracker", __versiondatetime__, "Qt")
                 qmessagebox(self.tr("Database created. Please run Calories Tracker and login"), self.mem.app_resource())
                 logging.info ("App correctly closed")
                 self.close()

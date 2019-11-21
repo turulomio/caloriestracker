@@ -9,7 +9,7 @@ from caloriestracker.ui.myqwidgets import qmessagebox
 from caloriestracker.ui.Ui_frmMain import Ui_frmMain
 from caloriestracker.ui.wdgCuriosities import wdgCuriosities
 from caloriestracker.ui.frmSettings import frmSettings
-from caloriestracker.version import __versiondate__
+from caloriestracker.version import __versiondatetime__
 from os import environ
 
 class frmMain(QMainWindow, Ui_frmMain):
@@ -21,7 +21,7 @@ class frmMain(QMainWindow, Ui_frmMain):
         self.mem=mem
         self.mem.con.inactivity_timeout.connect(self.inactivity_timeout)
         
-        database_update(self.mem.con, "caloriestracker")
+        database_update(self.mem.con, "caloriestracker", __versiondatetime__, "Qt")
         
         self.w=QWidget()       
         self.statusBar.addWidget(QLabel(self.mem.con.url_string()))
@@ -29,10 +29,10 @@ class frmMain(QMainWindow, Ui_frmMain):
         self.mem.load_db_data() ##CARGA TODOS LOS DATOS Y LOS VINCULA       
   
         if self.mem.con.is_superuser():
-            self.setWindowTitle(self.tr("Calories Tracker 2019-{0} \xa9 (Admin mode)").format(__versiondate__.year))#print ("Xulpymoney 2010-{0} © €".encode('unicode-escape'))
+            self.setWindowTitle(self.tr("Calories Tracker 2019-{0} \xa9 (Admin mode)").format(__versiondatetime__.year))#print ("Xulpymoney 2010-{0} © €".encode('unicode-escape'))
             self.setWindowIcon(self.mem.qicon_admin())
         else:
-            self.setWindowTitle(self.tr("Calories Tracker 2019-{0} \xa9").format(__versiondate__.year))
+            self.setWindowTitle(self.tr("Calories Tracker 2019-{0} \xa9").format(__versiondatetime__.year))
             
         self.tbMain.addSeparator()
         self.lblUsers=QLabel()

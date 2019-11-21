@@ -7,7 +7,7 @@ from datetime import date,  datetime
 from caloriestracker.connection_pg import argparse_connection_arguments_group, Connection
 from caloriestracker.libcaloriestracker import DBData
 from caloriestracker.datetime_functions import  string2date
-from caloriestracker.version import __version__, __versiondate__
+from caloriestracker.version import __version__,  __versiondatetime__
 from colorama import Fore, Style
 from caloriestracker.database_update import database_update
 from caloriestracker.package_resources import package_filename
@@ -25,7 +25,7 @@ class Mem(QObject):
         signal(SIGINT, self.signal_handler)
 
     def epilog(self):
-        return self.tr("If you like this app, please give me a star in GitHub (https://github.com/turulomio/caloriestracker).")+"\n" + self.tr("Developed by Mariano Mu\xf1oz 2019-{} \xa9".format(__versiondate__.year))
+        return self.tr("If you like this app, please give me a star in GitHub (https://github.com/turulomio/caloriestracker).")+"\n" + self.tr("Developed by Mariano Mu\xf1oz 2019-{} \xa9".format(__versiondatetime__.year))
         
     def load_db_data(self, progress=True):
         """Esto debe ejecutarse una vez establecida la conexión"""
@@ -63,7 +63,7 @@ class Mem(QObject):
     ## Adds the commons parameter of the program to argparse
     ## @param parser It's a argparse.ArgumentParser
     def addCommonToArgParse(self, parser):
-        parser.add_argument('--version', action='version', version="{} ({})".format(__version__, __versiondate__))
+        parser.add_argument('--version', action='version', version="{} ({})".format(__version__, __versiondatetime__.date()))
         parser.add_argument('--debug', help="Debug program information", choices=["DEBUG","INFO","WARNING","ERROR","CRITICAL"], default="ERROR")
 
     def signal_handler(self, signal, frame):
@@ -163,7 +163,7 @@ class MemConsole(Mem):
         if self.con.is_active()==False:
             exit(1)
         
-        database_update(self.con, "caloriestracker")
+        database_update(self.con, "caloriestracker", __versiondatetime__, "Console")
         
         self.load_db_data(False)
         
@@ -246,7 +246,7 @@ class MemMaintenanceProductSystem2Personal(MemConsole):
         if self.con.is_active()==False:
             exit(1)
         
-        database_update(self.con, "caloriestracker")
+        database_update(self.con, "caloriestracker", __versiondatetime__, "Console")
         
         self.load_db_data(False)
 
