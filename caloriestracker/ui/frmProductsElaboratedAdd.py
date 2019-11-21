@@ -4,6 +4,7 @@ from caloriestracker.libcaloriestracker import ProductElaborated
 from caloriestracker.ui.Ui_frmProductsElaboratedAdd import Ui_frmProductsElaboratedAdd
 from caloriestracker.ui.frmProductsInElaboratedProductAdd import frmProductsInElaboratedProductAdd
 from caloriestracker.ui.myqwidgets import qmessagebox
+from datetime import datetime
 from logging import debug
 
 class frmProductsElaboratedAdd(QDialog, Ui_frmProductsElaboratedAdd):
@@ -110,6 +111,7 @@ class frmProductsElaboratedAdd(QDialog, Ui_frmProductsElaboratedAdd):
         else:
             self.elaboratedproduct.name=self.txtName.text()
             self.elaboratedproduct.final_amount=self.spnFinalAmount.value()
+        self.elaboratedproduct.last=datetime.now()
         self.elaboratedproduct.save()
         self.mem.con.commit()
         self.mem.settings.setValue("frmProductsElaboratedAdd/qdialog", self.size())

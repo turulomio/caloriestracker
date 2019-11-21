@@ -1,0 +1,1 @@
+ALTER TABLE public.elaboratedproducts ADD COLUMN last TIMESTAMP WITH TIME ZONE DEFAULT now() NOT NULL;

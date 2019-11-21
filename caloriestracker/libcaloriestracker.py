@@ -322,15 +322,16 @@ class ProductElaborated:
     ##Biometrics(mem)
     ##Biometrics(mem,row)
     def __init__(self, *args):        
-        def init__create(name, final_amount, id):
+        def init__create(name, final_amount, last, id):
             self.name=name
             self.final_amount=final_amount
+            self.last=last
             self.id=id
         self.mem=args[0]
         if len(args)==1:
-            init__create(None,None, None)
+            init__create(None,None, None, None)
         elif len(args)==2:
-            init__create(args[1]['name'],args[1]['final_amount'], args[1]['id'])
+            init__create(args[1]['name'], args[1]['final_amount'], args[1]['last'], args[1]['id'])
         self.status=0
         
     def fullName(self):
@@ -338,8 +339,8 @@ class ProductElaborated:
             str_with_id=". #E{}".format(self.id)
         else:
             str_with_id=""
-            
         return "{}{}".format(self.name, str_with_id)
+
     ## ESTA FUNCION VA AUMENTANDO STATUS SIN MOLESTAR LOS ANTERIORES, SOLO CARGA CUANDO stsatus_to es mayor que self.status
     ## @param statusneeded  Integer with the status needed 
     ## @param downgrade_to Integer with the status to downgrade before checking needed status. If None it does nothing
@@ -405,17 +406,15 @@ class ProductElaborated:
     def save(self):
         if self.id==None:
             self.id=self.mem.con.cursor_one_field("""insert into elaboratedproducts (
-                    name, final_amount
-                    )values (%s, %s) returning id""",  
-                    (self.name, self.final_amount))
+                    name, final_amount, last
+                    )values (%s, %s, %s) returning id""",  
+                    (self.name, self.final_amount, self.last))
         else:
-            self.mem.con.execute("""update elaboratedproducts set name=%s, final_amount=%s
-            where id=%s""", 
-            (self.name, self.final_amount, self.id))
+            self.mem.con.execute("""update elaboratedproducts set name=%s, final_amount=%s, last=%s where id=%s""", 
+            (self.name, self.final_amount, self.last, self.id))
         self.needStatus(1, downgrade_to=0)
         self.register_in_personal_products()
 
-            
     def is_deletable(self):
         self.needStatus(1)
         if self.products_in.length()>0:
@@ -464,14 +463,16 @@ class ProductElaboratedManager(QObject, ObjectManager_With_IdName_Selectable):
         
     ## It's a staticmethod due to it will be used in ProductAllManager
     def qtablewidget(self, table):        
-        table.setColumnCount(1)
+        table.setColumnCount(2)
         table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Name")))
+        table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Last update")))
         table.applySettings()
         table.clearContents()
         table.setRowCount(self.length())
         for i, o in enumerate(self.arr):
             table.setItem(i, 0, qleft(o.fullName()))
             table.item(i, 0).setIcon(o.qicon())
+            table.setItem(i, 1, qdatetime(o.last, self.mem.localzone))
 
 class ProductInElaboratedProduct:
     ##Biometrics(mem)
