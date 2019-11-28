@@ -8,9 +8,7 @@ from datetime import datetime
 from .Ui_wdgDatetime import Ui_wdgDatetime
 from .. datetime_functions import dtaware
 from logging import debug
-from pytz import all_timezones, timezone
-
-
+from pytz import all_timezones
 
 class wdgDatetime(QWidget, Ui_wdgDatetime):
     """Usage:

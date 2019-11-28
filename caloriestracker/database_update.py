@@ -17,18 +17,18 @@ def database_update(con, package, software_version, environment="Console"):
     for sql in sqls:
         globals_exists=con.cursor_one_field("SELECT EXISTS(SELECT * FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'globals');")
         if globals_exists==True:
-            database_version=int(con.cursor_one_field("select value from globals where id=1"))
+            database_version=int(con.cursor_one_field("select value from public.globals where id=1"))
         else: #If database is empty
             database_version=0
 
         if database_version<sql:
             con.load_script(package_filename(package,  "sql/{}.sql".format(sql)))
-            con.cursor_one_field("update globals set value=%s where id=1 returning id",(sql,))
+            con.cursor_one_field("update public.globals set value=%s where id=1 returning id",(sql,))
             con.commit()
             print("  + Updated database version from {} to {}".format(database_version, sql))
 
     #Checks software version
-    database_version=string2dtnaive(con.cursor_one_field("select value from globals where id=1"),"%Y%m%d%H%M")
+    database_version=string2dtnaive(con.cursor_one_field("select value from public.globals where id=1"),"%Y%m%d%H%M")
     if software_version<database_version:
         s="Your software version '{}' is older than your database version '{}'. You must update it".format(software_version,database_version)
         if environment=="Console":
