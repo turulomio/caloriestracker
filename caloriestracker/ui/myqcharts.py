@@ -2,14 +2,29 @@
 ## THIS IS FILE IS FROM https://github.com/turulomio/reusingcode IF YOU NEED TO UPDATE IT PLEASE MAKE A PULL REQUEST IN THAT PROJECT
 ## DO NOT UPDATE IT IN YOUR CODE IT WILL BE REPLACED USING FUNCTION IN README
 
-from PyQt5.QtChart import QChart,  QLineSeries, QChartView, QValueAxis, QDateTimeAxis,  QPieSeries, QScatterSeries
-from PyQt5.QtCore import  Qt,  pyqtSlot,  QObject, QPoint
-from PyQt5.QtGui import QPainter, QFont,  QIcon
+from PyQt5.QtChart import QChart,  QLineSeries, QChartView, QValueAxis, QDateTimeAxis,  QPieSeries, QScatterSeries, QCandlestickSeries,  QCandlestickSet
+from PyQt5.QtCore import Qt, pyqtSlot, QObject, QPoint
+from PyQt5.QtGui import QPainter, QFont, QIcon, QColor
 from PyQt5.QtWidgets import QAction, QMenu, QFileDialog, QProgressDialog, QApplication, QDialog, QLabel, QVBoxLayout, QHBoxLayout, QGraphicsSimpleTextItem
 from .. objects.percentage import Percentage
 from .. datetime_functions import epochms2dtaware, dtaware2epochms, dtnaive2string, eDtStrings
 from datetime import timedelta, datetime
 from decimal import Decimal
+
+    
+class eOHCLDuration:
+    Day=1
+    Week=2
+    Month=3
+    Year=4
+
+    @classmethod
+    def qcombobox(self, combo, selected_eOHCLDuration):
+        combo.addItem(QApplication.translate("Mem", "Day"), 1)
+        combo.addItem(QApplication.translate("Mem", "Week"), 2)
+        combo.addItem(QApplication.translate("Mem", "Month"), 3)
+        combo.addItem(QApplication.translate("Mem", "Year"), 4)
+        combo.setCurrentIndex(combo.findData(selected_eOHCLDuration))
 
 class VCCommons(QChartView):
     def __init__(self):
@@ -113,19 +128,45 @@ class VCTemporalSeries(VCCommons):
         self.minx=None
         self.miny=None
         
+        
+        self.__ohclduration=eOHCLDuration.Day
         self.axisY = QValueAxis()
         self.axisY.setLabelFormat("%i")
 
         self.setRenderHint(QPainter.Antialiasing);
         
         self.series=[]
-        self.popup=MyPopup()
-            
-    def appendScatterSeries(self, name,  currency=None):
-        """
-            currency is a Currency object
-        """
-        self.currency=currency
+        self.popup=MyPopup(self)
+
+    def appendCandlestickSeries(self, name):
+        ls=QCandlestickSeries()
+        ls.setName(name)
+        ls.setIncreasingColor(QColor(Qt.green));
+        ls.setDecreasingColor(QColor(Qt.red));
+        self.series.append(ls)
+        return ls
+
+    def appendCandlestickSeriesData(self, ls, dtaware, ope, hig, clo, low):
+        x=dtaware2epochms(dtaware)
+        ls.append(QCandlestickSet(float(ope), float(hig), float(clo), float(low), x ))
+        if self.maxy==None:
+            self.maxy=float(hig)
+            self.miny=float(low)
+            self.maxx=x
+            self.minx=x
+        if hig>self.maxy:
+            self.maxy=float(hig)
+        if low<self.miny:
+            self.miny=float(low)
+        if x>self.maxx:
+            self.maxx=x
+        if x<self.minx:
+            self.minx=x
+
+    def setOHCLDuration(self, ohclduration):
+        self.__ohclduration=ohclduration
+
+    def appendScatterSeries(self, name):
         ls=QScatterSeries()
         ls.setName(name)
         self.series.append(ls)
@@ -133,6 +174,7 @@ class VCTemporalSeries(VCCommons):
 
     def appendScatterSeriesData(self, ls, x, y):
         self.appendTemporalSeriesData(ls, x, y)
+
     def setAxisFormat(self, axis,  min, max, type, zone=None):
         """
             type=0 #Value
@@ -141,9 +183,9 @@ class VCTemporalSeries(VCCommons):
             if zone=None remains in UTC, zone is a zone object.
         """
         if type==0:
-            if max-min<=0.01:
+            if max-min<=Decimal(0.01):
                 axis.setLabelFormat("%.4f")
-            elif max-min<=100:
+            elif max-min<=Decimal(100):
                 axis.setLabelFormat("%.2f")
             else:
                 axis.setLabelFormat("%i")
@@ -159,11 +201,7 @@ class VCTemporalSeries(VCCommons):
         self._allowHideSeries=boolean
 
         
-    def appendTemporalSeries(self, name,  currency=None):
-        """
-            currency is a Currency object
-        """
-        self.currency=currency
+    def appendTemporalSeries(self, name):
         ls=QLineSeries()
         ls.setName(name)
         self.series.append(ls)
@@ -377,7 +415,7 @@ class MyPopup(QDialog):
             if serie.isVisible():
                 self.lblValues[i].show()
                 self.lblTitles[i].show()
-            
+
                 self.lblTitles[i].setText(serie.name())
                 try:
                     value=round(self.vc.series_value(serie, self.xVal),2)
@@ -392,3 +430,5 @@ class MyPopup(QDialog):
                 self.lblValues[i].hide()
                 self.lblTitles[i].hide()
 
+    def mousePressEvent(self, event):
+        self.hide()

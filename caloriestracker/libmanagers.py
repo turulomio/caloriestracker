@@ -113,18 +113,19 @@ class ManagerSelection(object):
             self.selected=[]
         elif self.selectionMode()==ManagerSelectionMode.Manager:#Returns parent __class__
             self.selected.clean()
-    
+
     ## Useful to setselection without interactivvite ui
-    ## @param list List of objects. These objects have o.id so I can append them
+    ## @param list Can be, list, manager or object
     def setSelected(self, list):
         self.cleanSelection()
         if self.selectionMode()==ManagerSelectionMode.List:
             for o in list:
                 self.selected.append(o)
         elif self.selectionMode()==ManagerSelectionMode.Manager:
-            for o in list:
+            for o in list.arr:
                 self.selected.append(o)
-            
+        else:#Object
+            self.selected=list
 
 ## Objects in DictListObjectManager has and id. The Id can be a integer or a string or ...
 class ObjectManager_With_Id(ObjectManager):

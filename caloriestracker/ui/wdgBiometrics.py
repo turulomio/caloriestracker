@@ -171,9 +171,9 @@ class VCWeight(VCTemporalSeries):
                 0, 
                 self.weight.length()
         )
-        weight=self.appendTemporalSeries(self.tr("Weight evolution"), None)
-        sma50=self.appendTemporalSeries(self.tr("Simple movil average {}").format(50), None)
-        sma200=self.appendTemporalSeries(self.tr("Simple movil average {}").format(200), None)
+        weight=self.appendTemporalSeries(self.tr("Weight evolution"))
+        sma50=self.appendTemporalSeries(self.tr("Simple movil average {}").format(50))
+        sma200=self.appendTemporalSeries(self.tr("Simple movil average {}").format(200))
         for i in range(self.weight.length()):
             #Shows progress dialog
             self.setProgressDialogNumber(i+1)
@@ -227,7 +227,7 @@ class VCHeight(VCTemporalSeries):
                 0, 
                 self.height_.length()
         )
-        height=self.appendTemporalSeries(self.tr("Height evolution"), None)
+        height=self.appendTemporalSeries(self.tr("Height evolution"))
         for i in range(self.height_.length()):
             #Shows progress dialog
             self.setProgressDialogNumber(i+1)
