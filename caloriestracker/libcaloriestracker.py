@@ -414,13 +414,17 @@ class ProductElaborated:
             (self.name, self.final_amount, self.last, self.id))
         self.needStatus(1, downgrade_to=0)
         self.register_in_personal_products()
+        
+    ## Returns the product asociated to this elaboratedproduct
+    def product(self):
+        return self.mem.data.products.find_by_elaboratedproducts_id(self.id)
 
     def is_deletable(self):
         self.needStatus(1)
         if self.products_in.length()>0:
             return False
         
-        selected=self.mem.data.products.find_by_elaboratedproducts_id(self.id)
+        selected=self.product()
         if selected!=None and selected.is_deletable()==False:
             return False
         return True
@@ -428,6 +432,7 @@ class ProductElaborated:
     def delete(self):
         if self.is_deletable()==True:
             self.mem.con.execute("delete from elaboratedproducts where id=%s", (self.id, ))
+            self.mem.con.execute("delete from personalproducts where elaboratedproducts_id=%s", (self.id, ))
         else:
             debug("I did not delete the elaborated product because is not deletable")
             

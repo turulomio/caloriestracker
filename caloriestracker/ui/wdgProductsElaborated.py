@@ -25,9 +25,11 @@ class wdgProductsElaborated(QWidget, Ui_wdgProductsElaborated):
 
         reply = QMessageBox.question(None, self.tr('Asking your confirmation'), self.tr("This action can't be undone.\nDo you want to delete this record?"), QMessageBox.Yes, QMessageBox.No)                  
         if reply==QMessageBox.Yes:
+            product=self.elaboratedproducts.selected.product()
             self.elaboratedproducts.selected.delete()
             self.mem.con.commit()
             self.mem.data.elaboratedproducts.remove(self.elaboratedproducts.selected)
+            self.mem.data.products.remove(product)
             self.on_cmd_pressed()
 
     @pyqtSlot() 
