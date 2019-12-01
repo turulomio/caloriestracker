@@ -3,7 +3,7 @@ Collaboration procedure
 
 Companies, products and its formats are hardcoded in this app and it's only updated by new releases. Nevertheless you can add your own personal companies, products and formats, as you with.
 
-If your data information has enough quality and if you wish to share your personal products of your database to convert them in system ones, you have to execute this command:
+If your data information has enough quality, it's in English and if you wish to share your personal products of your database to convert them in system ones, you have to execute this command:
 
 `caloriestracker_console --contribution_dump`
 

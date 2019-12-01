@@ -1311,7 +1311,7 @@ class Format(QObject):
     ##Format(mem, name, product, system_product,amount, last,  id):
     def __init__(self, *args):        
         def init__create( name, product, system_product,amount, last,  id):
-            self.name=name
+            self.name=self.mem.trHS(name)
             self.product=product
             self.system_product=system_product
             self.amount=amount
