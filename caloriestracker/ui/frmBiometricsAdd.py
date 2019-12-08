@@ -52,7 +52,7 @@ class frmBiometricsAdd(QDialog, Ui_frmBiometricsAdd):
             self.biometric.weight=self.spnWeight.value()
             self.biometric.activity=activity
             self.biometric.weightwish=weightwish
-        if self.biometric.datetime>self.mem.user.last_biometrics.datetime:
+        if self.mem.user.last_biometrics.datetime==None or self.biometric.datetime>self.mem.user.last_biometrics.datetime: #None if empty database
             self.mem.user.last_biometrics=self.biometric
         self.biometric.save()
         self.mem.con.commit()

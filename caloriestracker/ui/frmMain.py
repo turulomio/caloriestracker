@@ -41,6 +41,11 @@ class frmMain(QMainWindow, Ui_frmMain):
         self.tbUsers.addWidget(self.cmbUsers)
         self.mem.data.users.qcombobox(self.cmbUsers, self.mem.user, icons=True)
         self.cmbUsers.currentIndexChanged.connect(self.on_cmbUsers_currentIndexChanged)
+        
+        # Adds biometric data if empty
+        if self.mem.user.last_biometrics.datetime==None:
+            self.on_actionBiometricsAdd_triggered()
+        
 
     @pyqtSlot(int)
     def on_cmbUsers_currentIndexChanged(self, index):
