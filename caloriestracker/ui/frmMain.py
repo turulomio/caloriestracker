@@ -114,6 +114,14 @@ class frmMain(QMainWindow, Ui_frmMain):
         self.w.show()
 
     @pyqtSlot()  
+    def on_actionMealsMost_triggered(self):
+        from caloriestracker.ui.wdgMealsMost import wdgMealsMost
+        self.w.close()
+        self.w=wdgMealsMost(self.mem,  self)
+        self.layout.addWidget(self.w)
+        self.w.show()
+
+    @pyqtSlot()  
     def on_actionUsers_triggered(self):
         from caloriestracker.ui.wdgUsers import wdgUsers
         self.w.close()

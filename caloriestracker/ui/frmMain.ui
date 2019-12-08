@@ -87,6 +87,8 @@
      <string>&amp;Meals</string>
     </property>
     <addaction name="actionMeals"/>
+    <addaction name="separator"/>
+    <addaction name="actionMealsMost"/>
    </widget>
    <widget class="QMenu" name="menuCompanies">
     <property name="title">
@@ -137,6 +139,8 @@
    <addaction name="actionCompanies"/>
    <addaction name="actionProducts"/>
    <addaction name="separator"/>
+   <addaction name="actionMealsMost"/>
+   <addaction name="separator"/>
    <addaction name="actionSettings"/>
    <addaction name="actionCuriosities"/>
    <addaction name="actionExit"/>
@@ -144,7 +148,7 @@
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="tbUsers">
    <property name="windowTitle">
-    <string>toolBar</string>
+    <string>Users toolbar</string>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -355,6 +359,18 @@
    </property>
    <property name="toolTip">
     <string>Report an issue</string>
+   </property>
+  </action>
+  <action name="actionMealsMost">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/crown.png</normaloff>:/caloriestracker/crown.png</iconset>
+   </property>
+   <property name="text">
+    <string>Meals I eat the most</string>
+   </property>
+   <property name="toolTip">
+    <string>Meals I eat the most</string>
    </property>
   </action>
  </widget>

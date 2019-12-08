@@ -42,6 +42,8 @@ SOURCES         = \
                   caloriestracker/ui/wdgDatetime.py \
                   caloriestracker/ui/Ui_wdgMeals.py \
                   caloriestracker/ui/wdgMeals.py \
+                  caloriestracker/ui/Ui_wdgMealsMost.py \
+                  caloriestracker/ui/wdgMealsMost.py \
                   caloriestracker/ui/Ui_wdgProducts.py \
                   caloriestracker/ui/wdgProducts.py \
                   caloriestracker/ui/Ui_wdgProductsElaborated.py \
@@ -96,6 +98,7 @@ FORMS           = \
                   caloriestracker/ui/wdgBiometrics.ui \
                   caloriestracker/ui/wdgDatetime.ui \
                   caloriestracker/ui/wdgMeals.ui \
+                  caloriestracker/ui/wdgMealsMost.ui \
                   caloriestracker/ui/wdgProducts.ui \
                   caloriestracker/ui/wdgProductsElaborated.ui \
                   caloriestracker/ui/wdgProductsDataMove.ui \
