@@ -6,6 +6,7 @@ _=str
 
 ## @param con Connection object
 ## @param package string with the name of the package where sql directory is
+## @param software_version Datetime naive with the software version
 ## @param environment can be "Qt","Console"
 def database_update(con, package, software_version, environment="Console"):
     sqls=[]

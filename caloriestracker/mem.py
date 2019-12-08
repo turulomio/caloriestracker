@@ -198,7 +198,7 @@ class MemConsole(Mem):
         group.add_argument('--add_company', help=self.tr("Adds a company"), action="store_true", default=False)
         group.add_argument('--add_product', help=self.tr("Adds a product"), action="store_true", default=False)
         group.add_argument('--add_meal', help=self.tr("Adds a company"), action="store_true", default=False)
-        group.add_argument('--add_biometrics', help=self.tr("Adds biometrics"), action="store_true", default=False)
+        group.add_argument('--add_biometrics', help=self.tr("Adds biometric information"), action="store_true", default=False)
         group.add_argument('--contribution_dump', help=self.tr("Generate a dump to collaborate updating companies and products"), action="store_true", default=False)
         group.add_argument('--parse_contribution_dump', help=self.tr("Parses a dump and generates sql files for the package and for the dump owner"), action="store", default=None)
         group.add_argument('--update_after_contribution',  help=self.tr("Converts personal data to system data in the database using generated sql file of the dump owner"),  action="store", default=None)

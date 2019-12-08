@@ -5,6 +5,7 @@ from caloriestracker.admin_pg import AdminPG
 from caloriestracker.database_update import database_update
 from caloriestracker.text_inputs import input_YN
 from caloriestracker.mem import  MemInit
+from caloriestracker.version import __versiondatetime__
 from colorama import Style, Fore
 from datetime import datetime
 from os import system
@@ -56,7 +57,7 @@ def parse_contribution_dump_generate_files_and_validates_them(auxiliar_con, cont
         admin.drop_db(database)
     admin.create_db(database)
     newcon=admin.connect_to_database(database)
-    database_update(newcon, "caloriestracker")
+    database_update(newcon, "caloriestracker",  __versiondatetime__,  "Console")
     print ("1. After setting database to default",  *print_table_status(newcon))
     
     ## 2. ADDS CONTRIBUTOR PERSONAL DATA TO CALORIESTRACKER_CONTRIBUTION

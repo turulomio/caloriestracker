@@ -136,66 +136,6 @@
     </layout>
    </item>
   </layout>
-  <action name="actionMealNew">
-   <property name="icon">
-    <iconset resource="../images/caloriestracker.qrc">
-     <normaloff>:/caloriestracker/add.png</normaloff>:/caloriestracker/add.png</iconset>
-   </property>
-   <property name="text">
-    <string>New meal</string>
-   </property>
-   <property name="toolTip">
-    <string>New meal</string>
-   </property>
-  </action>
-  <action name="actionMealDelete">
-   <property name="icon">
-    <iconset resource="../images/caloriestracker.qrc">
-     <normaloff>:/caloriestracker/list-remove.png</normaloff>:/caloriestracker/list-remove.png</iconset>
-   </property>
-   <property name="text">
-    <string>Delete meal</string>
-   </property>
-   <property name="toolTip">
-    <string>Delete meal</string>
-   </property>
-  </action>
-  <action name="actionMealEdit">
-   <property name="icon">
-    <iconset resource="../images/caloriestracker.qrc">
-     <normaloff>:/caloriestracker/document-edit.png</normaloff>:/caloriestracker/document-edit.png</iconset>
-   </property>
-   <property name="text">
-    <string>Edit meal</string>
-   </property>
-   <property name="toolTip">
-    <string>Edit meal</string>
-   </property>
-  </action>
-  <action name="actionProductEdit">
-   <property name="icon">
-    <iconset resource="../images/caloriestracker.qrc">
-     <normaloff>:/caloriestracker/books.png</normaloff>:/caloriestracker/books.png</iconset>
-   </property>
-   <property name="text">
-    <string>Edit product</string>
-   </property>
-   <property name="toolTip">
-    <string>Edit product</string>
-   </property>
-  </action>
-  <action name="actionMealDeleteDay">
-   <property name="icon">
-    <iconset resource="../images/caloriestracker.qrc">
-     <normaloff>:/caloriestracker/button_cancel.png</normaloff>:/caloriestracker/button_cancel.png</iconset>
-   </property>
-   <property name="text">
-    <string>Delete selected date meals</string>
-   </property>
-   <property name="toolTip">
-    <string>Delete selected date meals</string>
-   </property>
-  </action>
  </widget>
  <customwidgets>
   <customwidget>

@@ -894,6 +894,7 @@ class Biometrics:
             return "Obesidad grado III (mórbida)"
         elif imc>=50:
             return "Obesidad grado IV (extrema"
+
 class BiometricsManager(QObject, ObjectManager_With_IdName_Selectable):
     ##Biometrics(mem)
     ##Biometrics(mem,sql, progress)
@@ -909,10 +910,10 @@ class BiometricsManager(QObject, ObjectManager_With_IdName_Selectable):
         cur=self.mem.con.cursor()
         cur.execute(sql)
         if progress==True:
-            pd= QProgressDialog(self.tr("Loading {0} biometrics from database").format(cur.rowcount),None, 0,cur.rowcount)
+            pd= QProgressDialog(self.tr("Loading {0} biometric data from database").format(cur.rowcount),None, 0,cur.rowcount)
             pd.setWindowIcon(QIcon(":/caloriestracker/coins.png"))
             pd.setModal(True)
-            pd.setWindowTitle(self.tr("Loading biometrics..."))
+            pd.setWindowTitle(self.tr("Loading biometric data..."))
             pd.forceShow()
         for row in cur:
             if progress==True:
