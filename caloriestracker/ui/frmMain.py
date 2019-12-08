@@ -34,7 +34,6 @@ class frmMain(QMainWindow, Ui_frmMain):
         else:
             self.setWindowTitle(self.tr("Calories Tracker 2019-{0} \xa9").format(__versiondatetime__.year))
             
-        self.tbMain.addSeparator()
         self.lblUsers=QLabel()
         self.lblUsers.setText(self.tr("Select a user")+" ")
         self.tbUsers.addWidget(self.lblUsers)
