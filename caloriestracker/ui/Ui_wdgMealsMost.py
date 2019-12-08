@@ -66,7 +66,7 @@ class Ui_wdgMealsMost(object):
         self.horizontalLayout_2.addLayout(self.verticalLayout)
 
         self.retranslateUi(wdgMealsMost)
-        self.cmbPeriod.setCurrentIndex(0)
+        self.cmbPeriod.setCurrentIndex(-1)
         QtCore.QMetaObject.connectSlotsByName(wdgMealsMost)
 
     def retranslateUi(self, wdgMealsMost):

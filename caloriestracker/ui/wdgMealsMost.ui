@@ -55,7 +55,7 @@
        <item>
         <widget class="QComboBox" name="cmbPeriod">
          <property name="currentIndex">
-          <number>0</number>
+          <number>-1</number>
          </property>
          <property name="sizeAdjustPolicy">
           <enum>QComboBox::AdjustToContents</enum>

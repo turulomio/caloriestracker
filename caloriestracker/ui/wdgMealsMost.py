@@ -10,7 +10,7 @@ class wdgMealsMost(QWidget, Ui_wdgMealsMost):
         self.setupUi(self)
         self.mem=mem
         self.tblMeals.settings(self.mem, "wdgMealsMost")
-        self.on_cmbPeriod_currentIndexChanged(int(self.mem.settings.value("wdgMealsMost/cmbPeriod_index", "0")))
+        self.cmbPeriod.setCurrentIndex(int(self.mem.settings.value("wdgMealsMost/cmbPeriod_index", "0")))
 
     @pyqtSlot(int)
     def on_cmbPeriod_currentIndexChanged(self, index):
