@@ -767,7 +767,15 @@ class ProductAllManager(QObject, ObjectManager_With_IdName_Selectable):
     def find_by_elaboratedproducts_id(self, elaboratedproducts_id):
         return ProductManager.find_by_elaboratedproducts_id(self, elaboratedproducts_id)
 
-
+    ## Returns a ProductAllManager with all the products of the same company
+    ## @param company. It's a Company object
+    def ProductAllManager_of_same_company(self, company):
+        r=ProductAllManager(self.mem)
+        for o in self.arr:
+            if o.company is not None and o.company.id==company.id:
+                r.append(o)
+        return r
+        
 class DBData:
     def __init__(self, mem):
         self.mem=mem

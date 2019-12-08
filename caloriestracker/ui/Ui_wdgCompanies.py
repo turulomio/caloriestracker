@@ -103,6 +103,11 @@ class Ui_wdgCompanies(object):
         icon3.addPixmap(QtGui.QPixmap(":/caloriestracker/document-edit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionCompanyEdit.setIcon(icon3)
         self.actionCompanyEdit.setObjectName("actionCompanyEdit")
+        self.actionCompanyProducts = QtWidgets.QAction(wdgCompanies)
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap(":/caloriestracker/books.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionCompanyProducts.setIcon(icon4)
+        self.actionCompanyProducts.setObjectName("actionCompanyProducts")
 
         self.retranslateUi(wdgCompanies)
         QtCore.QMetaObject.connectSlotsByName(wdgCompanies)
@@ -119,5 +124,7 @@ class Ui_wdgCompanies(object):
         self.actionCompanyDelete.setToolTip(_translate("wdgCompanies", "Delete company"))
         self.actionCompanyEdit.setText(_translate("wdgCompanies", "Edit company"))
         self.actionCompanyEdit.setToolTip(_translate("wdgCompanies", "Edit company"))
+        self.actionCompanyProducts.setText(_translate("wdgCompanies", "Show company products"))
+        self.actionCompanyProducts.setToolTip(_translate("wdgCompanies", "Show company products"))
 from caloriestracker.ui.myqtablewidget import myQTableWidget
 import caloriestracker.images.caloriestracker_rc

@@ -32,6 +32,7 @@ class VCCommons(QChartView):
 
         self._title=None
         self._titleFontSize=14
+        self._animations=True
         self._progressDialogEnabled=False
         self.actionSave=QAction(self.tr("Save as image"))
         self.actionSave.setIcon(QIcon(":/xulpymoney/save.png"))
@@ -112,6 +113,11 @@ class VCCommons(QChartView):
     def save(self, savefile):
         pixmap=self.grab()
         pixmap.save(savefile, quality=100)
+
+    ## Sets if the chart must show animations
+    def setAnimations(self, boolean):
+        self._animations=boolean
+
 
 class VCTemporalSeries(VCCommons):
     def __init__(self):
@@ -306,7 +312,10 @@ class VCTemporalSeries(VCCommons):
             del self.__chart
         self.__chart=QChart()
         self.setChart(self.__chart)
-        self.chart().setAnimationOptions(QChart.AllAnimations);
+        if self._animations==True:
+            self.chart().setAnimationOptions(QChart.AllAnimations);
+        else:
+            self.chart().setAnimationOptions(QChart.NoAnimation)
         self.chart().layout().setContentsMargins(0,0,0,0)
         self._display_set_title()
 
@@ -355,6 +364,12 @@ class VCPie(VCCommons):
         
     def display(self):
         self.setChart(self.__chart)
+        self.chart().layout().setContentsMargins(0,0,0,0);
+        if self._animations==True:
+            self.chart().setAnimationOptions(QChart.AllAnimations);
+        else:
+            self.chart().setAnimationOptions(QChart.NoAnimation)
+
         self._display_set_title()
         tooltip=""
         c=self.currency.string
@@ -369,15 +384,10 @@ class VCPie(VCCommons):
         self.setToolTip(tooltip)
         self.repaint()
         
-    def clear(self, animations=True):
+    def clear(self):
         self.__chart=QChart()
         self.setChart(self.__chart)
         self.chart().legend().hide()
-        self.chart().layout().setContentsMargins(0,0,0,0);
-        if animations==True:
-            self.chart().setAnimationOptions(QChart.AllAnimations);
-        else:
-            self.chart().setAnimationOptions(QChart.NoAnimation)
         self.serie=QPieSeries()
         self.serie.setPieStartAngle(90)
         self.serie.setPieEndAngle(450)

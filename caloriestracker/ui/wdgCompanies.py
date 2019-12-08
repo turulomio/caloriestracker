@@ -1,6 +1,8 @@
-from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox
+from PyQt5.QtCore import pyqtSlot, QSize, Qt
+from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox, QLabel, QDialog, QVBoxLayout
 from caloriestracker.libcaloriestracker import CompanyAllManager
+from caloriestracker.ui.myqtablewidget import myQTableWidget
 from caloriestracker.ui.myqwidgets import qmessagebox
 from caloriestracker.libmanagers import ManagerSelectionMode
 from caloriestracker.ui.Ui_wdgCompanies import Ui_wdgCompanies
@@ -49,6 +51,31 @@ class wdgCompanies(QWidget, Ui_wdgCompanies):
             w.exec_()
             self.on_cmd_pressed()
 
+    @pyqtSlot() 
+    def on_actionCompanyProducts_triggered(self):
+        d=QDialog(self)
+        d.resize(self.mem.settings.value("wdgCompanies/frmCompanyProducts", QSize(800, 600)))
+        title=self.tr("Products of {}").format(self.companies.selected.name)
+        d.setWindowTitle(title)
+        lay = QVBoxLayout(d)
+        font = QFont()
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        lbl=QLabel(d)
+        lbl.setText(title)
+        lbl.setFont(font)
+        lbl.setAlignment(Qt.AlignCenter)
+        lay.addWidget(lbl)
+        companyproducts=self.mem.data.products.ProductAllManager_of_same_company(self.companies.selected)
+        table=myQTableWidget(d)
+        table.setObjectName("tblCompanyProducts")
+        table.settings(self.mem, "wdgCompanies")
+        companyproducts.qtablewidget(table)
+        lay.addWidget(table)
+        d.exec_()
+        self.mem.settings.setValue("wdgCompanies/frmCompanyProducts", d.size())
+
     def on_txt_returnPressed(self):
         self.on_cmd_pressed()        
 
@@ -71,14 +98,18 @@ class wdgCompanies(QWidget, Ui_wdgCompanies):
         menu.addAction(self.actionCompanyNew)
         menu.addAction(self.actionCompanyDelete)
         menu.addAction(self.actionCompanyEdit)
+        menu.addSeparator()
+        menu.addAction(self.actionCompanyProducts)
         
         #Enabled disabled  
         if self.companies.selected==None:
             self.actionCompanyDelete.setEnabled(False)
             self.actionCompanyEdit.setEnabled(False)
+            self.actionCompanyProducts.setEnabled(False)
         else:
             self.actionCompanyDelete.setEnabled(True)
             self.actionCompanyEdit.setEnabled(True)
+            self.actionCompanyProducts.setEnabled(True)
         menu.exec_(self.tblCompanies.mapToGlobal(pos))
 
     def on_tblCompanies_itemSelectionChanged(self):

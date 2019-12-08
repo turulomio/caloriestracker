@@ -166,6 +166,18 @@
     <string>Edit company</string>
    </property>
   </action>
+  <action name="actionCompanyProducts">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/books.png</normaloff>:/caloriestracker/books.png</iconset>
+   </property>
+   <property name="text">
+    <string>Show company products</string>
+   </property>
+   <property name="toolTip">
+    <string>Show company products</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
