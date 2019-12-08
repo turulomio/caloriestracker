@@ -71,6 +71,15 @@ In Calories tracker you can add your own products and you can share them with us
 
 Changelog
 =========
+0.5.0
+  * Now you can find translated strings
+  * Formats are now translated
+  * Improved adding meals and products
+  * Elaborated products show information in 100 graims
+  * You can delete all meals from a selected day
+  * Added meals I eat the most
+  * Added more products
+
 0.4.0
   * Calories Traker init executable is working again
   * Replaced QSpinwidgets to a personalized widget
