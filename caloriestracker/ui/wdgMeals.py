@@ -2,7 +2,6 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox
 from caloriestracker.libcaloriestracker import MealManager
 from caloriestracker.ui.Ui_wdgMeals import Ui_wdgMeals
-from caloriestracker.ui.myqwidgets import qmessagebox
 from logging import debug
 
 class wdgMeals(QWidget, Ui_wdgMeals):
@@ -54,12 +53,10 @@ class wdgMeals(QWidget, Ui_wdgMeals):
     @pyqtSlot() 
     def on_actionProductEdit_triggered(self):
         if self.meals.selected.product.system_product==True:
-            qmessagebox(
-                self.tr("This is a system product so you can't edit it.") + "\n" +
-                self.tr("Please, if it's something wrong with it create an issue at") + "\n" + 
-                "https://github.com/turulomio/caloriestracker/issues"+ "\n" +
-                self.tr("I'll fix it as soon as posible. ;)")
-            )
+            from caloriestracker.ui.frmProductsAdd import frmProductsAdd
+            w=frmProductsAdd(self.mem, self.meals.selected.product, self)
+            w.setReadOnly()
+            w.exec_()
         elif self.meals.selected.product.system_product==False:
             if self.meals.selected.product.elaboratedproducts_id==None:
                 from caloriestracker.ui.frmProductsAdd import frmProductsAdd

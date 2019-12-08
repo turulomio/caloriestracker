@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QDialog
+from PyQt5.QtWidgets import QDialog, QWidget, QLineEdit, QCheckBox, QDialogButtonBox
 from caloriestracker.ui.Ui_frmProductsAdd import Ui_frmProductsAdd
 from caloriestracker.ui.myqwidgets import qmessagebox
 from caloriestracker.libcaloriestracker import ProductPersonal
@@ -66,8 +66,29 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
         self.qlepProtein.setMandatory(True)
         self.qlepFat.setMandatory(True)
         self.qlepCalories.txt.setFocus()
+        
+        self.readonly=False
+        
+    def setReadOnly(self):
+        self.readonly=True   
+        self.lbl.setText(self.tr("Product information"))
+        qmessagebox(
+            self.tr("This is a system product so you can't edit it.") + "\n" +
+            self.tr("Please, if it's something wrong with it, you can create an issue at") + "\n" + 
+            "https://github.com/turulomio/caloriestracker/issues"+ "\n" +
+            self.tr("I'll fix it as soon as posible. ;)")
+        )
+        for widget in self.findChildren(QWidget):
+            if widget.__class__==QLineEdit:
+                widget.setReadOnly(True)
+            elif widget.__class__==QCheckBox:
+                widget.setEnabled(False)
+            widget.blockSignals(True)
+        self.bb.button(QDialogButtonBox.Ok).setEnabled(False)
+        self.bb.blockSignals(False)
+        self.bb.button(QDialogButtonBox.Cancel).blockSignals(False)
 
-    def on_bb_accepted(self):
+    def on_bb_accepted(self):            
         if self.qlepAmount.value()<=0:
             qmessagebox(self.tr("Amount value must be greater than 0"), ":/caloriestracker/book.png")
             return

@@ -41,12 +41,10 @@ class wdgProducts(QWidget, Ui_wdgProducts):
     @pyqtSlot() 
     def on_actionProductEdit_triggered(self):
         if self.products.selected.system_product==True:
-            qmessagebox(
-                self.tr("This is a system product so you can't edit it.") + "\n" +
-                self.tr("Please, if it's something wrong with it create an issue at") + "\n" + 
-                "https://github.com/turulomio/caloriestracker/issues"+ "\n" +
-                self.tr("I'll fix it as soon as posible. ;)")
-            )
+            from caloriestracker.ui.frmProductsAdd import frmProductsAdd
+            w=frmProductsAdd(self.mem, self.products.selected, self)
+            w.setReadOnly()
+            w.exec_()
         elif self.products.selected.system_product==False:
             if self.products.selected.elaboratedproducts_id==None:
                 from caloriestracker.ui.frmProductsAdd import frmProductsAdd
