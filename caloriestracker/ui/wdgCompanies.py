@@ -26,7 +26,7 @@ class wdgCompanies(QWidget, Ui_wdgCompanies):
         if reply==QMessageBox.Yes:
             self.companies.selected.delete()
             self.mem.con.commit()
-            self.mem.data.products.remove(self.companies.selected)
+            self.mem.data.companies.remove(self.companies.selected)
             self.on_cmd_pressed()
 
     @pyqtSlot() 

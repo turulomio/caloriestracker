@@ -107,21 +107,7 @@ class CompanySystemManager(QObject, ObjectManager_With_IdName_Selectable):
             self.append(o)
         cur.close()
         
-    ## It's a staticmethod due to it will be used in ProductAllManager
-    @staticmethod
-    def qtablewidget(self, table):        
-        table.setColumnCount(3)
-        table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Name")))
-        table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Number of products")))   
-        table.setHorizontalHeaderItem(2, QTableWidgetItem(self.tr("Last update")))
-        table.applySettings()
-        table.clearContents()
-        table.setRowCount(self.length())
-        for i, o in enumerate(self.arr):
-            table.setItem(i, 0, qleft(o.fullName()))
-            table.item(i, 0).setIcon(o.qicon())
-            table.setItem(i, 1, qnumber(self.mem.con.cursor_one_field("select count(*) from companies, products where companies.id=products.companies_id and companies.id=%s", (o.id, ))))
-            table.setItem(i, 2, qdatetime(o.last, self.mem.localzone))
+
 
 
 class CompanyPersonalManager(CompanySystemManager):
@@ -196,9 +182,19 @@ class CompanyAllManager(QObject, ObjectManager_With_IdName_Selectable):
         if selected!=None:
             combo.setCurrentIndex(combo.findData(selected.string_id()))
 
-    def qtablewidget(self, table):
-        CompanySystemManager.qtablewidget(self, table)
-## Clase parar trabajar con las opercuentas generadas automaticamente por los movimientos de las inversiones
+    def qtablewidget(self, table):        
+        table.setColumnCount(3)
+        table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Name")))
+        table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Number of products")))   
+        table.setHorizontalHeaderItem(2, QTableWidgetItem(self.tr("Last update")))
+        table.applySettings()
+        table.clearContents()
+        table.setRowCount(self.length())
+        for i, o in enumerate(self.arr):
+            table.setItem(i, 0, qleft(o.fullName()))
+            table.item(i, 0).setIcon(o.qicon())
+            table.setItem(i, 1, qnumber(o.get_number_products()))
+            table.setItem(i, 2, qdatetime(o.last, self.mem.localzone))
 
 ## Class to manage products
 class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
@@ -772,7 +768,7 @@ class ProductAllManager(QObject, ObjectManager_With_IdName_Selectable):
     def ProductAllManager_of_same_company(self, company):
         r=ProductAllManager(self.mem)
         for o in self.arr:
-            if o.company is not None and o.company.id==company.id:
+            if o.company is not None and o.company.id==company.id and o.system_company==company.system_company:
                 r.append(o)
         return r
         
@@ -976,8 +972,8 @@ class CompanySystem:
         return self.fullName()
 
     def is_deletable(self):
-        products=self.mem.con.cursor_one_field("select count(*) from companies where companies_id =%s and system_company=%s", (self.id, self.system_company))
-        personalproducts=self.mem.con.cursor_one_field("select count(*) from personalcompanies where companies_id =%s and system_company=%s", (self.id, self.system_company))
+        products=self.mem.con.cursor_one_field("select count(*) from allproducts where companies_id =%s and system_company=%s", (self.id, self.system_company))
+        personalproducts=self.mem.con.cursor_one_field("select count(*) from allproducts where companies_id =%s and system_company=%s", (self.id, self.system_company))
         sum=products+personalproducts
         if self.system_company==True or sum>0:
             return False
@@ -1013,6 +1009,14 @@ class CompanySystem:
             return None
         a=string_id.split("#")
         return int(a[0]), str2bool(a[1])
+        
+    ## Function to get the number of products in mem
+    def get_number_products(self):
+        r=0
+        for p in self.mem.data.products.arr:
+            if p.company is not None and p.company.id==self.id and p.company.system_company==self.system_company:
+                r=r+1
+        return r
         
         
 class CompanyPersonal(CompanySystem):
