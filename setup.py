@@ -4,6 +4,7 @@ import platform
 import shutil
 import site
 from concurrent.futures import ProcessPoolExecutor
+from datetime import datetime
 from multiprocessing import cpu_count
 
 class Doxygen(Command):
@@ -193,6 +194,29 @@ Nueva versión:
   * Add file to github release
 """.format(__version__))
 
+class Dump(Command):
+    description = "Creates a database dump. Must be used before changing schema"
+    user_options = [
+      # The format is (long option, short option, description).
+      ( 'user=', None, 'Database user'),
+      ( 'db=', None, 'Database name'),
+      ( 'port=', None, 'Database port'),
+      ( 'server=', None, 'Database server'),
+  ]
+    def initialize_options(self):
+        self.user="postgres"
+        self.db="caloriestracker"
+        self.port="5432"
+        self.server="127.0.0.1"
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        dt=datetime.now()
+        dts="{}{}{}{}{}".format(dt.year, str(dt.month).zfill(2), str(dt.day).zfill(2), str(dt.hour).zfill(2), str(dt.minute).zfill(2))
+        os.system("pg_dump -U {} -h {} --port {} {} > caloriestracker-{}.sql".format(self.user,self.server,self.port,self.db, dts))
+
 class Doc(Command):
     description = "Update translation librarys and hardcoded strings"
     user_options = [
@@ -307,6 +331,7 @@ setup(name='caloriestracker',
     cmdclass={
                         'doxygen': Doxygen,
                         'doc': Doc,
+                        'dump': Dump,
                         'uninstall':Uninstall, 
                         'compile': Compile, 
                         'procedure': Procedure,
