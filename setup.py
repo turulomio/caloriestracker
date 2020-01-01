@@ -75,8 +75,8 @@ print(sys.path)
             --add-data caloriestracker/sql/*.sql;sql
         """.format(name,__version__,filename))
 
-class Compile(Command):
-    description = "Compile ui and images"
+class Reusing(Command):
+    description = "Use code from https://github.com/turulomio/reusingcode"
     user_options = []
 
     def initialize_options(self):
@@ -112,6 +112,17 @@ class Compile(Command):
         download_from_github('turulomio','reusingcode','python/objects/percentage.py', 'caloriestracker/objects')
 
 
+class Compile(Command):
+    description = "Compile ui and images"
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
         futures=[]
         with ProcessPoolExecutor(max_workers=cpu_count()+1) as executor:
             for filename in os.listdir("caloriestracker/ui/"):
@@ -329,13 +340,14 @@ setup(name='caloriestracker',
                         ], #PyQt5 and PyQtChart doesn't have egg-info in Gentoo, so I remove it to install it with ebuild without making 2 installations. Should be added manually when using pip to install
     data_files=data_files,
     cmdclass={
-                        'doxygen': Doxygen,
+                        'compile': Compile,
                         'doc': Doc,
+                        'doxygen': Doxygen,
                         'dump': Dump,
-                        'uninstall':Uninstall, 
-                        'compile': Compile, 
                         'procedure': Procedure,
                         'pyinstaller': PyInstaller,
+                        'reusing': Reusing,
+                        'uninstall':Uninstall,
                      }, 
     zip_safe=False,
     include_package_data=True
