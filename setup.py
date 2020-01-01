@@ -287,7 +287,7 @@ if platform.system()=="Windows":
 #data_files
 if platform.system()=="Linux":
     data_files=[
-        ('/usr/share/pixmaps/', ['caloriestracker/images/caloriestracker.svg']), 
+        ('/usr/share/pixmaps/', ['caloriestracker/images/caloriestracker.png']), 
         ('/usr/share/applications/', ['caloriestracker.desktop']), 
     ]
 else:
