@@ -7,7 +7,7 @@ from PyQt5.QtCore import Qt, pyqtSlot, QObject, QPoint
 from PyQt5.QtGui import QPainter, QFont, QIcon, QColor
 from PyQt5.QtWidgets import QAction, QMenu, QFileDialog, QProgressDialog, QApplication, QDialog, QLabel, QVBoxLayout, QHBoxLayout, QGraphicsSimpleTextItem
 from .. objects.percentage import Percentage
-from .. datetime_functions import epochms2dtaware, dtaware2epochms, dtnaive2string, eDtStrings
+from .. datetime_functions import epochms2dtaware, dtaware2epochms, dtnaive2string
 from datetime import timedelta, datetime
 from decimal import Decimal
 
@@ -47,7 +47,7 @@ class VCCommons(QChartView):
         
     @pyqtSlot()
     def on_actionSave_triggered(self):
-        filename="{} Chart.png".format(dtnaive2string(datetime.now(), type=eDtStrings.Filename))    
+        filename="{} Chart.png".format(dtnaive2string(datetime.now(), "%Y%m%d %H%M"))    
         filename = QFileDialog.getSaveFileName(self, self.tr("Save File"), filename, self.tr("PNG Image (*.png)"))[0]
         if filename:
             self.save(filename)

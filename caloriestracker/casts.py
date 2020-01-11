@@ -18,7 +18,16 @@ def list2string(lista):
             for l in lista:
                 resultado=resultado+ "'" + str(l) + "', "
             return resultado[:-2]
-            
+
+## Reverse function of list2string where class is a str
+def string2list_of_strings(s):
+    arr=[]
+    if s!="":
+        arrs=s.split(", ")
+        for a in arrs:
+            arr.append(a[1:-1])
+    return arr
+
 def string2list_of_integers(s, separator=", "):
     """Convers a string of integer separated by comma, into a list of integer"""
     arr=[]
@@ -99,3 +108,37 @@ def b2c(booleano):
         return Qt.Unchecked     
 
 
+
+## String to linux shell
+#def string2shell(cadena):
+#    cadena=str(cadena)
+#    cadena=cadena.replace("'","\\'")
+#    return cadena
+
+## strint to latex
+def string2tex(cadena):
+    cadena=str(cadena)
+    cadena=cadena.replace('[','$ [ $')
+    cadena=cadena.replace(']','$ ] $')
+    cadena=cadena.replace('&','\&')
+    cadena=cadena.replace('²','$ ^2 $')
+    cadena=cadena.replace('#', '\#')
+    return cadena
+
+## Converts a string to set inside an XML to a valid XML string
+def string2xml(s):
+    s=s.replace('"','&apos;' )
+    s=s.replace('<','&lt;' )
+    s=s.replace('>','&gt;' )
+    s=s.replace('&','&amp;' )
+    s=s.replace("'",'&apos;' )
+    return s
+
+## Converts a string to set inside an XML to a valid XML string
+def xml2string(s):
+    s=s.replace('&apos;','"')
+    s=s.replace('&lt;','<')
+    s=s.replace('&gt;','>')
+    s=s.replace('&amp;','&')
+    s=s.replace('&apos;',"'")
+    return s

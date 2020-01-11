@@ -1254,7 +1254,7 @@ class Product(QObject):
         personal.system_company=self.system_company
         personal.save()
         
-        datestr=dtnaive2string(self.mem.inittime, 3)
+        datestr=dtnaive2string(self.mem.inittime, "%Y%m%d%H%M")
         sql_filename="{}.sql".format(datestr)
         sql=open(sql_filename, "w")
         

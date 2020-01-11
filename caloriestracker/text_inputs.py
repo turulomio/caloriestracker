@@ -2,6 +2,9 @@
 ## DO NOT UPDATE IT IN YOUR CODE IT WILL BE REPLACED USING FUNCTION IN README
 from colorama import Style, Fore
 from decimal import Decimal
+from os import system
+from platform import system as platform_system
+
 
 _=str
 
@@ -105,3 +108,11 @@ def input_string(text,default=None):
             return res
         except:
             pass
+
+## Function to wait until a key is pressed
+def press_key_to_continue():
+    if platform_system()=="Windows":
+       system("pause")
+    else:
+       s=_("Press a key to continue...")
+       system("read -p '{}'".format(s))

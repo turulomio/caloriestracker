@@ -50,7 +50,7 @@ def generate_contribution_dump(mem):
 ## auxiliar_con, it's only used to generate admin and new connection with same parameters, but it's not used
 def parse_contribution_dump_generate_files_and_validates_them(auxiliar_con, contribution_dump):
     ## 1. SETS A NEW DATABASE CALORIESTRACKER_CONTRIBUTION TO DEFAULT
-    datestr=dtnaive2string(datetime.now(), 3).replace(" ", "")
+    datestr=dtnaive2string(datetime.now(), "%Y%m%d%H%M")
     database="caloriestracker_contribution"
     admin=AdminPG(auxiliar_con.user, auxiliar_con.password, auxiliar_con.server, auxiliar_con.port)
     if admin.db_exists(database)==True:
