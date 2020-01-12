@@ -92,7 +92,7 @@ def qdatetime(dt, tz_name):
     newdt=dtaware_changes_tz(dt, tz_name)
     if newdt==None:
         return qempty()
-    a=QTableWidgetItem(dtaware2string(newdt))
+    a=QTableWidgetItem(dtaware2string(newdt, "%Y-%m-%d %H:%M:%S"))
     a.setTextAlignment(Qt.AlignVCenter|Qt.AlignRight)
     return a
 
