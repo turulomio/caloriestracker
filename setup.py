@@ -99,6 +99,7 @@ class Reusing(Command):
         download_from_github('turulomio','reusingcode','python/frmAccess.py', 'caloriestracker/ui')
         download_from_github('turulomio','reusingcode','python/myqcharts.py', 'caloriestracker/ui')
         download_from_github('turulomio','reusingcode','python/myqwidgets.py', 'caloriestracker/ui')
+        download_from_github('turulomio','reusingcode','python/myqtablewidget.py', 'caloriestracker/ui')
         download_from_github('turulomio','reusingcode','python/wdgDatetime.ui', 'caloriestracker/ui')
         download_from_github('turulomio','reusingcode','python/wdgDatetime.py', 'caloriestracker/ui')
         download_from_github('turulomio','reusingcode','python/wdgYearMonth.ui', 'caloriestracker/ui')

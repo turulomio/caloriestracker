@@ -11,7 +11,7 @@ from caloriestracker.casts import str2bool, b2s
 from caloriestracker.datetime_functions import dtnaive2string
 from caloriestracker.text_inputs import input_boolean, input_integer_or_none
 from caloriestracker.libcaloriestrackertypes import eProductComponent, eActivity, eWeightWish
-from caloriestracker.ui.qtablewidgetitems import qtime, qleft, qright, qnumber_limited, qnumber, qdatetime, qdate, qbool
+from caloriestracker.ui.myqtablewidget import qtime, qleft, qright, qnumber_limited, qnumber, qdatetime, qdate, qbool
 from caloriestracker.libmanagers import ObjectManager_With_Id_Selectable,  ManagerSelectionMode, ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime_Selectable
 from colorama import Fore, Style
 from logging import debug

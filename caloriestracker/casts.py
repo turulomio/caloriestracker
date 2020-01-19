@@ -107,7 +107,21 @@ def b2c(booleano):
     else:
         return Qt.Unchecked     
 
+## Returns a list with object in positions removed
+def list_remove_positions(l, listindex):
+    r=[]
+    for column in range(len(l)):
+        if column not in listindex:
+            r.append(l[column])
+    return r
 
+## LOR is a list of list. Naned List Of Rows, used in myqtablewidget
+## @param listindex is a list of column indexes to remove
+def lor_remove_columns(rows, listindex):
+    r_rows=[]
+    for row in range(len(rows)):
+        r_rows.append(list_remove_positions(rows[row],listindex))
+    return r_rows
 
 ## String to linux shell
 #def string2shell(cadena):

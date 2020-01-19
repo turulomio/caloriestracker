@@ -1,7 +1,7 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QTableWidgetItem
 from caloriestracker.ui.Ui_wdgMealsMost import Ui_wdgMealsMost
-from caloriestracker.ui.qtablewidgetitems import qleft, qnumber
+from caloriestracker.ui.myqtablewidget import qleft, qnumber
 from datetime import date,  timedelta
 
 class wdgMealsMost(QWidget, Ui_wdgMealsMost):

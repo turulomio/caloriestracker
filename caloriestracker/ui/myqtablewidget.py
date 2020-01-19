@@ -1,7 +1,10 @@
+## THIS IS FILE IS FROM https://github.com/turulomio/reusingcode IF YOU NEED TO UPDATE IT PLEASE MAKE A PULL REQUEST IN THAT PROJECT
+## DO NOT UPDATE IT IN YOUR CODE IT WILL BE REPLACED USING FUNCTION IN README
+
 from PyQt5.QtCore import Qt,  pyqtSlot
-from PyQt5.QtGui import QKeySequence
-from PyQt5.QtWidgets import QApplication, QHeaderView, QTableWidget, QFileDialog,  QTableWidgetItem
-from .qtablewidgetitems import qright, qleft
+from PyQt5.QtGui import QKeySequence, QColor
+from PyQt5.QtWidgets import QApplication, QHeaderView, QTableWidget, QFileDialog,  QTableWidgetItem, QWidget, QCheckBox, QHBoxLayout
+from .. datetime_functions import dtaware2string, dtaware_changes_tz, time2string
 from officegenerator import ODS_Write, Currency, Percentage,  Coord
 import datetime
 import logging
@@ -125,14 +128,63 @@ class myQTableWidget(QTableWidget):
             return qright(o)
         else:
             return qleft(o)
-    ## Converts self.data to an other list with officegenerator objects
-    def data2officegeneratordata(self, arr):
-        r=[]
-        for i,  row in enumerate(self.arr):
-            for j,  column in enumerate(row):
-                r.append(self.data[row][column])
-            
-            
+
+    ## Returns a list of strings with the horizontal headers
+    def listHorizontalHeaders(self):
+        header=[]
+        for i in range(self.horizontalHeader().count()):
+            header.append(self.horizontalHeaderItem(i).text())
+        return header
+
+    ## Returns a list of strings with the horizontal headers
+    def listVerticalHeaders(self):
+        header=[]
+        for i in range(self.verticalHeader().count()):
+            header.append(self.verticalHeaderItem(i).text())
+        return header
+
+    ## Returns a lisf of rows with the text of the 
+    def listText(self):
+        data=[]
+        for i in range(self.rowCount()):
+            row=[]
+            for column in range(self.columnCount()):
+                data.append(self.item(row,column).text())
+        return data
+
+    ## Fills table from a lr of rows
+    ## Allowed objects, int, float, text, Currency, Porcentage
+    ## @param lr is a list of rows (other list)
+    ## @param decimals Integer or List of the size of the columns with the number of decimals to show. Default decimal==2. If Integer all columns has the same number of decimals
+    ## @param datetimes with be converted to that timezone
+    def fillWithListOfRows(self,lr, decimals=2, zonename="UTC"):
+        if decimals.__class__.__name__=="int":
+            decimals=[decimals]*len(lr[0])
+        for row in range(len(lr)):
+            self.fillAppendingRow(row, lr[row], decimals, zonename)
+
+
+    ## If you don't want to add all rows at the same time you can fill appending row by row
+    ## @param rownumber is the row to be added in the table
+    def fillAppendingRow(self, rownumber, row, decimals=2, zonename="UTC"):
+        if hasattr(self, "lr")==False:#Create list if it doesn't exist
+            self.lr=[]
+        if decimals.__class__.__name__=="int":
+            decimals=[decimals]*len(row)
+        self.lr.append(row)
+        for column in range(len(row)):
+            o=row[column]
+            if o.__class__.__name__ in ["int"]:
+                self.setItem(rownumber, column, qright(o))
+            elif o.__class__.__name__ in ["datetime"]:
+                self.setItem(rownumber, column, qdatetime(o,zonename))
+            elif o.__class__.__name__ in ["float","Decimal"]:
+                self.setItem(rownumber, column, qnumber(o,decimals[column]))
+            elif o.__class__.__name__ in ["Percentage","Money","Currency"]:
+                self.setItem(rownumber, column, o.qtablewidgetitem(decimals[column]))
+            else:
+                self.setItem(rownumber, column, qleft(o))
+
 class Table2ODS(ODS_Write):
     def __init__(self, mem, filename, table, title):
         ODS_Write.__init__(self, filename)
@@ -150,12 +202,15 @@ class Table2ODS(ODS_Write):
         if table.horizontalHeader().isHidden() and not table.verticalHeader().isHidden():
             coord=Coord("B1")
         elif not table.horizontalHeader().isHidden() and table.verticalHeader().isHidden():
+            print("A2")
             coord=Coord("A2")
+            topleft=Coord("A2") if table.rowCount()<21 else Coord("A2").addRow(table.rowCount()-1-20)
+            sheet.freezeAndSelect(coord, Coord("A2").addRow(table.rowCount()-1), topleft)
         elif not table.horizontalHeader().isHidden() and not table.verticalHeader().isHidden():
             coord=Coord("B2")
         elif table.horizontalHeader().isHidden() and table.verticalHeader().isHidden():
             coord=Coord("A1")
-        sheet.setSplitPosition(coord)
+
         #HH
         if not table.horizontalHeader().isHidden():
             for letter in range(table.columnCount()):
@@ -178,7 +233,6 @@ class Table2ODS(ODS_Write):
                 except:#Not a QTableWidgetItem or NOne
                     pass
         logging.debug("Items done")
-        sheet.setCursorPosition(coord.letter+ str(table.rowCount()+2))
         self.save()
 
     def itemtext2object(self, t):
@@ -239,3 +293,121 @@ class Table2ODS(ODS_Write):
             return "WhiteInteger"
         else:
             return "WhiteLeft"
+
+def qbool(bool):
+    """Prints bool and check. Is read only and enabled"""
+    if bool==None:
+        return qempty()
+    a=QTableWidgetItem()
+    a.setFlags( Qt.ItemIsSelectable |  Qt.ItemIsEnabled )#Set no editable
+    if bool:
+        a.setCheckState(Qt.Checked);
+        a.setText(QApplication.translate("Core","True"))
+    else:
+        a.setCheckState(Qt.Unchecked);
+        a.setText(QApplication.translate("Core","False"))
+    a.setTextAlignment(Qt.AlignVCenter|Qt.AlignCenter)
+    return a
+
+## Center checkbox
+## You must use with table.setCellWidget(0,0,wdgBool)
+## Is disabled to be readonly
+def wdgBool(bool):
+    pWidget = QWidget()
+    pCheckBox = QCheckBox();
+    if bool:
+        pCheckBox.setCheckState(Qt.Checked);
+    else:
+        pCheckBox.setCheckState(Qt.Unchecked);
+    pLayout = QHBoxLayout(pWidget);
+    pLayout.addWidget(pCheckBox);
+    pLayout.setAlignment(Qt.AlignCenter);
+    pLayout.setContentsMargins(0,0,0,0);
+    pWidget.setLayout(pLayout);
+    pCheckBox.setEnabled(False)
+    return pWidget
+
+## Returns a QTableWidgetItem representing an empty value
+def qempty():
+    a=QTableWidgetItem("---")
+    a.setTextAlignment(Qt.AlignVCenter|Qt.AlignRight)
+    return a
+
+def qcenter(string):
+    if string==None:
+        return qempty()
+    a=QTableWidgetItem(str(string))
+    a.setTextAlignment(Qt.AlignVCenter|Qt.AlignCenter)
+    return a
+
+def qleft(string):
+    if string==None:
+        return qempty()
+    a=QTableWidgetItem(str(string))
+    a.setTextAlignment(Qt.AlignVCenter|Qt.AlignLeft)
+    return a
+
+def qright(string):
+    if string==None:
+        return qempty()
+    a=QTableWidgetItem(str(string))
+    a.setTextAlignment(Qt.AlignVCenter|Qt.AlignRight)
+    return a
+    
+## Creates a QTableWidgetItem with the date
+def qdate(date):
+    if date==None:
+        return qempty()
+    return qcenter(str(date))
+    
+    
+## dt es un datetime con timezone, que se mostrara con la zone pasado como parametro
+## Convierte un datetime a string, teniendo en cuenta los microsehgundos, para ello se convierte a datetime local
+def qdatetime(dt, tz_name):
+    newdt=dtaware_changes_tz(dt, tz_name)
+    if newdt==None:
+        return qempty()
+    a=QTableWidgetItem(dtaware2string(newdt, "%Y-%m-%d %H:%M:%S"))
+    a.setTextAlignment(Qt.AlignVCenter|Qt.AlignRight)
+    return a
+
+
+def qnumber(n, digits=2):
+    if n==None:
+        return qempty()
+    n=round(n, digits)
+    a=qright(n)
+    if n<0:
+        a.setForeground(QColor(255, 0, 0))
+    return a
+
+## Colorizes a number comparing it with a limit
+def qnumber_limited(n, limit, digits=2, reverse=False):
+    if n==None:
+        return qempty()
+    a=qnumber(n, 2)
+    if reverse==True:
+        color_above=QColor(148, 255, 148)
+        color_under=QColor(255, 148, 148)
+    else:        
+        color_under=QColor(148, 255, 148)
+        color_above=QColor(255, 148, 148)
+    if n>=limit:
+        a.setBackground(color_above)
+    else:
+        a.setBackground(color_under)
+    return a
+
+## Shows the time of a datetime
+## See function time2string of datetime_functions to see formats
+## @param ti must be a time object
+def qtime(ti, format="HH:MM"):
+    if ti==None:
+        return qempty()
+    item=qright(time2string(ti, format))
+    if format=="Xulpymoney":
+        if ti.microsecond==5:
+            item.setBackground(QColor(255, 255, 148))
+        elif ti.microsecond==4:
+            item.setBackground(QColor(148, 148, 148))
+    return item
