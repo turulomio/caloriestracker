@@ -40,6 +40,7 @@ SOURCES         = \
                   caloriestracker/ui/wdgCuriosity.py \
                   caloriestracker/ui/Ui_wdgDatetime.py \
                   caloriestracker/ui/wdgDatetime.py \
+                  caloriestracker/ui/wdgDistributeAmount.py \
                   caloriestracker/ui/Ui_wdgMeals.py \
                   caloriestracker/ui/wdgMeals.py \
                   caloriestracker/ui/Ui_wdgMealsMost.py \

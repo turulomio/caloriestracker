@@ -130,3 +130,18 @@ class wdgDatetime(QWidget, Ui_wdgDatetime):
 
     def updateTooltip(self):
         self.setToolTip(self.tr("Selected datetime:\n{0}").format(self.datetime()))
+
+
+
+if __name__ == '__main__':
+    from sys import exit
+    from PyQt5.QtWidgets import QApplication
+    app = QApplication([])
+
+    w = wdgDatetime()
+    w.move(300, 300)
+    w.set()
+    w.setWindowTitle('wdgDatetime example')
+    w.show()
+
+    exit(app.exec_())

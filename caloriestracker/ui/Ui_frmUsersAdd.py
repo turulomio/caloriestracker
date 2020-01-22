@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'caloriestracker/ui/frmUsersAdd.ui'
 #
-# Created by: PyQt5 UI code generator 5.14.0
+# Created by: PyQt5 UI code generator 5.14.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -14,15 +14,15 @@ class Ui_frmUsersAdd(object):
     def setupUi(self, frmUsersAdd):
         frmUsersAdd.setObjectName("frmUsersAdd")
         frmUsersAdd.setWindowModality(QtCore.Qt.WindowModal)
-        frmUsersAdd.resize(471, 336)
+        frmUsersAdd.resize(582, 261)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/caloriestracker/list-add-user.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         frmUsersAdd.setWindowIcon(icon)
         frmUsersAdd.setModal(True)
-        self.horizontalLayout_16 = QtWidgets.QHBoxLayout(frmUsersAdd)
-        self.horizontalLayout_16.setObjectName("horizontalLayout_16")
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(frmUsersAdd)
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setObjectName("verticalLayout")
         self.lbl = QtWidgets.QLabel(frmUsersAdd)
         font = QtGui.QFont()
         font.setPointSize(14)
@@ -32,7 +32,7 @@ class Ui_frmUsersAdd(object):
         self.lbl.setStyleSheet("color: rgb(0, 128, 0);")
         self.lbl.setAlignment(QtCore.Qt.AlignCenter)
         self.lbl.setObjectName("lbl")
-        self.verticalLayout_3.addWidget(self.lbl)
+        self.verticalLayout.addWidget(self.lbl)
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.label_6 = QtWidgets.QLabel(frmUsersAdd)
@@ -51,7 +51,7 @@ class Ui_frmUsersAdd(object):
         self.txtName.setSizePolicy(sizePolicy)
         self.txtName.setObjectName("txtName")
         self.horizontalLayout_5.addWidget(self.txtName)
-        self.verticalLayout_3.addLayout(self.horizontalLayout_5)
+        self.verticalLayout.addLayout(self.horizontalLayout_5)
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
         self.label_7 = QtWidgets.QLabel(frmUsersAdd)
@@ -63,16 +63,32 @@ class Ui_frmUsersAdd(object):
         self.dtBirthday.setCalendarPopup(True)
         self.dtBirthday.setObjectName("dtBirthday")
         self.horizontalLayout_6.addWidget(self.dtBirthday)
-        self.verticalLayout_3.addLayout(self.horizontalLayout_6)
+        self.verticalLayout.addLayout(self.horizontalLayout_6)
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.label = QtWidgets.QLabel(frmUsersAdd)
+        self.label.setObjectName("label")
+        self.horizontalLayout.addWidget(self.label)
+        self.frame = QtWidgets.QFrame(frmUsersAdd)
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.frame)
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        self.wdgDistribute = wdgDistributeIntegerBetween3(self.frame)
+        self.wdgDistribute.setObjectName("wdgDistribute")
+        self.horizontalLayout_3.addWidget(self.wdgDistribute)
+        self.horizontalLayout.addWidget(self.frame)
+        self.verticalLayout.addLayout(self.horizontalLayout)
         self.chkMale = QtWidgets.QCheckBox(frmUsersAdd)
         self.chkMale.setChecked(True)
         self.chkMale.setObjectName("chkMale")
-        self.verticalLayout_3.addWidget(self.chkMale)
+        self.verticalLayout.addWidget(self.chkMale)
         self.bb = QtWidgets.QDialogButtonBox(frmUsersAdd)
         self.bb.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.bb.setObjectName("bb")
-        self.verticalLayout_3.addWidget(self.bb)
-        self.horizontalLayout_16.addLayout(self.verticalLayout_3)
+        self.verticalLayout.addWidget(self.bb)
+        self.horizontalLayout_2.addLayout(self.verticalLayout)
 
         self.retranslateUi(frmUsersAdd)
         QtCore.QMetaObject.connectSlotsByName(frmUsersAdd)
@@ -83,5 +99,7 @@ class Ui_frmUsersAdd(object):
         self.label_6.setText(_translate("frmUsersAdd", "Name"))
         self.label_7.setText(_translate("frmUsersAdd", "Select your birthday"))
         self.dtBirthday.setDisplayFormat(_translate("frmUsersAdd", "yyyy-MM-dd"))
+        self.label.setText(_translate("frmUsersAdd", "Select your meal proportions"))
         self.chkMale.setText(_translate("frmUsersAdd", "Check if you\'re a male"))
+from caloriestracker.ui.wdgDistributeAmount import wdgDistributeIntegerBetween3
 import caloriestracker.images.caloriestracker_rc

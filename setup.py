@@ -111,6 +111,7 @@ class Reusing(Command):
         download_from_github('turulomio','reusingcode','python/decorators.py', 'caloriestracker')
         download_from_github('turulomio','reusingcode','python/objects/currency.py', 'caloriestracker/objects')
         download_from_github('turulomio','reusingcode','python/objects/percentage.py', 'caloriestracker/objects')
+        download_from_github('turulomio','reusingcode','python/ui/wdgDistributeAmount.py', 'caloriestracker/ui')
 
 
 class Compile(Command):
@@ -142,6 +143,7 @@ class Compile(Command):
                  os.system("sed -i -e 's/from caloriestracker.ui.myqlineedit/from caloriestracker.ui.myqlineedit/' caloriestracker/ui/{}".format(filename))
                  os.system("sed -i -e 's/from wdgDatetime/from caloriestracker.ui.wdgDatetime/' caloriestracker/ui/{}".format(filename))
                  os.system("sed -i -e 's/from wdgYear/from caloriestracker.ui.wdgYear/' caloriestracker/ui/{}".format(filename))
+                 os.system("sed -i -e 's/from wdgDistributeAmount/from caloriestracker.ui.wdgDistributeAmount/' caloriestracker/ui/{}".format(filename))
 
 class Uninstall(Command):
     description = "Uninstall installed files with install"

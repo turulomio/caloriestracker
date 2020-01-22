@@ -12,15 +12,19 @@ class frmUsersAdd(QDialog, Ui_frmUsersAdd):
         self.user=user
         self.resize(self.mem.settings.value("frmUsersAdd/qdialog", QSize(800, 600)))
         
+        self.wdgDistribute.setSuffix("%")
+        self.wdgDistribute.setLabels(self.tr("Carbohydrates"), self.tr("Fat"), self.tr("Protein"))
         if self.user==None:
             self.lbl.setText(self.tr("Add a new user"))
             self.dtBirthday.setDate(date.today())
+            self.wdgDistribute.setValues(100)
             
         else:
             self.lbl.setText(self.tr("Edit a user"))
             self.txtName.setText(self.user.name)
             self.dtBirthday.setDate(self.user.birthday)
             self.chkMale.setChecked(self.user.male)
+            self.wdgDistribute.setValues(100)#Chenge with new database schema
 
     def on_bb_accepted(self):
         if self.user==None:
