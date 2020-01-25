@@ -4,7 +4,7 @@ class FoodType:
     def __init__(self, mem, id=None, name=None):
         self.mem=mem
         self.id=id
-        self.name=name
+        self.name=self.mem.trHS(name)
         
 class FoodTypeManager(QObject, ObjectManager_With_IdName_Selectable):
     def __init__(self, mem):

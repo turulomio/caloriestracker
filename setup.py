@@ -268,10 +268,15 @@ class Doc(Command):
             f.write("QT_TRANSLATE_NOOP('HardcodedStrings','{}')\n".format(row["name"]))
             
         f.write("\n#Formats\n")
-            
         rows=con.cursor_rows("select distinct(name) from formats order by name")
         for row in rows:
             f.write("QT_TRANSLATE_NOOP('HardcodedStrings','{}')\n".format(row["name"]))
+            
+        f.write("\n#Foodtypes\n")
+        rows=con.cursor_rows("select * from foodtypes order by name")
+        for row in rows:
+            f.write("QT_TRANSLATE_NOOP('HardcodedStrings','{}')\n".format(row["name"]))
+
         f.close()
         con.disconnect()
 
