@@ -40,12 +40,17 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
         if self.product==None:
             self.mem.data.companies.qcombobox(self.cmbCompanies)
             self.cmbCompanies.setCurrentIndex(-1)
+            self.mem.data.foodtypes.qcombobox(self.cmbFoodtypes)
+            self.cmbFoodtypes.setCurrentIndex(-1)
             self.lbl.setText(self.tr("Add a new personal product"))
             self.qlepAmount.setValue(100)
         else:
             self.mem.data.companies.qcombobox(self.cmbCompanies, self.product.company)
+            self.mem.data.foodtypes.qcombobox(self.cmbFoodtypes, self.product.foodtype)
             if self.product.company==None:
                 self.cmbCompanies.setCurrentIndex(-1)
+            if self.product.foodtype==None:
+                self.cmbFoodtypes.setCurrentIndex(-1)
             self.txtName.setText(self.product.name)
             self.qlepAmount.setValue(self.product.amount)
             self.qlepFat.setValue(self.product.fat)
@@ -95,6 +100,7 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
         
         cmb_index=self.cmbCompanies.findText(self.cmbCompanies.currentText())
         company=None if cmb_index==-1 else self.mem.data.companies.find_by_string_id(self.cmbCompanies.itemData(cmb_index))
+        foodtype=None if self.cmbFoodtypes.currentIndex()==-1 else self.mem.data.foodtypes.find_by_id(self.cmbFoodtypes.itemData(self.cmbFoodtypes.currentIndex()))
         system_company=None if company==None else company.system_company
         if self.product==None:        
             self.product=ProductPersonal(
@@ -117,6 +123,7 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
             self.qlepSugar.value(), 
             self.qlepSaturatedFat.value(), 
             system_company, 
+            foodtype, 
             None)
             self.mem.data.products.append(self.product)
             self.mem.data.products.order_by_name()
@@ -136,6 +143,7 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
             self.product.sugars=self.qlepSugar.value()
             self.product.saturated_fat=self.qlepSaturatedFat.value()
             self.product.system_company=system_company
+            self.product.foodtype=foodtype
         self.product.save()
         self.mem.con.commit()
         self.accept()
