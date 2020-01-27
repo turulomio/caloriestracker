@@ -12,6 +12,8 @@ from caloriestracker.datetime_functions import dtnaive2string
 from caloriestracker.text_inputs import input_boolean, input_integer_or_none
 from caloriestracker.libcaloriestrackertypes import eProductComponent, eActivity, eWeightWish
 from caloriestracker.objects.food_type import FoodTypeManager_all
+from caloriestracker.objects.additives import AdditiveManager_all
+from caloriestracker.objects.additive_risk import AdditiveRiskManager_all
 from caloriestracker.ui.myqtablewidget import qtime, qleft, qright, qnumber_limited, qnumber, qdatetime, qdate, qbool, qempty
 from caloriestracker.libmanagers import ObjectManager_With_Id_Selectable,  ManagerSelectionMode, ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime_Selectable
 from colorama import Fore, Style
@@ -791,6 +793,8 @@ class DBData:
         self.companies.load_all()
         
         self.foodtypes=FoodTypeManager_all(self.mem)
+        self.additiverisks=AdditiveRiskManager_all(self.mem)
+        self.additives=AdditiveManager_all(self.mem)
 
         self.products=ProductAllManager(self.mem)
         self.products.load_all()
