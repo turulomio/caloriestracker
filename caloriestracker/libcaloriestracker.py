@@ -12,7 +12,7 @@ from caloriestracker.datetime_functions import dtnaive2string
 from caloriestracker.text_inputs import input_boolean, input_integer_or_none
 from caloriestracker.libcaloriestrackertypes import eProductComponent, eActivity, eWeightWish
 from caloriestracker.objects.food_type import FoodTypeManager_all
-from caloriestracker.objects.additives import AdditiveManager_all
+from caloriestracker.objects.additives import AdditiveManager_all, AdditiveManager_from_integer_list__mem
 from caloriestracker.objects.additive_risk import AdditiveRiskManager_all
 from caloriestracker.ui.myqtablewidget import qtime, qleft, qright, qnumber_limited, qnumber, qdatetime, qdate, qbool, qempty
 from caloriestracker.libmanagers import ObjectManager_With_Id_Selectable,  ManagerSelectionMode, ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime_Selectable
@@ -1097,7 +1097,8 @@ class Product(QObject):
     ##Product(mem,rows) #Uses products_id and users_id in row
     ##Product(mem,datetime,product,name,amount,users_id,id)
     def __init__(self, *args):        
-        def init__create( name, amount, fat, protein, carbohydrate, company, last, elaboratedproducts_id, languages_id, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat, system_company, foodtype, id):
+        def init__create( name, amount, fat, protein, carbohydrate, company, last, elaboratedproducts_id, languages_id, calories, salt, cholesterol, 
+            sodium, potassium, fiber, sugars, saturated_fat, system_company, foodtype, additives, id):
             self.name=self.mem.trHS(name)
             self.amount=amount
             self.fat=fat
@@ -1117,6 +1118,7 @@ class Product(QObject):
             self.saturated_fat=saturated_fat
             self.system_company=system_company
             self.foodtype=foodtype
+            self.additives=additives
             self.id=id
             return self
         # #########################################
@@ -1127,10 +1129,11 @@ class Product(QObject):
         elif len(args)==2:#Product(mem,rows)
             company=self.mem.data.companies.find_by_id_system(args[1]['companies_id'], args[1]['system_company'])
             foodtype=self.mem.data.foodtypes.find_by_id(args[1]['foodtypes_id'])
+            additives=AdditiveManager_from_integer_list__mem(self.mem, args[1]['additives'])
             init__create(args[1]['name'], args[1]['amount'], args[1]['fat'], args[1]['protein'], args[1]['carbohydrate'], company, 
             args[1]['last'], args[1]['elaboratedproducts_id'], args[1]['languages'], args[1]['calories'], args[1]['salt'], 
-            args[1]['cholesterol'], args[1]['sodium'], args[1]['potassium'], args[1]['fiber'], args[1]['sugars'], args[1]['saturated_fat'], args[1]['system_company'], foodtype, args[1]['id'])
-        elif len(args)==21:#Product(mem,datetime,product,name,amount,users_id,id)
+            args[1]['cholesterol'], args[1]['sodium'], args[1]['potassium'], args[1]['fiber'], args[1]['sugars'], args[1]['saturated_fat'], args[1]['system_company'], foodtype, additives, args[1]['id'])
+        elif len(args)==22:#Product(mem,datetime,product,name,amount,users_id,id)
             init__create(*args[1:])
         self.system_product=True
         self.status=0
@@ -1182,23 +1185,31 @@ class Product(QObject):
 
     def save(self):
         companies_id=None if self.company==None else self.company.id
+        foodtypes_id=None if self.foodtype==None else self.foodtype.id
+        #This function is used for products and personal products, only changes the name of the table
+        if self.__class__.__name__=="ProductPersonal":
+            table="personalproducts"
+        else:
+            table="products"
+        
         if self.id==None:
-            self.id=self.mem.con.cursor_one_field("""insert into products (
+            self.id=self.mem.con.cursor_one_field("""insert into """+table+""" (
                     name, amount, fat, protein, carbohydrate, companies_id, last,
                     elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, 
-                    potassium, fiber, sugars, saturated_fat, system_company, foodtypes_id
-                    )values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning id""",  
+                    potassium, fiber, sugars, saturated_fat, system_company, foodtypes_id, additives
+                    )values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning id""",  
                     (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.last, 
                     self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, 
-                    self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company, self.foodtype.id))
+                    self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company, foodtypes_id, self.additives.array_of_ids()))
         else:
-            self.mem.con.cursor_one_field("""update products set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, last=%s,
+            self.mem.con.cursor_one_field("""update """ +table+ """ set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, last=%s,
             elaboratedproducts_id=%s, languages=%s, calories=%s, salt=%s, cholesterol=%s, sodium=%s, potassium=%s, fiber=%s, sugars=%s, saturated_fat=%s, 
-            system_company=%s, foodtypes_id=%s
+            system_company=%s, foodtypes_id=%s, additives=%s 
             where id=%s returning id""", 
             (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, datetime.now(), 
             self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.
-            system_company,  self.foodtype.id, self.id))
+            system_company,  foodtypes_id, self.additives.array_of_ids()
+            , self.id))
 
     ## Generates an string with id and system_product
     def string_id(self):
@@ -1313,26 +1324,26 @@ class ProductPersonal(Product):
         cur.close()
         return self.init__db_row(row)
 
-    #DO NOT EDIT THIS ONE COPY FROM PRODUCT AND CHANGE TABLE
-    def save(self):
-        companies_id=None if self.company==None else self.company.id
-        if self.id==None:
-            self.id=self.mem.con.cursor_one_field("""insert into personalproducts (
-                    name, amount, fat, protein, carbohydrate, companies_id, last,
-                    elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, 
-                    potassium, fiber, sugars, saturated_fat, system_company, foodtypes_id
-                    )values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning id""",  
-                    (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.last, 
-                    self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, 
-                    self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company, self.foodtype.id))
-        else:
-            self.mem.con.execute("""update personalproducts set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, last=%s,
-            elaboratedproducts_id=%s, languages=%s, calories=%s, salt=%s, cholesterol=%s, sodium=%s, potassium=%s, fiber=%s, sugars=%s, saturated_fat=%s, 
-            system_company=%s, foodtypes_id=%s
-            where id=%s""", 
-            (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, datetime.now(), 
-            self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, 
-            self.system_company,  self.foodtype.id, self.id))
+#    #DO NOT EDIT THIS ONE COPY FROM PRODUCT AND CHANGE TABLE
+#    def save(self):
+#        companies_id=None if self.company==None else self.company.id
+#        if self.id==None:
+#            self.id=self.mem.con.cursor_one_field("""insert into personalproducts (
+#                    name, amount, fat, protein, carbohydrate, companies_id, last,
+#                    elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, 
+#                    potassium, fiber, sugars, saturated_fat, system_company, foodtypes_id
+#                    )values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning id""",  
+#                    (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.last, 
+#                    self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, 
+#                    self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company, self.foodtype.id))
+#        else:
+#            self.mem.con.execute("""update personalproducts set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, last=%s,
+#            elaboratedproducts_id=%s, languages=%s, calories=%s, salt=%s, cholesterol=%s, sodium=%s, potassium=%s, fiber=%s, sugars=%s, saturated_fat=%s, 
+#            system_company=%s, foodtypes_id=%s
+#            where id=%s""", 
+#            (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, datetime.now(), 
+#            self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, 
+#            self.system_company,  self.foodtype.id, self.id))
 
     def delete(self):
         if self.is_deletable()==True:

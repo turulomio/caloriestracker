@@ -12,6 +12,9 @@ class AdditiveRisk:
         self.id=id
         self.name=self.mem.trHS(name)
         
+    def __str__(self):
+        return self.name
+        
 class AdditiveRiskManager(QObject, ObjectManager_With_IdName_Selectable):
     def __init__(self, mem):
         QObject.__init__(self)

@@ -14,7 +14,7 @@ class Ui_frmProductsAdd(object):
     def setupUi(self, frmProductsAdd):
         frmProductsAdd.setObjectName("frmProductsAdd")
         frmProductsAdd.setWindowModality(QtCore.Qt.WindowModal)
-        frmProductsAdd.resize(665, 457)
+        frmProductsAdd.resize(686, 504)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/caloriestracker/books.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         frmProductsAdd.setWindowIcon(icon)
@@ -72,6 +72,15 @@ class Ui_frmProductsAdd(object):
         self.cmbFoodtypes.setObjectName("cmbFoodtypes")
         self.horizontalLayout_4.addWidget(self.cmbFoodtypes)
         self.verticalLayout_3.addLayout(self.horizontalLayout_4)
+        self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
+        self.label_4 = QtWidgets.QLabel(frmProductsAdd)
+        self.label_4.setObjectName("label_4")
+        self.horizontalLayout_5.addWidget(self.label_4)
+        self.cmbsAdditives = cmbManagerSelector(frmProductsAdd)
+        self.cmbsAdditives.setObjectName("cmbsAdditives")
+        self.horizontalLayout_5.addWidget(self.cmbsAdditives)
+        self.verticalLayout_3.addLayout(self.horizontalLayout_5)
         self.horizontalLayout_15 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_15.setObjectName("horizontalLayout_15")
         self.groupBox = QtWidgets.QGroupBox(frmProductsAdd)
@@ -136,7 +145,9 @@ class Ui_frmProductsAdd(object):
         self.label_15.setText(_translate("frmProductsAdd", "Name of the product"))
         self.label_2.setText(_translate("frmProductsAdd", "Select a company"))
         self.label_3.setText(_translate("frmProductsAdd", "Select food type"))
+        self.label_4.setText(_translate("frmProductsAdd", "Select product additives"))
         self.groupBox.setTitle(_translate("frmProductsAdd", "Basic components information"))
         self.groupBox_2.setTitle(_translate("frmProductsAdd", "Additional information"))
+from caloriestracker.ui.frmSelector import cmbManagerSelector
 from caloriestracker.ui.myqlineedit import myQLineEditPlus
 import caloriestracker.images.caloriestracker_rc

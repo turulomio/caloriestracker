@@ -8,6 +8,9 @@ class Additive:
         self.description=self.mem.trHS(description)#Acido ...
         self.risk=risk
         
+    def __str__(self):
+        return "{}: {}".format(self.name, self.description)
+        
 class AdditiveManager(QObject, ObjectManager_With_IdName_Selectable):
     def __init__(self, mem):
         QObject.__init__(self)
@@ -26,3 +29,11 @@ def AdditiveManager_from_sql(mem, sql, sql_args=[]):
     
 def AdditiveManager_all(mem):
     return AdditiveManager_from_sql(mem, "select * from additives order by name")
+
+def AdditiveManager_from_integer_list__mem(mem, arr):
+    r=AdditiveManager(mem)
+    if arr is not None:
+        for n in arr:
+            r.append(mem.data.additives.find_by_id(n))
+    return r
+    

@@ -63,5 +63,5 @@ class ConnectionQt(QObject,Connection):
         if self.is_active()==True:
             if self._timerlastuse.isActive()==True:
                 self._timerlastuse.stop()
-        Connection.disconnect(self)
+            Connection.disconnect(self)
 

@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>665</width>
-    <height>457</height>
+    <width>686</width>
+    <height>504</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -107,6 +107,20 @@
       </layout>
      </item>
      <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Select product additives</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="cmbManagerSelector" name="cmbsAdditives" native="true"/>
+       </item>
+      </layout>
+     </item>
+     <item>
       <layout class="QHBoxLayout" name="horizontalLayout_15">
        <item>
         <widget class="QGroupBox" name="groupBox">
@@ -179,7 +193,13 @@
   <customwidget>
    <class>myQLineEditPlus</class>
    <extends>QWidget</extends>
-   <header>myqlineedit</header>
+   <header location="global">myqlineedit</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>cmbManagerSelector</class>
+   <extends>QWidget</extends>
+   <header location="global">frmSelector</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

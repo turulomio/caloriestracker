@@ -30,6 +30,7 @@ SOURCES         = \
                   caloriestracker/ui/frmSettings.py \
                   caloriestracker/ui/Ui_frmUsersAdd.py \
                   caloriestracker/ui/frmUsersAdd.py \
+                  caloriestracker/ui/frmSelector.py \
                   caloriestracker/ui/myqlineedit.py \
                   caloriestracker/ui/myqtablewidget.py \
                   caloriestracker/ui/Ui_wdgBiometrics.py \
@@ -91,6 +92,7 @@ FORMS           = \
                   caloriestracker/ui/frmFormats.ui \
                   caloriestracker/ui/frmFormatsAdd.ui \
                   caloriestracker/ui/frmMealsAdd.ui \
+                  caloriestracker/ui/frmSelector.ui \
                   caloriestracker/ui/frmSettings.ui \
                   caloriestracker/ui/frmProductsAdd.ui \
                   caloriestracker/ui/frmProductsElaboratedAdd.ui \
