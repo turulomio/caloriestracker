@@ -57,7 +57,7 @@ class frmMain(QMainWindow, Ui_frmMain):
 
     def inactivity_timeout(self):
         self.hide()
-        qmessagebox(self.tr("Disconnecting due to {} minutes of inactivity.".format(self.mem.con.inactivity_timeout_minutes)))
+        qmessagebox(self.tr("Disconnecting due to {} minutes of inactivity.".format(self.mem.con.connectionTimeout()/60)))
         self.on_actionExit_triggered()
 
 

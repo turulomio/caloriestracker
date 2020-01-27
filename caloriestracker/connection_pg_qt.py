@@ -5,57 +5,63 @@
 import datetime
 from PyQt5.QtCore import QObject,  pyqtSignal,  QTimer
 from .connection_pg import Connection
+from logging import debug
 
 class ConnectionQt(QObject,Connection):
     inactivity_timeout=pyqtSignal()
     def __init__(self):
         Connection.__init__(self)
         QObject.__init__(self)
-        self.restart_timeout()
-        self.inactivity_timeout_minutes=30
+        self._timerlastuse = QTimer()
+        self._timerlastuse.timeout.connect(self._check_inactivity)
+        self._inactivity_timeout_seconds=30*60
 
     def _check_inactivity(self):
-        if datetime.datetime.now()-self._lastuse>datetime.timedelta(minutes=self.inactivity_timeout_minutes):
+        if datetime.datetime.now()-self._lastuse>datetime.timedelta(seconds=self._inactivity_timeout_seconds):
             self.disconnect()
-            self._timerlastuse.stop()
+            debug("Disconnected due to inactivity")
             self.inactivity_timeout.emit()
-        print ("Remaining time {}".format(self._lastuse+datetime.timedelta(minutes=self.inactivity_timeout_minutes)-datetime.datetime.now()))
+        else:
+            self._timerlastuse.start(self._inactivity_timeout_seconds*1000/5)
+            debug("Connection remaining time: {}".format(self._lastuse+datetime.timedelta(seconds=self._inactivity_timeout_seconds)-datetime.datetime.now()))
+
+    ## Returns the number of seconds of the timeout
+    def connectionTimeout(self):
+        return self._inactivity_timeout_seconds
+
+    ## @param seconds int with the number of connection timeout limit
+    def setConnectionTimeout(self, seconds):
+        self._inactivity_timeout_seconds=seconds
 
     def cursor(self):
-        self.restart_timeout()#Datetime who saves the las use of connection
+        self._lastuse=datetime.datetime.now()
         return self._con.cursor()
 
-    def restart_timeout(self):
-        """Resets timeout, usefull in long process without database connections"""
-        self._lastuse=datetime.datetime.now()
-
     def cursor_one_row(self, sql, arr=[]):
-        """Returns only one row"""
-        self.restart_timeout()
+        self._lastuse=datetime.datetime.now()
         return super().cursor_one_row(sql, arr)
 
+    def execute(self, sql, arr=[]):
+        self._lastuse=datetime.datetime.now()
+        return super().execute(sql, arr)
+
     def cursor_one_column(self, sql, arr=[]):
-        """Returns un array with the results of the column"""
-        self.restart_timeout()
+        self._lastuse=datetime.datetime.now()
         return super().cursor_one_column(sql, arr)
 
     def cursor_one_field(self, sql, arr=[]):
-        """Returns only one field"""
-        self.restart_timeout()
+        self._lastuse=datetime.datetime.now()
         return super().cursor_one_field(sql, arr)
 
-        
     def connect(self, connection_string=None):
         """Used in code to connect using last self.strcon"""
         super().connect(connection_string)
-        self.restart_timeout()
-        self._timerlastuse = QTimer()
-        self._timerlastuse.timeout.connect(self._check_inactivity)
-        self._timerlastuse.start(300000)
+        self._lastuse=datetime.datetime.now()
+        self._check_inactivity()
 
     def disconnect(self):
-        self._active=False
-        if self._timerlastuse.isActive()==True:
-            self._timerlastuse.stop()
-        self._con.close()
+        if self.is_active()==True:
+            if self._timerlastuse.isActive()==True:
+                self._timerlastuse.stop()
+        Connection.disconnect(self)
 

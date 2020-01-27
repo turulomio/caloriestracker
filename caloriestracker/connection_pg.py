@@ -110,18 +110,20 @@ class Connection:
             s=connection_string
         try:
             self._con=DictConnection(s)
+            self.init=datetime.now()
+            self._active=True
         except OperationalError as e:
             print('Unable to connect: {}'.format(e))
-        self.init=datetime.now()
+            self._active=False
 
     def disconnect(self):
-        self._con.close()
+        if self.is_active()==True:
+            self._con.close()
+        self._active=False
 
     ##Returns if connection is active
     def is_active(self):
-        if self._con==None:
-            return False
-        return True
+        return self._active
 
     def is_superuser(self):
         """Checks if the user has superuser role"""
