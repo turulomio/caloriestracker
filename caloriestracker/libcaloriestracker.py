@@ -1327,7 +1327,7 @@ class Product(QObject):
             if self.elaboratedproducts_id==None:
                 return QIcon(":/caloriestracker/meal.png")
             else:
-                return QIcon(":/caloriestracker/keko.png")
+                return QIcon(":/caloriestracker/cooking.svg")
 
 ## ONLY CHANGES table name
 class ProductPersonal(Product):
