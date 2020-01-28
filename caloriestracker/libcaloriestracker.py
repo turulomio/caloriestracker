@@ -443,7 +443,7 @@ class ProductElaborated:
             debug("I did not delete the elaborated product because is not deletable")
             
     def qicon(self):
-        return QIcon(":/caloriestracker/keko.png")
+        return QIcon(":/caloriestracker/cooking.svg")
         
 
 class ProductElaboratedManager(QObject, ObjectManager_With_IdName_Selectable):
@@ -1011,7 +1011,7 @@ class CompanySystem:
 
     def qicon(self):
         if self.system_company==True:
-            return QIcon(":/caloriestracker/companies.png")
+            return QIcon(":/caloriestracker/company.svg")
         else:
             return QIcon(":/caloriestracker/hucha.png")
     ## Generates an string with id and system_product
@@ -1159,7 +1159,7 @@ class Product(QObject):
             
     def risk_qicon(self):
         if self.risk()==None:
-            return QIcon(":/caloriestracker/empty.svg")
+            return QIcon(":/caloriestracker/circle_white.svg")
         return self.risk().qicon()
 
     ## ESTA FUNCION VA AUMENTANDO STATUS SIN MOLESTAR LOS ANTERIORES, SOLO CARGA CUANDO stsatus_to es mayor que self.status

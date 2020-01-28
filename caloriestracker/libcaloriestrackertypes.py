@@ -3,6 +3,8 @@
 from PyQt5.QtGui import QColor
 
 class eAdditiveRisk:
+    NotEvaluated=-1
+    NoRisk=0
     Low=1
     Medium=2
     High=3

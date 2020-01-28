@@ -22,8 +22,13 @@ class AdditiveRisk:
             return QIcon(":/caloriestracker/circle_green.svg")
         elif self.id==eAdditiveRisk.Medium:
             return QIcon(":/caloriestracker/circle_yellow.svg")
+        elif self.id==eAdditiveRisk.NoRisk:
+            return QIcon(":/caloriestracker/circle_white.svg")
+        elif self.id==eAdditiveRisk.NotEvaluated:
+            return QIcon(":/caloriestracker/circle_gray.svg")
         else:
             return QIcon(":/caloriestracker/circle_red.svg")
+
 class AdditiveRiskManager(QObject, ObjectManager_With_IdName_Selectable):
     def __init__(self, mem):
         QObject.__init__(self)

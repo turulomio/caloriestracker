@@ -1,8 +1,10 @@
 <RCC>
   <qresource prefix="/caloriestracker">
+    <file>company.svg</file>
+    <file>user.svg</file>
+    <file>users.svg</file>
     <file>cube.png</file>
     <file>biometrics.png</file>
-    <file>companies.png</file>
     <file>meal.png</file>
     <file>meals.svg</file>
     <file>caloriestracker.svg</file>
@@ -21,6 +23,7 @@
     <file>circle_white.svg</file>
     <file>cloud_download.png</file>
     <file>cloud_download_needed.png</file>
+    <file>cooking.svg</file>
     <file>dividends_biggest.png</file>
     <file>dividends.png</file>
     <file>empty.svg</file>

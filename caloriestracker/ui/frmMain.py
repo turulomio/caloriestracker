@@ -132,6 +132,12 @@ class frmMain(QMainWindow, Ui_frmMain):
         self.w=wdgUsers(self.mem,  self)
         self.layout.addWidget(self.w)
         self.w.show()
+        
+    @pyqtSlot()  
+    def on_actionUserCurrent_triggered(self):
+        from caloriestracker.ui.frmUsersAdd import frmUsersAdd
+        w=frmUsersAdd(self.mem, self.mem.data.users.selected, self)
+        w.exec_()
 
     @pyqtSlot()  
     def on_actionCuriosities_triggered(self):
