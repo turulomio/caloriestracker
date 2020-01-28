@@ -2,6 +2,11 @@
 ## @brief Package with all xulpymoney types.
 from PyQt5.QtGui import QColor
 
+class eAdditiveRisk:
+    Low=1
+    Medium=2
+    High=3
+
 ## Class with used QColors in app
 class eQColor:
     Red=QColor(255, 148, 148)

@@ -255,14 +255,14 @@ class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
         table.setColumnCount(10)
         table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Name")))
         table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Company")))
-        table.setHorizontalHeaderItem(2, QTableWidgetItem(self.tr("Last update")))
-        table.setHorizontalHeaderItem(3, QTableWidgetItem(self.tr("Grams")))
-        table.setHorizontalHeaderItem(4, QTableWidgetItem(self.tr("Calories")))
-        table.setHorizontalHeaderItem(5, QTableWidgetItem(self.tr("Carbohydrates")))
-        table.setHorizontalHeaderItem(6, QTableWidgetItem(self.tr("Protein")))
-        table.setHorizontalHeaderItem(7, QTableWidgetItem(self.tr("Fat")))
-        table.setHorizontalHeaderItem(8, QTableWidgetItem(self.tr("Fiber")))
-        table.setHorizontalHeaderItem(9, QTableWidgetItem(self.tr("Food type")))
+        table.setHorizontalHeaderItem(2, QTableWidgetItem(self.tr("Food type")))
+        table.setHorizontalHeaderItem(3, QTableWidgetItem(self.tr("Last update")))
+        table.setHorizontalHeaderItem(4, QTableWidgetItem(self.tr("Grams")))
+        table.setHorizontalHeaderItem(5, QTableWidgetItem(self.tr("Calories")))
+        table.setHorizontalHeaderItem(6, QTableWidgetItem(self.tr("Carbohydrates")))
+        table.setHorizontalHeaderItem(7, QTableWidgetItem(self.tr("Protein")))
+        table.setHorizontalHeaderItem(8, QTableWidgetItem(self.tr("Fat")))
+        table.setHorizontalHeaderItem(9, QTableWidgetItem(self.tr("Fiber")))
    
         table.applySettings()
         table.clearContents()
@@ -276,17 +276,21 @@ class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
                 company=o.company.fullName()
                 
             table.setItem(i, 1, qleft(company))
-            table.setItem(i, 2, qdatetime(o.last, self.mem.localzone))
-            table.setItem(i, 3, qnumber(100))
-            table.setItem(i, 4, qnumber(o.component_in_100g(eProductComponent.Calories)))
-            table.setItem(i, 5, qnumber(o.component_in_100g(eProductComponent.Carbohydrate)))
-            table.setItem(i, 6, qnumber(o.component_in_100g(eProductComponent.Protein)))
-            table.setItem(i, 7, qnumber(o.component_in_100g(eProductComponent.Fat)))
-            table.setItem(i, 8, qnumber(o.component_in_100g(eProductComponent.Fiber)))
+            
             if o.foodtype==None:
-                table.setItem(i, 9, qempty())
+                table.setItem(i, 2, qempty())
             else:
-                table.setItem(i, 9, qleft(o.foodtype.name))
+                table.setItem(i, 2, qleft(o.foodtype.name))
+                if o.risk() is not None:
+                    table.item(i, 2).setIcon(o.risk().qicon())
+                
+            table.setItem(i, 3, qdatetime(o.last, self.mem.localzone))
+            table.setItem(i, 4, qnumber(100))
+            table.setItem(i, 5, qnumber(o.component_in_100g(eProductComponent.Calories)))
+            table.setItem(i, 6, qnumber(o.component_in_100g(eProductComponent.Carbohydrate)))
+            table.setItem(i, 7, qnumber(o.component_in_100g(eProductComponent.Protein)))
+            table.setItem(i, 8, qnumber(o.component_in_100g(eProductComponent.Fat)))
+            table.setItem(i, 9, qnumber(o.component_in_100g(eProductComponent.Fiber)))
 
     ## Removes a product and return a boolean. NO HACE COMMIT
     def remove(self, o):
@@ -1140,6 +1144,20 @@ class Product(QObject):
 
     def __repr__(self):
         return self.fullName()
+
+
+    ## Returns the highest risk of its additives. It's product's risk
+    def risk(self):
+        risk=None
+        for additive in self.additives.arr:
+            if additive.risk is not None:
+                if risk==None:
+                    risk=additive.risk
+                else:
+                    if risk.id<additive.risk.id:
+                        risk=additive.risk
+        return risk
+            
 
     ## ESTA FUNCION VA AUMENTANDO STATUS SIN MOLESTAR LOS ANTERIORES, SOLO CARGA CUANDO stsatus_to es mayor que self.status
     ## @param statusneeded  Integer with the status needed 

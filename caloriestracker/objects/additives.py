@@ -1,5 +1,7 @@
 from PyQt5.QtCore import QObject
+from PyQt5.QtGui import QIcon
 from caloriestracker.libmanagers import ObjectManager_With_IdName_Selectable
+
 class Additive:
     def __init__(self, mem, id=None, name=None, description=None, risk=None):
         self.mem=mem
@@ -10,6 +12,12 @@ class Additive:
         
     def __str__(self):
         return "{}: {}".format(self.name, self.description)
+        
+    def qicon(self):
+        if self.risk==None:
+            return QIcon()
+        return self.risk.qicon()
+        
         
 class AdditiveManager(QObject, ObjectManager_With_IdName_Selectable):
     def __init__(self, mem):

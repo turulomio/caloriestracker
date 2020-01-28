@@ -72,18 +72,27 @@ class wdgManagerSelector(QWidget):
         self.laybuttons.addWidget(self.cmdDown)
         self.laybuttons.setAlignment(Qt.AlignVCenter)
         
+        self.cmdDown.hide()
+        self.cmdUp.hide()
+        
         self.lay=QHBoxLayout(self)
         self.lay.addWidget(self.tbl)
         self.lay.addLayout(self.laybuttons)
         self.lay.addWidget(self.tblSelected)
         
         self.setObjectName("wdgManagerSelector")
+        
+        self._showObjectIcons=True
 
 
     ## Hides Up and Down button
-    def hideUpDown(self):
-        self.cmdDown.hide()
-        self.cmdUp.hide()
+    def showUpDown(self):
+        self.cmdDown.show()
+        self.cmdUp.show()
+        
+    ## By default is True. Show Icons y tables and combobox 
+    def showObjectIcons(self, boolean):
+        self._showObjectIcons=boolean
         
     def setManagers(self, mem, section,  objectname, manager, selected, *initparams):
         self.mem=mem
@@ -118,6 +127,8 @@ class wdgManagerSelector(QWidget):
         self.tblSelected.setRowCount(self.selected.length())
         for i, o in enumerate(self.selected.arr):
             self.tblSelected.setItem(i, 0, QTableWidgetItem(str(o)))
+            if self._showObjectIcons==True:
+                self.tblSelected.item(i, 0).setIcon(o.qicon())
         
     def _load_tbl(self):  
         self.tbl.setColumnCount(1)
@@ -125,7 +136,9 @@ class wdgManagerSelector(QWidget):
         self.tbl.applySettings()
         self.tbl.setRowCount(self.manager.length())
         for i, o in enumerate(self.manager.arr):
-                self.tbl.setItem(i, 0, QTableWidgetItem(str(o)))
+            self.tbl.setItem(i, 0, QTableWidgetItem(str(o)))
+            if self._showObjectIcons==True:
+                self.tbl.item(i, 0).setIcon(o.qicon())
 
     def on_cmdLeft_released(self):
         for i in self.tblSelected.selectedItems():
@@ -205,12 +218,20 @@ class cmbManagerSelector(QWidget):
         
         self.cmd.released.connect(self.on_cmd_released)
         self.setIcons()
+        self._showObjectIcons=True
         
+    ## By default is True. Show Icons y tables and combobox 
+    def showObjectIcons(self, boolean):
+        self._showObjectIcons=boolean
+
     def on_cmd_released(self):
         self.frm.exec_()
         self.combo.clear()
         for o in self.frm.widget.selected.arr:
-            self.combo.addItem(str(o))
+            if self._showObjectIcons==True:
+                self.combo.addItem(o.qicon(), str(o))
+            else:
+                self.combo.addItem(str(o))
             
     ## Set widget icons from resources strings
     def setIcons(self, rsButton=":search"):
@@ -223,7 +244,10 @@ class cmbManagerSelector(QWidget):
         self.frm.setManagers(mem, section, objectname, manager, selected, *initparams)
         if selected!=None:
             for o in selected.arr:
-                self.combo.addItem(str(o))
+                if self._showObjectIcons==True:
+                    self.combo.addItem(o.qicon(), str(o))
+                else:
+                    self.combo.addItem(str(o))
 
     ## Returns the selected manager
     def selected(self):
@@ -240,6 +264,9 @@ if __name__ == '__main__':
         def __init__(self, id=None, name=None):
             self.id=id
             self.name=name
+            
+        def qicon(self):
+            return QIcon(":/prueba.svg")
     
     class PruebaManager(ObjectManager_With_IdName):
         def __init__(self):

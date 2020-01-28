@@ -1,5 +1,7 @@
 from PyQt5.QtCore import QObject
+from PyQt5.QtGui import QIcon
 from caloriestracker.libmanagers import ObjectManager_With_IdName_Selectable
+from caloriestracker.libcaloriestrackertypes import eAdditiveRisk
 
 ## https://www.aditivos-alimentarios.com/2016/01/E260.html
 
@@ -15,6 +17,13 @@ class AdditiveRisk:
     def __str__(self):
         return self.name
         
+    def qicon(self):
+        if self.id==eAdditiveRisk.Low:
+            return QIcon(":/caloriestracker/circle_green.svg")
+        elif self.id==eAdditiveRisk.Medium:
+            return QIcon(":/caloriestracker/circle_yellow.svg")
+        else:
+            return QIcon(":/caloriestracker/circle_red.svg")
 class AdditiveRiskManager(QObject, ObjectManager_With_IdName_Selectable):
     def __init__(self, mem):
         QObject.__init__(self)
