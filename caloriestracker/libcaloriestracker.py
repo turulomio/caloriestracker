@@ -278,11 +278,10 @@ class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
             table.setItem(i, 1, qleft(company))
             
             if o.foodtype==None:
-                table.setItem(i, 2, qempty())
+                table.setItem(i, 2, qleft(""))
             else:
                 table.setItem(i, 2, qleft(o.foodtype.name))
-                if o.risk() is not None:
-                    table.item(i, 2).setIcon(o.risk().qicon())
+            table.item(i, 2).setIcon(o.risk_qicon())
                 
             table.setItem(i, 3, qdatetime(o.last, self.mem.localzone))
             table.setItem(i, 4, qnumber(100))
@@ -1158,6 +1157,10 @@ class Product(QObject):
                         risk=additive.risk
         return risk
             
+    def risk_qicon(self):
+        if self.risk()==None:
+            return QIcon(":/caloriestracker/empty.svg")
+        return self.risk().qicon()
 
     ## ESTA FUNCION VA AUMENTANDO STATUS SIN MOLESTAR LOS ANTERIORES, SOLO CARGA CUANDO stsatus_to es mayor que self.status
     ## @param statusneeded  Integer with the status needed 
