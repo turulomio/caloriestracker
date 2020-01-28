@@ -1,0 +1,20 @@
+<?xml version="1.0"?><svg width="386" height="386" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <title>White circle icon</title>
+ <defs>
+  <linearGradient id="linearGradient1702">
+   <stop id="stop1703" offset="0" stop-opacity="0.690722" stop-color="#ffffff"/>
+   <stop id="stop1704" offset="1" stop-opacity="0" stop-color="#ffffff"/>
+  </linearGradient>
+  <linearGradient id="linearGradient1697">
+   <stop id="stop1698" offset="0" stop-color="#0e56db"/>
+   <stop id="stop1699" offset="1" stop-color="#071176"/>
+  </linearGradient>
+  <linearGradient id="linearGradient1077" x1="0.491802" x2="0.491802" xlink:href="#linearGradient1697" y1="0.077665" y2="0.933375"/>
+  <linearGradient id="linearGradient1078" x1="0.478621" x2="0.482604" xlink:href="#linearGradient1702" y1="-0.037714" y2="1.321203"/>
+ </defs>
+ <g>
+  <path d="m382.368164,193.390503c0.045868,105.189728 -85.213928,190.487274 -190.403671,190.487274c-105.18972,0 -190.449802,-85.297546 -190.403673,-190.487274c-0.046129,-105.18972 85.213953,-190.486983 190.403673,-190.486983c105.189743,0 190.449539,85.297263 190.403671,190.486983z" id="path1070" stroke-dashoffset="0" stroke-miterlimit="4" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.364453" stroke="url(#linearGradient1077)" fill-rule="nonzero" fill="#e0e0e0"/>
+  <path d="m330.278198,143.236725c44.367188,-0.966797 -12.400146,-123.152874 -135.681015,-123.802784c-134.561523,-0.68712 -162.095943,110.961353 -140.719452,112.997211c0,0 36.864166,5.062622 71.939575,14.856079c56.472656,15.930817 125.549149,-13.069244 152.768753,-17.2836c30.342468,-4.697876 47.373413,15.392426 51.692139,13.233093z" id="path1713" stroke-width="0.25000000pt" fill-rule="evenodd" fill="url(#linearGradient1078)" opacity="0.9"/>
+  <title>Layer 1</title>
+ </g>
+</svg>
