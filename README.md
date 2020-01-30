@@ -2,11 +2,11 @@ Links
 =====
 * [Project web page](doc/CONTENTS.md)
 
-* User documentation: [https://turulomio.github.io/caloriestrackerpages/](https://turulomio.github.io/caloriestrackerpages/)
+* [User documentation](https://turulomio.github.io/caloriestrackerpages/)
 
-* API documentation: [http://turulomio.users.sourceforge.net/doxygen/caloriestracker/](http://turulomio.users.sourceforge.net/doxygen/caloriestracker/)
+* [API documentation](http://turulomio.users.sourceforge.net/doxygen/caloriestracker/)
 
-* Pypi web page: [https://pypi.org/project/caloriestracker/](https://pypi.org/project/caloriestracker/)
+* [Pypi web page](https://pypi.org/project/caloriestracker/)
 
 Snapshots
 =========
