@@ -1,51 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="ru" sourcelanguage="en">
+<!DOCTYPE TS>
+<TS version="2.1" language="ru" sourcelanguage="en">
 <context>
     <name>ActivityManager</name>
     <message>
         <location filename="../libcaloriestracker.py" line="48"/>
         <source>Sedentary</source>
-        <translation type="unfinished"></translation>
+        <translation>Cидячий</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="48"/>
         <source>If you get minimal or no exercise</source>
-        <translation type="unfinished"></translation>
+        <translation>Если вы испытываете минимальные физические нагрузки</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="49"/>
         <source>Lightly active</source>
-        <translation type="unfinished"></translation>
+        <translation>Слегка активный</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="50"/>
         <source>If you exercise moderately three to five days a week</source>
-        <translation type="unfinished"></translation>
+        <translation>Если вы тренируетесь умеренно три-пять дней в неделю</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="50"/>
         <source>Moderately active</source>
-        <translation type="unfinished"></translation>
+        <translation>Умеренно активный</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="51"/>
         <source>Very active</source>
-        <translation type="unfinished"></translation>
+        <translation>Очень активный</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="51"/>
         <source>If you engage in hard exercise six to seven days a week</source>
-        <translation type="unfinished"></translation>
+        <translation>Если вы занимаетесь тяжелыми упражнениями шесть-семь дней в неделю</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="52"/>
         <source>Extra active</source>
-        <translation type="unfinished"></translation>
+        <translation>Экстремально активный</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="52"/>
         <source>If you engage in very hard exercise six to seven days a week or have a physical job</source>
-        <translation type="unfinished"></translation>
+        <translation>Если вы занимаетесь очень тяжелыми физическими упражнениями шесть-семь дней в неделю или тяжёлой физическаой работой</translation>
     </message>
 </context>
 <context>
@@ -53,42 +54,43 @@
     <message>
         <location filename="../libcaloriestracker.py" line="940"/>
         <source>Date and time</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата и время</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="941"/>
         <source>Weight</source>
-        <translation type="unfinished"></translation>
+        <translation>Вес</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="942"/>
         <source>Height</source>
-        <translation type="unfinished"></translation>
+        <translation>Рост</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="943"/>
         <source>Activity</source>
-        <translation type="unfinished"></translation>
+        <translation>Активность</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="944"/>
         <source>weightwish</source>
-        <translation type="unfinished"></translation>
+        <translation>желаемый вес</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="945"/>
         <source>Situation</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Текущее состояние?</translatorcomment>
+        <translation>Ситуация</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="924"/>
         <source>Loading {0} biometric data from database</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка {0} биометрических данных из базы</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="927"/>
         <source>Loading biometric data...</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка биометрических данных...</translation>
     </message>
 </context>
 <context>
@@ -96,22 +98,24 @@
     <message>
         <location filename="../libcaloriestracker.py" line="1067"/>
         <source>Company name</source>
-        <translation type="unfinished"></translation>
+        <translation>Название компании</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="1068"/>
         <source>Products</source>
-        <translation type="unfinished"></translation>
+        <translation>Продукты</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="1080"/>
         <source>Table</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>?</translatorcomment>
+        <translation>Таблица</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="1081"/>
         <source>Number of registers</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>? Регистров? </translatorcomment>
+        <translation>Количество записей</translation>
     </message>
 </context>
 <context>
@@ -119,17 +123,17 @@
     <message>
         <location filename="../libcaloriestracker.py" line="188"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="189"/>
         <source>Number of products</source>
-        <translation type="unfinished"></translation>
+        <translation>Количество продуктов</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="190"/>
         <source>Last update</source>
-        <translation type="unfinished"></translation>
+        <translation>Последнее обновление</translation>
     </message>
 </context>
 <context>
@@ -137,12 +141,12 @@
     <message>
         <location filename="../libcaloriestracker.py" line="122"/>
         <source>Loading {0} personal companies from database</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка {0} персональных компаний из базы</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="125"/>
         <source>Loading personal companies...</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка персональных компаний...</translation>
     </message>
 </context>
 <context>
@@ -163,47 +167,47 @@
     <message>
         <location filename="../ui/myqtablewidget.py" line="305"/>
         <source>True</source>
-        <translation type="unfinished"></translation>
+        <translation>Правда</translation>
     </message>
     <message>
         <location filename="../ui/myqtablewidget.py" line="308"/>
         <source>False</source>
-        <translation type="unfinished"></translation>
+        <translation>Ложь</translation>
     </message>
     <message>
         <location filename="../datetime_functions.py" line="54"/>
         <source>year</source>
-        <translation type="unfinished"></translation>
+        <translation>год</translation>
     </message>
     <message>
         <location filename="../datetime_functions.py" line="56"/>
         <source>years</source>
-        <translation type="unfinished"></translation>
+        <translation>лет</translation>
     </message>
     <message>
         <location filename="../datetime_functions.py" line="58"/>
         <source>month</source>
-        <translation type="unfinished"></translation>
+        <translation>месяц</translation>
     </message>
     <message>
         <location filename="../datetime_functions.py" line="60"/>
         <source>months</source>
-        <translation type="unfinished"></translation>
+        <translation>месяцев</translation>
     </message>
     <message>
         <location filename="../datetime_functions.py" line="62"/>
         <source>day</source>
-        <translation type="unfinished"></translation>
+        <translation>день</translation>
     </message>
     <message>
         <location filename="../datetime_functions.py" line="64"/>
         <source>days</source>
-        <translation type="unfinished"></translation>
+        <translation>дней</translation>
     </message>
     <message>
         <location filename="../datetime_functions.py" line="65"/>
         <source>{} {}, {} {} and {} {}</source>
-        <translation type="unfinished"></translation>
+        <translation>{} {}, {} {} и {} {}</translation>
     </message>
 </context>
 <context>
@@ -211,7 +215,7 @@
     <message>
         <location filename="../libcaloriestracker.py" line="1378"/>
         <source> ({} g)</source>
-        <translation type="unfinished"></translation>
+        <translation> ({} г)</translation>
     </message>
 </context>
 <context>
@@ -219,12 +223,12 @@
     <message>
         <location filename="../libcaloriestracker.py" line="1428"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Название</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="1429"/>
         <source>Grams</source>
-        <translation type="unfinished"></translation>
+        <translation>Граммы</translation>
     </message>
 </context>
 <context>
@@ -232,12 +236,12 @@
     <message>
         <location filename="../hardcoded_strings.py" line="5"/>
         <source>Banana</source>
-        <translation type="unfinished"></translation>
+        <translation>Банан</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="8"/>
         <source>Bread</source>
-        <translation type="unfinished"></translation>
+        <translation>Хлеб</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="17"/>
@@ -247,14 +251,14 @@
     <message>
         <location filename="../hardcoded_strings.py" line="34"/>
         <source>Kiwi</source>
-        <translation type="unfinished"></translation>
+        <translation>Киви</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="45"/>
         <source>Palmera de chocolate</source>
         <translation type="unfinished"></translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../hardcoded_strings.py" line="49"/>
         <source>Pimientos de padrón</source>
         <translation type="unfinished"></translation>
@@ -262,37 +266,37 @@
     <message>
         <location filename="../hardcoded_strings.py" line="38"/>
         <source>Mango</source>
-        <translation type="unfinished"></translation>
+        <translation>Манго</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="2"/>
         <source>Alcohol-free beer</source>
-        <translation type="unfinished"></translation>
+        <translation>Безалкогольное пиво</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="3"/>
         <source>Apple</source>
-        <translation type="unfinished"></translation>
+        <translation>Яблоко</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="6"/>
         <source>Blueberries</source>
-        <translation type="unfinished"></translation>
+        <translation>Голубика</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="7"/>
         <source>Boiled egg</source>
-        <translation type="unfinished"></translation>
+        <translation>Варёное яйцо</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="9"/>
         <source>Butter</source>
-        <translation type="unfinished"></translation>
+        <translation>Масло</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="10"/>
         <source>Carrot</source>
-        <translation type="unfinished"></translation>
+        <translation>Морковь</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="12"/>
@@ -302,12 +306,13 @@
     <message>
         <location filename="../hardcoded_strings.py" line="13"/>
         <source>Chestnuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Каштаны</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="15"/>
         <source>Chips</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>(картофель фри?)</translatorcomment>
+        <translation>Чипсы</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="16"/>
@@ -317,7 +322,7 @@
     <message>
         <location filename="../hardcoded_strings.py" line="18"/>
         <source>Croissant</source>
-        <translation type="unfinished"></translation>
+        <translation>Круассан</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="19"/>
@@ -327,7 +332,7 @@
     <message>
         <location filename="../hardcoded_strings.py" line="98"/>
         <source>Eggs</source>
-        <translation type="unfinished"></translation>
+        <translation>Яйца</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="21"/>
@@ -337,72 +342,73 @@
     <message>
         <location filename="../hardcoded_strings.py" line="22"/>
         <source>Fried eggs</source>
-        <translation type="unfinished"></translation>
+        <translation>Жаренное яйцо</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="23"/>
         <source>Fried peanuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Жареный арахис</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="24"/>
         <source>Garlic</source>
-        <translation type="unfinished"></translation>
+        <translation>Чеснок</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="25"/>
         <source>Goat cheese</source>
-        <translation type="unfinished"></translation>
+        <translation>Козий сыр</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="26"/>
         <source>Grape</source>
-        <translation type="unfinished"></translation>
+        <translation>Виноград</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="27"/>
         <source>Green asparagus</source>
-        <translation type="unfinished"></translation>
+        <translation>Зелёная спаржа</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="28"/>
         <source>Green pepper</source>
-        <translation type="unfinished"></translation>
+        <translation>Зеленый перец</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="29"/>
         <source>Ham</source>
-        <translation type="unfinished"></translation>
+        <translation>Ветчина</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="30"/>
         <source>Ham croquettes</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>?</translatorcomment>
+        <translation>Ветчинные котлеты</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="31"/>
         <source>Honey</source>
-        <translation type="unfinished"></translation>
+        <translation>Мёд</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="32"/>
         <source>Ice cream</source>
-        <translation type="unfinished"></translation>
+        <translation>Мороженное</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="33"/>
         <source>Jam</source>
-        <translation type="unfinished"></translation>
+        <translation>Джем</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="35"/>
         <source>Lambrusco wine</source>
-        <translation type="unfinished"></translation>
+        <translation>Ламбрусское вино</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="36"/>
         <source>Leek</source>
-        <translation type="unfinished"></translation>
+        <translation>Лук-порей</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="37"/>
@@ -412,162 +418,162 @@
     <message>
         <location filename="../hardcoded_strings.py" line="39"/>
         <source>Mascarpone cheese</source>
-        <translation type="unfinished"></translation>
+        <translation>Сыр Маскарпоне</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="40"/>
         <source>Mayonnaise</source>
-        <translation type="unfinished"></translation>
+        <translation>Майонез</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="41"/>
         <source>Minced meat</source>
-        <translation type="unfinished"></translation>
+        <translation>Мясной фарш</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="42"/>
         <source>Mushrooms (Fungi)</source>
-        <translation type="unfinished"></translation>
+        <translation>Грибы</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="43"/>
         <source>Nectarine</source>
-        <translation type="unfinished"></translation>
+        <translation>Нектарин</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="44"/>
         <source>Onion</source>
-        <translation type="unfinished"></translation>
+        <translation>Лук</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="47"/>
         <source>Pear</source>
-        <translation type="unfinished"></translation>
+        <translation>Груша</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="48"/>
         <source>Persimmon</source>
-        <translation type="unfinished"></translation>
+        <translation>Хурма</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="50"/>
         <source>Plantain</source>
-        <translation type="unfinished"></translation>
+        <translation>Плантан</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="51"/>
         <source>Pork ribs</source>
-        <translation type="unfinished"></translation>
+        <translation>Свиные рёбра</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="52"/>
         <source>Prawns</source>
-        <translation type="unfinished"></translation>
+        <translation>Креветки</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="54"/>
         <source>Roast lamb</source>
-        <translation type="unfinished"></translation>
+        <translation>Жаренная баранина</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="55"/>
         <source>Rum</source>
-        <translation type="unfinished"></translation>
+        <translation>Ром</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="56"/>
         <source>Salt</source>
-        <translation type="unfinished"></translation>
+        <translation>Соль</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="57"/>
         <source>Sandwich loaf</source>
-        <translation type="unfinished"></translation>
+        <translation>Хлеб для сендвича</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="58"/>
         <source>Saturn peach</source>
-        <translation type="unfinished"></translation>
+        <translation>Плоский персик</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="59"/>
         <source>Spanish omelette</source>
-        <translation type="unfinished"></translation>
+        <translation>Испанский омлет</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="60"/>
         <source>Strawberry jam</source>
-        <translation type="unfinished"></translation>
+        <translation>Клубничный джем</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="61"/>
         <source>Sugar</source>
-        <translation type="unfinished"></translation>
+        <translation>Сахар</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="62"/>
         <source>Sunflower oil</source>
-        <translation type="unfinished"></translation>
+        <translation>Подсолнечное масло</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="63"/>
         <source>Tangerines</source>
-        <translation type="unfinished"></translation>
+        <translation>Тангерины</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="64"/>
         <source>Thick Crust Pizza with cheese</source>
-        <translation type="unfinished"></translation>
+        <translation>Пицца с сыром</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="65"/>
         <source>Uncooked patato</source>
-        <translation type="unfinished"></translation>
+        <translation>Сырой картофель</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="66"/>
         <source>Uncooked rice</source>
-        <translation type="unfinished"></translation>
+        <translation>Сырой рис</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="110"/>
         <source>Water</source>
-        <translation type="unfinished"></translation>
+        <translation>Вода</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="68"/>
         <source>White bread</source>
-        <translation type="unfinished"></translation>
+        <translation>Белый хлеб</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="69"/>
         <source>Whole milk</source>
-        <translation type="unfinished"></translation>
+        <translation>Молоко</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="72"/>
         <source>Bag</source>
-        <translation type="unfinished"></translation>
+        <translation>Пакет</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="73"/>
         <source>Bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Плитка</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="74"/>
         <source>Big</source>
-        <translation type="unfinished"></translation>
+        <translation>Большой</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="76"/>
         <source>Can</source>
-        <translation type="unfinished"></translation>
+        <translation>Банка</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="77"/>
         <source>Can 33cl</source>
-        <translation type="unfinished"></translation>
+        <translation>Банка 330 мл</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="79"/>
@@ -582,57 +588,57 @@
     <message>
         <location filename="../hardcoded_strings.py" line="83"/>
         <source>Medium</source>
-        <translation type="unfinished"></translation>
+        <translation>Средний</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="84"/>
         <source>Package</source>
-        <translation type="unfinished"></translation>
+        <translation>Набор</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="85"/>
         <source>Pill</source>
-        <translation type="unfinished"></translation>
+        <translation>Таблетка</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="86"/>
         <source>Slice</source>
-        <translation type="unfinished"></translation>
+        <translation>Ломтик</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="87"/>
         <source>Toast</source>
-        <translation type="unfinished"></translation>
+        <translation>Тост</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="88"/>
         <source>Tray</source>
-        <translation type="unfinished"></translation>
+        <translation>Лоток</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="89"/>
         <source>Unit</source>
-        <translation type="unfinished"></translation>
+        <translation>Единица</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="90"/>
         <source>Vacuum container</source>
-        <translation type="unfinished"></translation>
+        <translation>Вакуумный контейнер</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="4"/>
         <source>Bacon</source>
-        <translation type="unfinished"></translation>
+        <translation>Бекон</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="11"/>
         <source>Cauliflower</source>
-        <translation type="unfinished"></translation>
+        <translation>Цветная капуста</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="14"/>
         <source>Chicken. Raw</source>
-        <translation type="unfinished"></translation>
+        <translation>Сырая курица</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="46"/>
@@ -642,107 +648,107 @@
     <message>
         <location filename="../hardcoded_strings.py" line="53"/>
         <source>Pumpkin</source>
-        <translation type="unfinished"></translation>
+        <translation>Тыква</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="75"/>
         <source>Big can</source>
-        <translation type="unfinished"></translation>
+        <translation>Большая банка</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="78"/>
         <source>Cookie</source>
-        <translation type="unfinished"></translation>
+        <translation>Печенье</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="81"/>
         <source>Little bag</source>
-        <translation type="unfinished"></translation>
+        <translation>Маленький пакет</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="82"/>
         <source>Little stick</source>
-        <translation type="unfinished"></translation>
+        <translation>Палочка</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="93"/>
         <source>Alcoholic drinks</source>
-        <translation type="unfinished"></translation>
+        <translation>Алкогольные напитки</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="94"/>
         <source>Bread and cereals</source>
-        <translation type="unfinished"></translation>
+        <translation>Хлеб и крупы</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="95"/>
         <source>Dairy products</source>
-        <translation type="unfinished"></translation>
+        <translation>Молочные продукты</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="96"/>
         <source>Diet drinks</source>
-        <translation type="unfinished"></translation>
+        <translation>Диетические напитки</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="97"/>
         <source>Dry nuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Сухие орехи</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="99"/>
         <source>Fish</source>
-        <translation type="unfinished"></translation>
+        <translation>Рыба</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="100"/>
         <source>Fruit</source>
-        <translation type="unfinished"></translation>
+        <translation>Фрукт</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="101"/>
         <source>Legumes</source>
-        <translation type="unfinished"></translation>
+        <translation>Бобовые</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="102"/>
         <source>Meat</source>
-        <translation type="unfinished"></translation>
+        <translation>Мясо</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="103"/>
         <source>Oils and fats</source>
-        <translation type="unfinished"></translation>
+        <translation>Масло и жиры</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="104"/>
         <source>Processed foods</source>
-        <translation type="unfinished"></translation>
+        <translation>Обработанная еда</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="105"/>
         <source>Soups and infusions</source>
-        <translation type="unfinished"></translation>
+        <translation>Супы</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="106"/>
         <source>Spices</source>
-        <translation type="unfinished"></translation>
+        <translation>Специи</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="107"/>
         <source>Sugary drinks</source>
-        <translation type="unfinished"></translation>
+        <translation>Сладкие напитки</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="108"/>
         <source>Sweets</source>
-        <translation type="unfinished"></translation>
+        <translation>Конфеты</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="109"/>
         <source>Vegetables</source>
-        <translation type="unfinished"></translation>
+        <translation>Овощи</translation>
     </message>
 </context>
 <context>
@@ -750,52 +756,52 @@
     <message>
         <location filename="../libcaloriestracker.py" line="1681"/>
         <source>Hour</source>
-        <translation type="unfinished"></translation>
+        <translation>Час</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="1682"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="1683"/>
         <source>Grams</source>
-        <translation type="unfinished"></translation>
+        <translation>Граммы</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="1684"/>
         <source>Calories</source>
-        <translation type="unfinished"></translation>
+        <translation>Калории</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="1685"/>
         <source>Carbohydrates</source>
-        <translation type="unfinished"></translation>
+        <translation>Углеводы</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="1686"/>
         <source>Protein</source>
-        <translation type="unfinished"></translation>
+        <translation>Белки</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="1687"/>
         <source>Fat</source>
-        <translation type="unfinished"></translation>
+        <translation>Жиры</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="1688"/>
         <source>Fiber</source>
-        <translation type="unfinished"></translation>
+        <translation>Клетчатка</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="1705"/>
         <source>Total</source>
-        <translation type="unfinished">общий</translation>
+        <translation>Всего</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="1713"/>
         <source>Recomendations</source>
-        <translation type="unfinished"></translation>
+        <translation>Рекомендации</translation>
     </message>
 </context>
 <context>
@@ -803,32 +809,32 @@
     <message>
         <location filename="../mem.py" line="28"/>
         <source>If you like this app, please give me a star in GitHub (https://github.com/turulomio/caloriestracker).</source>
-        <translation type="unfinished"></translation>
+        <translation>Если вам нравится это приложение - поставьте мне звёздочку на GitHub (https://github.com/turulomio/caloriestracker).</translation>
     </message>
     <message>
         <location filename="../mem.py" line="28"/>
-        <source>Developed by Mariano Mu&#xf1;oz 2019-{} &#xa9;</source>
-        <translation type="unfinished"></translation>
+        <source>Developed by Mariano Muñoz 2019-{} ©</source>
+        <translation>Разработано Mariano Muñoz 2019-{} ©</translation>
     </message>
     <message>
         <location filename="../ui/myqcharts.py" line="23"/>
         <source>Day</source>
-        <translation type="unfinished"></translation>
+        <translation>День</translation>
     </message>
     <message>
         <location filename="../ui/myqcharts.py" line="24"/>
         <source>Week</source>
-        <translation type="unfinished"></translation>
+        <translation>Неделя</translation>
     </message>
     <message>
         <location filename="../ui/myqcharts.py" line="25"/>
         <source>Month</source>
-        <translation type="unfinished"></translation>
+        <translation>Месяц</translation>
     </message>
     <message>
         <location filename="../ui/myqcharts.py" line="26"/>
         <source>Year</source>
-        <translation type="unfinished"></translation>
+        <translation>Год</translation>
     </message>
 </context>
 <context>
@@ -836,7 +842,7 @@
     <message>
         <location filename="../mem.py" line="225"/>
         <source>Report of calories</source>
-        <translation type="unfinished"></translation>
+        <translation>Отчёт по калориям</translation>
     </message>
 </context>
 <context>
@@ -844,57 +850,59 @@
     <message>
         <location filename="../mem.py" line="191"/>
         <source>Report of calories</source>
-        <translation type="unfinished"></translation>
+        <translation>Отчёт по калориям</translation>
     </message>
     <message>
         <location filename="../mem.py" line="195"/>
         <source>Date to show</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment> показа? </translatorcomment>
+        <translation>Дата для отображения</translation>
     </message>
     <message>
         <location filename="../mem.py" line="196"/>
         <source>User id</source>
-        <translation type="unfinished"></translation>
+        <translation>ID пользователя</translation>
     </message>
     <message>
         <location filename="../mem.py" line="197"/>
         <source>Find data</source>
-        <translation type="unfinished"></translation>
+        <translation>Найти</translation>
     </message>
     <message>
         <location filename="../mem.py" line="200"/>
         <source>Adds a company</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавляет компанию</translation>
     </message>
     <message>
         <location filename="../mem.py" line="199"/>
         <source>Adds a product</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавляет продукт</translation>
     </message>
     <message>
         <location filename="../mem.py" line="202"/>
         <source>Generate a dump to collaborate updating companies and products</source>
-        <translation type="unfinished"></translation>
+        <translation>Генерирует дамп для совместной работы по обновлению компаний и продуктов</translation>
     </message>
     <message>
         <location filename="../mem.py" line="205"/>
         <source>Show elaborated product</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>?</translatorcomment>
+        <translation>Показать разработанные продукт</translation>
     </message>
     <message>
         <location filename="../mem.py" line="203"/>
         <source>Parses a dump and generates sql files for the package and for the dump owner</source>
-        <translation type="unfinished"></translation>
+        <translation>Обрабатывает дамп и генерирует sql-файлы для пакета и для владельца дампа</translation>
     </message>
     <message>
         <location filename="../mem.py" line="204"/>
         <source>Converts personal data to system data in the database using generated sql file of the dump owner</source>
-        <translation type="unfinished"></translation>
+        <translation>Преобразовывает персональные данные в системные данные в базе данных с помощью сгенерированного sql-файла владельца дампа</translation>
     </message>
     <message>
         <location filename="../mem.py" line="201"/>
         <source>Adds biometric information</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавляет биометрическую информацию</translation>
     </message>
 </context>
 <context>
@@ -902,7 +910,7 @@
     <message>
         <location filename="../mem.py" line="124"/>
         <source>Create a new caloriestracker database</source>
-        <translation type="unfinished"></translation>
+        <translation>Создать новую базу данных CaloriesTracker</translation>
     </message>
 </context>
 <context>
@@ -910,12 +918,12 @@
     <message>
         <location filename="../mem.py" line="258"/>
         <source>Converts a system product in a personal one</source>
-        <translation type="unfinished"></translation>
+        <translation>Конвертирует системный продукт в персональный</translation>
     </message>
     <message>
         <location filename="../mem.py" line="262"/>
         <source>System product</source>
-        <translation type="unfinished"></translation>
+        <translation>Системный продукт</translation>
     </message>
 </context>
 <context>
@@ -923,7 +931,7 @@
     <message>
         <location filename="../ui/myqcharts.py" line="438"/>
         <source>{} (Last: {})</source>
-        <translation type="unfinished"></translation>
+        <translation>{} (Последний: {})</translation>
     </message>
 </context>
 <context>
@@ -931,17 +939,18 @@
     <message>
         <location filename="../libcaloriestracker.py" line="1165"/>
         <source>Elaborated by me</source>
-        <translation type="unfinished"></translation>
+        <translation>Разработано мной</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="1284"/>
         <source>We have generated &apos;{}&apos; to convert the system product &apos;{}&apos; to a personal product &apos;{}&apos;</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>системный-&gt;встроенный?</translatorcomment>
+        <translation>Мы сгенерировали {} для того, что бы сконвертировать системный продукт {} в персональный продукт {}</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="1285"/>
         <source>You mustn&apos;t use this file if your are not a caloriestracker developer ;)</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы не должны использовать этот файл, если вы не разработчик ;)</translation>
     </message>
 </context>
 <context>
@@ -949,22 +958,23 @@
     <message>
         <location filename="../libcaloriestracker.py" line="455"/>
         <source>Loading {0} elaborated products from database</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка {0} разработанных продуктов из базы</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="458"/>
         <source>Loading elaborated products...</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Каких?</translatorcomment>
+        <translation>Загрузка разработанных продуктов...</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="473"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="474"/>
         <source>Last update</source>
-        <translation type="unfinished"></translation>
+        <translation>Последнее обновление</translation>
     </message>
 </context>
 <context>
@@ -972,42 +982,42 @@
     <message>
         <location filename="../libcaloriestracker.py" line="690"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Название</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="691"/>
         <source>Grams</source>
-        <translation type="unfinished"></translation>
+        <translation>Граммы</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="692"/>
         <source>Calories</source>
-        <translation type="unfinished"></translation>
+        <translation>Калории</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="693"/>
         <source>Carbohydrates</source>
-        <translation type="unfinished"></translation>
+        <translation>Углеводы</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="694"/>
         <source>Protein</source>
-        <translation type="unfinished"></translation>
+        <translation>Белки</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="695"/>
         <source>Fat</source>
-        <translation type="unfinished"></translation>
+        <translation>Жиры</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="696"/>
         <source>Fiber</source>
-        <translation type="unfinished"></translation>
+        <translation>Клетчатка</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="711"/>
         <source>Total</source>
-        <translation type="unfinished"></translation>
+        <translation>Всего</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="671"/>
@@ -1017,12 +1027,12 @@
     <message>
         <location filename="../libcaloriestracker.py" line="674"/>
         <source>NAME</source>
-        <translation type="unfinished"></translation>
+        <translation>НАЗВАНИЕ</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="674"/>
         <source>GRAMS</source>
-        <translation type="unfinished"></translation>
+        <translation>ГРАММЫ</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="679"/>
@@ -1032,42 +1042,42 @@
     <message>
         <location filename="../libcaloriestracker.py" line="681"/>
         <source>FINAL PRODUCT</source>
-        <translation type="unfinished"></translation>
+        <translation>КОНЕЧНЫЙ ПРОДУКТ</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="674"/>
         <source>CALORIE</source>
-        <translation type="unfinished"></translation>
+        <translation>КАЛОРИИ</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="674"/>
         <source>CARBOHY</source>
-        <translation type="unfinished"></translation>
+        <translation>УГЛЕВОДЫ</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="674"/>
         <source>PROTEIN</source>
-        <translation type="unfinished"></translation>
+        <translation>БЕЛКИ</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="674"/>
         <source>FAT</source>
-        <translation type="unfinished"></translation>
+        <translation>ЖИРЫ</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="674"/>
         <source>FIBER</source>
-        <translation type="unfinished"></translation>
+        <translation>КЛЕТЧАТКА</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="684"/>
         <source>FINAL PRODUCT (100G)</source>
-        <translation type="unfinished"></translation>
+        <translation>КОНЕЧНЫЙ ПРОДУКТ (100Г)</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="720"/>
         <source>Values in 100 g</source>
-        <translation type="unfinished"></translation>
+        <translation>Значения в 100 г</translation>
     </message>
 </context>
 <context>
@@ -1075,62 +1085,62 @@
     <message>
         <location filename="../libcaloriestracker.py" line="213"/>
         <source>Loading {0} products from database</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка {0} продуктов из базы</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="216"/>
         <source>Loading products...</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка продуктов...</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="254"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Название</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="255"/>
         <source>Company</source>
-        <translation type="unfinished"></translation>
+        <translation>Компания</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="257"/>
         <source>Grams</source>
-        <translation type="unfinished"></translation>
+        <translation>Граммы</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="258"/>
         <source>Calories</source>
-        <translation type="unfinished"></translation>
+        <translation>Калории</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="259"/>
         <source>Carbohydrates</source>
-        <translation type="unfinished"></translation>
+        <translation>Углеводы</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="260"/>
         <source>Protein</source>
-        <translation type="unfinished"></translation>
+        <translation>Белки</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="261"/>
         <source>Fat</source>
-        <translation type="unfinished"></translation>
+        <translation>Жиры</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="262"/>
         <source>Fiber</source>
-        <translation type="unfinished"></translation>
+        <translation>Клетчатка</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="256"/>
         <source>Last update</source>
-        <translation type="unfinished"></translation>
+        <translation>Последнее обновление</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="263"/>
         <source>Food type</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип</translation>
     </message>
 </context>
 <context>
@@ -1151,32 +1161,33 @@
     <message>
         <location filename="../libcaloriestracker.py" line="1799"/>
         <source>Loading {0} users from database</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка {0} пользователей из базы</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="1802"/>
         <source>Loading users...</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка пользователей...</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="1825"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="1826"/>
         <source>Male</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>?</translatorcomment>
+        <translation>Мужчина</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="1827"/>
         <source>Birthday</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата рождения</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="1828"/>
         <source>Starts</source>
-        <translation type="unfinished"></translation>
+        <translation>Начало</translation>
     </message>
 </context>
 <context>
@@ -1184,22 +1195,23 @@
     <message>
         <location filename="../ui/myqcharts.py" line="37"/>
         <source>Save as image</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить как изображение</translation>
     </message>
     <message>
         <location filename="../ui/myqcharts.py" line="51"/>
         <source>Save File</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить файл</translation>
     </message>
     <message>
         <location filename="../ui/myqcharts.py" line="51"/>
         <source>PNG Image (*.png)</source>
-        <translation type="unfinished"></translation>
+        <translation>PNG Image (*.png)</translation>
     </message>
     <message>
         <location filename="../ui/myqcharts.py" line="84"/>
         <source>Creating chart</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Прогресс?</translatorcomment>
+        <translation>График создания</translation>
     </message>
 </context>
 <context>
@@ -1207,17 +1219,17 @@
     <message>
         <location filename="../ui/wdgBiometrics.py" line="195"/>
         <source>Height evolution chart</source>
-        <translation type="unfinished"></translation>
+        <translation>График прогресса роста</translation>
     </message>
     <message>
         <location filename="../ui/wdgBiometrics.py" line="230"/>
         <source>Height evolution</source>
-        <translation type="unfinished"></translation>
+        <translation>Прогресс роста</translation>
     </message>
     <message>
         <location filename="../ui/wdgBiometrics.py" line="223"/>
         <source>Loading {} biometric information</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка {} биометрической информации</translation>
     </message>
 </context>
 <context>
@@ -1225,22 +1237,23 @@
     <message>
         <location filename="../ui/wdgBiometrics.py" line="137"/>
         <source>Weight evolution chart</source>
-        <translation type="unfinished"></translation>
+        <translation>График веса</translation>
     </message>
     <message>
         <location filename="../ui/wdgBiometrics.py" line="174"/>
         <source>Weight evolution</source>
-        <translation type="unfinished"></translation>
+        <translation>Прогресс веса</translation>
     </message>
     <message>
         <location filename="../ui/wdgBiometrics.py" line="176"/>
         <source>Simple movil average {}</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>moving?</translatorcomment>
+        <translation>Скользящая средняя {}</translation>
     </message>
     <message>
         <location filename="../ui/wdgBiometrics.py" line="167"/>
         <source>Loading {} biometric information</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка {} биометрической информации</translation>
     </message>
 </context>
 <context>
@@ -1248,17 +1261,17 @@
     <message>
         <location filename="../libcaloriestracker.py" line="67"/>
         <source>Lose weight</source>
-        <translation type="unfinished"></translation>
+        <translation>Снизить вес</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="68"/>
         <source>Mantain weight</source>
-        <translation type="unfinished"></translation>
+        <translation>Поддержать вес</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="69"/>
         <source>Gain weight</source>
-        <translation type="unfinished"></translation>
+        <translation>Набрать вес</translation>
     </message>
 </context>
 <context>
@@ -1266,12 +1279,12 @@
     <message>
         <location filename="../libmanagers.py" line="334"/>
         <source>Select an option</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите варианты</translation>
     </message>
     <message>
         <location filename="../libmanagers.py" line="336"/>
         <source>No options to select</source>
-        <translation type="unfinished"></translation>
+        <translation>Нечего выбирать</translation>
     </message>
 </context>
 <context>
@@ -1279,12 +1292,12 @@
     <message>
         <location filename="../ui/Ui_frmAbout.py" line="317"/>
         <source>License</source>
-        <translation type="unfinished"></translation>
+        <translation>Лицензия</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmAbout.py" line="316"/>
         <source>Software used</source>
-        <translation type="unfinished"></translation>
+        <translation>Использованные программы(библиотеки)</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmAbout.py" line="297"/>
@@ -1319,12 +1332,12 @@
     <message>
         <location filename="../ui/Ui_frmAbout.py" line="313"/>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Версия</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmAbout.py" line="295"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Make click in the url to open link to the project main page&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Нажмите на ссылку, чтобы попасть на страницу проекта&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmAbout.py" line="301"/>
@@ -1343,8 +1356,8 @@
     </message>
     <message>
         <location filename="../ui/frmAbout.py" line="25"/>
-        <source>This program has been developed by Mariano Mu&#xf1;oz</source>
-        <translation type="unfinished"></translation>
+        <source>This program has been developed by Mariano Muñoz</source>
+        <translation>Эта программа была разработана Mariano Muñoz</translation>
     </message>
     <message>
         <location filename="../ui/frmAbout.py" line="26"/>
@@ -1364,22 +1377,22 @@
     <message>
         <location filename="../ui/frmAbout.py" line="23"/>
         <source>Web page is in &lt;a href=&quot;http://github.com/turulomio/caloriestracker/&quot;&gt;http://github.com/turulomio/caloriestracker/&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Веб-страница на &lt;a href=&quot;http://github.com/turulomio/caloriestracker/&quot;&gt;http://github.com/turulomio/caloriestracker/&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../ui/frmAbout.py" line="38"/>
         <source>Database version is: {}</source>
-        <translation type="unfinished"></translation>
+        <translation>Версия базы данных: {}</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmAbout.py" line="294"/>
         <source>Calories Tracker is an Open Source application. It uses the following software:</source>
-        <translation type="unfinished"></translation>
+        <translation>Calories Tracker это программное обеспечение с открытым исходным кодом. Оно использует следующие программы(библиотеки):</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmAbout.py" line="293"/>
         <source>Database registers</source>
-        <translation type="unfinished"></translation>
+        <translation>Записи в базе данных</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmAbout.py" line="290"/>
@@ -1392,42 +1405,42 @@
     <message>
         <location filename="../ui/Ui_frmAccess.py" line="162"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Язык</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmAccess.py" line="163"/>
         <source>Server</source>
-        <translation>сервер</translation>
+        <translation>Сервер</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmAccess.py" line="164"/>
         <source>Port</source>
-        <translation>Пуэрто-</translation>
+        <translation>Порт</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmAccess.py" line="165"/>
         <source>Database</source>
-        <translation>база данных</translation>
+        <translation>База данных</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmAccess.py" line="166"/>
         <source>User</source>
-        <translation>пользователь</translation>
+        <translation>Пользователь</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmAccess.py" line="167"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Пароль</translation>
     </message>
     <message>
         <location filename="../ui/frmAccess.py" line="94"/>
         <source>Error conecting to {} database in {} server</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка соединения с базой данных {} yf cthdtht {}</translation>
     </message>
     <message>
         <location filename="../ui/frmAccess.py" line="49"/>
         <source>Log in PostreSQL database</source>
-        <translation type="unfinished"></translation>
+        <translation>Авторизация в базе PostgreSQL</translation>
     </message>
 </context>
 <context>
@@ -1435,47 +1448,48 @@
     <message>
         <location filename="../ui/Ui_frmBiometricsAdd.py" line="96"/>
         <source>Managing biometrics</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление биометрией</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmBiometricsAdd.py" line="97"/>
         <source>Weight</source>
-        <translation type="unfinished"></translation>
+        <translation>Вес</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmBiometricsAdd.py" line="98"/>
         <source> Kg</source>
-        <translation type="unfinished"></translation>
+        <translation> Кг</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmBiometricsAdd.py" line="99"/>
         <source>Height</source>
-        <translation type="unfinished"></translation>
+        <translation>Рост</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmBiometricsAdd.py" line="100"/>
         <source> cm</source>
-        <translation type="unfinished"></translation>
+        <translation> см</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmBiometricsAdd.py" line="101"/>
         <source>Select your type of activity</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите тип вашей активности</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmBiometricsAdd.py" line="102"/>
         <source>Select your wish of weight</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите желаемый вес</translation>
     </message>
     <message>
         <location filename="../ui/frmBiometricsAdd.py" line="21"/>
         <source>Edit a biometrics information register</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить биометрическую информацию</translation>
     </message>
     <message>
         <location filename="../ui/frmBiometricsAdd.py" line="33"/>
         <source>Add a new biometrics information register</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Новую запись?</translatorcomment>
+        <translation>Добавить новую биометрическую информацию</translation>
     </message>
 </context>
 <context>
@@ -1483,22 +1497,22 @@
     <message>
         <location filename="../ui/Ui_frmCompaniesAdd.py" line="56"/>
         <source>Managing companies</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление компаниями</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmCompaniesAdd.py" line="57"/>
         <source>Name of the company</source>
-        <translation type="unfinished"></translation>
+        <translation>Название компании</translation>
     </message>
     <message>
         <location filename="../ui/frmCompaniesAdd.py" line="14"/>
         <source>Add a new company</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить компанию</translation>
     </message>
     <message>
         <location filename="../ui/frmCompaniesAdd.py" line="16"/>
         <source>Edit a company</source>
-        <translation type="unfinished"></translation>
+        <translation>Править компанию</translation>
     </message>
 </context>
 <context>
@@ -1506,42 +1520,43 @@
     <message>
         <location filename="../ui/Ui_frmFormats.py" line="72"/>
         <source>Managing product formats</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Тут и далее - что подразумевается под форматом?</translatorcomment>
+        <translation>Управление форматами продуктов</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmFormats.py" line="74"/>
         <source>New product format</source>
-        <translation type="unfinished"></translation>
+        <translation>Новый формат продукта</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmFormats.py" line="76"/>
         <source>Delete product format</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить формат продукта</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmFormats.py" line="78"/>
         <source>Edit product format</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить формат продукта</translation>
     </message>
     <message>
         <location filename="../ui/frmFormats.py" line="15"/>
         <source>Formats of {}</source>
-        <translation type="unfinished"></translation>
+        <translation>Формат {}</translation>
     </message>
     <message>
         <location filename="../ui/frmFormats.py" line="55"/>
         <source>This format is of a system product so you can&apos;t edit it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Это формат системного продукта, вы не можете его менять.</translation>
     </message>
     <message>
         <location filename="../ui/frmFormats.py" line="55"/>
         <source>Please, if it&apos;s something wrong with it create an issue at</source>
-        <translation type="unfinished"></translation>
+        <translation>Пожалуйста, если что-то не так - создайте issue на</translation>
     </message>
     <message>
         <location filename="../ui/frmFormats.py" line="55"/>
         <source>I&apos;ll fix it as soon as posible. ;)</source>
-        <translation type="unfinished"></translation>
+        <translation>Я постараюсь починить это как можно скорее. ;)</translation>
     </message>
 </context>
 <context>
@@ -1572,17 +1587,17 @@
     <message>
         <location filename="../ui/Ui_frmHelp.py" line="64"/>
         <source>Xulpymoney help</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmHelp.py" line="65"/>
         <source>Xulpymoney Help</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/frmHelp.ui" line="102"/>
         <source>https://github.com/turulomio/xulpymoney/wiki</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1590,62 +1605,62 @@
     <message>
         <location filename="../ui/Ui_frmInit.py" line="139"/>
         <source>Database language</source>
-        <translation type="unfinished"></translation>
+        <translation>Язык базы данных</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmInit.py" line="140"/>
         <source>Server</source>
-        <translation>сервер</translation>
+        <translation>Сервер</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmInit.py" line="141"/>
         <source>127.0.0.1</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmInit.py" line="142"/>
         <source>Port</source>
-        <translation>Пуэрто-</translation>
+        <translation>Порт</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmInit.py" line="143"/>
         <source>5432</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmInit.py" line="144"/>
         <source>User</source>
-        <translation>пользователь</translation>
+        <translation>Пользователь</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmInit.py" line="145"/>
         <source>postgres</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmInit.py" line="146"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Пароль</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmInit.py" line="149"/>
         <source>Create database</source>
-        <translation type="unfinished"></translation>
+        <translation>Создать базу данных</translation>
     </message>
     <message>
         <location filename="../ui/frmInit.py" line="30"/>
         <source>Do you want to create {} database in {}?</source>
-        <translation type="unfinished"></translation>
+        <translation>Хотите ли вы создать базу данных {} в {}?</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmInit.py" line="137"/>
         <source>Initializating Calories Tracker database</source>
-        <translation type="unfinished"></translation>
+        <translation>Инициализация базы данных Calories Tracker</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmInit.py" line="138"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pressing the button below, you will create the database needed to run CaloriesTracker. It&apos;ll be created in the language selected&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Нажимая кнопку ниже - вы создадите базу данных, необходимую для запуска CaloriesTracker. Она будет создана на выбранном языке&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmInit.py" line="147"/>
@@ -1655,12 +1670,12 @@
     <message>
         <location filename="../ui/Ui_frmInit.py" line="148"/>
         <source>caloriestracker</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/frmInit.py" line="39"/>
         <source>Database created. Please run Calories Tracker and login</source>
-        <translation type="unfinished"></translation>
+        <translation>База данных создана. Запустите Calories Tracker и авторизуйтесь</translation>
     </message>
 </context>
 <context>
@@ -1668,17 +1683,17 @@
     <message>
         <location filename="../ui/Ui_frmMain.py" line="216"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Помощь</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="217"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="205"/>
         <source>E&amp;xit</source>
-        <translation type="unfinished">В&amp;ыход</translation>
+        <translation>В&amp;ыход</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="206"/>
@@ -1688,42 +1703,42 @@
     <message>
         <location filename="../ui/Ui_frmMain.py" line="208"/>
         <source>&amp;About</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;c</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="209"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>О программе</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="212"/>
         <source>Update memory</source>
-        <translation type="unfinished"></translation>
+        <translation>Обновить память</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="214"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="210"/>
         <source>F2</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="207"/>
         <source>Alt+Esc</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="211"/>
         <source>&amp;Update memory</source>
-        <translation type="unfinished"></translation>
+        <translation>О&amp;бновить память</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="213"/>
         <source>&amp;Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Настройки</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="215"/>
@@ -1738,7 +1753,7 @@
     <message>
         <location filename="../ui/frmMain.py" line="60"/>
         <source>Disconnecting due to {} minutes of inactivity.</source>
-        <translation type="unfinished"></translation>
+        <translation>Отключение из-за неактивности в течение {} минут.</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="223"/>
@@ -1748,42 +1763,42 @@
     <message>
         <location filename="../ui/Ui_frmMain.py" line="220"/>
         <source>Ctrl+B</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="203"/>
         <source>Main toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Главный тулбар</translation>
     </message>
     <message>
         <location filename="../ui/frmMain.py" line="194"/>
         <source>Update products from Internet</source>
-        <translation type="unfinished"></translation>
+        <translation>Обновить продукты через интернет</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="226"/>
         <source>Meals</source>
-        <translation type="unfinished"></translation>
+        <translation>Блюда</translation>
     </message>
     <message>
         <location filename="../ui/frmMain.py" line="32"/>
-        <source>Calories Tracker 2019-{0} &#xa9; (Admin mode)</source>
+        <source>Calories Tracker 2019-{0} © (Admin mode)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/frmMain.py" line="35"/>
-        <source>Calories Tracker 2019-{0} &#xa9;</source>
+        <source>Calories Tracker 2019-{0} ©</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="228"/>
         <source>Add biometrics</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавляет биометрию</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="230"/>
         <source>Biometric information</source>
-        <translation type="unfinished"></translation>
+        <translation>Биометрическая информация</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="232"/>
@@ -1793,17 +1808,17 @@
     <message>
         <location filename="../ui/Ui_frmMain.py" line="234"/>
         <source>Add a company</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить компанию</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="236"/>
         <source>Companies list</source>
-        <translation type="unfinished"></translation>
+        <translation>Список компаний</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="219"/>
         <source>Products list</source>
-        <translation type="unfinished"></translation>
+        <translation>Список продуктов</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="222"/>
@@ -1813,7 +1828,7 @@
     <message>
         <location filename="../ui/Ui_frmMain.py" line="238"/>
         <source>Users list</source>
-        <translation type="unfinished"></translation>
+        <translation>Список пользователей</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="198"/>
@@ -1823,42 +1838,42 @@
     <message>
         <location filename="../ui/Ui_frmMain.py" line="199"/>
         <source>&amp;Products</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Продукты</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="200"/>
         <source>&amp;Meals</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Блюда</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="201"/>
         <source>&amp;Companies</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Компании</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="202"/>
         <source>&amp;Users</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Пользователи</translation>
     </message>
     <message>
         <location filename="../ui/frmMain.py" line="38"/>
         <source>Select a user</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите пользователя</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="240"/>
         <source>Report an issue</source>
-        <translation type="unfinished"></translation>
+        <translation>Сообщить о проблеме</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="204"/>
         <source>Users toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользовательский тулбар</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMain.py" line="242"/>
         <source>Meals I eat the most</source>
-        <translation type="unfinished"></translation>
+        <translation>Блюда, которые я ем чаще всего</translation>
     </message>
 </context>
 <context>
@@ -1866,42 +1881,42 @@
     <message>
         <location filename="../ui/Ui_frmMealsAdd.py" line="112"/>
         <source>Managing meals</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление блюдами</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMealsAdd.py" line="113"/>
         <source>Select a product</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите продукт</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMealsAdd.py" line="115"/>
         <source>Add an amount</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите количество</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMealsAdd.py" line="116"/>
         <source> g</source>
-        <translation type="unfinished"></translation>
+        <translation> г</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmMealsAdd.py" line="114"/>
         <source>Select a format</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите формат</translation>
     </message>
     <message>
         <location filename="../ui/frmMealsAdd.py" line="19"/>
         <source>Add a new meal</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить новое блюдо</translation>
     </message>
     <message>
         <location filename="../ui/frmMealsAdd.py" line="30"/>
         <source>Edit a meal</source>
-        <translation type="unfinished"></translation>
+        <translation>Править блюдо</translation>
     </message>
     <message>
         <location filename="../ui/frmMealsAdd.py" line="65"/>
         <source>You must select a product from the popup list</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы должны выбрать продукт из выпадающего меню</translation>
     </message>
 </context>
 <context>
@@ -1909,137 +1924,137 @@
     <message>
         <location filename="../ui/Ui_frmProductsAdd.py" line="135"/>
         <source>Managing products</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление продуктами</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmProductsAdd.py" line="136"/>
         <source>Name of the product</source>
-        <translation type="unfinished"></translation>
+        <translation>Название проукта</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmProductsAdd.py" line="137"/>
         <source>Select a company</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите компанию</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmProductsAdd.py" line="139"/>
         <source>Basic components information</source>
-        <translation type="unfinished"></translation>
+        <translation>Основная информация об энергетической ценности</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsAdd.py" line="19"/>
         <source>Calories</source>
-        <translation type="unfinished"></translation>
+        <translation>Калории</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsAdd.py" line="15"/>
         <source>Amount</source>
-        <translation type="unfinished"></translation>
+        <translation>Количество</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsAdd.py" line="17"/>
         <source>Protein</source>
-        <translation type="unfinished"></translation>
+        <translation>Белки</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsAdd.py" line="16"/>
         <source>Fat</source>
-        <translation type="unfinished"></translation>
+        <translation>Жиры</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsAdd.py" line="24"/>
         <source>Fiber</source>
-        <translation type="unfinished"></translation>
+        <translation>Клетчатка</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmProductsAdd.py" line="140"/>
         <source>Additional information</source>
-        <translation type="unfinished"></translation>
+        <translation>Дополнительная информация</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsAdd.py" line="20"/>
         <source>Salt</source>
-        <translation type="unfinished"></translation>
+        <translation>Соль</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsAdd.py" line="21"/>
         <source>Cholesterol</source>
-        <translation type="unfinished"></translation>
+        <translation>Холестерин</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsAdd.py" line="22"/>
         <source>Sodium</source>
-        <translation type="unfinished"></translation>
+        <translation>Натрий</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsAdd.py" line="23"/>
         <source>Potassium</source>
-        <translation type="unfinished"></translation>
+        <translation>Калий</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsAdd.py" line="45"/>
         <source>Add a new personal product</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить новый пользовательский продукт</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsAdd.py" line="67"/>
         <source>Edit a personal product</source>
-        <translation type="unfinished"></translation>
+        <translation>Править пользовательский продукт</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsAdd.py" line="25"/>
         <source>Sugar</source>
-        <translation type="unfinished"></translation>
+        <translation>Сахар</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsAdd.py" line="39"/>
         <source>g</source>
-        <translation type="unfinished"></translation>
+        <translation>г</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsAdd.py" line="36"/>
         <source>mg</source>
-        <translation type="unfinished"></translation>
+        <translation>мг</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsAdd.py" line="98"/>
         <source>Amount value must be greater than 0</source>
-        <translation type="unfinished"></translation>
+        <translation>Число должно быть больше 0</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsAdd.py" line="18"/>
         <source>Carbohydrates</source>
-        <translation type="unfinished"></translation>
+        <translation>Углеводы</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsAdd.py" line="26"/>
         <source>Saturated fat</source>
-        <translation type="unfinished"></translation>
+        <translation>Насыщенные жиры</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmProductsAdd.py" line="138"/>
         <source>Select food type</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите вид еды</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsAdd.py" line="79"/>
         <source>Product information</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация о продукте</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsAdd.py" line="80"/>
         <source>This is a system product so you can&apos;t edit it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Это системный продукт, вы не можете его менять.</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsAdd.py" line="80"/>
         <source>Please, if it&apos;s something wrong with it, you can create an issue at</source>
-        <translation type="unfinished"></translation>
+        <translation>Пожалуйста, если что-то не так - создайте issue на</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsAdd.py" line="80"/>
         <source>I&apos;ll fix it as soon as posible. ;)</source>
-        <translation type="unfinished"></translation>
+        <translation>Я постараюсь починить это как можно скорее. ;)</translation>
     </message>
 </context>
 <context>
@@ -2052,17 +2067,17 @@
     <message>
         <location filename="../ui/Ui_frmProductsElaboratedAdd.py" line="100"/>
         <source>Name of the product</source>
-        <translation type="unfinished"></translation>
+        <translation>Название продукта</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmProductsElaboratedAdd.py" line="101"/>
         <source>Final amount</source>
-        <translation type="unfinished"></translation>
+        <translation>Финальное количество</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmProductsElaboratedAdd.py" line="102"/>
         <source> g</source>
-        <translation type="unfinished"></translation>
+        <translation> г</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsElaboratedAdd.py" line="19"/>
@@ -2092,22 +2107,22 @@
     <message>
         <location filename="../ui/Ui_frmProductsElaboratedAdd.py" line="110"/>
         <source>Edit product</source>
-        <translation type="unfinished"></translation>
+        <translation>Править продукт</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsElaboratedAdd.py" line="60"/>
         <source>This is a system product so you can&apos;t edit it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Это системный продукт, вы не можете его менять.</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsElaboratedAdd.py" line="60"/>
         <source>Please, if it&apos;s something wrong with it create an issue at</source>
-        <translation type="unfinished"></translation>
+        <translation>Пожалуйста, если что-то не так - создайте issue на</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsElaboratedAdd.py" line="60"/>
         <source>I&apos;ll fix it as soon as posible. ;)</source>
-        <translation type="unfinished"></translation>
+        <translation>Я постараюсь починить это как можно скорее. ;)</translation>
     </message>
 </context>
 <context>
@@ -2115,27 +2130,28 @@
     <message>
         <location filename="../ui/Ui_frmProductsInElaboratedProductAdd.py" line="99"/>
         <source>Managing products in an elaborated product</source>
+        <translatorcomment>I have no idea</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmProductsInElaboratedProductAdd.py" line="100"/>
         <source>Select a product</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите продукт</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmProductsInElaboratedProductAdd.py" line="102"/>
         <source>Amount</source>
-        <translation type="unfinished"></translation>
+        <translation>Количество</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmProductsInElaboratedProductAdd.py" line="103"/>
         <source> g</source>
-        <translation type="unfinished"></translation>
+        <translation> г</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmProductsInElaboratedProductAdd.py" line="101"/>
         <source>Select a format</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите формат</translation>
     </message>
     <message>
         <location filename="../ui/frmProductsInElaboratedProductAdd.py" line="15"/>
@@ -2150,7 +2166,7 @@
     <message>
         <location filename="../ui/frmProductsInElaboratedProductAdd.py" line="30"/>
         <source>You must select a product from the popup list</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы должны выбрать продукт из выпадающего меню</translation>
     </message>
 </context>
 <context>
@@ -2158,27 +2174,27 @@
     <message>
         <location filename="../ui/Ui_frmSettings.py" line="106"/>
         <source>User settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки пользователя</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmSettings.py" line="107"/>
         <source>Select a language</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите язык</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmSettings.py" line="104"/>
         <source>Application settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки приложения</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmSettings.py" line="105"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmSettings.py" line="108"/>
         <source>User time zone</source>
-        <translation type="unfinished"></translation>
+        <translation>Часовой пояс пользователя</translation>
     </message>
 </context>
 <context>
@@ -2186,57 +2202,57 @@
     <message>
         <location filename="../ui/Ui_frmUsersAdd.py" line="98"/>
         <source>Managing users</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление пользователями</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmUsersAdd.py" line="99"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmUsersAdd.py" line="100"/>
         <source>Select your birthday</source>
-        <translation type="unfinished"></translation>
+        <translation>Укажите дату рождения</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmUsersAdd.py" line="101"/>
         <source>yyyy-MM-dd</source>
-        <translation type="unfinished"></translation>
+        <translation>гггг-ММ-дд</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmUsersAdd.py" line="103"/>
         <source>Check if you&apos;re a male</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите, если вы мужчина</translation>
     </message>
     <message>
         <location filename="../ui/frmUsersAdd.py" line="18"/>
         <source>Add a new user</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить нового пользователя</translation>
     </message>
     <message>
         <location filename="../ui/frmUsersAdd.py" line="23"/>
         <source>Edit a user</source>
-        <translation type="unfinished"></translation>
+        <translation>Править  пользователя</translation>
     </message>
     <message>
         <location filename="../ui/Ui_frmUsersAdd.py" line="102"/>
         <source>Select your meal proportions</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите пропорции блюд</translation>
     </message>
     <message>
         <location filename="../ui/frmUsersAdd.py" line="16"/>
         <source>Carbohydrates</source>
-        <translation type="unfinished"></translation>
+        <translation>Углеводы</translation>
     </message>
     <message>
         <location filename="../ui/frmUsersAdd.py" line="16"/>
         <source>Fat</source>
-        <translation type="unfinished"></translation>
+        <translation>Жиры</translation>
     </message>
     <message>
         <location filename="../ui/frmUsersAdd.py" line="16"/>
         <source>Protein</source>
-        <translation type="unfinished"></translation>
+        <translation>Белки</translation>
     </message>
 </context>
 <context>
@@ -2244,12 +2260,13 @@
     <message>
         <location filename="../caloriestracker.py" line="18"/>
         <source>Please login to the Calories Tracker database</source>
-        <translation type="unfinished"></translation>
+        <translation>Пожалуйста, авторизуйтесь в базе данных Calories Tracker</translation>
     </message>
     <message>
         <location filename="../caloriestracker_console.py" line="13"/>
         <source>Start mem took {}</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>debug</translatorcomment>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2257,7 +2274,7 @@
     <message>
         <location filename="../ui/myqlineedit.py" line="169"/>
         <source>Add a value</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить значение</translation>
     </message>
 </context>
 <context>
@@ -2265,12 +2282,13 @@
     <message>
         <location filename="../ui/myqtablewidget.py" line="99"/>
         <source>Save File</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить файл</translation>
     </message>
     <message>
         <location filename="../ui/myqtablewidget.py" line="99"/>
         <source>Libreoffice calc (*.ods)</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Добавить в начале &quot;Таблица&quot;?</translatorcomment>
+        <translation>Libreoffice calc (*.ods)</translation>
     </message>
 </context>
 <context>
@@ -2278,12 +2296,12 @@
     <message>
         <location filename="../libcaloriestracker.py" line="1054"/>
         <source>Companies:</source>
-        <translation type="unfinished"></translation>
+        <translation>Компании:</translation>
     </message>
     <message>
         <location filename="../libcaloriestracker.py" line="1058"/>
         <source>Products:</source>
-        <translation type="unfinished"></translation>
+        <translation>Продукты:</translation>
     </message>
 </context>
 <context>
@@ -2291,83 +2309,84 @@
     <message>
         <location filename="../ui/Ui_wdgBiometrics.py" line="142"/>
         <source>Your biometric information</source>
-        <translation type="unfinished"></translation>
+        <translation>Ваша биометрическая информация</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgBiometrics.py" line="146"/>
         <source>Registers found</source>
-        <translation type="unfinished"></translation>
+        <translation>Записей найдено</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgBiometrics.py" line="154"/>
         <source>New biometric information</source>
-        <translation type="unfinished"></translation>
+        <translation>Новая биометрическая информация</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgBiometrics.py" line="156"/>
         <source>Delete biometric information</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить биометрическую информацию</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgBiometrics.py" line="158"/>
         <source>Edit biometric information</source>
-        <translation type="unfinished"></translation>
+        <translation>Править биометрическую информацию</translation>
     </message>
     <message>
         <location filename="../ui/wdgBiometrics.py" line="92"/>
         <source>Asking your confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation>Запрашиваем подтверждения</translation>
     </message>
     <message>
         <location filename="../ui/wdgBiometrics.py" line="92"/>
         <source>This action can&apos;t be undone.
 Do you want to delete this record?</source>
-        <translation type="unfinished"></translation>
+        <translation>Это действие не может быть отменено.
+Вы действительно хотите удалить эту запись?</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgBiometrics.py" line="147"/>
         <source>Weight</source>
-        <translation type="unfinished"></translation>
+        <translation>Вес</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgBiometrics.py" line="148"/>
         <source>Height</source>
-        <translation type="unfinished"></translation>
+        <translation>Рост</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgBiometrics.py" line="143"/>
         <source>Select an option</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите варианты</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgBiometrics.py" line="144"/>
         <source>Show last 20 days</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать последние 20 дней</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgBiometrics.py" line="145"/>
         <source>Select a month</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите месяц</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgBiometrics.py" line="149"/>
         <source>Show in chart</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать на графике</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgBiometrics.py" line="150"/>
         <source>All registers</source>
-        <translation type="unfinished"></translation>
+        <translation>Все записи</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgBiometrics.py" line="151"/>
         <source>Last year</source>
-        <translation type="unfinished"></translation>
+        <translation>Последний год</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgBiometrics.py" line="152"/>
         <source>Last three years</source>
-        <translation type="unfinished"></translation>
+        <translation>Последние три года</translation>
     </message>
 </context>
 <context>
@@ -2375,57 +2394,58 @@ Do you want to delete this record?</source>
     <message>
         <location filename="../ui/wdgCuriosities.py" line="13"/>
         <source>Since when there is data in the database?</source>
-        <translation type="unfinished"></translation>
+        <translation>С какого момента в базе?</translation>
     </message>
     <message>
         <location filename="../ui/wdgCuriosities.py" line="20"/>
         <source>Which is the product with highest calories in 100 gramos?</source>
-        <translation type="unfinished"></translation>
+        <translation>Какой продукт обладает самой высокой калорийностью на 100 грамм?</translation>
     </message>
     <message>
         <location filename="../ui/wdgCuriosities.py" line="28"/>
         <source>The product with highest calories is {} with {} calories.</source>
-        <translation type="unfinished"></translation>
+        <translation>Продукт с самой высокой калорийностью - это {} с {} калориями.</translation>
     </message>
     <message>
         <location filename="../ui/wdgCuriosities.py" line="33"/>
         <source>Which is the meal with highest calories I had eaten</source>
-        <translation type="unfinished"></translation>
+        <translation>Блюдо с самой высокой калорийностью, съеденное мной</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgCuriosities.py" line="52"/>
         <source>Calories Tracker curiosities</source>
+        <translatorcomment>No idea</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/wdgCuriosities.py" line="41"/>
         <source>When did I have my highest weight?</source>
-        <translation type="unfinished"></translation>
+        <translation>Когда у меня был самый высокий вес?</translation>
     </message>
     <message>
         <location filename="../ui/wdgCuriosities.py" line="42"/>
         <source>My highest weight was {} at {}</source>
-        <translation type="unfinished"></translation>
+        <translation>Мой самый высокий вес был {} {}</translation>
     </message>
     <message>
         <location filename="../ui/wdgCuriosities.py" line="47"/>
         <source>When did I have my lowest weight?</source>
-        <translation type="unfinished"></translation>
+        <translation>Когда у меня был самый низкий вес?</translation>
     </message>
     <message>
         <location filename="../ui/wdgCuriosities.py" line="48"/>
         <source>My lowest weight was {} at {}</source>
-        <translation type="unfinished"></translation>
+        <translation>Мой самый низкий вес был {} {}</translation>
     </message>
     <message>
         <location filename="../ui/wdgCuriosities.py" line="53"/>
         <source>Which is my median weight?</source>
-        <translation type="unfinished"></translation>
+        <translation>Какой мой медианный вес?</translation>
     </message>
     <message>
         <location filename="../ui/wdgCuriosities.py" line="54"/>
         <source>My median weight is {}</source>
-        <translation type="unfinished"></translation>
+        <translation>Мой медианный вес - {}</translation>
     </message>
 </context>
 <context>
@@ -2433,43 +2453,46 @@ Do you want to delete this record?</source>
     <message>
         <location filename="../ui/Ui_wdgDatetime.py" line="106"/>
         <source>Select a datetime</source>
-        <translation type="unfinished"></translation>
+        <translation>Укажите дату и время</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgDatetime.py" line="107"/>
         <source>Select a time</source>
-        <translation type="unfinished"></translation>
+        <translation>Укажите время</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgDatetime.py" line="108"/>
         <source>HH:mm:ss</source>
-        <translation type="unfinished"></translation>
+        <translation>ЧЧ:мм:сс</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgDatetime.py" line="109"/>
         <source>Select microseconds</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Что, простите?</translatorcomment>
+        <translation>Укажите микросекунды</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgDatetime.py" line="110"/>
         <source>Set current time</source>
-        <translation type="unfinished"></translation>
+        <translation>Установить текущее время</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgDatetime.py" line="111"/>
         <source>Now</source>
-        <translation type="unfinished"></translation>
+        <translation>Сейчас</translation>
     </message>
     <message>
         <location filename="../ui/wdgDatetime.py" line="132"/>
         <source>Selected datetime:
 {0}</source>
-        <translation type="unfinished"></translation>
+        <translation>Указанное время:
+{0}</translation>
     </message>
     <message>
         <location filename="../ui/wdgDatetime.py" line="24"/>
         <source> u03bcs</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Unicode</translatorcomment>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2477,59 +2500,61 @@ Do you want to delete this record?</source>
     <message>
         <location filename="../ui/Ui_wdgMeals.py" line="98"/>
         <source>Your meals</source>
-        <translation type="unfinished"></translation>
+        <translation>Dsib ,k.lf</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgMeals.py" line="99"/>
         <source>Registers found</source>
-        <translation type="unfinished"></translation>
+        <translation>Записей найдено</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgMeals.py" line="101"/>
         <source>New meal</source>
-        <translation type="unfinished"></translation>
+        <translation>Новое блюдо</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgMeals.py" line="103"/>
         <source>Delete meal</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить блюдо</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgMeals.py" line="105"/>
         <source>Edit meal</source>
-        <translation type="unfinished"></translation>
+        <translation>Править блюдо</translation>
     </message>
     <message>
         <location filename="../ui/wdgMeals.py" line="39"/>
         <source>Asking your confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation>Запрашиваем подтверждения</translation>
     </message>
     <message>
         <location filename="../ui/wdgMeals.py" line="31"/>
         <source>This action can&apos;t be undone.
 Do you want to delete this record?</source>
-        <translation type="unfinished"></translation>
+        <translation>Это действие не может быть отменено.
+Вы действительно хотите удалить эту запись?</translation>
     </message>
     <message>
         <location filename="../ui/wdgMeals.py" line="20"/>
         <source>{} registers found</source>
-        <translation type="unfinished"></translation>
+        <translation>{} записей найдено</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgMeals.py" line="107"/>
         <source>Edit product</source>
-        <translation type="unfinished"></translation>
+        <translation>Править продукт</translation>
     </message>
     <message>
         <location filename="../ui/wdgMeals.py" line="39"/>
         <source>This action can&apos;t be undone.
 Do you want to delete all meals from selected day?</source>
-        <translation type="unfinished"></translation>
+        <translation>Это действие не может быть отменено.
+Вы действительно хотите удалитьвсе блюда за выбранный день?</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgMeals.py" line="109"/>
         <source>Delete selected date meals</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить выбранные блюда</translation>
     </message>
 </context>
 <context>
@@ -2537,47 +2562,47 @@ Do you want to delete all meals from selected day?</source>
     <message>
         <location filename="../ui/Ui_wdgMealsMost.py" line="74"/>
         <source>Meals I eat the most</source>
-        <translation type="unfinished"></translation>
+        <translation>Блюда, которые я ем чаще всего</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgMealsMost.py" line="75"/>
         <source>Select a period</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите период</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgMealsMost.py" line="76"/>
         <source>Last week</source>
-        <translation type="unfinished"></translation>
+        <translation>Последняя неделя</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgMealsMost.py" line="77"/>
         <source>Last month</source>
-        <translation type="unfinished"></translation>
+        <translation>Последний месяц</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgMealsMost.py" line="78"/>
         <source>Last year</source>
-        <translation type="unfinished"></translation>
+        <translation>Последний год</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgMealsMost.py" line="79"/>
         <source>Last three years</source>
-        <translation type="unfinished"></translation>
+        <translation>Последние три года</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgMealsMost.py" line="80"/>
         <source>All registers</source>
-        <translation type="unfinished"></translation>
+        <translation>Все записи</translation>
     </message>
     <message>
         <location filename="../ui/wdgMealsMost.py" line="48"/>
         <source>Product</source>
-        <translation type="unfinished"></translation>
+        <translation>Продукт</translation>
     </message>
     <message>
         <location filename="../ui/wdgMealsMost.py" line="49"/>
         <source>Amount</source>
-        <translation type="unfinished"></translation>
+        <translation>Количество</translation>
     </message>
 </context>
 <context>
@@ -2585,22 +2610,22 @@ Do you want to delete all meals from selected day?</source>
     <message>
         <location filename="../ui/Ui_wdgProducts.py" line="120"/>
         <source>Products list</source>
-        <translation type="unfinished"></translation>
+        <translation>Список продуктов</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgProducts.py" line="123"/>
         <source>Registers found</source>
-        <translation type="unfinished"></translation>
+        <translation>Записей найдено</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgProducts.py" line="124"/>
         <source>New product</source>
-        <translation type="unfinished"></translation>
+        <translation>Новый продукт</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgProducts.py" line="126"/>
         <source>Delete product</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить продукт</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgProducts.py" line="121"/>
@@ -2610,53 +2635,54 @@ Do you want to delete all meals from selected day?</source>
     <message>
         <location filename="../ui/Ui_wdgProducts.py" line="125"/>
         <source>New user product</source>
-        <translation type="unfinished"></translation>
+        <translation>Новый пользовательский продукт</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgProducts.py" line="127"/>
         <source>Delete user product</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить пользовательский продукт</translation>
     </message>
     <message>
         <location filename="../ui/wdgProducts.py" line="20"/>
         <source>This product can&apos;t be removed, because is marked as not remavable</source>
-        <translation type="unfinished"></translation>
+        <translation>Этот продукт не может быть удалён, так как помечен как неудаляемый</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgProducts.py" line="129"/>
         <source>Edit product</source>
-        <translation type="unfinished"></translation>
+        <translation>Править продукт</translation>
     </message>
     <message>
         <location filename="../ui/wdgProducts.py" line="27"/>
         <source>Asking your confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation>Запрашиваем подтверждения</translation>
     </message>
     <message>
         <location filename="../ui/wdgProducts.py" line="27"/>
         <source>This action can&apos;t be undone.
 Do you want to delete this record?</source>
-        <translation type="unfinished"></translation>
+        <translation>Это действие не может быть отменено.
+Вы действительно хотите удалить эту запись?</translation>
     </message>
     <message>
         <location filename="../ui/wdgProducts.py" line="79"/>
         <source>{} products found</source>
-        <translation type="unfinished"></translation>
+        <translation>{} продуктов найдено</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgProducts.py" line="122"/>
         <source>Enter a string to search</source>
-        <translation type="unfinished"></translation>
+        <translation>Введите строку для поиска</translation>
     </message>
     <message>
         <location filename="../ui/wdgProducts.py" line="24"/>
         <source>Not developed yet, for elaborated product</source>
-        <translation type="unfinished"></translation>
+        <translation>Ещё не разработано для elaborated product</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgProducts.py" line="131"/>
         <source>Show formats</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать форматы</translation>
     </message>
 </context>
 <context>
@@ -2664,44 +2690,47 @@ Do you want to delete this record?</source>
     <message>
         <location filename="../ui/wdgProductsDataMove.py" line="41"/>
         <source>Moving data between products</source>
-        <translation type="unfinished"></translation>
+        <translation>Перемещение данных между продуктами</translation>
     </message>
     <message>
         <location filename="../ui/wdgProductsDataMove.py" line="41"/>
         <source>This action can&apos;t be undone.
 Do you want to continue?</source>
-        <translation type="unfinished"></translation>
+        <translation>Это действие не может быть отменено.
+Вы хотите продолжить?</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgProductsDataMove.py" line="97"/>
         <source>Move data between products</source>
-        <translation type="unfinished"></translation>
+        <translation>Переместить данные между продуктами</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgProductsDataMove.py" line="98"/>
         <source>All product data will be moved from origin product to destiny one. If there are invesments created with origin product, they will be referenced to destiny product.
 If origin is a user product, you can delete afterwards, because it won&apos;t have any data</source>
-        <translation type="unfinished"></translation>
+        <translation>Все данные о продукте будут перенесены из исходного продукта в конечный. Если есть инвестиции, созданные с оригинальным продуктом, они будут привязаны к результирующему продукту.
+Если исходный продукт является пользовательским продуктом, вы можете удалить его позже, потому что он не будет иметь никаких данных</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgProductsDataMove.py" line="101"/>
         <source>Origin</source>
-        <translation type="unfinished"></translation>
+        <translation>Исходный</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgProductsDataMove.py" line="103"/>
         <source>Destiny</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>(криво)</translatorcomment>
+        <translation>Результат</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgProductsDataMove.py" line="105"/>
         <source>Id</source>
-        <translation type="unfinished"></translation>
+        <translation>ID</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgProductsDataMove.py" line="107"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Название</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgProductsDataMove.py" line="109"/>
@@ -2726,7 +2755,7 @@ If origin is a user product, you can delete afterwards, because it won&apos;t ha
     <message>
         <location filename="../ui/Ui_wdgProductsDataMove.py" line="117"/>
         <source>Oportunities</source>
-        <translation type="unfinished"></translation>
+        <translation>Возможности</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgProductsDataMove.py" line="119"/>
@@ -2756,7 +2785,7 @@ If origin is a user product, you can delete afterwards, because it won&apos;t ha
     <message>
         <location filename="../ui/Ui_wdgProductsDataMove.py" line="129"/>
         <source>Move data</source>
-        <translation type="unfinished"></translation>
+        <translation>Переместить</translation>
     </message>
 </context>
 <context>
@@ -2774,53 +2803,54 @@ If origin is a user product, you can delete afterwards, because it won&apos;t ha
     <message>
         <location filename="../ui/Ui_wdgProductsElaborated.py" line="115"/>
         <source>Enter a string</source>
-        <translation type="unfinished"></translation>
+        <translation>Введите строку</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgProductsElaborated.py" line="116"/>
         <source>Registers found</source>
-        <translation type="unfinished"></translation>
+        <translation>Записей найдено</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgProductsElaborated.py" line="117"/>
         <source>New product</source>
-        <translation type="unfinished"></translation>
+        <translation>Новый продукт</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgProductsElaborated.py" line="118"/>
         <source>New user product</source>
-        <translation type="unfinished"></translation>
+        <translation>Новый пользовательский продукт</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgProductsElaborated.py" line="119"/>
         <source>Delete product</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить продукт</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgProductsElaborated.py" line="120"/>
         <source>Delete user product</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить пользовательский продукт</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgProductsElaborated.py" line="122"/>
         <source>Edit product</source>
-        <translation type="unfinished"></translation>
+        <translation>Править продукт</translation>
     </message>
     <message>
         <location filename="../ui/wdgProductsElaborated.py" line="26"/>
         <source>Asking your confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation>Запрашиваем подтверждения</translation>
     </message>
     <message>
         <location filename="../ui/wdgProductsElaborated.py" line="26"/>
         <source>This action can&apos;t be undone.
 Do you want to delete this record?</source>
-        <translation type="unfinished"></translation>
+        <translation>Это действие не может быть отменено.
+Вы действительно хотите удалить эту запись?</translation>
     </message>
     <message>
         <location filename="../ui/wdgProductsElaborated.py" line="59"/>
         <source>{} products found</source>
-        <translation type="unfinished"></translation>
+        <translation>{} продуктов найдено</translation>
     </message>
     <message>
         <location filename="../ui/wdgProductsElaborated.py" line="23"/>
@@ -2833,48 +2863,49 @@ Do you want to delete this record?</source>
     <message>
         <location filename="../ui/Ui_wdgUsers.py" line="71"/>
         <source>Users list</source>
-        <translation type="unfinished"></translation>
+        <translation>Список пользователей</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgUsers.py" line="72"/>
         <source>Registers found</source>
-        <translation type="unfinished"></translation>
+        <translation>Записей найдено</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgUsers.py" line="74"/>
         <source>New user</source>
-        <translation type="unfinished"></translation>
+        <translation>Новый пользователь</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgUsers.py" line="76"/>
         <source>Delete user</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить пользователя</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgUsers.py" line="78"/>
         <source>Edit user</source>
-        <translation type="unfinished"></translation>
+        <translation>Править  пользователя</translation>
     </message>
     <message>
         <location filename="../ui/wdgUsers.py" line="17"/>
         <source>{} products found</source>
-        <translation type="unfinished"></translation>
+        <translation>{} продуктов найдено</translation>
     </message>
     <message>
         <location filename="../ui/wdgUsers.py" line="25"/>
         <source>This product can&apos;t be removed, because is marked as not remavable</source>
-        <translation type="unfinished"></translation>
+        <translation>Этот продукт не может быть удалён, так как помечен как неудаляемый</translation>
     </message>
     <message>
         <location filename="../ui/wdgUsers.py" line="28"/>
         <source>Asking your confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation>Запрашиваем подтверждения</translation>
     </message>
     <message>
         <location filename="../ui/wdgUsers.py" line="28"/>
         <source>This action can&apos;t be undone.
 Do you want to delete this record?</source>
-        <translation type="unfinished"></translation>
+        <translation>Это действие не может быть отменено.
+Вы действительно хотите удалить эту запись?</translation>
     </message>
 </context>
 <context>
@@ -2882,47 +2913,47 @@ Do you want to delete this record?</source>
     <message>
         <location filename="../ui/Ui_wdgYear.py" line="51"/>
         <source>Select a year</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите год</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYear.py" line="50"/>
         <source>&lt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYear.py" line="53"/>
         <source>&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&gt;</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYear.py" line="55"/>
         <source>Current Year</source>
-        <translation type="unfinished"></translation>
+        <translation>Текущий год</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYear.py" line="49"/>
         <source>Previous year</source>
-        <translation type="unfinished"></translation>
+        <translation>Прошлый год</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYear.py" line="52"/>
         <source>Next year</source>
-        <translation type="unfinished"></translation>
+        <translation>Следующий год</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYear.py" line="54"/>
         <source>Current year</source>
-        <translation type="unfinished"></translation>
+        <translation>Текущий год</translation>
     </message>
     <message>
         <location filename="../ui/wdgYear.py" line="52"/>
         <source>I can&apos;t show the next year</source>
-        <translation type="unfinished"></translation>
+        <translation>Я не могу показать следующий год</translation>
     </message>
     <message>
         <location filename="../ui/wdgYear.py" line="59"/>
         <source>I can&apos;t show the previous year</source>
-        <translation type="unfinished"></translation>
+        <translation>Я не могу показать предыдущий год</translation>
     </message>
 </context>
 <context>
@@ -2930,112 +2961,112 @@ Do you want to delete this record?</source>
     <message>
         <location filename="../ui/Ui_wdgYearMonth.py" line="63"/>
         <source>Select a month and a year</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите месяц и год</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYearMonth.py" line="65"/>
         <source>&lt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYearMonth.py" line="67"/>
         <source>January</source>
-        <translation type="unfinished"></translation>
+        <translation>Январь</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYearMonth.py" line="68"/>
         <source>February</source>
-        <translation type="unfinished"></translation>
+        <translation>Февраль</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYearMonth.py" line="69"/>
         <source>March</source>
-        <translation type="unfinished"></translation>
+        <translation>Март</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYearMonth.py" line="70"/>
         <source>April</source>
-        <translation type="unfinished"></translation>
+        <translation>Апрель</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYearMonth.py" line="71"/>
         <source>May</source>
-        <translation type="unfinished"></translation>
+        <translation>Май</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYearMonth.py" line="72"/>
         <source>June</source>
-        <translation type="unfinished"></translation>
+        <translation>Июнь</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYearMonth.py" line="73"/>
         <source>July</source>
-        <translation type="unfinished"></translation>
+        <translation>Июль</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYearMonth.py" line="74"/>
         <source>August</source>
-        <translation type="unfinished"></translation>
+        <translation>Август</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYearMonth.py" line="75"/>
         <source>September</source>
-        <translation type="unfinished"></translation>
+        <translation>Сентябрь</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYearMonth.py" line="76"/>
         <source>October</source>
-        <translation type="unfinished"></translation>
+        <translation>Октябрь</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYearMonth.py" line="77"/>
         <source>November</source>
-        <translation type="unfinished"></translation>
+        <translation>Ноябрь</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYearMonth.py" line="78"/>
         <source>December</source>
-        <translation type="unfinished"></translation>
+        <translation>Декабрь</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYearMonth.py" line="81"/>
         <source>&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&gt;</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYearMonth.py" line="83"/>
         <source>Current month</source>
-        <translation type="unfinished"></translation>
+        <translation>Текущий месяц</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYearMonth.py" line="64"/>
         <source>Previous month</source>
-        <translation type="unfinished"></translation>
+        <translation>Прошлый месяц</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYearMonth.py" line="66"/>
         <source>Select a month</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите месяц</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYearMonth.py" line="79"/>
         <source>Select a year</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите год</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgYearMonth.py" line="80"/>
         <source>Next month</source>
-        <translation type="unfinished"></translation>
+        <translation>Следующий месяц</translation>
     </message>
     <message>
         <location filename="../ui/wdgYearMonth.py" line="58"/>
         <source>I can&apos;t show the next month</source>
-        <translation type="unfinished"></translation>
+        <translation>Я не могу показать следующий месяц</translation>
     </message>
     <message>
         <location filename="../ui/wdgYearMonth.py" line="69"/>
         <source>I can&apos;t show the previous month</source>
-        <translation type="unfinished"></translation>
+        <translation>Я не могу показать предыдущий месяц</translation>
     </message>
 </context>
 </TS>
