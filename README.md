@@ -1,11 +1,12 @@
 Links
 =====
+* Project web page: https://caloriestracker.github.io
 
-Doxygen documentation:
-    http://turulomio.users.sourceforge.net/doxygen/caloriestracker/
+* User documentation: https://turulomio.github.io/caloriestracker-pages/
 
-Pypi web page:
-    https://pypi.org/project/caloriestracker/
+* API documentation: http://turulomio.users.sourceforge.net/doxygen/caloriestracker/
+
+* Pypi web page: https://pypi.org/project/caloriestracker/
 
 Snapshots
 =========
