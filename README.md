@@ -1,8 +1,8 @@
 Links
 =====
-* [Project web page](doc/CONTENTS.md)
+* [Project web page](https://turulomio.github.io/caloriestracker/)
 
-* [User documentation](https://turulomio.github.io/caloriestrackerpages/)
+* [User documentation](https://turulomio.github.io/caloriestracker/doc/CONTENTS.md)
 
 * [API documentation](http://turulomio.users.sourceforge.net/doxygen/caloriestracker/)
 
