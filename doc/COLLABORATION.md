@@ -1,5 +1,4 @@
-Collaboration procedure
-=======================
+# Collaboration procedure
 
 Companies, products and its formats are hardcoded in this app and it's only updated by new releases. Nevertheless you can add your own personal companies, products and formats, as you with.
 
