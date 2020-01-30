@@ -63,7 +63,6 @@ SOURCES         = \
                   caloriestracker/caloriestracker_init.py \
                   caloriestracker/libcaloriestracker.py \
                   caloriestracker/mem.py \
-                  caloriestracker/ui/qtablewidgetitems.py \
                   caloriestracker/admin_pg.py \
                   caloriestracker/database_update.py \
                   caloriestracker/translationlanguages.py \
@@ -92,7 +91,6 @@ FORMS           = \
                   caloriestracker/ui/frmFormats.ui \
                   caloriestracker/ui/frmFormatsAdd.ui \
                   caloriestracker/ui/frmMealsAdd.ui \
-                  caloriestracker/ui/frmSelector.ui \
                   caloriestracker/ui/frmSettings.ui \
                   caloriestracker/ui/frmProductsAdd.ui \
                   caloriestracker/ui/frmProductsElaboratedAdd.ui \
