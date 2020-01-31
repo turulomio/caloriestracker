@@ -134,7 +134,7 @@ class Ui_wdgBiometrics(object):
 
         self.retranslateUi(wdgBiometrics)
         self.tabWidget.setCurrentIndex(0)
-        self.cmbChart.setCurrentIndex(0)
+        self.cmbChart.setCurrentIndex(-1)
         QtCore.QMetaObject.connectSlotsByName(wdgBiometrics)
 
     def retranslateUi(self, wdgBiometrics):

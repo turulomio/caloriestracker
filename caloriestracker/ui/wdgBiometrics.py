@@ -19,7 +19,7 @@ class wdgBiometrics(QWidget, Ui_wdgBiometrics):
         self.viewChartWeight=None
         self.wdgYM.initiate(1900,  date.today().year, date.today().year, date.today().month)
         self.wdgYM.label.hide()
-        self.on_cmbChart_currentIndexChanged(int(self.mem.settings.value("wdgBiometrics/cmbChart_index", 1)))
+        self.cmbChart.setCurrentIndex(int(self.mem.settings.value("wdgBiometrics/cmbChart_index", 1)))        
         
     @pyqtSlot() 
     def on_wdgYM_changed(self):
@@ -52,12 +52,23 @@ SELECT * FROM t ORDER BY datetime ASC""", (self.mem.user.id, ))
         
         #Create new objects
         if self.biometrics.length()>0:
+            #Calcula el datefrom
+            index=self.cmbChart.currentIndex()
+            if index==0:
+                self.datefrom= date(1900, 1, 1)
+            elif index==1:
+                self.datefrom= date.today()-timedelta(days=365)
+            elif index==2:
+                self.datefrom= date.today()-timedelta(days=365*3)
+
+            #Height chart
             if self.tabWidget.currentIndex()==1:
                 self.viewChartHeight=VCHeight()
                 self.viewChartHeight.setData(self.mem, self.datefrom)
                 self.viewChartHeight.generate()
                 self.layHeight.addWidget(self.viewChartHeight)
             
+            #Weight chart
             if self.tabWidget.currentIndex()==0:
                 self.viewChartWeight=VCWeight()
                 self.viewChartWeight.setData(self.mem, self.datefrom)
@@ -69,15 +80,8 @@ SELECT * FROM t ORDER BY datetime ASC""", (self.mem.user.id, ))
 
     @pyqtSlot(int)
     def on_cmbChart_currentIndexChanged(self, index):
-        if index==0:
-            self.datefrom= date(1900, 1, 1)
-        elif index==1:
-            self.datefrom= date.today()-timedelta(days=365)
-        elif index==2:
-            self.datefrom= date.today()-timedelta(days=365*3)
-        self.mem.settings.setValue("wdgBiometrics/cmbChart_index", self.cmbChart.currentIndex())
-        
         self.update()
+        self.mem.settings.setValue("wdgBiometrics/cmbChart_index", index)
         
         
     @pyqtSlot()
