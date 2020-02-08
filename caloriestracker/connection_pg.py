@@ -113,13 +113,13 @@ class Connection:
             self.init=datetime.now()
             self._active=True
         except OperationalError as e:
-            print('Unable to connect: {}'.format(e))
             self._active=False
+            print('Unable to connect: {}'.format(e))
 
     def disconnect(self):
         if self.is_active()==True:
             self._con.close()
-        self._active=False
+            self._active=False
 
     ##Returns if connection is active
     def is_active(self):
