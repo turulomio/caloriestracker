@@ -70,20 +70,7 @@ class Ui_wdgProducts(object):
         self.verticalLayout_2.addWidget(self.label_2)
         self.verticalLayout_3.addWidget(self.groupBox)
         self.tblProducts = myQTableWidget(wdgProducts)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.tblProducts.sizePolicy().hasHeightForWidth())
-        self.tblProducts.setSizePolicy(sizePolicy)
-        self.tblProducts.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
-        self.tblProducts.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.tblProducts.setAlternatingRowColors(True)
-        self.tblProducts.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.tblProducts.setObjectName("tblProducts")
-        self.tblProducts.setColumnCount(0)
-        self.tblProducts.setRowCount(0)
-        self.tblProducts.horizontalHeader().setStretchLastSection(False)
-        self.tblProducts.verticalHeader().setVisible(False)
         self.verticalLayout_3.addWidget(self.tblProducts)
         self.lblFound = QtWidgets.QLabel(wdgProducts)
         self.lblFound.setObjectName("lblFound")
@@ -113,7 +100,6 @@ class Ui_wdgProducts(object):
         self.retranslateUi(wdgProducts)
         QtCore.QMetaObject.connectSlotsByName(wdgProducts)
         wdgProducts.setTabOrder(self.txt, self.cmd)
-        wdgProducts.setTabOrder(self.cmd, self.tblProducts)
 
     def retranslateUi(self, wdgProducts):
         _translate = QtCore.QCoreApplication.translate

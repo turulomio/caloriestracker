@@ -7,7 +7,6 @@ from PyQt5.QtWidgets import QDialog
 from PyQt5.QtGui import QDesktopServices
 from PyQt5.QtCore import QUrl, PYQT_VERSION_STR
 from PyQt5.QtChart import PYQT_CHART_VERSION_STR
-from caloriestracker.ui.myqtablewidget import  qright, qleft
 from caloriestracker.libcaloriestracker import CompaniesAndProducts
 from caloriestracker.ui.Ui_frmAbout import Ui_frmAbout
 from caloriestracker.version import __version__,  __versiondatetime__
@@ -36,12 +35,12 @@ class frmAbout(QDialog, Ui_frmAbout):
         self.lblVersion.setText("{} ({})".format(__version__, __versiondatetime__.date()))
         dbversion=self.mem.con.cursor_one_field("select value from globals where id=1")
         self.lblProductsVersion.setText(self.tr("Database version is: {}").format(dbversion))
-        self.tblSoftware.settings(self.mem, "frmAbout")
-        self.tblStatistics.settings(self.mem, "frmAbout")
+        self.tblSoftware.settings(self.mem.settings, "frmAbout", "tblSoftware")
+        self.tblStatistics.settings(self.mem.settings, "frmAbout", "tblStatistics")
         cp=CompaniesAndProducts(self.mem)
         cp.qtablewdiget_database_registers(self.tblStatistics)
         self.load_tblSoftware()
-        self.tblSoftware.itemClicked.connect(self.OpenLink)
+        self.tblSoftware.table.itemClicked.connect(self.OpenLink)
 
 
     def OpenLink(self,item):
@@ -49,36 +48,22 @@ class frmAbout(QDialog, Ui_frmAbout):
             QDesktopServices.openUrl(QUrl(item.text()));
 
     ##Function that fills tblSoftware with data 
-    def load_tblSoftware(self):
-        #Postgres version
-        cur=self.mem.con.cursor()
+    def load_tblSoftware(self):        
+        data=[]
         postgres_version=self.mem.con.cursor_one_field("show server_version")
-        cur.close()
+        data.append(["Colorama", colorama__version__,  "https://github.com/tartley/colorama"])
+        data.append(["Officegenerator", officegenerator__version__, "https://github.com/turulomio/officegenerator"])
+        data.append(["PostgreSQL", postgres_version, "https://www.postgresql.org/"])
+        data.append(["Psycopg2", psycopg2__version__.split(" ")[0], "http://initd.org/psycopg/"])
+        data.append(["PyQt5", PYQT_VERSION_STR, "https://riverbankcomputing.com/software/pyqt/intro"])
+        data.append(["PyQtChart",  PYQT_CHART_VERSION_STR, "https://www.riverbankcomputing.com/software/pyqtchart/intro"])
+        data.append(["Python", python_version(), "https://www.python.org"])
+        data.append(["Pytz", pytz__version__, "https://pypi.org/project/pytz"])
+        self.tblSoftware.setData(
+            [self.tr("Program"), self.tr("Version"), self.tr("Url")], 
+            None, 
+            data,        
+        )
 
-        # Ui
-        self.tblSoftware.setItem(0, 0, qright(colorama__version__))
-        self.tblSoftware.setItem(0, 1, qleft("https://github.com/tartley/colorama"))
-        
-        self.tblSoftware.setItem(1, 0, qright(officegenerator__version__))
-        self.tblSoftware.setItem(1, 1, qleft("https://github.com/turulomio/officegenerator"))
-        
-        self.tblSoftware.setItem(2, 0, qright(postgres_version))
-        self.tblSoftware.setItem(2, 1, qleft("https://www.postgresql.org/"))
-        
-        self.tblSoftware.setItem(3, 0, qright(psycopg2__version__.split(" ")[0]))
-        self.tblSoftware.setItem(3, 1, qleft("http://initd.org/psycopg/"))
-        
-        self.tblSoftware.setItem(4, 0, qright(PYQT_VERSION_STR))
-        self.tblSoftware.setItem(4, 1, qleft("https://riverbankcomputing.com/software/pyqt/intro"))
-        
-        self.tblSoftware.setItem(5, 0, qright(PYQT_CHART_VERSION_STR))
-        self.tblSoftware.setItem(5, 1, qleft("https://www.riverbankcomputing.com/software/pyqtchart/intro"))
-        
-        self.tblSoftware.setItem(6, 0, qright(python_version()))
-        self.tblSoftware.setItem(6, 1, qleft("https://www.python.org"))
-                
-        self.tblSoftware.setItem(7, 0, qright(pytz__version__))
-        self.tblSoftware.setItem(7, 1, qleft("https://pypi.org/project/pytz"))
-        
-        self.tblSoftware.applySettings()
 
+1

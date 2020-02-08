@@ -10,13 +10,14 @@ class wdgMeals(QWidget, Ui_wdgMeals):
         self.setupUi(self)
         self.mem=mem
         self.meals=MealManager(self.mem)
-        self.tblMeals.settings(self.mem, "wdgMeals")
+        self.tblMeals.settings(self.mem.settings, "wdgMeals", "tblMeals")
+        self.tblMeals.table.customContextMenuRequested.connect(self.on_tblMeals_customContextMenuRequested)
         self.on_calendar_selectionChanged()
         
     def on_calendar_selectionChanged(self):
         del self.meals
         self.meals=MealManager(self.mem, self.mem.con.mogrify("select * from meals where users_id=%s and datetime::date=%s order by datetime", (self.mem.user.id, self.calendar.selectedDate().toPyDate() )))
-        self.meals.qtablewidget(self.tblMeals)
+        self.meals.myqtablewidget(self.tblMeals)
         self.lblFound.setText(self.tr("{} registers found").format(self.meals.length()))
         
     @pyqtSlot()

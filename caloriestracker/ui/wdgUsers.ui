@@ -31,32 +31,7 @@
       </widget>
      </item>
      <item>
-      <widget class="myQTableWidget" name="tblUsers">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="contextMenuPolicy">
-        <enum>Qt::CustomContextMenu</enum>
-       </property>
-       <property name="editTriggers">
-        <set>QAbstractItemView::NoEditTriggers</set>
-       </property>
-       <property name="alternatingRowColors">
-        <bool>true</bool>
-       </property>
-       <property name="selectionBehavior">
-        <enum>QAbstractItemView::SelectRows</enum>
-       </property>
-       <attribute name="horizontalHeaderStretchLastSection">
-        <bool>false</bool>
-       </attribute>
-       <attribute name="verticalHeaderVisible">
-        <bool>false</bool>
-       </attribute>
-      </widget>
+      <widget class="myQTableWidget" name="tblUsers" native="true"/>
      </item>
      <item>
       <widget class="QLabel" name="lblFound">
@@ -108,8 +83,9 @@
  <customwidgets>
   <customwidget>
    <class>myQTableWidget</class>
-   <extends>QTableWidget</extends>
+   <extends>QWidget</extends>
    <header location="global">myqtablewidget</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

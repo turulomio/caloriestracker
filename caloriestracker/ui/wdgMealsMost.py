@@ -1,7 +1,6 @@
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QWidget, QTableWidgetItem
+from PyQt5.QtWidgets import QWidget
 from caloriestracker.ui.Ui_wdgMealsMost import Ui_wdgMealsMost
-from caloriestracker.ui.myqtablewidget import qleft, qnumber
 from datetime import date,  timedelta
 
 class wdgMealsMost(QWidget, Ui_wdgMealsMost):
@@ -9,7 +8,8 @@ class wdgMealsMost(QWidget, Ui_wdgMealsMost):
         QWidget.__init__(self, parent)
         self.setupUi(self)
         self.mem=mem
-        self.tblMeals.settings(self.mem, "wdgMealsMost")
+        self.tblMeals.settings(self.mem.settings, "wdgMealsMost", "tblMeals")
+        self.tblMeals.table.customContextMenuRequested.connect(self.on_tblMeals_customContextMenuRequested)
         self.cmbPeriod.setCurrentIndex(int(self.mem.settings.value("wdgMealsMost/cmbPeriod_index", "0")))
 
     @pyqtSlot(int)
@@ -44,14 +44,18 @@ class wdgMealsMost(QWidget, Ui_wdgMealsMost):
             order by 
                 sum desc""", (datefrom, ))        
         
-        self.tblMeals.setColumnCount(2)
-        self.tblMeals.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Product")))
-        self.tblMeals.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Amount")))
-   
-        self.tblMeals.applySettings()
-        self.tblMeals.clearContents()
-        self.tblMeals.setRowCount(len(rows))
+        data=[]
         for i, row in enumerate(rows):
             product=self.mem.data.products.find_by_id_system(row['id'], row['system_product'])
-            self.tblMeals.setItem(i, 0, qleft(product.fullName()))
-            self.tblMeals.setItem(i, 1, qnumber(row['sum']))
+            data.append([
+                product.fullName(), 
+                row['sum'], 
+            ])
+        self.tblMeals.setData(
+            [self.tr("Product"), self.tr("Amount")], 
+            None, 
+            data
+        )   
+
+    def on_tblMeals_customContextMenuRequested(self,  pos):
+        self.tblMeals.qmenu().exec_(self.tblMeals.mapToGlobal(pos))

@@ -13,7 +13,8 @@ class wdgProductsElaborated(QWidget, Ui_wdgProductsElaborated):
         self.setupUi(self)
         self.mem=mem
         self.resize(self.mem.settings.value("wdgProductsElaborated/qdialog", QSize(800, 600)))
-        self.tblProductsElaborated.settings(self.mem, "wdgProductsElaborated")
+        self.tblProductsElaborated.settings(self.mem.settings, "wdgProductsElaborated", "tblProductsElaborated")
+        self.tblProductsElaborated.table.customContextMenuRequested.connect(self.on_tblProductsElaborated_customContextMenuRequested)
         self.elaboratedproducts=ProductElaboratedManager(self.mem)
         self.on_cmd_pressed()
 
@@ -71,6 +72,7 @@ class wdgProductsElaborated(QWidget, Ui_wdgProductsElaborated):
         else:
             self.actionProductDelete.setEnabled(True)
             self.actionProductEdit.setEnabled(True)
+        menu.addMenu(self.tblProductsElaborated.qmenu())
         menu.exec_(self.tblProductsElaborated.mapToGlobal(pos))
 
     def on_tblProductsElaborated_itemSelectionChanged(self):

@@ -9,7 +9,8 @@ class wdgUsers(QWidget, Ui_wdgUsers):
         QWidget.__init__(self, parent)
         self.setupUi(self)
         self.mem=mem
-        self.tblUsers.settings(self.mem, "wdgUsers")
+        self.tblUsers.settings(self.mem.settings, "wdgUsers", "tblUsers")
+        self.tblUsers.table.customContextMenuRequested.connect(self.on_tblUsers_customContextMenuRequested)
         self.update()
 
     def update(self):
@@ -60,6 +61,7 @@ class wdgUsers(QWidget, Ui_wdgUsers):
         else:
             self.actionUserDelete.setEnabled(True)
             self.actionUserEdit.setEnabled(True)
+        menu.addMenu(self.tblUsers.qmenu())
         menu.exec_(self.tblUsers.mapToGlobal(pos))
 
     def on_tblUsers_itemSelectionChanged(self):

@@ -14,7 +14,7 @@ from caloriestracker.libcaloriestrackertypes import eProductComponent, eActivity
 from caloriestracker.objects.food_type import FoodTypeManager_all
 from caloriestracker.objects.additives import AdditiveManager_all, AdditiveManager_from_integer_list__mem
 from caloriestracker.objects.additive_risk import AdditiveRiskManager_all
-from caloriestracker.ui.myqtablewidget import qtime, qleft, qright, qnumber_limited, qnumber, qdatetime, qdate, qbool
+from caloriestracker.ui.myqtablewidget import qtime, qleft, qright, qnumber_limited, qnumber
 from caloriestracker.libmanagers import ObjectManager_With_Id_Selectable,  ManagerSelectionMode, ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime_Selectable
 from colorama import Fore, Style
 from logging import debug
@@ -185,19 +185,21 @@ class CompanyAllManager(QObject, ObjectManager_With_IdName_Selectable):
         if selected!=None:
             combo.setCurrentIndex(combo.findData(selected.string_id()))
 
-    def qtablewidget(self, table):        
-        table.setColumnCount(3)
-        table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Name")))
-        table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Number of products")))   
-        table.setHorizontalHeaderItem(2, QTableWidgetItem(self.tr("Last update")))
-        table.applySettings()
-        table.clearContents()
-        table.setRowCount(self.length())
+    def myqtablewidget(self, wdg):     
+        data=[]
         for i, o in enumerate(self.arr):
-            table.setItem(i, 0, qleft(o.fullName()))
-            table.item(i, 0).setIcon(o.qicon())
-            table.setItem(i, 1, qnumber(o.get_number_products()))
-            table.setItem(i, 2, qdatetime(o.last, self.mem.localzone))
+            data.append([
+                o.fullName(), 
+                o.get_number_products(), 
+                o.last, 
+            ])
+        wdg.setData(
+            [self.tr("Name"), self.tr("Number of products"), self.tr("Last update")], 
+            None, 
+            data
+        )   
+        for i, o in enumerate(self.arr):
+            wdg.table.item(i, 0).setIcon(o.qicon())
 
 ## Class to manage products
 class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
@@ -251,45 +253,34 @@ class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
 
     ## It's a staticmethod due to it will be used in ProductAllManager
     @staticmethod
-    def qtablewidget(self, table):        
-        table.setColumnCount(10)
-        table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Name")))
-        table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Company")))
-        table.setHorizontalHeaderItem(2, QTableWidgetItem(self.tr("Food type")))
-        table.setHorizontalHeaderItem(3, QTableWidgetItem(self.tr("Last update")))
-        table.setHorizontalHeaderItem(4, QTableWidgetItem(self.tr("Grams")))
-        table.setHorizontalHeaderItem(5, QTableWidgetItem(self.tr("Calories")))
-        table.setHorizontalHeaderItem(6, QTableWidgetItem(self.tr("Carbohydrates")))
-        table.setHorizontalHeaderItem(7, QTableWidgetItem(self.tr("Protein")))
-        table.setHorizontalHeaderItem(8, QTableWidgetItem(self.tr("Fat")))
-        table.setHorizontalHeaderItem(9, QTableWidgetItem(self.tr("Fiber")))
-   
-        table.applySettings()
-        table.clearContents()
-        table.setRowCount(self.length())
+    def qtablewidget(self, wdg):        
+        data=[]
         for i, o in enumerate(self.arr):
-            table.setItem(i, 0, qleft(o.fullName()))
-            table.item(i, 0).setIcon(o.qicon())
-            if o.company==None:
-                company=""
-            else:
-                company=o.company.fullName()
-                
-            table.setItem(i, 1, qleft(company))
-            
-            if o.foodtype==None:
-                table.setItem(i, 2, qleft(""))
-            else:
-                table.setItem(i, 2, qleft(o.foodtype.name))
-            table.item(i, 2).setIcon(o.risk_qicon())
-                
-            table.setItem(i, 3, qdatetime(o.last, self.mem.localzone))
-            table.setItem(i, 4, qnumber(100))
-            table.setItem(i, 5, qnumber(o.component_in_100g(eProductComponent.Calories)))
-            table.setItem(i, 6, qnumber(o.component_in_100g(eProductComponent.Carbohydrate)))
-            table.setItem(i, 7, qnumber(o.component_in_100g(eProductComponent.Protein)))
-            table.setItem(i, 8, qnumber(o.component_in_100g(eProductComponent.Fat)))
-            table.setItem(i, 9, qnumber(o.component_in_100g(eProductComponent.Fiber)))
+            company="" if o.company==None else o.company.fullName()
+            food_type="" if o.foodtype==None else o.foodtype.name
+            data.append([
+                o.fullName(), 
+                company, 
+                food_type, 
+                o.last, 
+                100, 
+                o.component_in_100g(eProductComponent.Calories), 
+                o.component_in_100g(eProductComponent.Carbohydrate), 
+                o.component_in_100g(eProductComponent.Protein), 
+                o.component_in_100g(eProductComponent.Fat), 
+                o.component_in_100g(eProductComponent.Fiber), 
+            ])
+        wdg.setData(
+            [self.tr("Name"), self.tr("Company"), self.tr("Food type"), self.tr("Last update"), 
+            self.tr("Grams"), self.tr("Calories"), self.tr("Carbohydrates"), self.tr("Protein"), 
+            self.tr("Fat"), self.tr("Fiber")], 
+            None, 
+            data, 
+            zonename=self.mem.localzone
+        )   
+        for i, o in enumerate(self.arr):
+            wdg.table.item(i, 0).setIcon(o.qicon())
+            wdg.table.item(i, 2).setIcon(o.risk_qicon())
 
     ## Removes a product and return a boolean. NO HACE COMMIT
     def remove(self, o):
@@ -473,17 +464,22 @@ class ProductElaboratedManager(QObject, ObjectManager_With_IdName_Selectable):
         cur.close()
         
     ## It's a staticmethod due to it will be used in ProductAllManager
-    def qtablewidget(self, table):        
-        table.setColumnCount(2)
-        table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Name")))
-        table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Last update")))
-        table.applySettings()
-        table.clearContents()
-        table.setRowCount(self.length())
+    def qtablewidget(self, wdg):        
+        data=[]
         for i, o in enumerate(self.arr):
-            table.setItem(i, 0, qleft(o.fullName()))
-            table.item(i, 0).setIcon(o.qicon())
-            table.setItem(i, 1, qdatetime(o.last, self.mem.localzone))
+            data.append([
+                o.fullName(),
+                o.last, 
+            ])
+        wdg.setData(
+            [self.tr("Name"), self.tr("Last update")], 
+            None, 
+            data, 
+            zonename=self.mem.localzone
+        )   
+        for i, o in enumerate(self.arr):
+            wdg.table.item(i, 0).setIcon(o.qicon())
+
 
 class ProductInElaboratedProduct:
     ##Biometrics(mem)
@@ -942,25 +938,22 @@ class BiometricsManager(QObject, ObjectManager_With_IdName_Selectable):
             self.append(o)
         cur.close()
 
-    def qtablewidget(self, table):     
-        table.setColumnCount(6)
-        table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Date and time")))
-        table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Weight")))
-        table.setHorizontalHeaderItem(2, QTableWidgetItem(self.tr("Height")))
-        table.setHorizontalHeaderItem(3, QTableWidgetItem(self.tr("Activity")))
-        table.setHorizontalHeaderItem(4, QTableWidgetItem(self.tr("weightwish")))
-        table.setHorizontalHeaderItem(5, QTableWidgetItem(self.tr("Situation")))
-   
-        table.applySettings()
-        table.clearContents()
-        table.setRowCount(self.length())
+    def myqtablewidget(self, table):
+        data=[]
         for i, o in enumerate(self.arr):
-            table.setItem(i, 0, qdatetime(o.datetime, self.mem.localzone))
-            table.setItem(i, 1, qnumber(o.weight))
-            table.setItem(i, 2, qnumber(o.height))
-            table.setItem(i, 3, qleft(o.activity.name))
-            table.setItem(i, 4, qleft(o.weightwish.name))
-            table.setItem(i, 5, qleft(o.imc_comment()))
+            data.append([
+                o.datetime, 
+                o.weight, 
+                o.height, 
+                o.activity.name, 
+                o.weightwish.name, 
+                o.imc_comment(), 
+            ])
+        table.setData(
+            [self.tr("Date and time"), self.tr("Weight"), self.tr("Height"), self.tr("Activity"), self.tr("weightwish"), self.tr("Situation")], 
+            None, 
+            data
+        )
 
 class CompanySystem:
     ##CompanySystem(mem)
@@ -1081,19 +1074,20 @@ class CompaniesAndProducts(QObject):
             table.setItem(i, 0, qleft(name))
             table.setItem(i, 1, qright(row[1], digits=0))
             
-    def qtablewdiget_database_registers(self, table):
+    def qtablewdiget_database_registers(self, wdg):
         rows=self.mem.con.cursor_one_column("SELECT tablename FROM pg_catalog.pg_tables where schemaname='public' order by tablename") 
-        table.setColumnCount(2)
-        table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Table")))
-        table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Number of registers")))
-        table.applySettings()
-        table.clearContents()
-        table.setRowCount(len(rows))
+        data=[]
         for i, row in enumerate(rows):
-            table.setItem(i, 0, qleft(row))
-            table.setItem(i, 1, qnumber(self.mem.con.cursor_one_field("select count(*) from "+ row), digits=0))
-
-
+            data.append([
+                row, 
+                self.mem.con.cursor_one_field("select count(*) from "+ row), 
+            ])
+        wdg.setData(
+            [self.tr("Table"), self.tr("Number of registers")], 
+            None, 
+            data, 
+            decimals=0            
+        )
 
 class Product(QObject):
     ##Product(mem)
@@ -1712,52 +1706,52 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
         print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}  {}".format(recomendations.ljust(maxname+7), n2s(), a2s(self.mem.user.last_biometrics.bmr()), a2s(self.mem.user.last_biometrics.carbohydrate()), a2s(self.mem.user.last_biometrics.protein()), a2s(self.mem.user.last_biometrics.fat()), a2s(self.mem.user.last_biometrics.fiber())) + Style.RESET_ALL)
         print (Style.BRIGHT + "="*(maxlength) + Style.RESET_ALL)
 
-    def qtablewidget(self, table):        
-        table.setColumnCount(9)
-        table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Hour")))
-        table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Name")))
-        table.setHorizontalHeaderItem(2, QTableWidgetItem(self.tr("Foodtype")))
-        table.setHorizontalHeaderItem(3, QTableWidgetItem(self.tr("Grams")))
-        table.setHorizontalHeaderItem(4, QTableWidgetItem(self.tr("Calories")))
-        table.setHorizontalHeaderItem(5, QTableWidgetItem(self.tr("Carbohydrates")))
-        table.setHorizontalHeaderItem(6, QTableWidgetItem(self.tr("Protein")))
-        table.setHorizontalHeaderItem(7, QTableWidgetItem(self.tr("Fat")))
-        table.setHorizontalHeaderItem(8, QTableWidgetItem(self.tr("Fiber")))
+    def myqtablewidget(self, wdg):        
+        wdg.table.setColumnCount(9)
+        wdg.table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Hour")))
+        wdg.table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Name")))
+        wdg.table.setHorizontalHeaderItem(2, QTableWidgetItem(self.tr("Foodtype")))
+        wdg.table.setHorizontalHeaderItem(3, QTableWidgetItem(self.tr("Grams")))
+        wdg.table.setHorizontalHeaderItem(4, QTableWidgetItem(self.tr("Calories")))
+        wdg.table.setHorizontalHeaderItem(5, QTableWidgetItem(self.tr("Carbohydrates")))
+        wdg.table.setHorizontalHeaderItem(6, QTableWidgetItem(self.tr("Protein")))
+        wdg.table.setHorizontalHeaderItem(7, QTableWidgetItem(self.tr("Fat")))
+        wdg.table.setHorizontalHeaderItem(8, QTableWidgetItem(self.tr("Fiber")))
    
-        table.applySettings()
-        table.clearContents()
-        table.setRowCount(self.length()+2)
+        wdg.applySettings()
+        wdg.table.clearContents()
+        wdg.table.setRowCount(self.length()+2)
         for i, o in enumerate(self.arr):
-            table.setItem(i, 0, qtime(o.datetime))
-            table.setItem(i, 1, qleft(o.product.fullName()))
-            table.item(i, 1).setIcon(o.product.qicon())
+            wdg.table.setItem(i, 0, qtime(o.datetime))
+            wdg.table.setItem(i, 1, qleft(o.product.fullName()))
+            wdg.table.item(i, 1).setIcon(o.product.qicon())
             if o.product.foodtype==None:
-                table.setItem(i, 2, qleft(""))
+                wdg.table.setItem(i, 2, qleft(""))
             else:
-                table.setItem(i, 2, qleft(o.product.foodtype.name))
-            table.item(i, 2).setIcon(o.product.risk_qicon())
-            table.setItem(i, 3, qnumber(o.amount))
-            table.setItem(i, 4, qnumber(o.calories()))
-            table.setItem(i, 5, qnumber(o.carbohydrate()))
-            table.setItem(i, 6, qnumber(o.protein()))
-            table.setItem(i, 7, qnumber(o.fat()))
-            table.setItem(i, 8, qnumber(o.fiber()))
+                wdg.table.setItem(i, 2, qleft(o.product.foodtype.name))
+            wdg.table.item(i, 2).setIcon(o.product.risk_qicon())
+            wdg.table.setItem(i, 3, qnumber(o.amount))
+            wdg.table.setItem(i, 4, qnumber(o.calories()))
+            wdg.table.setItem(i, 5, qnumber(o.carbohydrate()))
+            wdg.table.setItem(i, 6, qnumber(o.protein()))
+            wdg.table.setItem(i, 7, qnumber(o.fat()))
+            wdg.table.setItem(i, 8, qnumber(o.fiber()))
         if self.mem.user.last_biometrics.height!=None:#Without last_biometrics
             #Totals
-            table.setItem(self.length(), 1, qleft(self.tr("Total")))
-            table.setItem(self.length(), 3, qnumber(self.grams()))
-            table.setItem(self.length(), 4, qnumber_limited(self.calories(), self.mem.user.last_biometrics.bmr()))
-            table.setItem(self.length(), 5, qnumber_limited(self.carbohydrate(), self.mem.user.last_biometrics.carbohydrate()))
-            table.setItem(self.length(), 6, qnumber_limited(self.protein(), self.mem.user.last_biometrics.protein()))
-            table.setItem(self.length(), 7, qnumber_limited(self.fat(), self.mem.user.last_biometrics.fat()))
-            table.setItem(self.length(), 8, qnumber_limited(self.fiber(), self.mem.user.last_biometrics.fiber(), reverse=True))
+            wdg.table.setItem(self.length(), 1, qleft(self.tr("Total")))
+            wdg.table.setItem(self.length(), 3, qnumber(self.grams()))
+            wdg.table.setItem(self.length(), 4, qnumber_limited(self.calories(), self.mem.user.last_biometrics.bmr()))
+            wdg.table.setItem(self.length(), 5, qnumber_limited(self.carbohydrate(), self.mem.user.last_biometrics.carbohydrate()))
+            wdg.table.setItem(self.length(), 6, qnumber_limited(self.protein(), self.mem.user.last_biometrics.protein()))
+            wdg.table.setItem(self.length(), 7, qnumber_limited(self.fat(), self.mem.user.last_biometrics.fat()))
+            wdg.table.setItem(self.length(), 8, qnumber_limited(self.fiber(), self.mem.user.last_biometrics.fiber(), reverse=True))
             #Recomendatios
-            table.setItem(self.length()+1, 1, qleft(self.tr("Recomendations")))
-            table.setItem(self.length()+1, 4, qnumber(self.mem.user.last_biometrics.bmr()))
-            table.setItem(self.length()+1, 5, qnumber(self.mem.user.last_biometrics.carbohydrate()))
-            table.setItem(self.length()+1, 6, qnumber(self.mem.user.last_biometrics.protein()))
-            table.setItem(self.length()+1, 7, qnumber(self.mem.user.last_biometrics.fat()))
-            table.setItem(self.length()+1, 8, qnumber(self.mem.user.last_biometrics.fiber()))
+            wdg.table.setItem(self.length()+1, 1, qleft(self.tr("Recomendations")))
+            wdg.table.setItem(self.length()+1, 4, qnumber(self.mem.user.last_biometrics.bmr()))
+            wdg.table.setItem(self.length()+1, 5, qnumber(self.mem.user.last_biometrics.carbohydrate()))
+            wdg.table.setItem(self.length()+1, 6, qnumber(self.mem.user.last_biometrics.protein()))
+            wdg.table.setItem(self.length()+1, 7, qnumber(self.mem.user.last_biometrics.fat()))
+            wdg.table.setItem(self.length()+1, 8, qnumber(self.mem.user.last_biometrics.fiber()))
         
 class User:
     ##User(mem)
@@ -1862,18 +1856,18 @@ class UserManager(QObject, ObjectManager_With_IdName_Selectable):
             user.load_last_biometrics()
 
     ## It's a staticmethod due to it will be used in ProductAllManager
-    def qtablewidget(self, table):        
-        table.setColumnCount(4)
-        table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Name")))
-        table.setHorizontalHeaderItem(1, QTableWidgetItem(self.tr("Male")))
-        table.setHorizontalHeaderItem(2, QTableWidgetItem(self.tr("Birthday")))
-        table.setHorizontalHeaderItem(3, QTableWidgetItem(self.tr("Starts")))
-   
-        table.applySettings()
-        table.clearContents()
-        table.setRowCount(self.length())
+    def qtablewidget(self, wdg):                
+        data=[]
         for i, o in enumerate(self.arr):
-            table.setItem(i, 0, qleft(o.name))
-            table.setItem(i, 1, qbool(o.male))
-            table.setItem(i, 2, qdate(o.birthday))
-            table.setItem(i, 3, qdatetime(o.starts, self.mem.localzone))
+            data.append([
+                o.name,
+                o.male,
+                o.birthday, 
+                o.starts, 
+            ])
+        wdg.setData(
+            [self.tr("Name"), self.tr("Male"), self.tr("Birthday"), self.tr("Starts")], 
+            None, 
+            data, 
+            zonename=self.mem.localzone
+        )

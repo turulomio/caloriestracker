@@ -75,29 +75,7 @@
           </widget>
          </item>
          <item>
-          <widget class="myQTableWidget" name="tblBiometrics">
-           <property name="contextMenuPolicy">
-            <enum>Qt::CustomContextMenu</enum>
-           </property>
-           <property name="editTriggers">
-            <set>QAbstractItemView::NoEditTriggers</set>
-           </property>
-           <property name="alternatingRowColors">
-            <bool>true</bool>
-           </property>
-           <property name="selectionMode">
-            <enum>QAbstractItemView::SingleSelection</enum>
-           </property>
-           <property name="selectionBehavior">
-            <enum>QAbstractItemView::SelectRows</enum>
-           </property>
-           <attribute name="horizontalHeaderStretchLastSection">
-            <bool>false</bool>
-           </attribute>
-           <attribute name="verticalHeaderVisible">
-            <bool>false</bool>
-           </attribute>
-          </widget>
+          <widget class="myQTableWidget" name="tblBiometrics" native="true"/>
          </item>
          <item>
           <widget class="QLabel" name="lblFound">
@@ -243,20 +221,18 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>myQTableWidget</class>
-   <extends>QTableWidget</extends>
-   <header location="global">myqtablewidget</header>
-  </customwidget>
-  <customwidget>
    <class>wdgYearMonth</class>
    <extends>QWidget</extends>
    <header location="global">wdgYearMonth</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>myQTableWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">myqtablewidget</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
- <tabstops>
-  <tabstop>tblBiometrics</tabstop>
- </tabstops>
  <resources>
   <include location="../images/caloriestracker.qrc"/>
  </resources>

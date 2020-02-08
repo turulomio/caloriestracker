@@ -11,7 +11,8 @@ class wdgProducts(QWidget, Ui_wdgProducts):
         QWidget.__init__(self, parent)
         self.setupUi(self)
         self.mem=mem
-        self.tblProducts.settings(self.mem, "wdgProducts")
+        self.tblProducts.settings(self.mem.settings, "wdgProducts", "tblProducts")
+        self.tblProducts.table.customContextMenuRequested.connect(self.on_tblProducts_customContextMenuRequested)
         self.products=ProductAllManager(self.mem)
 
     @pyqtSlot() 
@@ -95,6 +96,7 @@ class wdgProducts(QWidget, Ui_wdgProducts):
             self.actionProductDelete.setEnabled(True)
             self.actionProductEdit.setEnabled(True)
             self.actionFormats.setEnabled(True)
+        menu.addMenu(self.tblProducts.qmenu())
         menu.exec_(self.tblProducts.mapToGlobal(pos))
 
     def on_tblProducts_itemSelectionChanged(self):

@@ -14,7 +14,9 @@ class wdgBiometrics(QWidget, Ui_wdgBiometrics):
         self.setupUi(self)
         self.mem=mem
         self.biometrics=BiometricsManager(self.mem)
-        self.tblBiometrics.settings(self.mem, "wdgBiometrics")    
+        self.tblBiometrics.settings(self.mem.settings, "wdgBiometrics", "tblBiometrics") 
+        self.tblBiometrics.table.customContextMenuRequested.connect(self.on_tblBiometrics_customContextMenuRequested)
+
         self.viewChartHeight=None
         self.viewChartWeight=None
         self.wdgYM.initiate(1900,  date.today().year, date.today().year, date.today().month)
@@ -38,9 +40,9 @@ SELECT * FROM t ORDER BY datetime ASC""", (self.mem.user.id, ))
             
         #Update table
         self.biometrics=BiometricsManager(self.mem, sql, True)
-        self.biometrics.qtablewidget(self.tblBiometrics)
+        self.biometrics.myqtablewidget(self.tblBiometrics)
         if self.biometrics.selected==None:#Selects last row if there is no selection
-            self.tblBiometrics.selectRow(self.biometrics.length()-1)
+            self.tblBiometrics.table.selectRow(self.biometrics.length()-1)
         
         #Remove old objects
         if self.viewChartHeight!=None:
@@ -115,6 +117,7 @@ SELECT * FROM t ORDER BY datetime ASC""", (self.mem.user.id, ))
         debug("Selected meal: {}".format(self.biometrics.selected))
 
     def on_tblBiometrics_customContextMenuRequested(self,  pos):
+        print(pos)
         menu=QMenu()
         menu.addAction(self.actionBiometricsNew)
         menu.addAction(self.actionBiometricsDelete)
@@ -127,6 +130,8 @@ SELECT * FROM t ORDER BY datetime ASC""", (self.mem.user.id, ))
         else:
             self.actionBiometricsDelete.setEnabled(True)
             self.actionBiometricsEdit.setEnabled(True)
+        menu.addSeparator()
+        menu.addMenu(self.tblBiometrics.qmenu())
 
         menu.exec_(self.tblBiometrics.mapToGlobal(pos))
         

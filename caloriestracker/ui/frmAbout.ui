@@ -117,7 +117,7 @@
      <item>
       <widget class="QTabWidget" name="tab">
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="tabGLParchis">
         <attribute name="title">
@@ -141,13 +141,7 @@
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
-            <widget class="myQTableWidget" name="tblStatistics">
-             <column>
-              <property name="text">
-               <string/>
-              </property>
-             </column>
-            </widget>
+            <widget class="myQTableWidget" name="tblStatistics" native="true"/>
            </item>
           </layout>
          </item>
@@ -166,61 +160,7 @@
           </widget>
          </item>
          <item>
-          <widget class="myQTableWidget" name="tblSoftware">
-           <property name="toolTip">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Make click in the url to open link to the project main page&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-           <row>
-            <property name="text">
-             <string>Colorama</string>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>OfficeGenerator</string>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>PostgreSQL</string>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>Psycopg</string>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>PyQt</string>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>PyQtCharts</string>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>Python</string>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>Pytz</string>
-            </property>
-           </row>
-           <column>
-            <property name="text">
-             <string>Version</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Url</string>
-            </property>
-           </column>
-          </widget>
+          <widget class="myQTableWidget" name="tblSoftware" native="true"/>
          </item>
         </layout>
        </widget>
@@ -413,8 +353,9 @@ p, li { white-space: pre-wrap; }
  <customwidgets>
   <customwidget>
    <class>myQTableWidget</class>
-   <extends>QTableWidget</extends>
+   <extends>QWidget</extends>
    <header location="global">myqtablewidget</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

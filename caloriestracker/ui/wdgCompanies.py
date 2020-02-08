@@ -13,7 +13,8 @@ class wdgCompanies(QWidget, Ui_wdgCompanies):
         QWidget.__init__(self, parent)
         self.setupUi(self)
         self.mem=mem
-        self.tblCompanies.settings(self.mem, "wdgCompanies")
+        self.tblCompanies.settings(self.mem.settings, "wdgCompanies", "tblCompanies")
+        self.tblCompanies.table.customContextMenuRequested.connect(self.on_tblCompanies_customContextMenuRequested)
         self.companies=CompanyAllManager(self.mem)
 
     @pyqtSlot() 
@@ -69,8 +70,7 @@ class wdgCompanies(QWidget, Ui_wdgCompanies):
         lay.addWidget(lbl)
         companyproducts=self.mem.data.products.ProductAllManager_of_same_company(self.companies.selected)
         table=myQTableWidget(d)
-        table.setObjectName("tblCompanyProducts")
-        table.settings(self.mem, "wdgCompanies")
+        table.settings(self.mem, "wdgCompanies", "tblCompanyProducts")
         companyproducts.qtablewidget(table)
         lay.addWidget(table)
         d.exec_()
@@ -84,13 +84,10 @@ class wdgCompanies(QWidget, Ui_wdgCompanies):
         self.on_cmd_pressed()
 
     def on_cmd_pressed(self):
-        #        if len(self.txt.text().upper())<=2:            
-        #            qmessagebox(self.tr("Search too wide. You need more than 2 characters"))
-        #            return
         del self.companies
         self.companies=self.mem.data.companies.ObjectManager_with_name_contains_string(self.txt.text(), False, *self.mem.data.products.args)
         self.companies.setSelectionMode(ManagerSelectionMode.Object)
-        self.companies.qtablewidget(self.tblCompanies)
+        self.companies.myqtablewidget(self.tblCompanies)
         self.lblFound.setText(self.tr("{} products found").format(self.companies.length()))
 
     def on_tblCompanies_customContextMenuRequested(self,  pos):
@@ -110,6 +107,7 @@ class wdgCompanies(QWidget, Ui_wdgCompanies):
             self.actionCompanyDelete.setEnabled(True)
             self.actionCompanyEdit.setEnabled(True)
             self.actionCompanyProducts.setEnabled(True)
+        menu.addMenu(self.tblCompanies.qmenu())
         menu.exec_(self.tblCompanies.mapToGlobal(pos))
 
     def on_tblCompanies_itemSelectionChanged(self):

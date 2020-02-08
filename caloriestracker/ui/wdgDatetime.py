@@ -2,7 +2,7 @@
 ## DO NOT UPDATE IT IN YOUR CODE IT WILL BE REPLACED USING FUNCTION IN README
 
 
-from PyQt5.QtCore import pyqtSignal,  pyqtSlot
+from PyQt5.QtCore import pyqtSignal,  pyqtSlot,  Qt
 from PyQt5.QtWidgets import QWidget, QCompleter
 from datetime import datetime
 from .Ui_wdgDatetime import Ui_wdgDatetime
@@ -29,6 +29,7 @@ class wdgDatetime(QWidget, Ui_wdgDatetime):
         self.cmbZone.blockSignals(True)
         self.pytz_zones_qcombobox(self.cmbZone, None)
         self.cmbZone.blockSignals(False)
+        self.cmdNow.setFocus()
 
     def setLocalzone(self, localzone):
         self.localzone=localzone
@@ -98,6 +99,8 @@ class wdgDatetime(QWidget, Ui_wdgDatetime):
     def date(self):
         return self.teDate.selectedDate().toPyDate()
 
+
+    ## Returns a dtaware datetime or None if something is wrong
     def datetime(self):
         #qt only miliseconds
         time=self.teTime.time().toPyTime()
@@ -108,8 +111,11 @@ class wdgDatetime(QWidget, Ui_wdgDatetime):
         else:
             zone=self.cmbZone.currentText()
 
-        return dtaware(self.teDate.selectedDate().toPyDate(), time , zone)
-
+        try:
+            return dtaware(self.teDate.selectedDate().toPyDate(), time , zone)
+        except:
+            return None
+        
     def on_teDate_selectionChanged(self):
         self.updateTooltip()
         self.changed.emit()
@@ -122,6 +128,14 @@ class wdgDatetime(QWidget, Ui_wdgDatetime):
     def on_teMicroseconds_valueChanged(self):
         self.updateTooltip()
         self.changed.emit()
+
+    @pyqtSlot()
+    def on_teDate_keyPressEvent(self, event):
+        print("NO FUNCIONA PORQUE NO ES UNA SEÑAL NI HAY EN QCALENDAR")
+        if event.key() not in [Qt.Key_0, Qt.Key_1, Qt.Key_2, Qt.Key_3, Qt.Key_4, Qt.Key_5, Qt.Key_6, Qt.Key_7, Qt.Key_8, Qt.Key_9]:
+            event.reject()
+        else:
+            event.accept()
 
     @pyqtSlot(str)      
     def on_cmbZone_currentIndexChanged(self, stri):
