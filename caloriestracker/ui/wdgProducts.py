@@ -14,6 +14,7 @@ class wdgProducts(QWidget, Ui_wdgProducts):
         self.tblProducts.settings(self.mem.settings, "wdgProducts", "tblProducts")
         self.tblProducts.table.customContextMenuRequested.connect(self.on_tblProducts_customContextMenuRequested)
         self.products=ProductAllManager(self.mem)
+        self.products.qtablewidget(self.tblProducts)
 
     @pyqtSlot() 
     def on_actionProductDelete_triggered(self):

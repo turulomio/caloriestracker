@@ -19,13 +19,11 @@ class myQTableWidget(QWidget):
         self.lbl=QLabel()
         self.table=QTableWidget()
         self.table.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.lbl.setText(self.tr("Add a string to search in table"))
-        self.lbl.hide()
+        self.lbl.setText(self.tr("Add a string to filter rows"))
         self.txtSearch=QLineEdit()
-        self.txtSearch.hide()
         self.txtSearch.textChanged.connect(self.on_txt_textChanged)
         self.cmdCloseSearch=QToolButton()
-        self.cmdCloseSearch.hide()
+        self.showSearchOptions(False)
         self.cmdCloseSearch.released.connect(self.on_cmdCloseSearch_released)
         self.laySearch.addWidget(self.lbl)
         self.laySearch.addWidget(self.txtSearch)
@@ -173,6 +171,8 @@ class myQTableWidget(QWidget):
             return qnumber(o,decimals)
         elif o.__class__.__name__ in ["Percentage","Money","Currency"]:
             return o.qtablewidgetitem(decimals)
+        elif o.__class__.__name__ in ["bool", ]:
+            return qbool(o)
         else:
             return qleft(o)
 
@@ -206,9 +206,23 @@ class myQTableWidget(QWidget):
             
     def on_cmdCloseSearch_released(self):
         self.txtSearch.setText("")
-        self.lbl.hide()
-        self.txtSearch.hide()
-        self.cmdCloseSearch.hide()
+        self.showSearchOptions(False)
+        
+    def showSearchOptions(self, boolean):
+        if boolean==True:
+            self.lbl.show()
+            self.txtSearch.show()
+            self.cmdCloseSearch.show()
+        else:
+            self.lbl.hide()
+            self.txtSearch.hide()
+            self.cmdCloseSearch.hide()
+            
+    def showSearchCloseButton(self, boolean):
+        if boolean==True:
+            self.cmdCloseSearch.show()
+        else:
+            self.cmdCloseSearch.hide()
             
     def on_actionExport_triggered(self):
         filename = QFileDialog.getSaveFileName(self, self.tr("Save File"), "table.ods", self.tr("Libreoffice calc (*.ods)"))[0]

@@ -117,4 +117,7 @@
     <file>rumania.png</file>
     <file>rusia.png</file>
   </qresource>
+  <qresource prefix="/reusingcode">
+    <file>search.png</file>
+  </qresource>
 </RCC>

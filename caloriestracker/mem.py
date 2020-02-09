@@ -37,7 +37,7 @@ class Mem(QObject):
         info("Loading db data took {}".format(datetime.now()-inicio))
 
     def __del__(self):
-        if self.con.is_active():#Cierre por reject en frmAccess
+        if self.con and self.con.is_active():#Cierre por reject en frmAccess
             self.con.disconnect()
             
 

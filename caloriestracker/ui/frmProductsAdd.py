@@ -37,7 +37,6 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
         self.qlepFiber.setSuffix(self.tr("g"))
         self.qlepSugar.setSuffix(self.tr("g"))
         self.qlepSaturatedFat.setSuffix(self.tr("g"))
-        self.cmbsAdditives.setIcons(rsButton=":/caloriestracker/search.png")
         
         if self.product==None:
             self.mem.data.companies.qcombobox(self.cmbCompanies)
@@ -46,7 +45,7 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
             self.cmbFoodtypes.setCurrentIndex(-1)
             self.lbl.setText(self.tr("Add a new personal product"))
             self.qlepAmount.setValue(100)
-            self.cmbsAdditives.setManagers(self.mem, "frmProductsAdd", "cmbsAdditives", self.mem.data.additives, None, self.mem)
+            self.cmbsAdditives.setManagers(self.mem.settings, "frmProductsAdd", "cmbsAdditives", self.mem.data.additives, None, self.mem)
         else:
             self.mem.data.companies.qcombobox(self.cmbCompanies, self.product.company)
             self.mem.data.foodtypes.qcombobox(self.cmbFoodtypes, self.product.foodtype)
