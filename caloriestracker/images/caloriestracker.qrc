@@ -119,5 +119,6 @@
   </qresource>
   <qresource prefix="/reusingcode">
     <file>search.png</file>
+    <file>libreoffice_calc.png</file>
   </qresource>
 </RCC>
