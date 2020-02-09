@@ -33,9 +33,11 @@ class myQTableWidget(QWidget):
         self.setLayout(self.lay)
         
         self.actionExport=QAction(self.tr("Export to Libreoffice Calc"))
+        self.actionExport.setIcon(QIcon(":/reusingcode/libreoffice_calc.png"))
         self.actionExport.triggered.connect(self.on_actionExport_triggered)
         
         self.actionSearch=QAction(self.tr("Search in table"))
+        self.actionSearch.setIcon(QIcon(":/reusingcode/search.png"))
         self.actionSearch.triggered.connect(self.on_actionSearch_triggered)
         self.actionSearch.setShortcut(Qt.CTRL + Qt.Key_F)
         self.settingsSection=None
