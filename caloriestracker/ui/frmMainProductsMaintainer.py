@@ -27,7 +27,7 @@ class frmMainProductsMaintainer(QMainWindow, Ui_frmMainProductsMaintainer):
         self.mem.load_db_data() ##CARGA TODOS LOS DATOS Y LOS VINCULA       
   
         self.setWindowTitle(self.tr("Calories Tracker 2019-{0} \xa9 (Products maintainer mode)").format(__versiondatetime__.year))#print ("Xulpymoney 2010-{0} © €".encode('unicode-escape'))
-        self.setWindowIcon(self.mem.qicon_admin())
+        self.setWindowIcon(QIcon(":/caloriestracker/books.png"))
             
 
     @pyqtSlot()  
