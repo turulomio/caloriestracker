@@ -224,6 +224,7 @@ class MemCaloriestracker(MemGui):
     def parse_arguments(self):
         self.parser=ArgumentParser(prog='caloriestracker', description=self.tr('Report of calories'), epilog=self.epilog(), formatter_class=RawTextHelpFormatter)
         self. addCommonToArgParse(self.parser)
+        self.parser.add_argument('--products_maintainer', help=self.tr("Products mantainer interface (only developers)"), action="store_true", default=False)
         args=self.parser.parse_args()
         return args
         

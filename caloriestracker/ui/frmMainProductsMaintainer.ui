@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <author>Mariano Muñoz</author>
+ <class>frmMainProductsMaintainer</class>
+ <widget class="QMainWindow" name="frmMainProductsMaintainer">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>811</width>
+    <height>625</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="cursor">
+   <cursorShape>ArrowCursor</cursorShape>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../images/caloriestracker.qrc">
+    <normaloff>:/caloriestracker/caloriestracker.svg</normaloff>:/caloriestracker/caloriestracker.svg</iconset>
+  </property>
+  <widget class="QWidget" name="central">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <layout class="QVBoxLayout" name="layout"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QToolBar" name="tbMain">
+   <property name="windowTitle">
+    <string>Main toolbar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>26</width>
+     <height>26</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonIconOnly</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionCompanies"/>
+   <addaction name="actionProducts"/>
+   <addaction name="separator"/>
+   <addaction name="actionSettings"/>
+   <addaction name="actionCuriosities"/>
+   <addaction name="actionExit"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>811</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuAyuda">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+    <addaction name="separator"/>
+    <addaction name="actionCuriosities"/>
+    <addaction name="separator"/>
+    <addaction name="actionReportIssue"/>
+    <addaction name="separator"/>
+    <addaction name="actionHelp"/>
+   </widget>
+   <widget class="QMenu" name="menuXulpymoney">
+    <property name="title">
+     <string>C&amp;alories tracker</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="actionMemory"/>
+    <addaction name="separator"/>
+    <addaction name="actionSettings"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuProducts">
+    <property name="title">
+     <string>&amp;Products</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="actionProducts"/>
+    <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="menuCompanies">
+    <property name="title">
+     <string>&amp;Companies</string>
+    </property>
+    <addaction name="actionCompanies"/>
+    <addaction name="separator"/>
+    <addaction name="actionCompaniesAdd"/>
+   </widget>
+   <addaction name="menuXulpymoney"/>
+   <addaction name="menuCompanies"/>
+   <addaction name="menuProducts"/>
+   <addaction name="menuAyuda"/>
+  </widget>
+  <action name="actionExit">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/exit.png</normaloff>:/caloriestracker/exit.png</iconset>
+   </property>
+   <property name="text">
+    <string>E&amp;xit</string>
+   </property>
+   <property name="toolTip">
+    <string>Exit</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+Esc</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/caloriestracker.svg</normaloff>:/caloriestracker/caloriestracker.svg</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;About</string>
+   </property>
+   <property name="toolTip">
+    <string>About</string>
+   </property>
+   <property name="shortcut">
+    <string>F2</string>
+   </property>
+  </action>
+  <action name="actionMemory">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/transfer.png</normaloff>:/caloriestracker/transfer.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Update memory</string>
+   </property>
+   <property name="toolTip">
+    <string>Update memory</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/configure.png</normaloff>:/caloriestracker/configure.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Settings</string>
+   </property>
+   <property name="toolTip">
+    <string>Settings</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/benchmark.png</normaloff>:/caloriestracker/benchmark.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Help</string>
+   </property>
+   <property name="toolTip">
+    <string>Help</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+  </action>
+  <action name="actionProducts">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/books.png</normaloff>:/caloriestracker/books.png</iconset>
+   </property>
+   <property name="text">
+    <string>Products list</string>
+   </property>
+   <property name="toolTip">
+    <string>Products list</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+B</string>
+   </property>
+  </action>
+  <action name="actionCuriosities">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/curiosity.png</normaloff>:/caloriestracker/curiosity.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Curiosities</string>
+   </property>
+   <property name="toolTip">
+    <string>Curiosities</string>
+   </property>
+  </action>
+  <action name="actionCompaniesAdd">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/add.png</normaloff>:/caloriestracker/add.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add a company</string>
+   </property>
+   <property name="toolTip">
+    <string>Add a company</string>
+   </property>
+  </action>
+  <action name="actionCompanies">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/company.svg</normaloff>:/caloriestracker/company.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Companies list</string>
+   </property>
+   <property name="toolTip">
+    <string>Companies list</string>
+   </property>
+  </action>
+  <action name="actionReportIssue">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/alarm_clock.png</normaloff>:/caloriestracker/alarm_clock.png</iconset>
+   </property>
+   <property name="text">
+    <string>Report an issue</string>
+   </property>
+   <property name="toolTip">
+    <string>Report an issue</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="../images/caloriestracker.qrc"/>
+ </resources>
+ <connections/>
+</ui>

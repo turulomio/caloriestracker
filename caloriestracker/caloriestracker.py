@@ -4,7 +4,6 @@
 from PyQt5.QtWidgets import  QDialog
 from caloriestracker.mem import MemCaloriestracker
 from caloriestracker.ui.frmAccess import frmAccess
-from caloriestracker.ui.frmMain import frmMain
 from sys import exit
 
 def main():
@@ -22,8 +21,12 @@ def main():
         mem.con=mem.frmAccess.con
         mem.settings=mem.frmAccess.settings
         mem.setLocalzone()#Needs settings in mem
-
-        mem.frmMain = frmMain(mem)
+        if mem.args.products_maintainer==True:
+            from caloriestracker.ui.frmMainProductsMaintainer import frmMainProductsMaintainer
+            mem.frmMain = frmMainProductsMaintainer(mem)
+        else:
+            from caloriestracker.ui.frmMain import frmMain
+            mem.frmMain=frmMain(mem)
         mem.frmMain.show()
         exit(mem.app.exec_())
 
