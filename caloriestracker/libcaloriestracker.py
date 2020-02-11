@@ -186,17 +186,15 @@ class CompanyAllManager(QObject, ObjectManager_With_IdName_Selectable):
             combo.setCurrentIndex(combo.findData(selected.string_id()))
 
     def myqtablewidget(self, wdg):     
-        data=[]
-        for i, o in enumerate(self.arr):
-            data.append([
-                o.fullName(), 
-                o.get_number_products(), 
-                o.last, 
-            ])
-        wdg.setData(
+        wdg.setDataFromManager(
             [self.tr("Name"), self.tr("Number of products"), self.tr("Last update")], 
-            None, 
-            data
+            None,
+            self, 
+            [
+                ["fullName", []], 
+                ["get_number_products", []], 
+                "last", 
+            ], 
         )   
         for i, o in enumerate(self.arr):
             wdg.table.item(i, 0).setIcon(o.qicon())

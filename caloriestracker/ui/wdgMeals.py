@@ -12,6 +12,7 @@ class wdgMeals(QWidget, Ui_wdgMeals):
         self.meals=MealManager(self.mem)
         self.tblMeals.settings(self.mem.settings, "wdgMeals", "tblMeals")
         self.tblMeals.table.customContextMenuRequested.connect(self.on_tblMeals_customContextMenuRequested)
+        self.tblMeals.table.itemSelectionChanged.connect(self.on_tblMeals_itemSelectionChanged)
         self.on_calendar_selectionChanged()
         
     def on_calendar_selectionChanged(self):
@@ -72,7 +73,7 @@ class wdgMeals(QWidget, Ui_wdgMeals):
 
     def on_tblMeals_itemSelectionChanged(self):
         self.meals.cleanSelection()
-        for i in self.tblMeals.selectedItems():
+        for i in self.tblMeals.table.selectedItems():
             if i.column()==0 and i.row()<self.meals.length():#only once per row
                 self.meals.selected=self.meals.arr[i.row()]
         debug("Selected meal: {}".format(self.meals.selected))
@@ -101,4 +102,4 @@ class wdgMeals(QWidget, Ui_wdgMeals):
             self.actionMealEdit.setEnabled(True)
             self.actionProductEdit.setEnabled(True)
 
-        menu.exec_(self.tblMeals.mapToGlobal(pos))
+        menu.exec_(self.tblMeals.table.mapToGlobal(pos))

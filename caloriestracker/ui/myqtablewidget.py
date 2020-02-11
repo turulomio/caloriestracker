@@ -3,7 +3,7 @@
 
 from PyQt5.QtCore import Qt,  pyqtSlot, QObject
 from PyQt5.QtGui import QKeySequence, QColor, QIcon
-from PyQt5.QtWidgets import QApplication, QHeaderView, QTableWidget, QFileDialog,  QTableWidgetItem, QWidget, QCheckBox, QHBoxLayout, QVBoxLayout, QLabel, QLineEdit, QAction, QMenu, QToolButton
+from PyQt5.QtWidgets import QApplication, QHeaderView, QTableWidget, QFileDialog,  QTableWidgetItem, QWidget, QCheckBox, QHBoxLayout, QVBoxLayout, QLabel, QLineEdit, QAction, QMenu, QToolButton, QAbstractItemView
 from .. datetime_functions import dtaware2string, dtaware_changes_tz, time2string
 from officegenerator import ODS_Write, Currency, Percentage,  Coord
 from logging import info, debug
@@ -19,6 +19,11 @@ class myQTableWidget(QWidget):
         self.lbl=QLabel()
         self.table=QTableWidget()
         self.table.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.table.verticalScrollBar().valueChanged.connect(self.on_table_verticalscrollbar_value_changed)
+        self.table.verticalHeader().hide()
+        self.table.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.table.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.lbl.setText(self.tr("Add a string to filter rows"))
         self.txtSearch=QLineEdit()
         self.txtSearch.textChanged.connect(self.on_txt_textChanged)
@@ -36,13 +41,18 @@ class myQTableWidget(QWidget):
         self.actionExport.setIcon(QIcon(":/reusingcode/libreoffice_calc.png"))
         self.actionExport.triggered.connect(self.on_actionExport_triggered)
         
+        self.actionSizeMinimum=QAction(self.tr("Minimum column size"))
+        self.actionSizeMinimum.triggered.connect(self.on_actionSizeMinimum_triggered)
+        self.actionSizeNeeded=QAction(self.tr("Needed column size"))
+        self.actionSizeNeeded.triggered.connect(self.on_actionSizeNeeded_triggered)
+        
         self.actionSearch=QAction(self.tr("Search in table"))
         self.actionSearch.setIcon(QIcon(":/reusingcode/search.png"))
         self.actionSearch.triggered.connect(self.on_actionSearch_triggered)
         self.actionSearch.setShortcut(Qt.CTRL + Qt.Key_F)
-        self.settingsSection=None
         self.table.setAlternatingRowColors(True)
         self._last_height=None
+        self._none_at_top=True
                 
     def setVerticalHeaderHeight(self, height):
         """height, if null default.
@@ -60,11 +70,16 @@ class myQTableWidget(QWidget):
         if modifiers == Qt.ShiftModifier:
             for i in range(self.table.columnCount()):
                 self.table.setColumnWidth(i, newSize)
+            self.settings.setValue("{}/{}_horizontalheader_state".format(self.settingsSection, self.settingsObject), self.table.horizontalHeader().saveState() )
+            debug("Saved {}/{}_horizontalheader_state".format(self.settingsSection, self.settingsObject))
         elif modifiers == Qt.ControlModifier:
-            self.table.resizeRowsToContents()
-            self.table.resizeColumnsToContents()
-        self.settings.setValue("{}/{}_horizontalheader_state".format(self.settingsSection, self.objectName()), self.table.horizontalHeader().saveState() )
-        debug("Saved {}/{}_horizontalheader_state".format(self.settingsSection, self.table.objectName()))
+            self.on_actionSizeMinimum_triggered()
+    
+    @pyqtSlot(int)
+    def on_table_verticalscrollbar_value_changed(self, value):
+        if value % 8 ==1:
+            self.on_actionSizeNeeded_triggered()
+        
         
     def settings(self, settings, settingsSection,  objectname):
         self.settings=settings
@@ -74,25 +89,18 @@ class myQTableWidget(QWidget):
         self.settingsObject=objectname
         self.setObjectName(self.settingsObject)
 
-    def applySettings(self):
-        """settings must be defined before"""
-        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
-        self.table.horizontalHeader().sectionResized.connect(self.sectionResized)
-        state=self.settings.value("{}/{}_horizontalheader_state".format(self.settingsSection, self.objectName()))
-        if state:
-            self.table.horizontalHeader().restoreState(state)
-        
 
     def clear(self):
         """Clear table"""
         self.table.setRowCount(0)
         self.table.clearContents()
 
-    def verticalScrollbarAction(self,  action):
-        """Resizes columns if column width is less than table hint"""
-        for i in range(self.table.columnCount()):
-            if self.table.sizeHintForColumn(i)>self.table.columnWidth(i):
-                self.table.setColumnWidth(i, self.table.sizeHintForColumn(i))
+    
+    ## Resizes columns if column width is less than table hint
+    #def verticalScrollbarAction(self,  action):
+    def wheelEvent(self, event):
+        self.on_actionSizeNeeded_triggered()
+        event.accept()
 
     @pyqtSlot()
     def keyPressEvent(self, event):
@@ -112,12 +120,42 @@ class myQTableWidget(QWidget):
                 Table2ODS(self.mem,filename, self, "My table")
 
 
+    ## Order data columns. None values are set at the beginning
     def on_orderby_action_triggered(self, action):
         action=QObject.sender(self)#Busca el objeto que ha hecho la signal en el slot en el que está conectado
-        action_index=self.data_header_horizontal.index(action.text())#Search the position in the headers of the action Text
-        self.data=sorted(self.data, key=lambda c: c[action_index],  reverse=False)     
+        action_index=self.data_header_horizontal.index(action.text().replace(" (desc)",""))#Search the position in the headers of the action Text
+
+        # Sets if its reverse or not and renames action
+        if action.text().find(self.tr(" (desc)"))>0:
+             reverse=True
+             action.setText(action.text().replace(self.tr(" (desc)"),""))
+        else: #No encontrado
+             reverse=False
+             action.setText(action.text() + " (desc)")
+
+        nonull=[]
+        null=[]
+        for row in self.data:
+            if row[action_index] is None:
+                null.append(row)
+            else:
+                nonull.append(row)
+        nonull=sorted(nonull, key=lambda c: c[action_index],  reverse=reverse)
+        if self._none_at_top==True:#Set None at top of the list
+            self.data=null+nonull
+        else:
+            self.data=nonull+null
         self.setData(self.data_header_horizontal, self.data_header_vertical, self.data)
 
+
+    def applySettings(self):
+        """settings must be defined before"""
+        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
+        self.table.horizontalHeader().sectionResized.connect(self.sectionResized)
+        state=self.settings.value("{}/{}_horizontalheader_state".format(self.settingsSection, self.settingsObject))
+        if state:
+            self.table.horizontalHeader().restoreState(state)
+        
     ## Adds a horizontal header array , a vertical header array and a data array
     ##
     ## Automatically set alignment
@@ -126,12 +164,13 @@ class myQTableWidget(QWidget):
         if decimals.__class__.__name__=="int":
             decimals=[decimals]*len(header_horizontal)
         # Creates order actions here after creating data
-        self.actionListOrderBy=[]
-        for header in header_horizontal:
-            action=QAction(header)
-            self.actionListOrderBy.append(action)
-            action.triggered.connect(self.on_orderby_action_triggered)
-        
+        if hasattr(self,"actionListOrderBy")==False:
+            self.actionListOrderBy=[]
+            for header in header_horizontal:
+                action=QAction("{}".format(header))
+                self.actionListOrderBy.append(action)
+                action.triggered.connect(self.on_orderby_action_triggered)
+
         # Headers
         self.data_header_horizontal=header_horizontal
         self.data_header_vertical=header_vertical
@@ -147,6 +186,10 @@ class myQTableWidget(QWidget):
             for column in range(len(self.data_header_horizontal)):
                 self.table.setItem(row, column, self.object2qtablewidgetitem(self.data[row][column], decimals[column], zonename))
 
+    ## If true None values are set at the top of the list after sorting. If not at the bottom of the list
+    def setNoneAtTop(self,boolean):
+        self._none_at_top=boolean
+
     ## Adds a horizontal header array , a vertical header array and a data array
     ##
     ## Automatically set alignment
@@ -158,10 +201,30 @@ class myQTableWidget(QWidget):
         data=[]
         for o in manager.arr:
             row=[]
-            for name in self.manager_attributes:
-                row.append(getattr(o, name))
+            for attribute in self.manager_attributes:
+                row.append(self._attribute_to_command(o,attribute))
             data.append(row)
         self.setData(header_horizontal, header_vertical, data, decimals, zonename)
+
+
+    ## @param attribute str or list
+    ## Class Person, has self.name, self.age(), self.age_years_ago(year) self.son (another Person object)
+    ## manager_attributes of setDataFromManager must be called in a PersonManager
+    ## - ["name", ["age",[]], ["age_years_ago", [year]], ["son.age",[]]
+    def _attribute_to_command(self, o, attribute):
+        ## Returns an object 
+        def str_attribute_with_points(o, attribute):
+            for s in attribute.split("."):
+                o=getattr(o, s)
+            return o
+        # --------------------------------------
+        if attribute.__class__.__name__=="str":
+            return str_attribute_with_points(o,attribute)
+        else:#List
+            function=str_attribute_with_points(o, attribute[0])
+            parameters=attribute[1]
+            return function(*parameters)
+
                     
     ## Converts a objecct class to a qtablewidgetitem
     def object2qtablewidgetitem(self, o, decimals=2, zonename="UTC"):
@@ -225,18 +288,31 @@ class myQTableWidget(QWidget):
             self.cmdCloseSearch.show()
         else:
             self.cmdCloseSearch.hide()
-            
+
     def on_actionExport_triggered(self):
         filename = QFileDialog.getSaveFileName(self, self.tr("Save File"), "table.ods", self.tr("Libreoffice calc (*.ods)"))[0]
         if filename:
             Table2ODS(filename, self, "My table")
-            
+
+    def on_actionSizeMinimum_triggered(self):
+        self.table.resizeRowsToContents()
+        self.table.resizeColumnsToContents()
+        self.settings.setValue("{}/{}_horizontalheader_state".format(self.settingsSection, self.settingsObject), self.table.horizontalHeader().saveState() )
+        debug("Saved {}/{}_horizontalheader_state".format(self.settingsSection, self.settingsObject))
+
+    def on_actionSizeNeeded_triggered(self):
+        for i in range(self.table.columnCount()):
+            if self.table.sizeHintForColumn(i)>self.table.columnWidth(i):
+                self.table.setColumnWidth(i, self.table.sizeHintForColumn(i))
+        self.settings.setValue("{}/{}_horizontalheader_state".format(self.settingsSection, self.settingsObject), self.table.horizontalHeader().saveState() )
+        debug("Saved {}/{}_horizontalheader_state".format(self.settingsSection, self.settingsObject))
+
     def on_actionSearch_triggered(self):
         self.lbl.show()
         self.txtSearch.show()
         self.cmdCloseSearch.show()
         self.txtSearch.setFocus()
-            
+
     ## Returns a qmenu to be used in other qmenus
     def qmenu(self, title="Table options"):
         menu=QMenu(self.parent)
@@ -249,7 +325,12 @@ class myQTableWidget(QWidget):
         order.setTitle(self.tr("Order by"))
         for action in self.actionListOrderBy:
             order.addAction(action)
-        menu.addMenu(order)     
+        menu.addMenu(order)
+        size=QMenu(menu)
+        size.setTitle(self.tr("Columns size"))
+        size.addAction(self.actionSizeMinimum)
+        size.addAction(self.actionSizeNeeded)
+        menu.addMenu(size)
         return menu
         
     def on_txt_textChanged(self, text):
@@ -456,6 +537,9 @@ if __name__ == '__main__':
     class Mem:
         def __init__(self):
             self.settings=QSettings()
+            self.name="namemem"
+        def age(self, integer):
+            return integer
             
     class Prueba:
         def __init__(self, id=None, name=None, date=None, datetime=None):
@@ -463,6 +547,7 @@ if __name__ == '__main__':
             self.name=name
             self.date=date
             self.datetime=datetime
+            self.pruebita=Mem()
                 
     class PruebaManager(ObjectManager_With_IdName):
         def __init__(self):
@@ -474,6 +559,7 @@ if __name__ == '__main__':
     manager=PruebaManager()
     for i in range(100):
         manager.append(Prueba(i, b64encode(bytes(str(i).encode('UTF-8'))).decode('UTF-8'), date.today()-timedelta(days=i), datetime.now()+timedelta(seconds=3758*i)))
+    manager.append(Prueba(None,"Con None",date.today(),datetime.now()))
         
     selected=PruebaManager()
     selected.append(manager.arr[3])
@@ -483,7 +569,7 @@ if __name__ == '__main__':
 
     w = myQTableWidget()
     w.settings(mem.settings, "myqtablewidget", "tblExample")
-    w.setDataFromManager(["Id", "Name", "Date", "Last update"], None, manager, ["id", "name", "date", "datetime"] )
+    w.setDataFromManager(["Id", "Name", "Date", "Last update","Mem.name", "Mmem.age (i)"], None, manager, ["id", "name", "date", "datetime","pruebita.name", ["pruebita.age", [22,]], ] )
     w.move(300, 300)
     w.resize(800, 400)
     w.setWindowTitle('myQTableWidget example')
