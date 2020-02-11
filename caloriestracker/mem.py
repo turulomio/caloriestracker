@@ -231,7 +231,6 @@ class MemCaloriestracker(MemGui):
     def setLocalzone(self):
         self.localzone=self.settings.value("mem/localzone", "Europe/Madrid")
 
-
 class MemMaintenanceProductSystem2Personal(MemConsole):
     def __init__(self):
         MemConsole.__init__(self)

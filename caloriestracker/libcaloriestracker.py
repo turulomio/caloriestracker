@@ -999,8 +999,10 @@ class CompanySystem:
         else:
             self.mem.con.execute("update companies set name=%s,last=%s where id=%s", (self.name, datetime.now(), self.id))
     
-    def insert_string(self, table="companies"):
+    def sql_insert(self, table="companies"):
         return b2s(self.mem.con.mogrify("insert into "+table +"(name, last, id) values (%s, %s, %s);", (self.name, self.last, self.id)))
+    def sql_update(self, table="companies"):
+        return b2s(self.mem.con.mogrify("update "+table +" set name=%s, last=%s where id=%s;", (self.name, self.last, self.id)))
 
     def qicon(self):
         if self.system_company==True:
@@ -1234,11 +1236,24 @@ class Product(QObject):
     def string_id2tuple(string_id):
         return CompanySystem.string_id2tuple(string_id)
         
-    def insert_string(self, table="products"):
+    def sql_insert(self, table="products"):
         companies_id=None if self.company==None else self.company.id
-        return b2s(self.mem.con.mogrify("insert into " + table +" (name, amount, fat, protein, carbohydrate, companies_id, last, elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat,system_company, foodtypes_id, id) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);",  
-            (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.last, self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company, self.foodtype.id,  self.id)))
+        foodtypes_id=None if self.foodtype==None else self.foodtype.id
+        return b2s(self.mem.con.mogrify("insert into " + table +" (name, amount, fat, protein, carbohydrate, companies_id, last, elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat,system_company, foodtypes_id, additives, id) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);",  
+            (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.last, self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company, foodtypes_id,  self.additives.array_of_ids(), self.id)))
            
+    def sql_update(self, table="products"):
+        companies_id=None if self.company==None else self.company.id
+        foodtypes_id=None if self.foodtype==None else self.foodtype.id
+        return b2s(self.mem.con.mogrify( """update """ +table+ """ set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, last=%s,
+            elaboratedproducts_id=%s, languages=%s, calories=%s, salt=%s, cholesterol=%s, sodium=%s, potassium=%s, fiber=%s, sugars=%s, saturated_fat=%s, 
+            system_company=%s, foodtypes_id=%s, additives=%s 
+            where id=%s returning id""", 
+            (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, datetime.now(), 
+            self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.
+            system_company,  foodtypes_id, self.additives.array_of_ids()
+            , self.id)))
+        
     def is_deletable(self):
         self.needStatus(1)
         meals=self.mem.con.cursor_one_field("select count(*) from meals where products_id =%s and system_product=%s", (self.id, self.system_product))
@@ -1302,7 +1317,7 @@ class Product(QObject):
         
         #Delete old personal products
         sql.write("-- caloriestracker_maintenance_products_system2personal\n")
-        sql.write(personal.insert_string("personalproducts")+"\n")
+        sql.write(personal.sql_insert("personalproducts")+"\n")
         #UPDATING PRODUCTS IN THE REST OF TABLES
         for table in ['formats', 'meals', 'products_in_elaboratedproducts']:
             sql.write(b2s(self.mem.con.mogrify("update "+table+" set products_id=%s, system_product=%s where products_id=%s and system_product=%s;", 
@@ -1395,7 +1410,7 @@ class Format(QObject):
     def __repr__(self):
         return self.fullName()
 
-    def insert_string(self, table="formats"):
+    def sql_insert(self, table="formats"):
         return b2s(self.mem.con.mogrify("insert into "+table +"(name, amount, last, products_id, system_product, id) values (%s, %s, %s, %s, %s, %s);", (self.name, self.amount, self.last, self.product.id, self.product.system_product, self.id)))
 
     def is_deletable(self):
@@ -1464,6 +1479,14 @@ class FormatManager(QObject, ObjectManager_With_IdName_Selectable):
             table.setItem(i, 0, qleft(o.fullName(grams=False)))
             table.item(i, 0).setIcon(o.qicon())
             table.setItem(i, 1, qnumber(o.amount))
+
+    def sql_insert(self, table="formats"):
+        return b2s(self.mem.con.mogrify("insert into "+table +"(name, amount, products_id, system_product, last, id) values (%s, %s, %s, %s, %s, %s);", 
+        (self.name, self.amount, self.product.id, self.system_product, self.last, self.id)))
+        
+    def sql_update(self, table="formats"):
+        return b2s(self.mem.con.mogrify("update "+table +" set name=%s, amount=%s, products_id=%s, system_product=%s,last=%s where id=%s;", 
+        (self.name, self.amount, self.product.id, self.system_product, self.last, self.id)))
 
 class FormatPersonalManager(FormatManager):
     def __init__(self, *args):
