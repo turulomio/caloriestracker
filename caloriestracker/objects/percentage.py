@@ -4,27 +4,25 @@
 
 from logging import warning
 from decimal import Decimal
-from .currency import Currency
 
 ## Class to manage percentages in spreadsheets
 class Percentage:
     def __init__(self, numerator=None, denominator=None):
-        self.value=None
         self.setValue(self.toDecimal(numerator),self.toDecimal(denominator))
 
     def toDecimal(self, o):
         if o==None:
             return o
-        if o.__class__==Currency:
+        if o.__class__.__name__ in ["Currency", "Money"]:
             return o.amount
-        elif o.__class__==Decimal:
+        elif o.__class__.__name__=="Decimal":
             return o
-        elif o.__class__ in ( int, float):
+        elif o.__class__.__name__ in ["int", "float"]:
             return Decimal(o)
-        elif o.__class__==Percentage:
+        elif o.__class__.__name__=="Percentage":
             return o.value
         else:
-            warning (o.__class__)
+            warning (o.__class__.__name__)
             return None
 
     def __repr__(self):
@@ -86,18 +84,20 @@ class Percentage:
         return False
 
     def isGETZero(self):
-        if self.value>=0:
+        if self.isValid() and self.value>=0:
             return True
         return False
 
     def isGTZero(self):
-        if self.value>0:
+        if self.isValid() and self.value>0:
             return True
         return False
 
     def isLTZero(self):
-        if self.value<0:
+        if self.isValid() and self.value<0:
             return True
         return False
 
-
+    def qtablewidgetitem(self, decimals=2):
+        from .. ui.myqtablewidget  import qpercentage
+        return qpercentage(self, decimals=2)

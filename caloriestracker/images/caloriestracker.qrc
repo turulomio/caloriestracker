@@ -1,13 +1,13 @@
 <RCC>
   <qresource prefix="/caloriestracker">
-    <file>company.svg</file>
-    <file>user.svg</file>
-    <file>users.svg</file>
+    <file>company.png</file>
+    <file>user.png</file>
+    <file>users.png</file>
     <file>cube.png</file>
     <file>biometrics.png</file>
     <file>meal.png</file>
-    <file>meals.svg</file>
-    <file>caloriestracker.svg</file>
+    <file>meals.png</file>
+    <file>caloriestracker.png</file>
     <file>investing_com.png</file>
     <file>zerorisk.png</file>
     <file>benchmark.png</file>
@@ -16,17 +16,17 @@
     <file>opportunity.png</file>
     <file>totalreport.png</file>
     <file>layers.png</file>
-    <file>circle_red.svg</file>
-    <file>circle_yellow.svg</file>
-    <file>circle_green.svg</file>
-    <file>circle_gray.svg</file>
-    <file>circle_white.svg</file>
+    <file>circle_red.png</file>
+    <file>circle_yellow.png</file>
+    <file>circle_green.png</file>
+    <file>circle_gray.png</file>
+    <file>circle_white.png</file>
     <file>cloud_download.png</file>
     <file>cloud_download_needed.png</file>
-    <file>cooking.svg</file>
+    <file>cooking.png</file>
     <file>dividends_biggest.png</file>
     <file>dividends.png</file>
-    <file>empty.svg</file>
+    <file>empty.png</file>
     <file>merge.png</file>
     <file>libreoffice_calc.png</file>
     <file>crown.png</file>

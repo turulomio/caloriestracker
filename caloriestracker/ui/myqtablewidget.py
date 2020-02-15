@@ -5,10 +5,9 @@ from PyQt5.QtCore import Qt,  pyqtSlot, QObject
 from PyQt5.QtGui import QKeySequence, QColor, QIcon
 from PyQt5.QtWidgets import QApplication, QHeaderView, QTableWidget, QFileDialog,  QTableWidgetItem, QWidget, QCheckBox, QHBoxLayout, QVBoxLayout, QLabel, QLineEdit, QAction, QMenu, QToolButton, QAbstractItemView
 from .. datetime_functions import dtaware2string, dtaware_changes_tz, time2string
-from officegenerator import ODS_Write, Currency, Percentage,  Coord
+from officegenerator import ODS_Write
 from logging import info, debug
 from datetime import datetime, date,  timedelta
-from decimal import Decimal
                 
 class myQTableWidget(QWidget):
     def __init__(self, parent=None):
@@ -117,7 +116,9 @@ class myQTableWidget(QWidget):
         elif event.matches(QKeySequence.Print):
             filename = QFileDialog.getSaveFileName(self, self.tr("Save File"), "table.ods", self.tr("Libreoffice calc (*.ods)"))[0]
             if filename:
-                Table2ODS(self.mem,filename, self, "My table")
+                ods=ODS_Write(filename)
+                self.officegeneratorModel( "My table").ods_sheet(ods)
+                ods.save()
 
 
     ## Order data columns. None values are set at the beginning
@@ -250,10 +251,13 @@ class myQTableWidget(QWidget):
 
     ## Returns a list of strings with the horizontal headers
     def listVerticalHeaders(self):
-        header=[]
-        for i in range(self.table.verticalHeader().count()):
-            header.append(self.table.verticalHeaderItem(i).text())
-        return header
+        try:
+            header=[]
+            for i in range(self.table.verticalHeader().count()):
+                header.append(self.table.verticalHeaderItem(i).text())
+                return header
+        except:
+            return None
 
     ## Returns a lisf of rows with the text of the 
     def listText(self):
@@ -292,7 +296,9 @@ class myQTableWidget(QWidget):
     def on_actionExport_triggered(self):
         filename = QFileDialog.getSaveFileName(self, self.tr("Save File"), "table.ods", self.tr("Libreoffice calc (*.ods)"))[0]
         if filename:
-            Table2ODS(filename, self, "My table")
+            ods=ODS_Write(filename)
+            self.officegeneratorModel("My table").ods_sheet(ods)
+            ods.save()
 
     def on_actionSizeMinimum_triggered(self):
         self.table.resizeRowsToContents()
@@ -344,70 +350,20 @@ class myQTableWidget(QWidget):
                 self.table.hideRow(row)
             else:
                 self.table.showRow(row)
-
-class Table2ODS(ODS_Write):
-    def __init__(self, filename, table, title):
-        ODS_Write.__init__(self, filename)
-        sheet=self.createSheet(title)
-        #Array width
+                
+                
+    def officegeneratorModel(self, title="sheet"):
         widths=[]
-        if not table.table.verticalHeader().isHidden():
-            widths.append(table.table.verticalHeader().width()*0.90)
-        for i in range(table.table.columnCount()):
-            widths.append(table.table.columnWidth(i)*0.90)
-        sheet.setColumnsWidth(widths)
+        for i in range(self.table.columnCount()):
+            widths.append(self.table.columnWidth(i)*0.033)
 
-        #firstcontentletter and firstcontentnumber
-        if table.table.horizontalHeader().isHidden() and not table.table.verticalHeader().isHidden():
-            coord=Coord("B1")
-        elif not table.table.horizontalHeader().isHidden() and table.table.verticalHeader().isHidden():
-            print("A2")
-            coord=Coord("A2")
-            topleft=Coord("A2") if table.table.rowCount()<21 else Coord("A2").addRow(table.table.rowCount()-1-20)
-            sheet.freezeAndSelect(coord, Coord("A2").addRow(table.table.rowCount()-1), topleft)
-        elif not table.table.horizontalHeader().isHidden() and not table.table.verticalHeader().isHidden():
-            coord=Coord("B2")
-        elif table.table.horizontalHeader().isHidden() and table.table.verticalHeader().isHidden():
-            coord=Coord("A1")
-
-        #HH
-        if not table.table.horizontalHeader().isHidden():
-            for letter in range(table.table.columnCount()):
-                sheet.add(Coord(coord.letter + "1").addColumn(letter), table.table.horizontalHeaderItem(letter).text(), "OrangeCenter")
-        #VH
-        if not table.table.verticalHeader().isHidden():
-            for number in range(table.table.rowCount()):
-                try:#Caputuro cuando se numera sin items 1, 2, 3
-                    sheet.add(Coord("A" + coord.number).addRow(number), table.table.verticalHeaderItem(number).text(), "YellowLeft")
-                except:
-                    pass
-        #Items
-        for number, row in enumerate(table.data):
-            for letter, column in enumerate(row):
-                try:
-                    sheet.add(Coord(coord.string()).addColumn(letter).addRow(number), column, self.object2style(column))
-                except:#None
-                    pass
-        self.save()
-
-    def object2style(self, o):
-        """
-            Define el style de un objeto
-        """
-        if o.__class__==Currency:
-            return "WhiteEuro"
-        elif o.__class__==Percentage:
-            return "WhitePercentage"
-        elif o.__class__==datetime:
-            return "WhiteDatetime"
-        elif o.__class__==date:
-            return "WhiteDate"
-        elif o.__class__==Decimal:
-            return "WhiteDecimal6"
-        elif o.__class__==int:
-            return "WhiteInteger"
-        else:
-            return "WhiteLeft"
+        from officegenerator.standard_sheets import Model
+        m=Model()
+        m.setTitle(title)
+        m.setHorizontalHeaders(self.listHorizontalHeaders(), widths)
+        m.setVerticalHeaders(self.listVerticalHeaders())
+        m.setData(self.data)
+        return m
 
 def qbool(bool):
     """Prints bool and check. Is read only and enabled"""
@@ -453,6 +409,16 @@ def qcenter(string):
         return qempty()
     a=QTableWidgetItem(str(string))
     a.setTextAlignment(Qt.AlignVCenter|Qt.AlignCenter)
+    return a
+    
+## Currency object from reusingcode
+def qcurrency(currency, decimals=2):
+    a=QTableWidgetItem(currency.string(decimals))
+    a.setTextAlignment(Qt.AlignVCenter|Qt.AlignRight)
+    if currency.amount==None:
+        a.setForeground(QColor(0, 0, 255))
+    elif currency.amount<0:
+        a.setForeground(QColor(255, 0, 0))
     return a
 
 def qleft(string):
@@ -527,7 +493,14 @@ def qtime(ti, format="HH:MM"):
             item.setBackground(QColor(148, 148, 148))
     return item
 
-
+def qpercentage(percentage, decimals=2):
+    a=QTableWidgetItem(percentage.string(decimals))
+    a.setTextAlignment(Qt.AlignVCenter|Qt.AlignRight)
+    if percentage.value==None:
+        a.setForeground(QColor(0, 0, 255))
+    elif percentage.value<0:
+        a.setForeground(QColor(255, 0, 0))
+    return a
 
 if __name__ == '__main__':
     from libmanagers import ObjectManager_With_IdName

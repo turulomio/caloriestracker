@@ -16,7 +16,7 @@ class Ui_frmMealsAdd(object):
         frmMealsAdd.setWindowModality(QtCore.Qt.WindowModal)
         frmMealsAdd.resize(692, 366)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/caloriestracker/meals.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/caloriestracker/meals.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         frmMealsAdd.setWindowIcon(icon)
         frmMealsAdd.setModal(True)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(frmMealsAdd)

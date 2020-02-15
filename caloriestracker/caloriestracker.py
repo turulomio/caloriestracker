@@ -13,7 +13,7 @@ def main():
     mem=MemCaloriestracker()
     mem.run()
     mem.frmAccess=frmAccess("caloriestracker","frmAccess")
-    mem.frmAccess.setResources(":/caloriestracker/books.png", ":/caloriestracker/meals.svg")
+    mem.frmAccess.setResources(":/caloriestracker/books.png", ":/caloriestracker/meals.png")
     mem.frmAccess.setLabel(mem.tr("Please login to the Calories Tracker database"))
     mem.frmAccess.exec_()
 

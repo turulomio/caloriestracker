@@ -79,11 +79,11 @@ class MemGui(Mem):
         Mem.__init__(self)
         
     def app_resource(self):
-        return ":/caloriestracker/caloriestracker.svg"
+        return ":/caloriestracker/caloriestracker.png"
 
     def qicon(self):
         icon = QIcon()
-        icon.addPixmap(QPixmap(":/caloriestracker/caloriestracker.svg"), QIcon.Normal, QIcon.Off)
+        icon.addPixmap(QPixmap(":/caloriestracker/caloriestracker.png"), QIcon.Normal, QIcon.Off)
         return icon
 
     ## Returns an icon for admin 

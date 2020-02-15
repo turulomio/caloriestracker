@@ -22,7 +22,6 @@ from .datetime_functions import dtaware_day_end_from_date, dtaware_day_start_fro
 class ManagerSelectionMode:
     Object=0
     List=1
-    Manager=2
 
 class MyMem:
     def __init__(self):
@@ -35,6 +34,14 @@ class ObjectManager(object):
     def __init__(self):
         self.arr=[]       
         self.selected=None#Used to select a item in the set. Usefull in tables. Its a item
+
+    ## Store constructor params to allow create new instances of this managers
+    def setConstructorParameters(self, *params):
+        self.initparams=params
+
+    ## Needs the setConstructorParameters before
+    def newEmptyManager(self):
+        return self.__class__(*self.initparams)
 
     def append(self,  obj):
         self.arr.append(obj)
@@ -53,10 +60,10 @@ class ObjectManager(object):
         """Deletes all items"""
         self.arr=[]
                 
-    def clone(self,  *initparams):
+    def clone(self):
         """Returns other Set object, with items referenced, ojo con las formas de las instancias
         initparams son los parametros de iniciación de la clase"""
-        result=self.__class__(*initparams)#Para que coja la clase del objeto que lo invoca
+        result=self.newEmptyManager()
         for a in self.arr:
             result.append(a)
         return result
@@ -71,8 +78,6 @@ class ObjectManager(object):
     def last(self):
         return self.arr[self.length()-1]
 
-        
-        
     def print(self):
         print ("Objects in {}".format(self.__class__))
         for q in self.arr:
@@ -85,34 +90,31 @@ class ManagerSelection(object):
     def __init__(self):
         self.__selected=None
         self.__selectionmode=ManagerSelectionMode.Object
-        
+
     @property
     def selected(self):
         return self.__selected
-        
+
     @selected.setter
     def selected(self, value):
         self.__selected=value
         
     def selectionMode(self):
         return self.__selectionmode
-        
+
+    ## @param value ManagerSelectionMode
     def setSelectionMode(self, value):
         self.__selectionmode=value
         if value==ManagerSelectionMode.Object:
             self.selected=None
         elif value==ManagerSelectionMode.List:
             self.selected=[]
-        elif value==ManagerSelectionMode.Manager:#Returns parent __class__
-            self.selected=self.__class__.__bases__[0]()
-        
+
     def cleanSelection(self):
         if self.selectionMode()==ManagerSelectionMode.Object:
             self.selected=None
         elif self.selectionMode()==ManagerSelectionMode.List:
             self.selected=[]
-        elif self.selectionMode()==ManagerSelectionMode.Manager:#Returns parent __class__
-            self.selected.clean()
 
     ## Useful to setselection without interactivvite ui
     ## @param list Can be, list, manager or object
@@ -121,11 +123,17 @@ class ManagerSelection(object):
         if self.selectionMode()==ManagerSelectionMode.List:
             for o in list:
                 self.selected.append(o)
-        elif self.selectionMode()==ManagerSelectionMode.Manager:
-            for o in list.arr:
-                self.selected.append(o)
         else:#Object
             self.selected=list
+    
+    ## Converts selection to a manager. With this function I removed ManagerSelectionMode.Manager.
+    def convertSelectionToManager(self):
+        r=self.emptyManager()
+        if self.selectionMode()==ManagerSelectionMode.List:
+            r.arr=self.selected
+        else:#Object
+            r.append(self.selected)
+        return r
 
 ## Objects in DictListObjectManager has and id. The Id can be a integer or a string or ...
 class ObjectManager_With_Id(ObjectManager):

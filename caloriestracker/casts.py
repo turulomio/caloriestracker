@@ -156,3 +156,10 @@ def xml2string(s):
     s=s.replace('&amp;','&')
     s=s.replace('&apos;',"'")
     return s
+    
+## Converts my common objects to its numeric value
+def object2value(o):
+    if o.__class__.__name__ in ["int", "float", "Decimal"]:
+        return o
+    elif o.__class__.__name__ in ["Currency",  "Money"]:
+        return o.amount

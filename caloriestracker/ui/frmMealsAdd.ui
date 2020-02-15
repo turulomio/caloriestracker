@@ -18,7 +18,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../images/caloriestracker.qrc">
-    <normaloff>:/caloriestracker/meals.svg</normaloff>:/caloriestracker/meals.svg</iconset>
+    <normaloff>:/caloriestracker/meals.png</normaloff>:/caloriestracker/meals.png</iconset>
   </property>
   <property name="modal">
    <bool>true</bool>

@@ -3,10 +3,12 @@
 ## DO NOT UPDATE IT IN YOUR CODE IT WILL BE REPLACED USING FUNCTION IN README
 
 from PyQt5.QtChart import QChart,  QLineSeries, QChartView, QValueAxis, QDateTimeAxis,  QPieSeries, QScatterSeries, QCandlestickSeries,  QCandlestickSet
-from PyQt5.QtCore import Qt, pyqtSlot, QObject, QPoint
-from PyQt5.QtGui import QPainter, QFont, QIcon, QColor
-from PyQt5.QtWidgets import QAction, QMenu, QFileDialog, QProgressDialog, QApplication, QDialog, QLabel, QVBoxLayout, QHBoxLayout, QGraphicsSimpleTextItem
+from PyQt5.QtCore import Qt, pyqtSlot, QObject, QPoint, pyqtSignal
+from PyQt5.QtGui import QPainter, QFont, QIcon, QColor, QImage
+from PyQt5.QtWidgets import QWidget, QAction, QMenu, QFileDialog, QProgressDialog, QApplication, QDialog, QLabel, QVBoxLayout, QHBoxLayout, QGraphicsSimpleTextItem, QSizePolicy
+from .myqtablewidget import myQTableWidget
 from .. objects.percentage import Percentage
+from .. casts import object2value
 from .. datetime_functions import epochms2dtaware, dtaware2epochms, dtnaive2string
 from datetime import timedelta, datetime
 from decimal import Decimal
@@ -27,6 +29,7 @@ class eOHCLDuration:
         combo.setCurrentIndex(combo.findData(selected_eOHCLDuration))
 
 class VCCommons(QChartView):
+    displayed=pyqtSignal()
     def __init__(self):
         QChartView.__init__(self)
 
@@ -35,15 +38,9 @@ class VCCommons(QChartView):
         self._animations=True
         self._progressDialogEnabled=False
         self.actionSave=QAction(self.tr("Save as image"))
-        self.actionSave.setIcon(QIcon(":/xulpymoney/save.png"))
+        self.actionSave.setIcon(QIcon(":/reusingcode/save.png"))
         self.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.customContextMenuRequested.connect(self.on_customContextMenuRequested)
         self.actionSave.triggered.connect(self.on_actionSave_triggered)
-
-    def on_customContextMenuRequested(self, pos):
-        menu=QMenu()
-        menu.addAction(self.actionSave)
-        menu.exec_(self.mapToGlobal(pos))
         
     @pyqtSlot()
     def on_actionSave_triggered(self):
@@ -111,8 +108,12 @@ class VCCommons(QChartView):
 
     ## Save view to a file to generate an image file
     def save(self, savefile):
-        pixmap=self.grab()
-        pixmap.save(savefile, quality=100)
+        img=QImage(self.size(), QImage.Format_ARGB32)
+        painter=QPainter(img)
+        painter.setRenderHint(QPainter.Antialiasing)
+        self.render(painter)
+        painter.end()
+        img.save(savefile, quality=100)
 
     ## Sets if the chart must show animations
     def setAnimations(self, boolean):
@@ -123,6 +124,7 @@ class VCTemporalSeries(VCCommons):
     def __init__(self):
         VCCommons.__init__(self)
         self.__chart=QChart() #After setChart you must call it with chart()
+        self.customContextMenuRequested.connect(self.on_customContextMenuRequested)
         self._allowHideSeries=True
 
         #Axis cration
@@ -345,20 +347,31 @@ class VCTemporalSeries(VCCommons):
                 marker.clicked.connect(self.on_marker_clicked)
         self.repaint()
 
-class VCPie(VCCommons):
+    ## Returns a qmenu to be used in other qmenus
+    def qmenu(self, title="Chart options"):
+        menu=QMenu(self)
+        menu.setTitle(self.tr(title))
+        menu.addAction(self.actionSave)
+        return menu
+
+    def on_customContextMenuRequested(self, pos):
+        self.qmenu().exec_(self.mapToGlobal(pos))
+
+class VCPieAlone(VCCommons):
     def __init__(self):
         VCCommons.__init__(self)
+        self.data=[]#Dta with float only for chart
+        self.dataobjects=[]#Data with objects
         self.setRenderHint(QPainter.Antialiasing)
         self.clear()
-
-    def setCurrency(self, currency):
-        """
-            currency is a Currency Object
-        """
-        self.currency=currency
+        
+    ## If you use VCPieAlone you can add a context menu setting boolean to True
+    def setCustomContextMenu(self, boolean):
+        self.customContextMenuRequested.connect(self.on_customContextMenuRequested)
 
     def appendData(self, name, value,  exploded=False):
-        slice=self.serie.append(name, value)
+        self.data.append([name, value])
+        slice=self.serie.append(name, object2value(value))#only float
         slice.setExploded(exploded)
         slice.setLabelVisible()
         
@@ -371,18 +384,27 @@ class VCPie(VCCommons):
             self.chart().setAnimationOptions(QChart.NoAnimation)
 
         self._display_set_title()
-        tooltip=""
-        c=self.currency.string
         for slice in self.serie.slices():
-            tooltip=tooltip+"{}: {} ({})\n".format(slice.label(), c(slice.value()), Percentage(slice.percentage(), 1)).upper()
-            slice.setLabel("{}: {}".format(slice.label(), Percentage(slice.percentage(), 1)).upper())
+            slice.setLabel("{}: {}".format(slice.label(), Percentage(slice.percentage(), 1)))
             if slice.percentage()<0.005:
                 slice.setLabelVisible(False)
-        tooltip=tooltip+"*** Total: {} ***".format(c(self.serie.sum())).upper()
         self.chart().addSeries(self.serie)
         
-        self.setToolTip(tooltip)
         self.repaint()
+        self.displayed.emit()
+        
+    def sum_values(self):
+        if len(self.data)==0:
+            return None
+        cls=self.data[0][1].__class__.__name__
+        print(cls)
+        if cls in ["int", "flota", "Decimal"]:
+            s=0
+        elif cls in ["Currency",]:
+            s=self.data[0][1].__class__(0, self.data[0][1].currency)
+        for row in self.data:
+            s=s+row[1]
+        return s
         
     def clear(self):
         self.__chart=QChart()
@@ -393,6 +415,16 @@ class VCPie(VCCommons):
         self.serie.setPieEndAngle(450)
 
 
+    ## Returns a qmenu to be used in other qmenus
+    def qmenu(self, title="Pie chart options"):
+        menu=QMenu(self)
+        menu.setTitle(self.tr(title))
+        menu.addAction(self.actionSave)
+        return menu
+
+    def on_customContextMenuRequested(self, pos):
+        self.qmenu().exec_(self.mapToGlobal(pos))
+        
 class MyPopup(QDialog):
     def __init__(self, parent=None):
         QDialog.__init__(self, parent, Qt.ToolTip|Qt.WindowStaysOnTopHint)
@@ -442,3 +474,112 @@ class MyPopup(QDialog):
 
     def mousePressEvent(self, event):
         self.hide()
+        
+        
+class VCPie(QWidget):
+    def __init__(self, parent=None):
+        QWidget.__init__(self, parent)
+        self.parent=parent
+        
+        self.lay=QHBoxLayout()
+        
+        self.layTable=QVBoxLayout()
+        
+        self.lblTotal=QLabel(self)
+        self.lblTotal.hide()        
+        font = QFont()
+        font.setBold(True)
+        self.lblTotal.setFont(font)
+        self.lblTotal.setAlignment(Qt.AlignCenter)
+        
+        self.pie=VCPieAlone()
+        piesizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        piesizePolicy.setHorizontalStretch(2)
+        self.pie.setSizePolicy(piesizePolicy)
+        self.pie.displayed.connect(self.on_pie_displayed)
+        
+        self.table=myQTableWidget(self)
+        self.table.hide()
+        self.table.table.horizontalHeader().setStretchLastSection(True)
+        tablesizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        tablesizePolicy.setHorizontalStretch(1)
+        self.table.setSizePolicy(tablesizePolicy)
+        
+        self.lay.addWidget(self.pie)
+        self.layTable.addWidget(self.table)
+        self.layTable.addWidget(self.lblTotal)
+        self.lay.addLayout(self.layTable)
+        self.setLayout(self.lay)
+        
+        self.actionShowData=QAction(self.tr("Show chart data"))
+        self.actionShowData.setIcon(QIcon(":/reusingcode/database.png"))
+        self.actionShowData.triggered.connect(self.on_actionShowData_triggered)
+        self.pie.customContextMenuRequested.connect(self.on_customContextMenuRequested)
+        
+    def settings(self, settings, settingsSection,  settingsObject):
+        self.settings=settings
+        self.settingsSection=settingsSection
+        self.settingsObject=settingsObject
+        self.setObjectName(self.settingsObject)
+        self.table.settings(self.settings, self.settingsSection, self.settingsObject+"_mqtw")
+
+    def on_pie_displayed(self):
+        self.table.setData([self.tr("Name"), self.tr("Value")], None, self.pie.data)
+        self.lblTotal.setText(self.tr("Total: {}").format(self.pie.sum_values()))
+        
+    def on_actionShowData_triggered(self):
+        if self.actionShowData.text()==self.tr("Show chart data"):
+            self.table.show()
+            self.lblTotal.show()
+            self.actionShowData.setText(self.tr("Hide chart data"))
+        else:
+            self.table.hide()
+            self.lblTotal.hide()
+            self.actionShowData.setText(self.tr("Show chart data"))
+            
+            
+        
+
+    ## Returns a qmenu to be used in other qmenus
+    def qmenu(self, title="Pie chart options"):
+        menu=QMenu(self)
+        menu.setTitle(self.tr(title))
+        menu.addAction(self.pie.actionSave)
+        menu.addSeparator()
+        menu.addAction(self.actionShowData)
+        return menu
+
+    def on_customContextMenuRequested(self, pos):
+        self.qmenu().exec_(self.mapToGlobal(pos))
+
+if __name__ == '__main__':
+    d={'one':1, 'two':2, 'three':3, 'four':4}
+    app = QApplication([])
+    w=QWidget()
+    from PyQt5.QtCore import QSettings
+    settings=QSettings()
+    
+    #Temporal series
+    vcts=VCTemporalSeries()
+    sBasic=vcts.appendTemporalSeries("Basic")
+    for i in range(20):
+        vcts.appendTemporalSeriesData(sBasic, datetime.now()+timedelta(days=i),  i % 5)
+    vcts.display()
+    
+    #Pie
+    wdgvcpie=VCPie(w)
+    wdgvcpie.settings(settings, "example", "vcpie")
+    for k, v in d.items():
+        wdgvcpie.pie.appendData(k, v)
+    wdgvcpie.pie.display()
+    
+    #Widget
+    lay=QHBoxLayout(w)
+    lay.addWidget(vcts)
+    lay.addWidget(wdgvcpie)
+    w.resize(1500, 450)
+    w.move(300, 300)
+    w.setWindowTitle('myqcharts example')
+    w.show()
+    
+    app.exec()

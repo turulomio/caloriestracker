@@ -22,7 +22,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../images/caloriestracker.qrc">
-    <normaloff>:/caloriestracker/caloriestracker.svg</normaloff>:/caloriestracker/caloriestracker.svg</iconset>
+    <normaloff>:/caloriestracker/caloriestracker.png</normaloff>:/caloriestracker/caloriestracker.png</iconset>
   </property>
   <widget class="QWidget" name="central">
    <property name="enabled">
@@ -46,7 +46,7 @@
      <x>0</x>
      <y>0</y>
      <width>811</width>
-     <height>34</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAyuda">
@@ -177,7 +177,7 @@
   <action name="actionAbout">
    <property name="icon">
     <iconset resource="../images/caloriestracker.qrc">
-     <normaloff>:/caloriestracker/caloriestracker.svg</normaloff>:/caloriestracker/caloriestracker.svg</iconset>
+     <normaloff>:/caloriestracker/caloriestracker.png</normaloff>:/caloriestracker/caloriestracker.png</iconset>
    </property>
    <property name="text">
     <string>&amp;About</string>
@@ -246,7 +246,7 @@
   <action name="actionElaboratedProducts">
    <property name="icon">
     <iconset resource="../images/caloriestracker.qrc">
-     <normaloff>:/caloriestracker/cooking.svg</normaloff>:/caloriestracker/cooking.svg</iconset>
+     <normaloff>:/caloriestracker/cooking.png</normaloff>:/caloriestracker/cooking.png</iconset>
    </property>
    <property name="text">
     <string>Elaborated products list</string>
@@ -270,7 +270,7 @@
   <action name="actionMeals">
    <property name="icon">
     <iconset resource="../images/caloriestracker.qrc">
-     <normaloff>:/caloriestracker/meals.svg</normaloff>:/caloriestracker/meals.svg</iconset>
+     <normaloff>:/caloriestracker/meals.png</normaloff>:/caloriestracker/meals.png</iconset>
    </property>
    <property name="text">
     <string>Meals</string>
@@ -330,7 +330,7 @@
   <action name="actionCompanies">
    <property name="icon">
     <iconset resource="../images/caloriestracker.qrc">
-     <normaloff>:/caloriestracker/company.svg</normaloff>:/caloriestracker/company.svg</iconset>
+     <normaloff>:/caloriestracker/company.png</normaloff>:/caloriestracker/company.png</iconset>
    </property>
    <property name="text">
     <string>Companies list</string>
@@ -342,7 +342,7 @@
   <action name="actionUsers">
    <property name="icon">
     <iconset resource="../images/caloriestracker.qrc">
-     <normaloff>:/caloriestracker/users.svg</normaloff>:/caloriestracker/users.svg</iconset>
+     <normaloff>:/caloriestracker/users.png</normaloff>:/caloriestracker/users.png</iconset>
    </property>
    <property name="text">
     <string>Users list</string>
@@ -377,8 +377,8 @@
   </action>
   <action name="actionUserCurrent">
    <property name="icon">
-    <iconset>
-     <normaloff>../images/user.svg</normaloff>../images/user.svg</iconset>
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/user.png</normaloff>:/caloriestracker/user.png</iconset>
    </property>
    <property name="text">
     <string>Current user</string>

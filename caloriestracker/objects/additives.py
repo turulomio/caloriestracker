@@ -15,7 +15,7 @@ class Additive:
         
     def qicon(self):
         if self.risk==None:
-            return QIcon(":/caloriestracker/empty.svg")
+            return QIcon(":/caloriestracker/empty.png")
         return self.risk.qicon()
         
         

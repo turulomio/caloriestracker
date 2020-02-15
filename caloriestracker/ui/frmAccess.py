@@ -14,6 +14,8 @@
 from PyQt5.QtCore import pyqtSlot, QSettings
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import QDialog, QMessageBox
+from logging import debug
+from os import environ
 from .Ui_frmAccess import Ui_frmAccess
 from .. connection_pg_qt import ConnectionQt
 from .. translationlanguages import TranslationLanguageManager
@@ -39,21 +41,30 @@ class frmAccess(QDialog, Ui_frmAccess):
         self.setupUi(self)
         self.parent=parent
 
-#        self.cmbLanguages.disconnect()
         self.languages=TranslationLanguageManager()
         self.languages.load_all()
         self.languages.selected=self.languages.find_by_id(self.settings.value(self.settingsroot+"/language", "en"))
         self.languages.qcombobox(self.cmbLanguages, self.languages.selected)
-#        self.cmbLanguages.currentIndexChanged.connect(self.on_cmbLanguages_currentIndexChanged)
 
+        self.con=ConnectionQt()#Pointer to connection
+        
         self.setTitle(self.tr("Log in PostreSQL database"))
         self.txtDB.setText(self.settings.value(self.settingsroot +"/db", "" ))
         self.txtPort.setText(self.settings.value(self.settingsroot +"/port", "5432"))
         self.txtUser.setText(self.settings.value(self.settingsroot +"/user", "postgres" ))
         self.txtServer.setText(self.settings.value(self.settingsroot +"/server", "127.0.0.1" ))
-        self.txtPass.setFocus()
+        
+    ## Reimplements QDialog.exec_ method to make an autologin if PGPASSWORD environment variable is detected.
+    def exec_(self):
+        try:
+            self.password=environ['PGPASSWORD']
+            debug("Password automatically set from environment variable")
+            self.txtPass.setText(self.password)
+            self.cmdYN.accepted.emit()
+        except:
+            self.txtPass.setFocus()
+            QDialog.exec_(self)
 
-        self.con=ConnectionQt()#Pointer to connection
 
     def setResources(self, pixmap, icon):
         self.icon= QIcon(icon)
@@ -92,7 +103,6 @@ class frmAccess(QDialog, Ui_frmAccess):
             self.accept()
         else:
             self.qmessagebox(self.tr("Error conecting to {} database in {} server").format(self.con.db, self.con.server))
-            return
 
     @pyqtSlot() 
     def on_cmdYN_rejected(self):

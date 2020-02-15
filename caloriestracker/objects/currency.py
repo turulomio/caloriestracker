@@ -50,7 +50,7 @@ class Currency:
     ##
     ## En caso de querer multiplicar por un numero debe ser despues. For example: money*4
     def __mul__(self, money):
-        if money.__class__ in (int,  float, Decimal):
+        if money.__class__.__name__ in ("int",  "float", "Decimal"):
             return Currency(self.amount*money, self.currency)
         if self.currency==money.currency:
             return Currency(self.amount*money.amount, self.currency)
@@ -76,14 +76,9 @@ class Currency:
         return "{} {}".format(round(self.amount, digits), self.symbol())
 
         
-    def qtablewidgetitem(self, rnd=2):
-        a=QTableWidgetItem(self.string(rnd))
-        a.setTextAlignment(Qt.AlignVCenter|Qt.AlignRight)
-        if self.value==None:
-            a.setForeground(QColor(0, 0, 255))
-        elif self.value<0:
-            a.setForeground(QColor(255, 0, 0))
-        return a
+    def qtablewidgetitem(self, decimals=2):
+        from .. ui.myqtablewidget import qcurrency
+        return qcurrency(self, decimals=2)
 
     ## Returns the symbol of the currency
     def symbol(self):

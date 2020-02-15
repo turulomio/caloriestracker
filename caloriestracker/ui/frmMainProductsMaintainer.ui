@@ -22,7 +22,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../images/caloriestracker.qrc">
-    <normaloff>:/caloriestracker/caloriestracker.svg</normaloff>:/caloriestracker/caloriestracker.svg</iconset>
+    <normaloff>:/caloriestracker/caloriestracker.png</normaloff>:/caloriestracker/caloriestracker.png</iconset>
   </property>
   <widget class="QWidget" name="central">
    <property name="enabled">
@@ -138,7 +138,7 @@
   <action name="actionAbout">
    <property name="icon">
     <iconset resource="../images/caloriestracker.qrc">
-     <normaloff>:/caloriestracker/caloriestracker.svg</normaloff>:/caloriestracker/caloriestracker.svg</iconset>
+     <normaloff>:/caloriestracker/caloriestracker.png</normaloff>:/caloriestracker/caloriestracker.png</iconset>
    </property>
    <property name="text">
     <string>&amp;About</string>
@@ -231,7 +231,7 @@
   <action name="actionCompanies">
    <property name="icon">
     <iconset resource="../images/caloriestracker.qrc">
-     <normaloff>:/caloriestracker/company.svg</normaloff>:/caloriestracker/company.svg</iconset>
+     <normaloff>:/caloriestracker/company.png</normaloff>:/caloriestracker/company.png</iconset>
    </property>
    <property name="text">
     <string>Companies list</string>
