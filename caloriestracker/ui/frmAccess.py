@@ -11,7 +11,7 @@
 ## access.setResources(":/calores.png","calores.png"
 ## access.exec_()
 
-from PyQt5.QtCore import pyqtSlot, QSettings
+from PyQt5.QtCore import pyqtSlot, QSettings, QSize
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import QDialog, QMessageBox
 from logging import debug
@@ -28,31 +28,32 @@ from .. translationlanguages import TranslationLanguageManager
 ## @param settings_root string for example "frmAccess" or "frmSync"
 ## @param settings QSettings of the app. If it's None it creates a Qsettings object, and you can get it with self.settings
 class frmAccess(QDialog, Ui_frmAccess):
-    def __init__(self, module, settings_root, settings=None, parent = None):
+    def __init__(self, module, settingsSection, settings=None, parent = None):
         QDialog.__init__(self,  parent)
         if settings==None:
             self.settings=QSettings()
         else:
             self.settings=settings
-        self.settingsroot=settings_root
+        self.settingsSection=settingsSection
         self.module=module
 
         self.setModal(True)
         self.setupUi(self)
+        self.resize(self.settings.value(self.settingsSection +"/qdialog_size", QSize(200, 60)))
         self.parent=parent
 
         self.languages=TranslationLanguageManager()
         self.languages.load_all()
-        self.languages.selected=self.languages.find_by_id(self.settings.value(self.settingsroot+"/language", "en"))
+        self.languages.selected=self.languages.find_by_id(self.settings.value(self.settingsSection+"/language", "en"))
         self.languages.qcombobox(self.cmbLanguages, self.languages.selected)
 
         self.con=ConnectionQt()#Pointer to connection
         
         self.setTitle(self.tr("Log in PostreSQL database"))
-        self.txtDB.setText(self.settings.value(self.settingsroot +"/db", "" ))
-        self.txtPort.setText(self.settings.value(self.settingsroot +"/port", "5432"))
-        self.txtUser.setText(self.settings.value(self.settingsroot +"/user", "postgres" ))
-        self.txtServer.setText(self.settings.value(self.settingsroot +"/server", "127.0.0.1" ))
+        self.txtDB.setText(self.settings.value(self.settingsSection +"/db", "" ))
+        self.txtPort.setText(self.settings.value(self.settingsSection +"/port", "5432"))
+        self.txtUser.setText(self.settings.value(self.settingsSection +"/user", "postgres" ))
+        self.txtServer.setText(self.settings.value(self.settingsSection +"/server", "127.0.0.1" ))
         
     ## Reimplements QDialog.exec_ method to make an autologin if PGPASSWORD environment variable is detected.
     def exec_(self):
@@ -64,6 +65,8 @@ class frmAccess(QDialog, Ui_frmAccess):
         except:
             self.txtPass.setFocus()
             QDialog.exec_(self)
+        self.settings.setValue(self.settingsSection + "/qdialog_size", self.size())
+        self.settings.sync()
 
 
     def setResources(self, pixmap, icon):
@@ -86,17 +89,17 @@ class frmAccess(QDialog, Ui_frmAccess):
     @pyqtSlot(int)
     def on_cmbLanguages_currentIndexChanged(self, stri):
         self.languages.selected=self.languages.find_by_id(self.cmbLanguages.itemData(self.cmbLanguages.currentIndex()))
-        self.settings.setValue(self.settingsroot+"/language", self.languages.selected.id)
+        self.settings.setValue(self.settingsSection+"/language", self.languages.selected.id)
         self.languages.cambiar(self.languages.selected.id, self.module)
         self.retranslateUi(self)
 
     @pyqtSlot() 
     def on_cmdYN_accepted(self):
-        self.settings.setValue(self.settingsroot +"/db", self.txtDB.text() )
-        self.settings.setValue(self.settingsroot +"/port",  self.txtPort.text())
-        self.settings.setValue(self.settingsroot +"/user" ,  self.txtUser.text())
-        self.settings.setValue(self.settingsroot +"/server", self.txtServer.text())   
-        self.settings.setValue(self.settingsroot+"/language", self.cmbLanguages.itemData(self.cmbLanguages.currentIndex()))
+        self.settings.setValue(self.settingsSection +"/db", self.txtDB.text() )
+        self.settings.setValue(self.settingsSection +"/port",  self.txtPort.text())
+        self.settings.setValue(self.settingsSection +"/user" ,  self.txtUser.text())
+        self.settings.setValue(self.settingsSection +"/server", self.txtServer.text())   
+        self.settings.setValue(self.settingsSection+"/language", self.cmbLanguages.itemData(self.cmbLanguages.currentIndex()))
         self.con.init__create(self.txtUser.text(), self.txtPass.text(), self.txtServer.text(), self.txtPort.text(), self.txtDB.text())
         self.con.connect()
         if self.con.is_active():
@@ -114,3 +117,13 @@ class frmAccess(QDialog, Ui_frmAccess):
         m.setIcon(QMessageBox.Information)
         m.setText(text)
         m.exec_()
+
+if __name__ == '__main__':
+    from PyQt5.QtWidgets import QApplication
+    print("This script uses xulpymoney resources")
+    import xulpymoney.images.xulpymoney_rc
+    app = QApplication([])
+    w=frmAccess("xulpymoney", "frmAccessExample")
+    w.setLabel("Probe conection")
+    w.setResources(":/xulpymoney/books.png", ":/xulpymoney/books.png")
+    w.exec_()
