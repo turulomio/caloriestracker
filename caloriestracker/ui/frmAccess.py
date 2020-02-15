@@ -120,8 +120,9 @@ class frmAccess(QDialog, Ui_frmAccess):
 
 if __name__ == '__main__':
     from PyQt5.QtWidgets import QApplication
-    print("This script uses xulpymoney resources")
-    import xulpymoney.images.xulpymoney_rc
+    print("This script uses xulpymoney resources for the example")
+    from importlib import import_module #To avoid putting xulpymoney dependenci
+    import_module("xulpymoney.images.xulpymoney_rc")
     app = QApplication([])
     w=frmAccess("xulpymoney", "frmAccessExample")
     w.setLabel("Probe conection")

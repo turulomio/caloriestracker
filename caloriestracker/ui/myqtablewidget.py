@@ -2,7 +2,7 @@
 ## DO NOT UPDATE IT IN YOUR CODE IT WILL BE REPLACED USING FUNCTION IN README
 
 from PyQt5.QtCore import Qt,  pyqtSlot, QObject
-from PyQt5.QtGui import QKeySequence, QColor, QIcon
+from PyQt5.QtGui import QKeySequence, QColor, QIcon, QBrush
 from PyQt5.QtWidgets import QApplication, QHeaderView, QTableWidget, QFileDialog,  QTableWidgetItem, QWidget, QCheckBox, QHBoxLayout, QVBoxLayout, QLabel, QLineEdit, QAction, QMenu, QToolButton, QAbstractItemView
 from .. datetime_functions import dtaware2string, dtaware_changes_tz, time2string
 from officegenerator import ODS_Write
@@ -185,7 +185,11 @@ class myQTableWidget(QWidget):
         self.table.setRowCount(len(self.data))        
         for row in range(len(self.data)):
             for column in range(len(self.data_header_horizontal)):
-                self.table.setItem(row, column, self.object2qtablewidgetitem(self.data[row][column], decimals[column], zonename))
+                wdg=self.object2qtablewidgetitem(self.data[row][column], decimals[column], zonename)
+                if wdg.__class__.__name__=="QWidget":#wdgBool
+                    self.table.setCellWidget(row, column, wdg)
+                else:#qtablewidgetitem
+                    self.table.setItem(row, column, wdg)
 
     ## If true None values are set at the top of the list after sorting. If not at the bottom of the list
     def setNoneAtTop(self,boolean):
@@ -238,8 +242,14 @@ class myQTableWidget(QWidget):
         elif o.__class__.__name__ in ["Percentage","Money","Currency"]:
             return o.qtablewidgetitem(decimals)
         elif o.__class__.__name__ in ["bool", ]:
-            return qbool(o)
-        else:
+            return wdgBool(o)
+        elif o is None:
+            return qnone()
+        elif o=="":
+            return qempty()
+        elif o=="#crossedout":
+            return qcrossedout()
+        else:            
             return qleft(o)
 
     ## Returns a list of strings with the horizontal headers
@@ -365,10 +375,9 @@ class myQTableWidget(QWidget):
         m.setData(self.data)
         return m
 
+## @return qtablewidgetitem
 def qbool(bool):
     """Prints bool and check. Is read only and enabled"""
-    if bool==None:
-        return qempty()
     a=QTableWidgetItem()
     a.setFlags( Qt.ItemIsSelectable |  Qt.ItemIsEnabled )#Set no editable
     if bool:
@@ -378,14 +387,18 @@ def qbool(bool):
         a.setCheckState(Qt.Unchecked);
         a.setText(QApplication.translate("Core","False"))
     a.setTextAlignment(Qt.AlignVCenter|Qt.AlignCenter)
+    a.blockSignals(True)
     return a
 
 ## Center checkbox
 ## You must use with table.setCellWidget(0,0,wdgBool)
 ## Is disabled to be readonly
+## @return qwidget
 def wdgBool(bool):
     pWidget = QWidget()
     pCheckBox = QCheckBox();
+    pCheckBox.setAttribute(Qt.WA_TransparentForMouseEvents);
+    pCheckBox.setFocusPolicy(Qt.NoFocus)
     if bool:
         pCheckBox.setCheckState(Qt.Checked);
     else:
@@ -394,15 +407,16 @@ def wdgBool(bool):
     pLayout.addWidget(pCheckBox);
     pLayout.setAlignment(Qt.AlignCenter);
     pLayout.setContentsMargins(0,0,0,0);
-    pWidget.setLayout(pLayout);
-    pCheckBox.setEnabled(False)
+    pWidget.setLayout(pLayout)
     return pWidget
 
 ## Returns a QTableWidgetItem representing an empty value
+def qnone():
+    return qcenter("- - -")
+
+## Returns a QTableWidgetItem representing an empty value
 def qempty():
-    a=QTableWidgetItem("---")
-    a.setTextAlignment(Qt.AlignVCenter|Qt.AlignRight)
-    return a
+    return qleft("")
 
 def qcenter(string):
     if string==None:
@@ -411,6 +425,13 @@ def qcenter(string):
     a.setTextAlignment(Qt.AlignVCenter|Qt.AlignCenter)
     return a
     
+def qcrossedout():
+    a=qempty()        
+    brush = QBrush(QColor(0, 0, 0))
+    brush.setStyle(Qt.BDiagPattern)
+    a.setBackground(brush)
+    return a
+
 ## Currency object from reusingcode
 def qcurrency(currency, decimals=2):
     a=QTableWidgetItem(currency.string(decimals))
@@ -533,6 +554,12 @@ if __name__ == '__main__':
     for i in range(100):
         manager.append(Prueba(i, b64encode(bytes(str(i).encode('UTF-8'))).decode('UTF-8'), date.today()-timedelta(days=i), datetime.now()+timedelta(seconds=3758*i)))
     manager.append(Prueba(None,"Con None",date.today(),datetime.now()))
+    manager.append(Prueba(None, "", None, None))
+    manager.append(Prueba(None, None, None, None))
+    manager.append(Prueba(None, "#crossedout", None, None))
+    manager.append(Prueba(None, False, None, None))
+    manager.append(Prueba(None, True, None, None))
+    
         
     selected=PruebaManager()
     selected.append(manager.arr[3])
