@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import  QDialog
 from caloriestracker.mem import MemCaloriestracker
 from caloriestracker.ui.frmAccess import frmAccess
 from sys import exit
+import caloriestracker.images.caloriestracker_rc #Images of frmAccess were not loaded without this
 
 def main():
     from PyQt5 import QtWebEngineWidgets # To avoid error must be imported before QCoreApplication
@@ -12,9 +13,10 @@ def main():
     
     mem=MemCaloriestracker()
     mem.run()
-    mem.frmAccess=frmAccess("caloriestracker","frmAccess")
-    mem.frmAccess.setResources(":/caloriestracker/books.png", ":/caloriestracker/meals.png")
+    mem.frmAccess=frmAccess("caloriestracker", "frmAccess")
+    mem.frmAccess.setResources(":/caloriestracker/caloriestracker.png", ":/caloriestracker/caloriestracker.png")
     mem.frmAccess.setLabel(mem.tr("Please login to the Calories Tracker database"))
+    mem.frmAccess.setResources(":/caloriestracker/caloriestracker.png", ":/caloriestracker/caloriestracker.png")
     mem.frmAccess.exec_()
 
     if mem.frmAccess.result()==QDialog.Accepted:
