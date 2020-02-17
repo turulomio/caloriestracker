@@ -136,7 +136,7 @@ class frmMain(QMainWindow, Ui_frmMain):
     @pyqtSlot()  
     def on_actionUserCurrent_triggered(self):
         from caloriestracker.ui.frmUsersAdd import frmUsersAdd
-        w=frmUsersAdd(self.mem, self.mem.data.users.selected, self)
+        w=frmUsersAdd(self.mem, self.mem.user, self)
         w.exec_()
 
     @pyqtSlot()  

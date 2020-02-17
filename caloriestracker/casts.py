@@ -1,8 +1,8 @@
 ## THIS IS FILE IS FROM https://github.com/turulomio/reusingcode IF YOU NEED TO UPDATE IT PLEASE MAKE A PULL REQUEST IN THAT PROJECT
 ## DO NOT UPDATE IT IN YOUR CODE IT WILL BE REPLACED USING FUNCTION IN README
 
-from PyQt5.QtCore import QLocale, Qt
 from decimal import Decimal
+from logging import warning
 
 def list2string(lista):
         """Covierte lista a string"""
@@ -46,14 +46,12 @@ def string2decimal(s, type=1):
         except:
             return None
 
-
 ## Converts a decimal to a localized number string
 def l10nDecimal(dec, digits=2):
+    from PyQt5.QtCore import QLocale
     l=QLocale()
-    
     return l.toCurrencyString(float(dec))
-    
-   
+
 ## Converts strings True or False to boolean
 ## @param s String
 ## @return Boolean
@@ -95,6 +93,7 @@ def s2b(s, code='UTF8'):
 
 def c2b(state):
     """QCheckstate to python bool"""
+    from PyQt5.QtCore import Qt
     if state==Qt.Checked:
         return True
     else:
@@ -102,6 +101,7 @@ def c2b(state):
 
 def b2c(booleano):
     """Bool to QCheckstate"""
+    from PyQt5.QtCore import Qt
     if booleano==True:
         return Qt.Checked
     else:
@@ -109,19 +109,51 @@ def b2c(booleano):
 
 ## Returns a list with object in positions removed
 def list_remove_positions(l, listindex):
+    if l is None:
+        warning("I can't remove positions from a None list")
+        return None
     r=[]
-    for column in range(len(l)):
-        if column not in listindex:
-            r.append(l[column])
+    for i, o in enumerate(l):
+        if i not in listindex:
+            r.append(o)
     return r
+
+## LOR is a list of list. Naned List Of Rows, used in myqtablewidget for example
+## @param rows LOR
+## @param index int with the index of the position where we are going to insert row
+## @param column List with the values to add. Must be of the same size of rows
+def lor_add_column(rows, index, column):
+    if len(rows)!=len(column):
+        warning("I can't add a column with different size of LOR")
+        return
+    r_rows=[]
+    for i, row in enumerate(rows):
+        r_rows.append(row[0:index] + [column[i],] + row[index:len(row)])
+    return r_rows
 
 ## LOR is a list of list. Naned List Of Rows, used in myqtablewidget
 ## @param listindex is a list of column indexes to remove
 def lor_remove_columns(rows, listindex):
     r_rows=[]
-    for row in range(len(rows)):
-        r_rows.append(list_remove_positions(rows[row],listindex))
+    for i, row in enumerate(rows):
+        r_rows.append(list_remove_positions(row,listindex))
     return r_rows
+
+## LOR is a list of list. Naned List Of Rows, used in myqtablewidget
+## @param listindex is a list of column indexes to remove
+def lor_remove_rows(rows, listindex):
+    return list_remove_positions(rows, listindex) #It's a list but of row
+
+## Return a lor transposed. Changed rows by columns
+def lor_transposed(lor):
+    r=[]
+    columns=len(lor[0])
+    for column in range(columns):
+        tran_row=[]
+        for row in lor:
+            tran_row.append(row[column])
+        r.append(tran_row)
+    return r
 
 ## String to linux shell
 #def string2shell(cadena):
@@ -163,3 +195,31 @@ def object2value(o):
         return o
     elif o.__class__.__name__ in ["Currency",  "Money"]:
         return o.amount
+
+
+
+if __name__ == "__main__":
+    def print_lor(lor):
+        print("")
+        for row in lor:
+            print(row)
+
+    lor=[]
+    column_to_add=[]
+    for i in range(10):
+        lor.append([1*i,2*i,3*i])
+        column_to_add.append(-i)
+    print_lor(lor)
+
+    lor=lor_add_column(lor, 0, column_to_add)
+    lor=lor_add_column(lor, 2, column_to_add)
+    lor=lor_add_column(lor, 5, column_to_add)
+    print_lor(lor)
+
+    a=lor_remove_columns(lor,[2,3])
+    print_lor(a)
+    b=lor_remove_rows(a,[8,9])
+    print_lor(b)
+
+    c=lor_transposed(b)
+    print_lor(c)

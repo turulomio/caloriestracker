@@ -13,6 +13,7 @@ class wdgProducts(QWidget, Ui_wdgProducts):
         self.mem=mem
         self.tblProducts.settings(self.mem.settings, "wdgProducts", "tblProducts")
         self.tblProducts.table.customContextMenuRequested.connect(self.on_tblProducts_customContextMenuRequested)
+        self.tblProducts.table.itemSelectionChanged.connect(self.on_tblProducts_itemSelectionChanged)
         self.products=ProductAllManager(self.mem)
         self.products.qtablewidget(self.tblProducts)
 
@@ -98,11 +99,11 @@ class wdgProducts(QWidget, Ui_wdgProducts):
             self.actionProductEdit.setEnabled(True)
             self.actionFormats.setEnabled(True)
         menu.addMenu(self.tblProducts.qmenu())
-        menu.exec_(self.tblProducts.mapToGlobal(pos))
+        menu.exec_(self.tblProducts.table.mapToGlobal(pos))
 
     def on_tblProducts_itemSelectionChanged(self):
         self.products.cleanSelection()
-        for i in self.tblProducts.selectedItems():
+        for i in self.tblProducts.table.selectedItems():
             if i.column()==0:#only once per row
                 self.products.selected=self.products.arr[i.row()]
         debug("Selected product: " + str(self.products.selected))

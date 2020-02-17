@@ -94,23 +94,7 @@
       </layout>
      </item>
      <item>
-      <widget class="myQTableWidget" name="tblProductsIn">
-       <property name="contextMenuPolicy">
-        <enum>Qt::CustomContextMenu</enum>
-       </property>
-       <property name="editTriggers">
-        <set>QAbstractItemView::NoEditTriggers</set>
-       </property>
-       <property name="alternatingRowColors">
-        <bool>true</bool>
-       </property>
-       <property name="selectionMode">
-        <enum>QAbstractItemView::SingleSelection</enum>
-       </property>
-       <property name="selectionBehavior">
-        <enum>QAbstractItemView::SelectRows</enum>
-       </property>
-      </widget>
+      <widget class="myQTableWidget" name="tblProductsIn" native="true"/>
      </item>
      <item>
       <widget class="QDialogButtonBox" name="bb">
@@ -179,8 +163,9 @@
   </customwidget>
   <customwidget>
    <class>myQTableWidget</class>
-   <extends>QTableWidget</extends>
+   <extends>QWidget</extends>
    <header location="global">myqtablewidget</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

@@ -14,7 +14,7 @@ class Ui_frmUsersAdd(object):
     def setupUi(self, frmUsersAdd):
         frmUsersAdd.setObjectName("frmUsersAdd")
         frmUsersAdd.setWindowModality(QtCore.Qt.WindowModal)
-        frmUsersAdd.resize(582, 261)
+        frmUsersAdd.resize(491, 249)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/caloriestracker/list-add-user.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         frmUsersAdd.setWindowIcon(icon)

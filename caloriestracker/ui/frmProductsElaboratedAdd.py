@@ -14,7 +14,9 @@ class frmProductsElaboratedAdd(QDialog, Ui_frmProductsElaboratedAdd):
         self.mem=mem
         self.resize(self.mem.settings.value("frmProductsElaboratedAdd/qdialog", QSize(800, 600)))
         self.elaboratedproduct=elaboratedproduct
-        self.tblProductsIn.settings(self.mem, "frmProductsElaboratedAdd")
+        self.tblProductsIn.settings(self.mem.settings, "frmProductsElaboratedAdd","tblProductsIn")
+        self.tblProductsIn.table.customContextMenuRequested.connect(self.on_tblProductsIn_customContextMenuRequested)
+        self.tblProductsIn.table.itemSelectionChanged.connect(self.on_tblProductsIn_itemSelectionChanged)
         if self.elaboratedproduct==None:
             self.lbl.setText(self.tr("Add a new personal and elaborated product"))
             self.spnFinalAmount.setEnabled(False)
@@ -92,11 +94,11 @@ class frmProductsElaboratedAdd(QDialog, Ui_frmProductsElaboratedAdd):
             self.actionProductInDelete.setEnabled(True)
             self.actionProductInEdit.setEnabled(True)
             self.actionProductEdit.setEnabled(True)
-        menu.exec_(self.tblProductsIn.mapToGlobal(pos))
+        menu.exec_(self.tblProductsIn.table.mapToGlobal(pos))
 
     def on_tblProductsIn_itemSelectionChanged(self):
         self.elaboratedproduct.products_in.cleanSelection()
-        for i in self.tblProductsIn.selectedItems():
+        for i in self.tblProductsIn.table.selectedItems():
             if i.column()==0 and i.row()<self.elaboratedproduct.products_in.length():#only once per row
                 self.elaboratedproduct.products_in.selected=self.elaboratedproduct.products_in.arr[i.row()]
         debug("Selected product in elaborated products: " + str(self.elaboratedproduct.products_in.selected))

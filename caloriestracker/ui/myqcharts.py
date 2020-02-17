@@ -397,11 +397,12 @@ class VCPieAlone(VCCommons):
         if len(self.data)==0:
             return None
         cls=self.data[0][1].__class__.__name__
-        print(cls)
-        if cls in ["int", "flota", "Decimal"]:
+        if cls in ["int", "float", "Decimal"]:
             s=0
         elif cls in ["Currency",]:
             s=self.data[0][1].__class__(0, self.data[0][1].currency)
+        elif cls in ["Money",]:
+            s=self.data[0][1].__class__(self.data[0][1].mem, 0, self.data[0][1].currency)
         for row in self.data:
             s=s+row[1]
         return s

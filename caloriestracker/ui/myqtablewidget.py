@@ -124,7 +124,7 @@ class myQTableWidget(QWidget):
     ## Order data columns. None values are set at the beginning
     def on_orderby_action_triggered(self, action):
         action=QObject.sender(self)#Busca el objeto que ha hecho la signal en el slot en el que está conectado
-        action_index=self.data_header_horizontal.index(action.text().replace(" (desc)",""))#Search the position in the headers of the action Text
+        action_index=self.hh.index(action.text().replace(" (desc)",""))#Search the position in the headers of the action Text
 
         # Sets if its reverse or not and renames action
         if action.text().find(self.tr(" (desc)"))>0:
@@ -146,7 +146,7 @@ class myQTableWidget(QWidget):
             self.data=null+nonull
         else:
             self.data=nonull+null
-        self.setData(self.data_header_horizontal, self.data_header_vertical, self.data)
+        self.setData(self.hh, self.hv, self.data)
 
 
     def applySettings(self):
@@ -173,24 +173,41 @@ class myQTableWidget(QWidget):
                 action.triggered.connect(self.on_orderby_action_triggered)
 
         # Headers
-        self.data_header_horizontal=header_horizontal
-        self.data_header_vertical=header_vertical
+        self.hh=header_horizontal
+        self.hv=header_vertical
         self.data=data
-        self.table.setColumnCount(len(self.data_header_horizontal))
-        for i in range(len(self.data_header_horizontal)):
-            self.table.setHorizontalHeaderItem(i, QTableWidgetItem(self.data_header_horizontal[i]))
+        self.table.setColumnCount(len(self.hh))
+        if self.hh is not None:
+            for i in range(len(self.hh)):
+                self.table.setHorizontalHeaderItem(i, QTableWidgetItem(self.hh[i]))
+        if self.hv is not None:
+            self.table.verticalHeader().show()
+            self.table.setRowCount(len(self.data))# To do not lose data
+            for i in range(len(self.hv)):
+                self.table.setVerticalHeaderItem(i, QTableWidgetItem(self.hv[i]))
+
         # Data
         self.applySettings()
         self.table.clearContents()
         self.table.setRowCount(len(self.data))        
         for row in range(len(self.data)):
-            for column in range(len(self.data_header_horizontal)):
+            for column in range(len(self.hh)):
                 wdg=self.object2qtablewidgetitem(self.data[row][column], decimals[column], zonename)
                 if wdg.__class__.__name__=="QWidget":#wdgBool
                     self.table.setCellWidget(row, column, wdg)
                 else:#qtablewidgetitem
                     self.table.setItem(row, column, wdg)
-
+                    
+    def print(self, hh, hv, data):
+    
+        print(hh)
+        for i, row in enumerate(data):
+            print (hv[i] , row)
+            
+        print ("Len hh:", len(hh))
+        print ("Len hv:", len(hv))
+        print ("Len data:", len(data[0]), "x", len(data))
+            
     ## If true None values are set at the top of the list after sorting. If not at the bottom of the list
     def setNoneAtTop(self,boolean):
         self._none_at_top=boolean
@@ -254,6 +271,8 @@ class myQTableWidget(QWidget):
 
     ## Returns a list of strings with the horizontal headers
     def listHorizontalHeaders(self):
+        if self.hh is None:
+            return None
         header=[]
         for i in range(self.table.horizontalHeader().count()):
             header.append(self.table.horizontalHeaderItem(i).text())
@@ -261,13 +280,13 @@ class myQTableWidget(QWidget):
 
     ## Returns a list of strings with the horizontal headers
     def listVerticalHeaders(self):
-        try:
-            header=[]
-            for i in range(self.table.verticalHeader().count()):
-                header.append(self.table.verticalHeaderItem(i).text())
-                return header
-        except:
+        if self.hv is None:
             return None
+        header=[]
+        for i in range(self.table.verticalHeader().count()):
+            if self.table.verticalHeaderItem(i) is not None:
+                header.append(self.table.verticalHeaderItem(i).text())
+        return header
 
     ## Returns a lisf of rows with the text of the 
     def listText(self):
@@ -363,15 +382,23 @@ class myQTableWidget(QWidget):
                 
                 
     def officegeneratorModel(self, title="sheet"):
+        def pixel2cm(pixels):
+            #Converts size in pixels to cm
+            PixelWidthDimension = self.logicalDpiX()# width dots per inch
+            inch = pixels/PixelWidthDimension
+            cm= inch*2.54*(1+0.05)
+            return cm
+        # # # # # # # # # #
         widths=[]
+        vwidth=pixel2cm(self.table.verticalHeader().width())
         for i in range(self.table.columnCount()):
-            widths.append(self.table.columnWidth(i)*0.033)
+            widths.append(pixel2cm(self.table.columnWidth(i)))
 
         from officegenerator.standard_sheets import Model
         m=Model()
         m.setTitle(title)
         m.setHorizontalHeaders(self.listHorizontalHeaders(), widths)
-        m.setVerticalHeaders(self.listVerticalHeaders())
+        m.setVerticalHeaders(self.listVerticalHeaders(),vwidth)
         m.setData(self.data)
         return m
 
@@ -387,7 +414,6 @@ def qbool(bool):
         a.setCheckState(Qt.Unchecked);
         a.setText(QApplication.translate("Core","False"))
     a.setTextAlignment(Qt.AlignVCenter|Qt.AlignCenter)
-    a.blockSignals(True)
     return a
 
 ## Center checkbox
@@ -420,13 +446,13 @@ def qempty():
 
 def qcenter(string):
     if string==None:
-        return qempty()
+        return qnone()
     a=QTableWidgetItem(str(string))
     a.setTextAlignment(Qt.AlignVCenter|Qt.AlignCenter)
     return a
     
 def qcrossedout():
-    a=qempty()        
+    a=qempty()
     brush = QBrush(QColor(0, 0, 0))
     brush.setStyle(Qt.BDiagPattern)
     a.setBackground(brush)
@@ -434,6 +460,8 @@ def qcrossedout():
 
 ## Currency object from reusingcode
 def qcurrency(currency, decimals=2):
+    if currency is None or currency.amount is None:
+        return qnone()
     a=QTableWidgetItem(currency.string(decimals))
     a.setTextAlignment(Qt.AlignVCenter|Qt.AlignRight)
     if currency.amount==None:
@@ -444,14 +472,14 @@ def qcurrency(currency, decimals=2):
 
 def qleft(string):
     if string==None:
-        return qempty()
+        return qnone()
     a=QTableWidgetItem(str(string))
     a.setTextAlignment(Qt.AlignVCenter|Qt.AlignLeft)
     return a
 
 def qright(string):
     if string==None:
-        return qempty()
+        return qnone()
     a=QTableWidgetItem(str(string))
     a.setTextAlignment(Qt.AlignVCenter|Qt.AlignRight)
     return a
@@ -459,7 +487,7 @@ def qright(string):
 ## Creates a QTableWidgetItem with the date
 def qdate(date):
     if date==None:
-        return qempty()
+        return qnone()
     return qcenter(str(date))
     
     
@@ -468,7 +496,7 @@ def qdate(date):
 def qdatetime(dt, tz_name):
     newdt=dtaware_changes_tz(dt, tz_name)
     if newdt==None:
-        return qempty()
+        return qnone()
     a=QTableWidgetItem(dtaware2string(newdt, "%Y-%m-%d %H:%M:%S"))
     a.setTextAlignment(Qt.AlignVCenter|Qt.AlignRight)
     return a
@@ -476,7 +504,7 @@ def qdatetime(dt, tz_name):
 
 def qnumber(n, digits=2):
     if n==None:
-        return qempty()
+        return qnone()
     n=round(n, digits)
     a=qright(n)
     if n<0:
@@ -486,7 +514,7 @@ def qnumber(n, digits=2):
 ## Colorizes a number comparing it with a limit
 def qnumber_limited(n, limit, digits=2, reverse=False):
     if n==None:
-        return qempty()
+        return qnone()
     a=qnumber(n, 2)
     if reverse==True:
         color_above=QColor(148, 255, 148)
@@ -505,7 +533,7 @@ def qnumber_limited(n, limit, digits=2, reverse=False):
 ## @param ti must be a time object
 def qtime(ti, format="HH:MM"):
     if ti==None:
-        return qempty()
+        return qnone()
     item=qright(time2string(ti, format))
     if format=="Xulpymoney":
         if ti.microsecond==5:
@@ -515,6 +543,8 @@ def qtime(ti, format="HH:MM"):
     return item
 
 def qpercentage(percentage, decimals=2):
+    if percentage is None:
+        return qnone()
     a=QTableWidgetItem(percentage.string(decimals))
     a.setTextAlignment(Qt.AlignVCenter|Qt.AlignRight)
     if percentage.value==None:
@@ -560,20 +590,26 @@ if __name__ == '__main__':
     manager.append(Prueba(None, False, None, None))
     manager.append(Prueba(None, True, None, None))
     
+    data=[]
+    for o in manager.arr:
+        data.append([o.id, o.name,  o.date,  o.datetime,  o.pruebita.name, o.pruebita.age(1)])
+    
         
     selected=PruebaManager()
     selected.append(manager.arr[3])
     
     mem=Mem()
     app = QApplication([])
+    hv=None
 
     w = myQTableWidget()
+    hv=["Johnny be good"]*manager.length()
+    w.table.verticalHeader().show()
     w.settings(mem.settings, "myqtablewidget", "tblExample")
-    w.setDataFromManager(["Id", "Name", "Date", "Last update","Mem.name", "Mmem.age (i)"], None, manager, ["id", "name", "date", "datetime","pruebita.name", ["pruebita.age", [22,]], ] )
+    w.setData(["Id", "Name", "Date", "Last update","Mem.name", "Age"], hv, data )
     w.move(300, 300)
     w.resize(800, 400)
     w.setWindowTitle('myQTableWidget example')
-    
     
     w.setContextMenuPolicy(Qt.CustomContextMenu)
     w.table.customContextMenuRequested.connect(on_customContextMenuRequested)

@@ -10,7 +10,7 @@ class frmUsersAdd(QDialog, Ui_frmUsersAdd):
         self.setupUi(self)
         self.mem=mem
         self.user=user
-        self.resize(self.mem.settings.value("frmUsersAdd/qdialog", QSize(800, 600)))
+        self.resize(self.mem.settings.value("frmUsersAdd/qdialog", QSize(200, 200)))
         
         self.wdgDistribute.setSuffix("%")
         self.wdgDistribute.setLabels(self.tr("Carbohydrates"), self.tr("Fat"), self.tr("Protein"))
@@ -43,5 +43,3 @@ class frmUsersAdd(QDialog, Ui_frmUsersAdd):
     def on_bb_rejected(self):
         self.mem.settings.setValue("frmUsersAdd/qdialog", self.size())
         self.reject()  
-
-
