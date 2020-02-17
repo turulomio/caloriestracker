@@ -1,21 +1,27 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox
 from caloriestracker.ui.Ui_wdgProducts import Ui_wdgProducts
-from caloriestracker.libcaloriestracker import ProductAllManager
+from caloriestracker.libcaloriestracker import ProductAllManager, ProductManager
 from caloriestracker.ui.myqwidgets import qmessagebox
 from caloriestracker.libmanagers import ManagerSelectionMode
 from logging import debug
 
 class wdgProducts(QWidget, Ui_wdgProducts):
-    def __init__(self, mem,  arrInt=[],  parent=None):
+    ## @param only_system_products Boolean. True only system products. False all products
+    def __init__(self, mem,  only_system_products=False, parent=None):
         QWidget.__init__(self, parent)
         self.setupUi(self)
         self.mem=mem
         self.tblProducts.settings(self.mem.settings, "wdgProducts", "tblProducts")
         self.tblProducts.table.customContextMenuRequested.connect(self.on_tblProducts_customContextMenuRequested)
         self.tblProducts.table.itemSelectionChanged.connect(self.on_tblProducts_itemSelectionChanged)
-        self.products=ProductAllManager(self.mem)
-        self.products.qtablewidget(self.tblProducts)
+        if only_system_products==True:
+            self.products=ProductManager(self.mem)
+            self.products.load_from_db("select * from products order by name")
+            self.products.qtablewidget(self.products, self.tblProducts)
+        else:
+            self.products=ProductAllManager(self.mem)
+            self.products.qtablewidget(self.tblProducts)
 
     @pyqtSlot() 
     def on_actionProductDelete_triggered(self):

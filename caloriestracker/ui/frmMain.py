@@ -192,19 +192,12 @@ class frmMain(QMainWindow, Ui_frmMain):
         elaborated=w.elaboratedproduct
         w=frmProductsElaboratedAdd(self.mem, elaborated, self)
         w.exec_()
-        
-    @pyqtSlot()  
-    def on_actionProductsUpdate_triggered(self):
-        p=ProductManager(self.mem)
-        p.update_from_internet()
-        self.actionProductsUpdate.setText(self.tr("Update products from Internet"))
-        self.actionProductsUpdate.setIcon(QIcon(":/caloriestracker/cloud_download.png"))
 
     @pyqtSlot()  
     def on_actionProducts_triggered(self):
         self.w.close()
         from caloriestracker.ui.wdgProducts import wdgProducts
-        self.w=wdgProducts(self.mem, self)
+        self.w=wdgProducts(self.mem, False,  self)
         self.layout.addWidget(self.w)
         self.w.show()
         self.w.txt.setFocus()

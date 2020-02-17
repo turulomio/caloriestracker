@@ -4,7 +4,7 @@ from PyQt5.QtCore import pyqtSlot, QUrl
 from PyQt5.QtGui import QIcon, QDesktopServices
 from PyQt5.QtWidgets import QMainWindow,  QWidget, QLabel
 from caloriestracker.database_update import database_update
-from caloriestracker.libcaloriestracker import ProductManager, CompanyManager, FormatManager
+from caloriestracker.libcaloriestracker import ProductManager, CompanySystemManager
 from caloriestracker.ui.Ui_frmMainProductsMaintainer import Ui_frmMainProductsMaintainer
 from caloriestracker.ui.wdgCuriosities import wdgCuriosities
 from caloriestracker.ui.frmSettings import frmSettings
@@ -18,12 +18,10 @@ class frmMainProductsMaintainer(QMainWindow, Ui_frmMainProductsMaintainer):
         self.showMaximized()
         
         self.mem=mem
-        self.mem.insertProducts=ProductManager(self)
-        self.mem.updateProducts=ProductManager(self)
-        self.mem.insertCompanies=CompanyManager(self)
-        self.mem.updateCompanies=CompanyManager(self)
-        self.mem.insertFormats=FormatManager(self)
-        self.mem.updateFormats=FormatManager(self)
+        self.mem.insertProducts=ProductManager(self.mem)
+        self.mem.updateProducts=ProductManager(self.mem)
+        self.mem.insertCompanies=CompanySystemManager(self.mem)
+        self.mem.updateCompanies=CompanySystemManager(self.mem)
         
         database_update(self.mem.con, "caloriestracker", __versiondatetime__, "Qt")
         
@@ -102,19 +100,12 @@ class frmMainProductsMaintainer(QMainWindow, Ui_frmMainProductsMaintainer):
         from caloriestracker.ui.frmCompaniesAdd import frmCompaniesAdd
         w=frmCompaniesAdd(self.mem,  None, self)
         w.exec_()
-        
-    @pyqtSlot()  
-    def on_actionProductsUpdate_triggered(self):
-        p=ProductManager(self.mem)
-        p.update_from_internet()
-        self.actionProductsUpdate.setText(self.tr("Update products from Internet"))
-        self.actionProductsUpdate.setIcon(QIcon(":/caloriestracker/cloud_download.png"))
 
     @pyqtSlot()  
     def on_actionProducts_triggered(self):
         self.w.close()
         from caloriestracker.ui.wdgProducts import wdgProducts
-        self.w=wdgProducts(self.mem, self)
+        self.w=wdgProducts(self.mem, True, self)
         self.layout.addWidget(self.w)
         self.w.show()
         self.w.txt.setFocus()
