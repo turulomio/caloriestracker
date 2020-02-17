@@ -24,6 +24,7 @@ class AdditiveManager(QObject, ObjectManager_With_IdName_Selectable):
         QObject.__init__(self)
         ObjectManager_With_IdName_Selectable.__init__(self)
         self.mem=mem
+        self.setConstructorParameters(self.mem)
         
 def Additive_from_row(mem, row):
     return Additive(mem, row['id'], row['name'], row['description'], mem.data.additiverisks.find_by_id(row['additiverisks_id']))

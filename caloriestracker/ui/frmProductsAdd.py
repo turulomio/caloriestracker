@@ -45,7 +45,7 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
             self.cmbFoodtypes.setCurrentIndex(-1)
             self.lbl.setText(self.tr("Add a new personal product"))
             self.qlepAmount.setValue(100)
-            self.cmbsAdditives.setManagers(self.mem.settings, "frmProductsAdd", "cmbsAdditives", self.mem.data.additives, None, self.mem)
+            self.cmbsAdditives.setManagers(self.mem.settings, "frmProductsAdd", "cmbsAdditives", self.mem.data.additives, None)
         else:
             self.mem.data.companies.qcombobox(self.cmbCompanies, self.product.company)
             self.mem.data.foodtypes.qcombobox(self.cmbFoodtypes, self.product.foodtype)
@@ -67,7 +67,7 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
             self.qlepSugar.setValue(self.product.sugars)
             self.qlepSaturatedFat.setValue(self.product.saturated_fat)            
             self.lbl.setText(self.tr("Edit a personal product"))
-            self.cmbsAdditives.setManagers(self.mem, "frmProductsAdd", "cmbsAdditives", self.mem.data.additives, self.product.additives, self.mem)
+            self.cmbsAdditives.setManagers(self.mem.settings, "frmProductsAdd", "cmbsAdditives", self.mem.data.additives, self.product.additives)
         self.qlepAmount.setMandatory(True)
         self.qlepCalories.setMandatory(True)
         self.qlepCarbohydrate.setMandatory(True)
