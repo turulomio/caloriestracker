@@ -5,16 +5,24 @@ from argparse import ArgumentParser, RawTextHelpFormatter
 from datetime import date,  datetime
 
 from caloriestracker.connection_pg import argparse_connection_arguments_group, Connection
-from caloriestracker.libcaloriestracker import DBData
 from caloriestracker.datetime_functions import  string2date
 from caloriestracker.version import __version__,  __versiondatetime__
 from colorama import Fore, Style
 from caloriestracker.database_update import database_update
+from caloriestracker.objects.activity import ActivityManager
+from caloriestracker.objects.company import CompanyAllManager
+from caloriestracker.objects.additives import AdditiveManager_all
+from caloriestracker.objects.additive_risk import AdditiveRiskManager_all
+from caloriestracker.objects.food_type import FoodTypeManager_all
+from caloriestracker.objects.product import ProductAllManager
+from caloriestracker.objects.productelaborated import ProductElaboratedManager
+from caloriestracker.objects.user import UserManager
+from caloriestracker.objects.weightwish import WeightWishManager
 from caloriestracker.package_resources import package_filename
 from signal import signal, SIGINT
 from sys import argv, exit
 from caloriestracker.translationlanguages import TranslationLanguageManager
-from logging import basicConfig, DEBUG, INFO, CRITICAL, ERROR, WARNING, info
+from logging import basicConfig, DEBUG, INFO, CRITICAL, ERROR, WARNING, info, debug
 
 
 class Mem(QObject):
@@ -260,3 +268,34 @@ class MemMaintenanceProductSystem2Personal(MemConsole):
         argparse_connection_arguments_group(self.parser, default_db="caloriestracker")
         group = self.parser.add_argument_group("Find parameters")
         group.add_argument('--system', help=self.tr('System product'), action="store", required=True)
+        
+class DBData:
+    def __init__(self, mem):
+        self.mem=mem
+
+    def load(self, progress=True):
+        start=datetime.now()
+        
+        self.activities=ActivityManager(self.mem)
+        self.weightwishes=WeightWishManager(self.mem)
+        
+        self.companies=CompanyAllManager(self.mem)
+        self.companies.load_all()
+        
+        self.foodtypes=FoodTypeManager_all(self.mem)
+        self.additiverisks=AdditiveRiskManager_all(self.mem)
+        self.additives=AdditiveManager_all(self.mem)
+
+        self.products=ProductAllManager(self.mem)
+        self.products.load_all()
+        
+        self.elaboratedproducts=ProductElaboratedManager(self.mem)
+        self.elaboratedproducts.load_from_db("select * from elaboratedproducts order by name", progress)
+        
+        self.users=UserManager(self.mem, "select * from users", progress)
+        self.users.load_last_biometrics()
+        self.mem.user=self.mem.data.users.find_by_id(int(self.mem.settings.value("mem/currentuser", 1)))
+        if self.mem.user==None:
+            self.mem.user=self.mem.data.users.find_by_id(1)#For empty databases (contribution)            
+        
+        debug("DBData took {}".format(datetime.now()-start))

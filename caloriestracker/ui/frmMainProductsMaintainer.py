@@ -4,7 +4,9 @@ from PyQt5.QtCore import pyqtSlot, QUrl
 from PyQt5.QtGui import QIcon, QDesktopServices
 from PyQt5.QtWidgets import QMainWindow,  QWidget, QLabel
 from caloriestracker.database_update import database_update
-from caloriestracker.libcaloriestracker import ProductManager, CompanySystemManager
+from caloriestracker.objects.product import ProductManager
+from caloriestracker.objects.company import CompanySystemManager
+from caloriestracker.objects.format import FormatSystemManagerHeterogeneus
 from caloriestracker.ui.Ui_frmMainProductsMaintainer import Ui_frmMainProductsMaintainer
 from caloriestracker.ui.wdgCuriosities import wdgCuriosities
 from caloriestracker.ui.frmSettings import frmSettings
@@ -22,6 +24,8 @@ class frmMainProductsMaintainer(QMainWindow, Ui_frmMainProductsMaintainer):
         self.mem.updateProducts=ProductManager(self.mem)
         self.mem.insertCompanies=CompanySystemManager(self.mem)
         self.mem.updateCompanies=CompanySystemManager(self.mem)
+        self.mem.insertFormats=FormatSystemManagerHeterogeneus(self.mem)
+        self.mem.updateFormats=FormatSystemManagerHeterogeneus(self.mem)
         
         database_update(self.mem.con, "caloriestracker", __versiondatetime__, "Qt")
         

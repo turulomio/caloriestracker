@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QDialog, QWidget, QLineEdit, QCheckBox, QDialogButtonBox
 from caloriestracker.ui.Ui_frmProductsAdd import Ui_frmProductsAdd
 from caloriestracker.ui.myqwidgets import qmessagebox
-from caloriestracker.libcaloriestracker import ProductPersonal
+from caloriestracker.objects.product import ProductPersonal
 from datetime import datetime
 
 class frmProductsAdd(QDialog, Ui_frmProductsAdd):

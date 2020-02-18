@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QDialog
 from caloriestracker.ui.Ui_frmBiometricsAdd import Ui_frmBiometricsAdd
-from caloriestracker.libcaloriestracker import Biometrics
+from caloriestracker.objects.biometrics import Biometrics
 from datetime import datetime
 
 class frmBiometricsAdd(QDialog, Ui_frmBiometricsAdd):

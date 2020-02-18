@@ -1,6 +1,6 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox
-from caloriestracker.libcaloriestracker import MealManager
+from caloriestracker.objects.meal import MealManager
 from caloriestracker.ui.Ui_wdgMeals import Ui_wdgMeals
 from logging import debug
 

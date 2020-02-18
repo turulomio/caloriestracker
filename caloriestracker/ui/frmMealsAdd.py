@@ -1,7 +1,7 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QDialog
 from caloriestracker.ui.Ui_frmMealsAdd import Ui_frmMealsAdd
-from caloriestracker.libcaloriestracker import Meal
+from caloriestracker.objects.meal import Meal
 from caloriestracker.ui.myqwidgets import qmessagebox
 from datetime import datetime, date, timedelta
 

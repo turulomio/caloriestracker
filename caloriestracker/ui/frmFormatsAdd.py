@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QDialog
 from caloriestracker.ui.Ui_frmFormatsAdd import Ui_frmFormatsAdd
-from caloriestracker.libcaloriestracker import FormatPersonal
+from caloriestracker.objects.format import FormatPersonal
 from datetime import datetime
 
 class frmFormatsAdd(QDialog, Ui_frmFormatsAdd):

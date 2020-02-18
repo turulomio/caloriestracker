@@ -1,7 +1,8 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QDialog
 from caloriestracker.ui.Ui_frmProductsInElaboratedProductAdd import Ui_frmProductsInElaboratedProductAdd
-from caloriestracker.libcaloriestracker import ProductInElaboratedProduct
+
+from caloriestracker.objects.productelaborated import ProductInElaboratedProduct
 from caloriestracker.ui.myqwidgets import qmessagebox
 
 class frmProductsInElaboratedProductAdd(QDialog, Ui_frmProductsInElaboratedProductAdd):

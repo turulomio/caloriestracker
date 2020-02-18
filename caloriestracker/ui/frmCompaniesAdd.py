@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QDialog
 from caloriestracker.ui.Ui_frmCompaniesAdd import Ui_frmCompaniesAdd
-from caloriestracker.libcaloriestracker import CompanyPersonal
+from caloriestracker.objects.company import CompanyPersonal
 from datetime import datetime
 
 class frmCompaniesAdd(QDialog, Ui_frmCompaniesAdd):

@@ -1,7 +1,8 @@
 from datetime import datetime
 from decimal import Decimal
 from time import sleep
-from caloriestracker.libcaloriestracker import Meal, Biometrics
+from caloriestracker.objects.meal import Meal
+from caloriestracker.objects.biometrics import Biometrics
 from npyscreen import  NPSAppManaged, TitleSelectOne, Form, TitleText, notify
 
 class MealAddApp(NPSAppManaged):

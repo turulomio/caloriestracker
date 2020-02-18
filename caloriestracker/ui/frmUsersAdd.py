@@ -1,7 +1,7 @@
 from PyQt5.QtCore import QSize
 from PyQt5.QtWidgets import QDialog
 from caloriestracker.ui.Ui_frmUsersAdd import Ui_frmUsersAdd
-from caloriestracker.libcaloriestracker import User
+from caloriestracker.objects.user import User
 from datetime import datetime, date
 
 class frmUsersAdd(QDialog, Ui_frmUsersAdd):

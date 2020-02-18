@@ -1,5 +1,8 @@
 from datetime import datetime
-from caloriestracker.libcaloriestracker import MealManager, CompanyPersonal, ProductPersonal, CompaniesAndProducts
+from caloriestracker.objects.meal import MealManager
+from caloriestracker.objects.company import CompanyPersonal
+from caloriestracker.objects.product import ProductPersonal
+from caloriestracker.objects.company_product import CompaniesAndProducts
 from caloriestracker.text_inputs import  input_decimal, input_string
 from caloriestracker.mem import MemConsole
 from caloriestracker.npyscreen import MealAddApp, BiometricDataAddApp

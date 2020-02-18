@@ -1,7 +1,7 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox
-from caloriestracker.libcaloriestracker import BiometricsManager
+from caloriestracker.objects.biometrics import BiometricsManager
 from caloriestracker.ui.Ui_wdgBiometrics import Ui_wdgBiometrics
 from caloriestracker.ui.myqcharts import VCTemporalSeries
 from caloriestracker.libmanagers import DateValueManager
