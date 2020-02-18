@@ -107,12 +107,12 @@ class wdgCompanies(QWidget, Ui_wdgCompanies):
             self.actionCompanyDelete.setEnabled(True)
             self.actionCompanyEdit.setEnabled(True)
             self.actionCompanyProducts.setEnabled(True)
-        menu.addMenu(self.tblCompanies.qmenu())
-        menu.exec_(self.tblCompanies.mapToGlobal(pos))
+        menu.addMenu(self.tblCompanies.table.qmenu())
+        menu.exec_(self.tblCompanies.table.mapToGlobal(pos))
 
     def on_tblCompanies_itemSelectionChanged(self):
         self.companies.cleanSelection()
-        for i in self.tblCompanies.selectedItems():
+        for i in self.tblCompanies.table.selectedItems():
             if i.column()==0:#only once per row
                 self.companies.selected=self.companies.arr[i.row()]
         debug("Selected product: " + str(self.companies.selected))
