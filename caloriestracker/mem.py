@@ -215,7 +215,14 @@ class MemConsole(Mem):
 class MemCaloriestracker(MemGui):
     def __init__(self):        
         MemGui.__init__(self)
-    
+        self._products_maintainer_mode=False
+ 
+    def setProductsMaintainerMode(self, boolean):
+        self._products_maintainer_mode=boolean
+        
+    def isProductsMaintainerMode(self):
+        return self._products_maintainer_mode
+
     def run(self):
         self.args=self.parse_arguments()
         self.addDebugSystem(self.args.debug)

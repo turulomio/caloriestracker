@@ -11,8 +11,10 @@ class frmCompaniesAdd(QDialog, Ui_frmCompaniesAdd):
         self.company=company
         
         if self.company==None:
+            self.__insert=True
             self.lbl.setText(self.tr("Add a new company"))
         else:
+            self.__insert=False
             self.lbl.setText(self.tr("Edit a company"))
             self.txtName.setText(self.company.name)
 
@@ -22,10 +24,19 @@ class frmCompaniesAdd(QDialog, Ui_frmCompaniesAdd):
         else:
             self.company.name=self.txtName.text()
         self.company.save()
-        self.mem.data.companies.append(self.company)
+        if self.__insert==True:
+            self.mem.data.companies.append(self.company)
         self.mem.data.companies.order_by_name()
-        self.mem.con.commit()
+
+        if self.mem.isProductsMaintainerMode():
+            if self.__insert==True:
+                self.mem.insertCompanies.append(self.company)
+            else:
+                self.mem.updateCompanies.append(self.company)
+        else:
+            self.mem.con.commit()
         self.accept()
+
     def on_bb_rejected(self):
         self.reject()  
 

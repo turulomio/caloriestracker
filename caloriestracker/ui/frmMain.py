@@ -62,7 +62,7 @@ class frmMain(QMainWindow, Ui_frmMain):
 
     @pyqtSlot()  
     def on_actionExit_triggered(self):
-        self.mem.__del__()
+
         print ("App correctly closed")
         self.close()
         self.destroy()
@@ -163,7 +163,7 @@ class frmMain(QMainWindow, Ui_frmMain):
     def on_actionCompanies_triggered(self):
         from caloriestracker.ui.wdgCompanies import wdgCompanies
         self.w.close()
-        self.w=wdgCompanies(self.mem,  self)
+        self.w=wdgCompanies(self.mem, False,   self)
         self.layout.addWidget(self.w)
         self.w.show()
         self.w.txt.setFocus()

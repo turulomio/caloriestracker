@@ -48,23 +48,25 @@ class CompanySystem:
 
     def save(self):
         if self.id==None:
-            self.id=self.mem.con.cursor_one_field("insert into companies(name,last) values (%s, %s) returning id", (self.name, self.last))
+            self.id=self.mem.con.cursor_one_field("insert into companies(name,last) values (%s, %s) returning id", (self.name, datetime.now()))
         else:
             self.mem.con.execute("update companies set name=%s,last=%s where id=%s", (self.name, datetime.now(), self.id))
     
     def sql_insert(self, table="companies"):
-        return b2s(self.mem.con.mogrify("insert into "+table +"(name, last, id) values (%s, %s, %s);", (self.name, self.last, self.id)))
+        return b2s(self.mem.con.mogrify("insert into public."+table +"(name, last, id) values (%s, %s, %s);", (self.name, self.last, self.id)))
     def sql_update(self, table="companies"):
-        return b2s(self.mem.con.mogrify("update "+table +" set name=%s, last=%s where id=%s;", (self.name, self.last, self.id)))
+        return b2s(self.mem.con.mogrify("update public."+table +" set name=%s, last=%s where id=%s;", (self.name, self.last, self.id)))
 
     def qicon(self):
         if self.system_company==True:
             return QIcon(":/caloriestracker/company.png")
         else:
             return QIcon(":/caloriestracker/hucha.png")
+
     ## Generates an string with id and system_product
     def string_id(self):
         return "{}#{}".format(self.id, self.system_company)
+
     @staticmethod
     def string_id2tuple(string_id):
         if string_id==None:
@@ -119,6 +121,9 @@ class CompanySystemManager(QObject, ObjectManager_With_IdName_Selectable):
             o=CompanySystem(self.mem, row)
             self.append(o)
         cur.close()
+        
+    def myqtablewidget(self, wdg):
+        myQTableWidget_CompanyManagers(self, wdg)
 
 class CompanyPersonal(CompanySystem):
     def __init__(self, *args):
@@ -185,22 +190,10 @@ class CompanyAllManager(QObject, ObjectManager_With_IdName_Selectable):
             combo.addItem(o.qicon(), o.fullName(), o.string_id())
         if selected!=None:
             combo.setCurrentIndex(combo.findData(selected.string_id()))
-
-    def myqtablewidget(self, wdg):     
-        wdg.setDataFromManager(
-            [self.tr("Name"), self.tr("Number of products"), self.tr("Last update")], 
-            None,
-            self, 
-            [
-                ["fullName", []], 
-                ["get_number_products", []], 
-                "last", 
-            ], 
-        )   
-        for i, o in enumerate(self.arr):
-            wdg.table.item(i, 0).setIcon(o.qicon())
-
-
+    
+    def myqtablewidget(self, wdg):
+        myQTableWidget_CompanyManagers(self, wdg)
+        
 class CompanyPersonalManager(CompanySystemManager):
     def __init__(self, mem):
         CompanySystemManager.__init__(self, mem)
@@ -224,4 +217,16 @@ class CompanyPersonalManager(CompanySystemManager):
             self.append(o)
         cur.close()
    
-
+def myQTableWidget_CompanyManagers(manager, wdg):     
+    wdg.setDataFromManager(
+        [wdg.tr("Name"), wdg.tr("Number of products"), wdg.tr("Last update")], 
+        None,
+        manager, 
+        [
+            ["fullName", []], 
+            ["get_number_products", []], 
+            "last", 
+        ], 
+    )   
+    for i, o in enumerate(manager.arr):
+        wdg.table.item(i, 0).setIcon(o.qicon())

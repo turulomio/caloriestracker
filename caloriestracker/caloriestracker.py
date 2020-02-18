@@ -25,6 +25,7 @@ def main():
         mem.setLocalzone()#Needs settings in mem
         if mem.args.products_maintainer==True:
             from caloriestracker.ui.frmMainProductsMaintainer import frmMainProductsMaintainer
+            mem.setProductsMaintainerMode(True)
             mem.frmMain = frmMainProductsMaintainer(mem)
         else:
             from caloriestracker.ui.frmMain import frmMain

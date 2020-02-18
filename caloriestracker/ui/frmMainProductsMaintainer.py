@@ -2,8 +2,9 @@
 ## @brief User interface main window.
 from PyQt5.QtCore import pyqtSlot, QUrl
 from PyQt5.QtGui import QIcon, QDesktopServices
-from PyQt5.QtWidgets import QMainWindow,  QWidget, QLabel
+from PyQt5.QtWidgets import QMainWindow,  QWidget, QLabel, QMessageBox
 from caloriestracker.database_update import database_update
+from caloriestracker.datetime_functions import dtnaive2string
 from caloriestracker.objects.product import ProductManager
 from caloriestracker.objects.company import CompanySystemManager
 from caloriestracker.objects.format import FormatSystemManagerHeterogeneus
@@ -11,6 +12,7 @@ from caloriestracker.ui.Ui_frmMainProductsMaintainer import Ui_frmMainProductsMa
 from caloriestracker.ui.wdgCuriosities import wdgCuriosities
 from caloriestracker.ui.frmSettings import frmSettings
 from caloriestracker.version import __versiondatetime__
+from datetime import datetime
 from os import environ
 
 class frmMainProductsMaintainer(QMainWindow, Ui_frmMainProductsMaintainer):
@@ -36,11 +38,27 @@ class frmMainProductsMaintainer(QMainWindow, Ui_frmMainProductsMaintainer):
   
         self.setWindowTitle(self.tr("Calories Tracker 2019-{0} \xa9 (Products maintainer mode)").format(__versiondatetime__.year))#print ("Xulpymoney 2010-{0} © €".encode('unicode-escape'))
         self.setWindowIcon(QIcon(":/caloriestracker/books.png"))
-            
 
     @pyqtSlot()  
-    def on_actionExit_triggered(self):
-        self.mem.__del__()
+    def on_actionExit_triggered(self):        
+        reply = QMessageBox.question(
+                    None, 
+                    self.tr('Developer mode'), 
+                    self.tr("""You are in developer mode.
+Changes will not be saved in database, but they will added to a SQL format file, for futures updates.
+Do you want to generate it?"""), 
+                    QMessageBox.Yes, 
+                    QMessageBox.No
+                )
+        if reply==QMessageBox.Yes:
+            f=open("{}.sql".format(dtnaive2string(datetime.now(), "%Y%m%d%H%M")), "w")
+            f.write("-- Companies insert\n")
+            for o in self.mem.insertCompanies.arr:
+                f.write(o.sql_insert() + "\n")
+            f.write("\n-- Companies updates\n")
+            for o in self.mem.updateCompanies.arr:
+                f.write(o.sql_update() + "\n")
+            f.close()
         print ("App correctly closed")
         self.close()
         self.destroy()
@@ -94,7 +112,7 @@ class frmMainProductsMaintainer(QMainWindow, Ui_frmMainProductsMaintainer):
     def on_actionCompanies_triggered(self):
         from caloriestracker.ui.wdgCompanies import wdgCompanies
         self.w.close()
-        self.w=wdgCompanies(self.mem,  self)
+        self.w=wdgCompanies(self.mem, True,  self)
         self.layout.addWidget(self.w)
         self.w.show()
         self.w.txt.setFocus()

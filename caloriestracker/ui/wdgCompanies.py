@@ -1,7 +1,7 @@
 from PyQt5.QtCore import pyqtSlot, QSize, Qt
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox, QLabel, QDialog, QVBoxLayout
-from caloriestracker.objects.company import CompanyAllManager
+from caloriestracker.objects.company import CompanyAllManager, CompanySystemManager
 from caloriestracker.ui.myqtablewidget import myQTableWidget
 from caloriestracker.ui.myqwidgets import qmessagebox
 from caloriestracker.libmanagers import ManagerSelectionMode
@@ -9,13 +9,20 @@ from caloriestracker.ui.Ui_wdgCompanies import Ui_wdgCompanies
 from logging import debug
 
 class wdgCompanies(QWidget, Ui_wdgCompanies):
-    def __init__(self, mem,  parent=None):
+    def __init__(self, mem, only_system_companies=False, parent=None):
         QWidget.__init__(self, parent)
         self.setupUi(self)
         self.mem=mem
+        self.only_system_companies=only_system_companies
         self.tblCompanies.settings(self.mem.settings, "wdgCompanies", "tblCompanies")
         self.tblCompanies.table.customContextMenuRequested.connect(self.on_tblCompanies_customContextMenuRequested)
-        self.companies=CompanyAllManager(self.mem)
+        self.tblCompanies.table.itemSelectionChanged.connect(self.on_tblCompanies_itemSelectionChanged)
+        if only_system_companies==True:
+            self.companies=CompanySystemManager(self.mem)
+            self.companies.load_from_db("select * from companies order by name")
+        else:
+            self.companies=CompanyAllManager(self.mem)
+        self.companies.myqtablewidget(self.tblCompanies)
 
     @pyqtSlot() 
     def on_actionCompanyDelete_triggered(self):
@@ -39,14 +46,14 @@ class wdgCompanies(QWidget, Ui_wdgCompanies):
 
     @pyqtSlot() 
     def on_actionCompanyEdit_triggered(self):
-        if self.companies.selected.system_company==True:
+        if self.companies.selected.system_company==True and self.mem.isProductsMaintainerMode()==False:
             qmessagebox(
                 self.tr("This is a system company so you can't edit it.") + "\n" +
                 self.tr("Please, if it's something wrong with it create an issue at") + "\n" + 
                 "https://github.com/turulomio/caloriestracker/issues"+ "\n" +
                 self.tr("I'll fix it as soon as posible. ;)")
             )
-        elif self.companies.selected.system_company==False:
+        else:
             from caloriestracker.ui.frmCompaniesAdd import frmCompaniesAdd
             w=frmCompaniesAdd(self.mem, self.companies.selected, self)
             w.exec_()
@@ -107,7 +114,7 @@ class wdgCompanies(QWidget, Ui_wdgCompanies):
             self.actionCompanyDelete.setEnabled(True)
             self.actionCompanyEdit.setEnabled(True)
             self.actionCompanyProducts.setEnabled(True)
-        menu.addMenu(self.tblCompanies.table.qmenu())
+        menu.addMenu(self.tblCompanies.qmenu())
         menu.exec_(self.tblCompanies.table.mapToGlobal(pos))
 
     def on_tblCompanies_itemSelectionChanged(self):
