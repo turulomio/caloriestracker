@@ -110,6 +110,7 @@ class Reusing(Command):
         download_from_github('turulomio','reusingcode','python/datetime_functions.py', 'caloriestracker')
         download_from_github('turulomio','reusingcode','python/text_inputs.py', 'caloriestracker')
         download_from_github('turulomio','reusingcode','python/decorators.py', 'caloriestracker')
+        download_from_github('turulomio','reusingcode','python/sqlparser.py', 'caloriestracker')
         download_from_github('turulomio','reusingcode','python/objects/percentage.py', 'caloriestracker/objects')
         download_from_github('turulomio','reusingcode','python/ui/wdgDistributeAmount.py', 'caloriestracker/ui')
 

@@ -16,7 +16,6 @@ def main():
     mem.frmAccess=frmAccess("caloriestracker", "frmAccess")
     mem.frmAccess.setResources(":/caloriestracker/caloriestracker.png", ":/caloriestracker/caloriestracker.png")
     mem.frmAccess.setLabel(mem.tr("Please login to the Calories Tracker database"))
-    mem.frmAccess.setResources(":/caloriestracker/caloriestracker.png", ":/caloriestracker/caloriestracker.png")
     mem.frmAccess.exec_()
 
     if mem.frmAccess.result()==QDialog.Accepted:
@@ -26,6 +25,7 @@ def main():
         if mem.args.products_maintainer==True:
             from caloriestracker.ui.frmMainProductsMaintainer import frmMainProductsMaintainer
             mem.setProductsMaintainerMode(True)
+            mem.frmAccess.languages.cambiar("en", "caloriestracker")
             mem.frmMain = frmMainProductsMaintainer(mem)
         else:
             from caloriestracker.ui.frmMain import frmMain

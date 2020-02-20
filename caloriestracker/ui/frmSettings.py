@@ -14,8 +14,8 @@ class frmSettings(QDialog, Ui_frmSettings):
         
         wdgDatetime.pytz_zones_qcombobox(self.cmbZones, self.mem.localzone)
         self.mem.frmAccess.languages.qcombobox(self.cmbLanguages,self.mem.frmAccess.languages.selected)
+        self.cmbLanguages.setEnabled(False)
 
- 
     @pyqtSlot()
     def on_buttonbox_accepted(self):
         self.mem.localzone=self.cmbZones.itemData(self.cmbZones.currentIndex())
@@ -31,7 +31,6 @@ class frmSettings(QDialog, Ui_frmSettings):
     @pyqtSlot()
     def on_buttonbox_rejected(self):
         self.reject()
-        
 
     @pyqtSlot(str)      
     def on_cmbLanguages_currentIndexChanged(self, stri):

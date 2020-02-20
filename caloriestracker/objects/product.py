@@ -129,8 +129,12 @@ class Product(QObject):
             table="products"
         
         if self.id==None:
-            print(self.sql_insert(table, returning_id=True))
-            self.id=self.mem.con.cursor_one_field(self.sql_insert(table, returning_id=True))
+            #print(self.sql_insert(table, returning_id=True))
+            if table=="products":# id it's not linked to a sequence, so I must add a id. Only used for maintenance mode. Can't be two editors at the same time
+                self.id=self.mem.con.cursor_one_field("select max(id)+1 from products")
+                self.mem.con.execute(self.sql_insert(table, returning_id=False))
+            else:# personalproducts has sequence
+                self.id=self.mem.con.cursor_one_field(self.sql_insert(table, returning_id=True))
         else:
             self.mem.con.execute(self.sql_update(table))
 
@@ -164,9 +168,9 @@ class Product(QObject):
         else:
             sql=sql.replace(") values (", ", id ) values (")
             sql=sql.replace(") returning id", ", %s)")
-            print(sql)
-            print(sql_parameters)
-            r=self.mem.con.mogrify(sql, sql_parameters+(self.id, ))
+#            print(sql)
+#            print(sql_parameters)
+            r=b2s(self.mem.con.mogrify(sql, sql_parameters+(self.id, )))
         return r
 
     def sql_update(self, table="products"):

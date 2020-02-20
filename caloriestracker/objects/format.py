@@ -3,7 +3,7 @@ from PyQt5.QtGui import QIcon
 from caloriestracker.casts import b2s
 from caloriestracker.objects.company import CompanySystem
 from caloriestracker.libmanagers import ObjectManager_With_IdName_Selectable, ManagerSelectionMode
-from caloriestracker.ui.myqtablewidget import qcenter, qleft, qnumber
+from datetime import datetime
 
 ## There is no need of system_formats or personal_formats because it's relacionated with the product as its properties
 class Format(QObject):
@@ -34,8 +34,44 @@ class Format(QObject):
     def __repr__(self):
         return self.fullName()
 
-    def sql_insert(self, table="formats"):
-        return b2s(self.mem.con.mogrify("insert into "+table +"(name, amount, last, products_id, system_product, id) values (%s, %s, %s, %s, %s, %s);", (self.name, self.amount, self.last, self.product.id, self.product.system_product, self.id)))
+    def save(self):        
+        #This function is used for products and personal products, only changes the name of the table
+        if self.__class__.__name__=="FormatPersonal":
+            table="personalformats"
+        else:
+            table="formats"
+        
+        if self.id==None:
+            #print(self.sql_insert(table, returning_id=True))
+            if table=="formats":# id it's not linked to a sequence, so I must add a id. Only used for maintenance mode. Can't be two editors at the same time
+                self.id=self.mem.con.cursor_one_field("select max(id)+1 from formats")
+                self.mem.con.execute(self.sql_insert(table, returning_id=False))
+            else:# personalproducts has sequence
+                self.id=self.mem.con.cursor_one_field(self.sql_insert(table, returning_id=True))
+        else:
+            self.mem.con.execute(self.sql_update(table))
+
+    def sql_insert(self, table="formats", returning_id=True):
+        self.last=datetime.now()
+        sql="insert into "+table +"(name, amount, last, products_id, system_product) values (%s, %s, %s, %s, %s) returning id;"
+        sql_parameters=(self.name, self.amount, self.last, self.product.id, self.product.system_product)
+                    
+        if returning_id==True:
+            r=self.mem.con.mogrify(sql, sql_parameters)
+        else:
+            sql=sql.replace(") values (", ", id ) values (")
+            sql=sql.replace(") returning id", ", %s)")
+#            print(sql)
+#            print(sql_parameters)
+            r=self.mem.con.mogrify(sql, sql_parameters+(self.id, ))
+        return b2s(r)
+
+    ## @param table Can be format or personalformats
+    def sql_update(self, table):
+        self.last=datetime.now() 
+        sql="update "+ table+ " set name=%s, products_id=%s, system_product=%s, amount=%s, last=%s where id=%s"
+        sql_parameters=(self.name,  self.product.id, self.system_product, self.amount, self.last, self.id)
+        return b2s(self.mem.con.mogrify(sql, sql_parameters))
 
     def is_deletable(self):
         if self.system_format==True:
@@ -114,13 +150,6 @@ class FormatPersonal(Format):
         Format.__init__(self,  *args)
         self.system_format=False           
 
-    def save(self):
-        if self.id==None:
-            self.id=self.mem.con.cursor_one_field("insert into personalformats(name, products_id, system_product, amount, last) values (%s, %s, %s, %s, %s) returning id",
-                    (self.name,  self.product.id, self.system_product, self.amount, self.last))
-        else:
-            self.mem.con.execute("update personalformats set name=%s, products_id=%s, system_product=%s, amount=%s, last=%s where id=%s", 
-                    (self.name,  self.product.id, self.system_product, self.amount, self.last, self.id))
 
     def delete(self):
         self.mem.con.execute("delete from personalformats where id=%s", (self.id, ))
@@ -140,17 +169,14 @@ class FormatSystemManagerHeterogeneus(ObjectManager_With_IdName_Selectable, QObj
         return self
 
     @staticmethod
-    def qtablewidget(self, table):        
-        table.setColumnCount(2)
-        table.setHorizontalHeaderItem(0, qcenter(self.tr("Name")))
-        table.setHorizontalHeaderItem(1, qcenter(self.tr("Grams")))
-        table.applySettings()
-        table.clearContents()
-        table.setRowCount(self.length())
+    def qtablewidget(self, wdg):        
+        hh=[self.tr("Name"), self.tr("Grams")]
+        data=[]
         for i, o in enumerate(self.arr):
-            table.setItem(i, 0, qleft(o.fullName(grams=False)))
-            table.item(i, 0).setIcon(o.qicon())
-            table.setItem(i, 1, qnumber(o.amount))
+            data.append([o.fullName(grams=False), o.amount])
+        wdg.setData(hh, None, data)
+        for i, o in enumerate(self.arr):
+            wdg.table.item(i, 0).setIcon(o.qicon())
 
     def sql_insert(self, table="formats"):
         return b2s(self.mem.con.mogrify("insert into "+table +"(name, amount, products_id, system_product, last, id) values (%s, %s, %s, %s, %s, %s);", 

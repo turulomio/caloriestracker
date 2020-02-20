@@ -47,14 +47,37 @@ class CompanySystem:
             return "{}".format(self.name)
 
     def save(self):
-        if self.id==None:
-            self.id=self.mem.con.cursor_one_field("insert into companies(name,last) values (%s, %s) returning id", (self.name, datetime.now()))
+        if self.__class__.__name__=="CompanyPersonal":
+            table="personalcompanies"
         else:
-            self.mem.con.execute("update companies set name=%s,last=%s where id=%s", (self.name, datetime.now(), self.id))
+            table="companies"
+        
+        if self.id==None:
+            #print(self.sql_insert(table, returning_id=True))
+            if table=="companies":# id it's not linked to a sequence, so I must add a id. Only used for maintenance mode. Can't be two editors at the same time
+                self.id=self.mem.con.cursor_one_field("select max(id)+1 from companies")
+                self.mem.con.execute(self.sql_insert(table, returning_id=False))
+            else:# personalproducts has sequence
+                self.id=self.mem.con.cursor_one_field(self.sql_insert(table, returning_id=True))
+        else:
+            self.mem.con.execute(self.sql_update(table))
     
-    def sql_insert(self, table="companies"):
-        return b2s(self.mem.con.mogrify("insert into public."+table +"(name, last, id) values (%s, %s, %s);", (self.name, self.last, self.id)))
+    def sql_insert(self, table="companies", returning_id=True):
+        self.last=datetime.now()
+        sql="insert into public."+table +"(name, last) values (%s, %s) returning id;"
+        sql_parameters=(self.name, self.last)
+        if returning_id==True:
+            r=self.mem.con.mogrify(sql, sql_parameters)
+        else:
+            sql=sql.replace(") values (", ", id ) values (")
+            sql=sql.replace(") returning id", ", %s)")
+#            print(sql)
+#            print(sql_parameters)
+            r=self.mem.con.mogrify(sql, sql_parameters+(self.id, ))
+        return b2s(r)
+        
     def sql_update(self, table="companies"):
+        self.last=datetime.now()
         return b2s(self.mem.con.mogrify("update public."+table +" set name=%s, last=%s where id=%s;", (self.name, self.last, self.id)))
 
     def qicon(self):

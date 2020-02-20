@@ -67,10 +67,10 @@ Do you want to generate it?"""),
                 f.write(o.sql_update("products") + "\n")
             f.write("\n-- Formats inserts\n")
             for o in self.mem.insertFormats.arr:
-                f.write(o.sql_insert() + "\n")
+                f.write(o.sql_insert("formats", returning_id=False) + "\n")
             f.write("\n-- Formats updates\n")
             for o in self.mem.updateFormats.arr:
-                f.write(o.sql_update() + "\n")
+                f.write(o.sql_update("formats") + "\n")
             f.close()
         print ("App correctly closed")
         system("cat {}".format(filename))
