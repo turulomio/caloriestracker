@@ -122,8 +122,6 @@ class Product(QObject):
     
 
     def save(self):
-        companies_id=None if self.company==None else self.company.id
-        foodtypes_id=None if self.foodtype==None else self.foodtype.id
         #This function is used for products and personal products, only changes the name of the table
         if self.__class__.__name__=="ProductPersonal":
             table="personalproducts"
@@ -131,23 +129,10 @@ class Product(QObject):
             table="products"
         
         if self.id==None:
-            self.id=self.mem.con.cursor_one_field("""insert into """+table+""" (
-                    name, amount, fat, protein, carbohydrate, companies_id, last,
-                    elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, 
-                    potassium, fiber, sugars, saturated_fat, system_company, foodtypes_id, additives
-                    )values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning id""",  
-                    (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.last, 
-                    self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, 
-                    self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company, foodtypes_id, self.additives.array_of_ids()))
+            print(self.sql_insert(table, returning_id=True))
+            self.id=self.mem.con.cursor_one_field(self.sql_insert(table, returning_id=True))
         else:
-            self.mem.con.cursor_one_field("""update """ +table+ """ set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, last=%s,
-            elaboratedproducts_id=%s, languages=%s, calories=%s, salt=%s, cholesterol=%s, sodium=%s, potassium=%s, fiber=%s, sugars=%s, saturated_fat=%s, 
-            system_company=%s, foodtypes_id=%s, additives=%s 
-            where id=%s returning id""", 
-            (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, datetime.now(), 
-            self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.
-            system_company,  foodtypes_id, self.additives.array_of_ids()
-            , self.id))
+            self.mem.con.execute(self.sql_update(table))
 
     ## Generates an string with id and system_product
     def string_id(self):
@@ -157,23 +142,48 @@ class Product(QObject):
     def string_id2tuple(string_id):
         return CompanySystem.string_id2tuple(string_id)
         
-    def sql_insert(self, table="products"):
+    ## @param returning_id True sql with returning id (normal insert). False without returning_id and id inside sql. Used for automatic inserts
+    def sql_insert(self, table="products", returning_id=True):
         companies_id=None if self.company==None else self.company.id
         foodtypes_id=None if self.foodtype==None else self.foodtype.id
-        return b2s(self.mem.con.mogrify("insert into " + table +" (name, amount, fat, protein, carbohydrate, companies_id, last, elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, potassium, fiber, sugars, saturated_fat,system_company, foodtypes_id, additives, id) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);",  
-            (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.last, self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company, foodtypes_id,  self.additives.array_of_ids(), self.id)))
-           
+        self.last=datetime.now()
+        
+        sql= """insert into """+table+""" (
+                    name, amount, fat, protein, carbohydrate, companies_id, last,
+                    elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, 
+                    potassium, fiber, sugars, saturated_fat, system_company, foodtypes_id, additives
+                    ) values (%s, %s, %s, %s, %s, %s, %s, 
+                    %s, %s, %s, %s, %s, %s, 
+                    %s, %s, %s, %s, %s, %s, %s) returning id;"""
+        sql_parameters=(self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.last, 
+                    self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, 
+                    self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company, foodtypes_id, self.additives.array_of_ids())
+                    
+        if returning_id==True:
+            r=self.mem.con.mogrify(sql, sql_parameters)
+        else:
+            sql=sql.replace(") values (", ", id ) values (")
+            sql=sql.replace(") returning id", ", %s)")
+            print(sql)
+            print(sql_parameters)
+            r=self.mem.con.mogrify(sql, sql_parameters+(self.id, ))
+        return r
+
     def sql_update(self, table="products"):
         companies_id=None if self.company==None else self.company.id
         foodtypes_id=None if self.foodtype==None else self.foodtype.id
-        return b2s(self.mem.con.mogrify( """update """ +table+ """ set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, last=%s,
+        self.last=datetime.now() 
+        sql="""update public.""" +table+ """ set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, last=%s,
             elaboratedproducts_id=%s, languages=%s, calories=%s, salt=%s, cholesterol=%s, sodium=%s, potassium=%s, fiber=%s, sugars=%s, saturated_fat=%s, 
             system_company=%s, foodtypes_id=%s, additives=%s 
-            where id=%s returning id""", 
-            (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, datetime.now(), 
-            self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, self.
-            system_company,  foodtypes_id, self.additives.array_of_ids()
-            , self.id)))
+            where id=%s;"""
+        sql_parameters=(self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.last, 
+            self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, 
+            self.system_company,  foodtypes_id, self.additives.array_of_ids(), 
+            self.id)
+        print(sql)
+        print(sql_parameters)
+        return b2s(self.mem.con.mogrify(sql, sql_parameters))
         
     def is_deletable(self):
         self.needStatus(1)

@@ -52,7 +52,8 @@ class wdgProducts(QWidget, Ui_wdgProducts):
         if self.products.selected.system_product==True:
             from caloriestracker.ui.frmProductsAdd import frmProductsAdd
             w=frmProductsAdd(self.mem, self.products.selected, self)
-            w.setReadOnly()
+            if self.mem.isProductsMaintainerMode()==False:
+                w.setReadOnly()
             w.exec_()
         elif self.products.selected.system_product==False:
             if self.products.selected.elaboratedproducts_id==None:

@@ -13,7 +13,7 @@ from caloriestracker.ui.wdgCuriosities import wdgCuriosities
 from caloriestracker.ui.frmSettings import frmSettings
 from caloriestracker.version import __versiondatetime__
 from datetime import datetime
-from os import environ
+from os import environ, system
 
 class frmMainProductsMaintainer(QMainWindow, Ui_frmMainProductsMaintainer):
     def __init__(self, mem, parent = 0,  flags = False):
@@ -51,17 +51,32 @@ Do you want to generate it?"""),
                     QMessageBox.No
                 )
         if reply==QMessageBox.Yes:
-            f=open("{}.sql".format(dtnaive2string(datetime.now(), "%Y%m%d%H%M")), "w")
-            f.write("-- Companies insert\n")
+            filename="{}.sql".format(dtnaive2string(datetime.now(), "%Y%m%d%H%M"))
+            f=open(filename, "w")
+            f.write("-- Companies inserts\n")
             for o in self.mem.insertCompanies.arr:
                 f.write(o.sql_insert() + "\n")
             f.write("\n-- Companies updates\n")
             for o in self.mem.updateCompanies.arr:
                 f.write(o.sql_update() + "\n")
+            f.write("\n-- Products inserts\n")
+            for o in self.mem.insertProducts.arr:
+                f.write(o.sql_insert("products", returning_id=False) + "\n")
+            f.write("\n-- Products updates\n")
+            for o in self.mem.updateProducts.arr:
+                f.write(o.sql_update("products") + "\n")
+            f.write("\n-- Formats inserts\n")
+            for o in self.mem.insertFormats.arr:
+                f.write(o.sql_insert() + "\n")
+            f.write("\n-- Formats updates\n")
+            for o in self.mem.updateFormats.arr:
+                f.write(o.sql_update() + "\n")
             f.close()
         print ("App correctly closed")
-        self.close()
-        self.destroy()
+        system("cat {}".format(filename))
+#        self.close()
+#        self.destroy()
+        exit(0)
         
     @pyqtSlot()
     def on_actionAbout_triggered(self):
@@ -93,6 +108,12 @@ Do you want to generate it?"""),
                 w.show()
         except:
             in_external()
+
+    @pyqtSlot()
+    def closeEvent(self, event):
+        event.accept()
+        self.on_actionExit_triggered()
+
 
     @pyqtSlot()  
     def on_actionSettings_triggered(self):

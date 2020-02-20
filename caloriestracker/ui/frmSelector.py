@@ -3,7 +3,6 @@ from PyQt5.QtGui import QFont, QIcon
 from PyQt5.QtWidgets import QLabel, QComboBox, QDialog, QDialogButtonBox, QWidget, QTableWidgetItem, QVBoxLayout, QToolButton, QHBoxLayout
 from logging import debug
 from .myqtablewidget import myQTableWidget
-#from .. myqwidgets import qmessagebox
 
 class frmManagerSelector(QDialog):
     def __init__(self, parent=None):
@@ -31,11 +30,12 @@ class frmManagerSelector(QDialog):
     def setWidgetType(self):
         self.widget=wdgManagerSelector(self)
         
-    def setManagers(self, settings, settingsSection,  settingsObject, manager, selected, *initparams):
+    ## Both managers must have setConstructorParameters
+    def setManagers(self, settings, settingsSection,  settingsObject, manager, selected):
         self.settings=settings
         self.settingsSection=settingsSection
         self.settingsObject=settingsObject
-        self.widget.setManagers(settings, settingsSection, settingsObject, manager, selected, *initparams)
+        self.widget.setManagers(settings, settingsSection, settingsObject, manager, selected)
         self.resize(self.settings.value("{}/{}_dialog_size".format(self.settingsSection, self.settingsObject), QSize(800, 600)))
 
     def exec_(self):
@@ -94,19 +94,20 @@ class wdgManagerSelector(QWidget):
     ## By default is True. Show Icons y tables and combobox 
     def showObjectIcons(self, boolean):
         self._showObjectIcons=boolean
-        
-    def setManagers(self, settings, settingsSection,  settingsObject, manager, selected, *initparams):
+
+    ## manager needs to have add setConstructorParameters to generate emptyManager
+    def setManagers(self, settings, settingsSection,  settingsObject, manager, selected):
         self.settings=settings
         self.settingsSection=settingsSection
         self.settingsObject=settingsObject
         self.mqtw.settings(self.settings, self.settingsSection, "{}_tbl".format(self.settingsObject))
         self.mqtwSelected.settings(self.settings, self.settingsSection, "{}_tblSelected".format(self.settingsObject))
-        
-        self.manager=manager.clone(*initparams)#Clone manager to delete safely objects
+
+        self.manager=manager.clone()#Clone manager to delete safely objects
 
         #removes selected objects from manager
         if selected is None:
-            self.selected=manager.__class__(*initparams)
+            self.selected=self.manager.emptyManager()
         else:
             self.selected=selected
             for o in self.selected.arr:
@@ -236,9 +237,9 @@ class cmbManagerSelector(QWidget):
             else:
                 self.combo.addItem(str(o))
 
-    def setManagers(self, settings, settingsSection, settingsObject, manager, selected,  *initparams):
+    def setManagers(self, settings, settingsSection, settingsObject, manager, selected):
         self.settings=settings
-        self.frm.setManagers(settings, settingsSection, settingsObject, manager, selected, *initparams)
+        self.frm.setManagers(settings, settingsSection, settingsObject, manager, selected)
         if selected!=None:
             for o in selected.arr:
                 if self._showObjectIcons==True:
@@ -271,10 +272,12 @@ if __name__ == '__main__':
             
     d={'one':1, 'two':2, 'three':3, 'four':4}
     manager=PruebaManager()
+    manager.setConstructorParameters()
     for k, v in d.items():
         manager.append(Prueba(v, k))
         
     selected=PruebaManager()
+    selected.setConstructorParameters()
     selected.append(manager.arr[3])
     
     mem=Mem()

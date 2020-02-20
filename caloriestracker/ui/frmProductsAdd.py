@@ -1,11 +1,11 @@
 from PyQt5.QtWidgets import QDialog, QWidget, QLineEdit, QCheckBox, QDialogButtonBox
 from caloriestracker.ui.Ui_frmProductsAdd import Ui_frmProductsAdd
 from caloriestracker.ui.myqwidgets import qmessagebox
-from caloriestracker.objects.product import ProductPersonal
+from caloriestracker.objects.product import ProductPersonal, Product
 from datetime import datetime
 
 class frmProductsAdd(QDialog, Ui_frmProductsAdd):
-    def __init__(self, mem, product=None, parent=None, ):
+    def __init__(self, mem, product, parent):
         QDialog.__init__(self, parent)
         self.setupUi(self)
         self.mem=mem
@@ -39,6 +39,7 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
         self.qlepSaturatedFat.setSuffix(self.tr("g"))
         
         if self.product==None:
+            self.__insert=True
             self.mem.data.companies.qcombobox(self.cmbCompanies)
             self.cmbCompanies.setCurrentIndex(-1)
             self.mem.data.foodtypes.qcombobox(self.cmbFoodtypes)
@@ -47,6 +48,7 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
             self.qlepAmount.setValue(100)
             self.cmbsAdditives.setManagers(self.mem.settings, "frmProductsAdd", "cmbsAdditives", self.mem.data.additives, None)
         else:
+            self.__insert=False
             self.mem.data.companies.qcombobox(self.cmbCompanies, self.product.company)
             self.mem.data.foodtypes.qcombobox(self.cmbFoodtypes, self.product.foodtype)
             if self.product.company==None:
@@ -75,10 +77,8 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
         self.qlepFat.setMandatory(True)
         self.qlepCalories.txt.setFocus()
         
-        self.readonly=False
         
     def setReadOnly(self):
-        self.readonly=True   
         self.lbl.setText(self.tr("Product information"))
         qmessagebox(
             self.tr("This is a system product so you can't edit it.") + "\n" +
@@ -109,7 +109,11 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
             return
         system_company=None if company==None else company.system_company
         if self.product==None:        
-            self.product=ProductPersonal(
+            if self.mem.isProductsMaintainerMode(): 
+                productclass=Product
+            else:
+                productclass=ProductPersonal
+            self.product=productclass(
             self.mem, 
             self.txtName.text(), 
             self.qlepAmount.value(), 
@@ -132,8 +136,6 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
             foodtype, 
             self.cmbsAdditives.selected(), 
             None)
-            self.mem.data.products.append(self.product)
-            self.mem.data.products.order_by_name()
         else:
             self.product.name=self.txtName.text()
             self.product.amount=self.qlepAmount.value()
@@ -153,7 +155,19 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
             self.product.foodtype=foodtype
             self.product.additives=self.cmbsAdditives.selected()
         self.product.save()
-        self.mem.con.commit()
+        if self.mem.isProductsMaintainerMode():
+            if self.__insert==True:
+                self.parent.products.append(self.product) #Manager of the parent widget
+                self.mem.data.products.append(self.product) #Manager of the singleton
+                self.mem.insertProducts.append(self.product)
+            else:
+                self.mem.updateProducts.append(self.product)
+            self.mem.data.products.order_by_name()
+        else:#Not maintainer mode
+            if self.__insert==True:
+                self.parent.products.append(self.product) #Manager of the parent widget
+                self.mem.data.products.append(self.product) #Manager of the singleton
+            self.mem.con.commit()
         self.accept()
 
     def on_bb_rejected(self):

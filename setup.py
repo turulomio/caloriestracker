@@ -97,6 +97,7 @@ class Reusing(Command):
         download_from_github('turulomio','reusingcode','python/connection_pg_qt.py', 'caloriestracker')
         download_from_github('turulomio','reusingcode','python/ui/frmAccess.ui', 'caloriestracker/ui')
         download_from_github('turulomio','reusingcode','python/ui/frmAccess.py', 'caloriestracker/ui')
+        download_from_github('turulomio','reusingcode','python/ui/frmSelector.py', 'caloriestracker/ui')
         download_from_github('turulomio','reusingcode','python/ui/myqcharts.py', 'caloriestracker/ui')
         download_from_github('turulomio','reusingcode','python/ui/myqwidgets.py', 'caloriestracker/ui')
         download_from_github('turulomio','reusingcode','python/ui/myqtablewidget.py', 'caloriestracker/ui')

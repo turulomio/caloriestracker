@@ -24,8 +24,6 @@ class frmCompaniesAdd(QDialog, Ui_frmCompaniesAdd):
         else:
             self.company.name=self.txtName.text()
         self.company.save()
-        if self.__insert==True:
-            self.mem.data.companies.append(self.company)
         self.mem.data.companies.order_by_name()
 
         if self.mem.isProductsMaintainerMode():
@@ -33,7 +31,9 @@ class frmCompaniesAdd(QDialog, Ui_frmCompaniesAdd):
                 self.mem.insertCompanies.append(self.company)
             else:
                 self.mem.updateCompanies.append(self.company)
-        else:
+        else:#Not mantainer mode
+            if self.__insert==True:
+                self.mem.data.companies.append(self.company)
             self.mem.con.commit()
         self.accept()
 
