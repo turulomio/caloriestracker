@@ -96,6 +96,11 @@ class Ui_wdgProducts(object):
         icon4.addPixmap(QtGui.QPixmap(":/caloriestracker/cube.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionFormats.setIcon(icon4)
         self.actionFormats.setObjectName("actionFormats")
+        self.actionProductPersonalMerge = QtWidgets.QAction(wdgProducts)
+        icon5 = QtGui.QIcon()
+        icon5.addPixmap(QtGui.QPixmap(":/caloriestracker/compare.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionProductPersonalMerge.setIcon(icon5)
+        self.actionProductPersonalMerge.setObjectName("actionProductPersonalMerge")
 
         self.retranslateUi(wdgProducts)
         QtCore.QMetaObject.connectSlotsByName(wdgProducts)
@@ -115,5 +120,7 @@ class Ui_wdgProducts(object):
         self.actionProductEdit.setToolTip(_translate("wdgProducts", "Edit product"))
         self.actionFormats.setText(_translate("wdgProducts", "Show formats"))
         self.actionFormats.setToolTip(_translate("wdgProducts", "Show formats"))
+        self.actionProductPersonalMerge.setText(_translate("wdgProducts", "Merge personal product"))
+        self.actionProductPersonalMerge.setToolTip(_translate("wdgProducts", "Merge personal product into a system one"))
 from caloriestracker.ui.myqtablewidget import myQTableWidget
 import caloriestracker.images.caloriestracker_rc

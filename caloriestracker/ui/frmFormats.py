@@ -5,14 +5,12 @@ from caloriestracker.ui.myqwidgets import qmessagebox
 from logging import debug
 
 class frmFormats(QDialog, Ui_frmFormats):
-    def __init__(self, mem, product, parent ):
+    def __init__(self, mem, product, parent=None, ):
         QDialog.__init__(self, parent)
         self.setupUi(self)
         self.mem=mem
         self.product=product
         self.tblFormats.settings(self.mem.settings, "frmFormats", "tblFormats")
-        self.tblFormats.table.customContextMenuRequested.connect(self.on_tblFormats_customContextMenuRequested)
-        self.tblFormats.table.itemSelectionChanged.connect(self.on_tblFormats_itemSelectionChanged)
         self.resize(self.mem.settings.value("frmFormats/qdialog", QSize(800, 600)))
         self.lbl.setText(self.tr("Formats of {}").format(self.product.fullName()))
         self.product.needStatus(1)
@@ -34,31 +32,32 @@ class frmFormats(QDialog, Ui_frmFormats):
 
     @pyqtSlot() 
     def on_actionFormatNew_triggered(self):
-        if self.product.system_product==True and self.mem.isProductsMaintainerMode()==False:
-            qmessagebox(
-                self.tr("This format is of a system product so you can't edit it.") + "\n" +
-                self.tr("Please, if it's something wrong with it create an issue at") + "\n" + 
-                "https://github.com/turulomio/caloriestracker/issues"+ "\n" +
-                self.tr("I'll fix it as soon as posible. ;)"),  self.mem.app_resource())
-        else:
+        if self.product.system_product==False:
             from caloriestracker.ui.frmFormatsAdd import frmFormatsAdd
             w=frmFormatsAdd(self.mem, self.product, None , self)
             w.exec_()
             self.product.formats.qtablewidget(self.tblFormats)
-
-    @pyqtSlot() 
-    def on_actionFormatEdit_triggered(self):
-        if self.product.system_product==True and self.mem.isProductsMaintainerMode()==False:
+        else:
             qmessagebox(
                 self.tr("This format is of a system product so you can't edit it.") + "\n" +
                 self.tr("Please, if it's something wrong with it create an issue at") + "\n" + 
                 "https://github.com/turulomio/caloriestracker/issues"+ "\n" +
                 self.tr("I'll fix it as soon as posible. ;)"),  self.mem.app_resource())
-        else:
+
+    @pyqtSlot() 
+    def on_actionFormatEdit_triggered(self):
+        if self.product.system_product==False:
             from caloriestracker.ui.frmFormatsAdd import frmFormatsAdd
             w=frmFormatsAdd(self.mem, self.product, self.product.formats.selected, self)
             w.exec_()
             self.product.formats.qtablewidget(self.tblFormats)
+        else:
+            qmessagebox(
+                self.tr("This format is of a system product so you can't edit it.") + "\n" +
+                self.tr("Please, if it's something wrong with it create an issue at") + "\n" + 
+                "https://github.com/turulomio/caloriestracker/issues"+ "\n" +
+                self.tr("I'll fix it as soon as posible. ;)"),  self.mem.app_resource())
+
 
     def on_tblFormats_customContextMenuRequested(self,  pos):
         menu=QMenu()
@@ -73,11 +72,11 @@ class frmFormats(QDialog, Ui_frmFormats):
         else:
             self.actionFormatDelete.setEnabled(True)
             self.actionFormatEdit.setEnabled(True)
-        menu.exec_(self.tblFormats.table.mapToGlobal(pos))
+        menu.exec_(self.tblFormats.mapToGlobal(pos))
 
     def on_tblFormats_itemSelectionChanged(self):
         self.product.formats.cleanSelection()
-        for i in self.tblFormats.table.selectedItems():
+        for i in self.tblFormats.selectedItems():
             if i.column()==0 and i.row()<self.product.formats.length():#only once per row
                 self.product.formats.selected=self.product.formats.arr[i.row()]
         debug("Selected format: " + str(self.product.formats.selected))

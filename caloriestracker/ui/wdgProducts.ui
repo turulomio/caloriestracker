@@ -157,6 +157,18 @@
     <string>Show formats</string>
    </property>
   </action>
+  <action name="actionProductPersonalMerge">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/compare.png</normaloff>:/caloriestracker/compare.png</iconset>
+   </property>
+   <property name="text">
+    <string>Merge personal product</string>
+   </property>
+   <property name="toolTip">
+    <string>Merge personal product into a system one</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

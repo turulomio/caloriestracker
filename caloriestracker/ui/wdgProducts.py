@@ -1,5 +1,5 @@
-from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox
+from PyQt5.QtCore import pyqtSlot, QSize
+from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox, QDialog, QVBoxLayout
 from caloriestracker.ui.Ui_wdgProducts import Ui_wdgProducts
 from caloriestracker.objects.product import ProductAllManager, ProductManager
 from caloriestracker.ui.myqwidgets import qmessagebox
@@ -39,6 +39,19 @@ class wdgProducts(QWidget, Ui_wdgProducts):
             self.mem.con.commit()
             self.mem.data.products.remove(self.products.selected)
             self.on_cmd_pressed()
+
+    ## Merges a personal product into a system one
+    @pyqtSlot()
+    def on_actionProductPersonalMerge_triggered(self):
+        from caloriestracker.ui.wdgProductsDataMove import wdgProductsDataMove
+        d=QDialog(self)
+        d.resize(self.mem.settings.value("wdgProducts/frmProductPersonalMerge_size", QSize(800, 600)))
+        d.setWindowTitle(self.tr("Merge personal product into a system one"))
+        lay = QVBoxLayout(d)
+        wdg=wdgProductsDataMove(self.mem, self.products.selected, None, d)
+        lay.addWidget(wdg)
+        d.exec_()
+        self.mem.settings.setValue("wdgProducts/frmProductPersonalMerge_size", d.size())
 
     @pyqtSlot() 
     def on_actionProductNew_triggered(self):
@@ -94,6 +107,8 @@ class wdgProducts(QWidget, Ui_wdgProducts):
         menu.addAction(self.actionProductDelete)
         menu.addAction(self.actionProductEdit)
         menu.addSeparator()
+        menu.addAction(self.actionProductPersonalMerge)
+        menu.addSeparator()
         menu.addAction(self.actionFormats)
         
         #Enabled disabled  
@@ -101,10 +116,12 @@ class wdgProducts(QWidget, Ui_wdgProducts):
             self.actionProductDelete.setEnabled(False)
             self.actionProductEdit.setEnabled(False)
             self.actionFormats.setEnabled(False)
+            self.actionProductPersonalMerge.setEnabled(False)
         else:
             self.actionProductDelete.setEnabled(True)
             self.actionProductEdit.setEnabled(True)
             self.actionFormats.setEnabled(True)
+            self.actionProductPersonalMerge.setEnabled(True)
         menu.addMenu(self.tblProducts.qmenu())
         menu.exec_(self.tblProducts.table.mapToGlobal(pos))
 

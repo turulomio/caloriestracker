@@ -323,36 +323,8 @@ class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
                 return p
         return None
 
-    ## It's a staticmethod due to it will be used in ProductAllManager
-    @staticmethod
-    def qtablewidget(self, wdg):        
-        data=[]
-        for i, o in enumerate(self.arr):
-            company="" if o.company==None else o.company.fullName()
-            food_type="" if o.foodtype==None else o.foodtype.name
-            data.append([
-                o.fullName(), 
-                company, 
-                food_type, 
-                o.last, 
-                100, 
-                o.component_in_100g(eProductComponent.Calories), 
-                o.component_in_100g(eProductComponent.Carbohydrate), 
-                o.component_in_100g(eProductComponent.Protein), 
-                o.component_in_100g(eProductComponent.Fat), 
-                o.component_in_100g(eProductComponent.Fiber), 
-            ])
-        wdg.setData(
-            [self.tr("Name"), self.tr("Company"), self.tr("Food type"), self.tr("Last update"), 
-            self.tr("Grams"), self.tr("Calories"), self.tr("Carbohydrates"), self.tr("Protein"), 
-            self.tr("Fat"), self.tr("Fiber")], 
-            None, 
-            data, 
-            zonename=self.mem.localzone
-        )   
-        for i, o in enumerate(self.arr):
-            wdg.table.item(i, 0).setIcon(o.qicon())
-            wdg.table.item(i, 2).setIcon(o.risk_qicon())
+    def qtablewidget(self, wdg):
+        myQTableWidget_ProductManagers(self.mem, self, wdg)
 
     ## Removes a product and return a boolean. NO HACE COMMIT
     def remove(self, o):
@@ -432,8 +404,8 @@ class ProductAllManager(QObject, ObjectManager_With_IdName_Selectable):
         if selected!=None:
             combo.setCurrentIndex(combo.findData(selected.string_id()))
             
-    def qtablewidget(self, table):
-        ProductManager.qtablewidget(self, table)
+    def qtablewidget(self, wdg):
+        myQTableWidget_ProductManagers(self.mem, self, wdg)
         
         
     def find_by_id_system(self,  id ,  system):
@@ -451,6 +423,14 @@ class ProductAllManager(QObject, ObjectManager_With_IdName_Selectable):
         r=ProductAllManager(self.mem)
         for o in self.arr:
             if o.company is not None and o.company.id==company.id and o.system_company==company.system_company:
+                r.append(o)
+        return r
+        
+    ## Return a ProductManager with the system products of the arr
+    def ProductManager(self):
+        r=ProductManager(self.mem)
+        for o in self.arr:
+            if o.system_product==True:
                 r.append(o)
         return r
 
@@ -478,3 +458,32 @@ class ProductPersonalManager(ProductManager):
             self.append(oo)
         cur.close()
 
+   
+def myQTableWidget_ProductManagers(mem, manager, wdg):     
+        data=[]
+        for i, o in enumerate(manager.arr):
+            company="" if o.company==None else o.company.fullName()
+            food_type="" if o.foodtype==None else o.foodtype.name
+            data.append([
+                o.fullName(), 
+                company, 
+                food_type, 
+                o.last, 
+                100, 
+                o.component_in_100g(eProductComponent.Calories), 
+                o.component_in_100g(eProductComponent.Carbohydrate), 
+                o.component_in_100g(eProductComponent.Protein), 
+                o.component_in_100g(eProductComponent.Fat), 
+                o.component_in_100g(eProductComponent.Fiber), 
+            ])
+        wdg.setData(
+            [wdg.tr("Name"), wdg.tr("Company"), wdg.tr("Food type"), wdg.tr("Last update"), 
+            wdg.tr("Grams"), wdg.tr("Calories"), wdg.tr("Carbohydrates"), wdg.tr("Protein"), 
+            wdg.tr("Fat"), wdg.tr("Fiber")], 
+            None, 
+            data, 
+            zonename=mem.localzone
+        )   
+        for i, o in enumerate(manager.arr):
+            wdg.table.item(i, 0).setIcon(o.qicon())
+            wdg.table.item(i, 2).setIcon(o.risk_qicon())
