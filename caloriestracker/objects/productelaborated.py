@@ -1,6 +1,5 @@
 from PyQt5.QtCore import QObject
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import  QApplication, QProgressDialog
 from caloriestracker.libcaloriestrackerfunctions import a2s
 from caloriestracker.libcaloriestrackertypes import eProductComponent
 from caloriestracker.libmanagers import ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime_Selectable
@@ -47,7 +46,7 @@ class ProductElaborated:
             self.status=1
 
     def load_products_in(self):
-            self.products_in=ProductInElaboratedProductManager(self.mem, self, self.mem.con.mogrify("select * from products_in_elaboratedproducts where elaboratedproducts_id=%s",(self.id,)))
+            self.products_in=ProductInElaboratedProductManager_from_sql(self.mem, self, self.mem.con.mogrify("select * from products_in_elaboratedproducts where elaboratedproducts_id=%s",(self.id,)))
 
     def show_table(self):
         self.products_in.show_table()
@@ -134,31 +133,14 @@ class ProductElaborated:
         return QIcon(":/caloriestracker/cooking.png")
         
 
-class ProductElaboratedManager(QObject, ObjectManager_With_IdName_Selectable):
+class ProductElaboratedManager(ObjectManager_With_IdName_Selectable, QObject):
     def __init__(self, mem):
-        QObject.__init__(self)
         ObjectManager_With_IdName_Selectable.__init__(self)
+        QObject.__init__(self)
+        self.setConstructorParameters(mem)
         self.mem=mem
 
-    def load_from_db(self, sql,  progress=False):
-        self.clean()
-        cur=self.mem.con.cursor()
-        cur.execute(sql)#"select * from products where id in ("+lista+")" 
-        if progress==True:
-            pd= QProgressDialog(self.tr("Loading {0} elaborated products from database").format(cur.rowcount),None, 0,cur.rowcount)
-            pd.setWindowIcon(QIcon(":/caloriestracker/coins.png"))
-            pd.setModal(True)
-            pd.setWindowTitle(self.tr("Loading elaborated products..."))
-            pd.forceShow()
-        for rowms in cur:
-            if progress==True:
-                pd.setValue(cur.rownumber)
-                pd.update()
-                QApplication.processEvents()
-                
-            oo=ProductElaborated(self.mem, rowms)
-            self.append(oo)
-        cur.close()
+
         
     ## It's a staticmethod due to it will be used in ProductAllManager
     def qtablewidget(self, wdg):        
@@ -179,24 +161,13 @@ class ProductElaboratedManager(QObject, ObjectManager_With_IdName_Selectable):
 
 
 class ProductInElaboratedProduct:
-    ##Biometrics(mem)
-    ##Biometrics(mem,elaborated_product,row)
-    def __init__(self, *args):        
-        def init__create(product, system_product, amount, elaboratedproduct,id):
-            self.product=product
-            self.system_product=system_product
-            self.amount=amount
-            self.elaboratedproduct=elaboratedproduct
-            self.id=id
-        self.mem=args[0]
-        if len(args)==1:
-            init__create(None,None,None,None,None)
-        elif len(args)==3:
-            self.elaboratedproduct=args[1]
-            product=self.mem.data.products.find_by_id_system(args[2]['products_id'],args[2]['system_product'])
-            init__create(product, args[2]['system_product'], args[2]['amount'], self.elaboratedproduct, args[2]['id'])
-        elif len(args)==6:
-            init__create(*args[1:])
+    def __init__(self, mem, product=None, system_product=None, amount=None, elaboratedproduct=None, id=None):
+        self.mem=mem
+        self.product=product
+        self.system_product=system_product
+        self.amount=amount
+        self.elaboratedproduct=elaboratedproduct
+        self.id=id
 
     def fullName(self):
         return self.product.fullName() 
@@ -261,22 +232,14 @@ class ProductInElaboratedProduct:
     def delete(self):
         self.mem.con.execute("delete from products_in_elaboratedproducts where id=%s", (self.id, ))
         
-class ProductInElaboratedProductManager(QObject, ObjectManager_With_IdDatetime_Selectable):
+class ProductInElaboratedProductManager(ObjectManager_With_IdDatetime_Selectable, QObject):
     ##ProductInElaboratedProductManager(mem)
     ##ProductInElaboratedProductManager(mem,elaboratedproduct,sql)
-    def __init__(self, *args ):
-        QObject.__init__(self)
+    def __init__(self, mem, elaboratedproduct ):
         ObjectManager_With_IdName_Selectable.__init__(self)
-        self.mem=args[0]
-        if len(args)==3:
-            self.elaboratedproduct=args[1]
-            self.load_db_data(args[2])
-
-    def load_db_data(self, sql):
-        rows=self.mem.con.cursor_rows(sql)
-        for row in rows:
-            self.append(ProductInElaboratedProduct(self.mem, self.elaboratedproduct, row))
-        return self
+        QObject.__init__(self)
+        self.mem=mem
+        self.elaboratedproduct=elaboratedproduct
 
     def calories(self):
         r=Decimal(0)
@@ -426,3 +389,23 @@ class ProductInElaboratedProductManager(QObject, ObjectManager_With_IdDatetime_S
 def ProductElaborated_from_row(mem, row):
     foodtype=None if row['foodtypes_id']==None else mem.data.foodtypes.find_by_id(row['foodtypes_id'])
     return ProductElaborated(mem, row['name'], row['final_amount'], row['last'], foodtype, row['id'])
+
+
+def ProductInElaboratedProduct_from_row(mem, elaboratedproduct, row):
+    product=mem.data.products.find_by_id_system(row['products_id'],row['system_product'])    
+    return ProductInElaboratedProduct(mem, product, row['system_product'], row['amount'], elaboratedproduct, row['id'])
+
+
+def ProductInElaboratedProductManager_from_sql(mem, elaboratedproduct, sql):
+    r=ProductInElaboratedProductManager(mem, elaboratedproduct)
+    rows=mem.con.cursor_rows(sql)
+    for row in rows:
+        r.append(ProductInElaboratedProduct_from_row(mem, elaboratedproduct, row))
+    return r
+
+def ProductElaboratedManager_from_sql(mem, sql):
+    r=ProductElaboratedManager(mem)
+    rows=mem.con.cursor_rows(sql)
+    for row in rows:
+        r.append(ProductElaborated_from_row(mem, row))
+    return r

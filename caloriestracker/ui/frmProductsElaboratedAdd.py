@@ -25,7 +25,7 @@ class frmProductsElaboratedAdd(QDialog, Ui_frmProductsElaboratedAdd):
             self.cmbFoodtypes.setCurrentIndex(-1)
         else:
             self.mem.data.foodtypes.qcombobox(self.cmbFoodtypes, self.elaboratedproduct.foodtype)
-            if self.product.foodtype==None:
+            if self.elaboratedproduct.foodtype==None:
                 self.cmbFoodtypes.setCurrentIndex(-1)
             self.elaboratedproduct.needStatus(1)
             self.txtName.setText(self.elaboratedproduct.name)

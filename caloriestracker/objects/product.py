@@ -378,11 +378,11 @@ class ProductPersonal(Product):
 
 class ProductAllManager(QObject, ObjectManager_With_IdName_Selectable):
     ## ProductAllManager(mem)#Loads all database
-    def __init__(self, *args):
+    def __init__(self, mem):
         QObject.__init__(self)
         ObjectManager_With_IdName_Selectable.__init__(self)
-        self.args=args#To launch ObjectManagers
-        self.mem=args[0]
+        self.setConstructorParameters(mem)
+        self.mem=mem
         
     def load_all(self):
         system=ProductManager(self.mem)

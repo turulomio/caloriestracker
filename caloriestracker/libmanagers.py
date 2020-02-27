@@ -10,7 +10,7 @@
 ##
 
 from datetime import datetime, timedelta, date
-from logging import debug
+from logging import debug, critical
 from .datetime_functions import dtaware_day_end_from_date, dtaware_day_start_from_date, dtnaive_day_end_from_date, dtnaive_day_start_from_date
 
 
@@ -82,6 +82,42 @@ class ObjectManager(object):
         print ("Objects in {}".format(self.__class__))
         for q in self.arr:
             print(" * {}".format(q))
+
+    ## Order data columns. None values are set at the beginning
+    def order_with_none(self, command, reverse=False, none_at_top=True):
+        nonull=[]
+        null=[]
+        for o in self.arr:
+            com=self._attribute_to_command(o, command)
+            if com is None:
+                null.append(o)
+            else:
+                nonull.append(o)
+        nonull=sorted(nonull, key=lambda c: self._attribute_to_command(c,command), reverse=reverse)
+        if none_at_top==True:#Set None at top of the list
+            self.arr=null+nonull
+        else:
+            self.arr=nonull+null
+
+    ## @param attribute str or list
+    ## Class Person, has self.name, self.age(), self.age_years_ago(year) self.son (another Person object)
+    ## manager_attributes of setDataFromManager must be called in a PersonManager
+    ## - ["name", ["age",[]], ["age_years_ago", [year]], ["son.age",[]]
+    def _attribute_to_command(self, o, attribute):
+        ## Returns an object 
+        def str_attribute_with_points(o, attribute):
+            for s in attribute.split("."): # With .
+                o=getattr(o, s)
+            return o
+        # --------------------------------------
+        if attribute.__class__.__name__=="str":
+            return str_attribute_with_points(o,attribute)
+        else:#List
+            function=str_attribute_with_points(o, attribute[0])
+            parameters=attribute[1]
+            return function(*parameters)
+
+
 
 
 ## Manager Selection class
@@ -301,8 +337,11 @@ class ObjectManager_With_IdName(ObjectManager_With_Id):
     ## Returns another object manager of the same class with the elements that contains a string in the name
     ## @param s string to search
     ## @casesensitive Boolean if it's a case sensitive search    
-    def ObjectManager_with_name_contains_string(self, s, casesensitive, *initparams):
-        result=self.__class__(*initparams)#Para que coja la clase del objeto que lo invoca
+    def ObjectManager_which_name_contains(self, s, casesensitive):
+        result=self.emptyManager()
+        if s is None:
+            critical("Search string can't be None")
+            return result
         if casesensitive==True:
             for a in self.arr:
                 if s in a.name:
@@ -468,15 +507,20 @@ class Object_With_IdName:
     ## 2. Object_With_IdName( id,  name). Create an Object_With_IdName settings all attributes.
     ## @param name String with the name of the Object_With_IdName
     ## @param id Integer that sets the id of the Object_With_IdName
-    def __init__(self, *args):
-        def init__create( id,  name):
+    def __init__(self, id=None,  name=None):
             self.id=id
             self.name=name
-        if len(args)==0:
-            init__create(None, None)
-        if len(args)==2:
-            init__create(*args)
 
+    def __repr__(self):
+        return "{}: {} (Id: {})".format(self.__class__.__name__, self.name, self.id)
+
+    def upper_name(self, boolean):
+        if self.name==None:
+            return None
+        if boolean==True:
+            return self.name.upper()
+        else:
+            return self.name.lower()
 
 class DictObjectManager_With_Id_Selectable(DictObjectManager_With_Id, ManagerSelection):
     def __init__(self):
@@ -635,7 +679,7 @@ if __name__ == "__main__":
     filled=r.DateValueManager_filling_empty()
     filled.print()
 
-    sizes=(1,10,100,1000,10000,100000,1000000,3000000)
+    sizes=(1,10,100,1000,10000,100000)#,1000000,3000000)
     for size in sizes:
         l=ObjectManager_With_Id()
         d=DictObjectManager_With_Id()
@@ -658,3 +702,18 @@ if __name__ == "__main__":
             print("  * DictObjectManager took {} more time than ObjectManager".format(dtime-ltime))
 
 
+    print()
+    print("Ordering with None")
+    manager=ObjectManager_With_IdName()
+    manager.append(Object_With_IdName(1, None))
+    manager.append(Object_With_IdName(2,"B"))
+    manager.append(Object_With_IdName(3,"C"))
+    manager.append(Object_With_IdName(4,"D"))
+    manager.append(Object_With_IdName(None,"E"))
+    manager.print()
+    manager.order_with_none("id", True, True)
+    manager.print()
+    manager.order_with_none("name", False, False)
+    manager.print()
+    manager.order_with_none(["upper_name", (True,)], False, False)
+    manager.print()

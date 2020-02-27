@@ -15,7 +15,7 @@ from caloriestracker.objects.additives import AdditiveManager_all
 from caloriestracker.objects.additive_risk import AdditiveRiskManager_all
 from caloriestracker.objects.food_type import FoodTypeManager_all
 from caloriestracker.objects.product import ProductAllManager
-from caloriestracker.objects.productelaborated import ProductElaboratedManager
+from caloriestracker.objects.productelaborated import ProductElaboratedManager_from_sql
 from caloriestracker.objects.user import UserManager
 from caloriestracker.objects.weightwish import WeightWishManager
 from caloriestracker.package_resources import package_filename
@@ -296,8 +296,7 @@ class DBData:
         self.products=ProductAllManager(self.mem)
         self.products.load_all()
         
-        self.elaboratedproducts=ProductElaboratedManager(self.mem)
-        self.elaboratedproducts.load_from_db("select * from elaboratedproducts order by name", progress)
+        self.elaboratedproducts=ProductElaboratedManager_from_sql(self.mem, "select * from elaboratedproducts order by name")
         
         self.users=UserManager(self.mem, "select * from users", progress)
         self.users.load_last_biometrics()

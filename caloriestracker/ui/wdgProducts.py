@@ -96,7 +96,7 @@ class wdgProducts(QWidget, Ui_wdgProducts):
 
     def on_cmd_pressed(self):
         del self.products
-        self.products=self.mem.data.products.ObjectManager_with_name_contains_string(self.txt.text(), False, *self.mem.data.products.args)
+        self.products=self.mem.data.products.ObjectManager_which_name_contains(self.txt.text(), False)
         self.products.setSelectionMode(ManagerSelectionMode.Object)
         self.products.qtablewidget(self.tblProducts)
         self.lblFound.setText(self.tr("{} products found").format(self.products.length()))
