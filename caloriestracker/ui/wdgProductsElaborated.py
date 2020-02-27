@@ -15,6 +15,7 @@ class wdgProductsElaborated(QWidget, Ui_wdgProductsElaborated):
         self.resize(self.mem.settings.value("wdgProductsElaborated/qdialog", QSize(800, 600)))
         self.tblProductsElaborated.settings(self.mem.settings, "wdgProductsElaborated", "tblProductsElaborated")
         self.tblProductsElaborated.table.customContextMenuRequested.connect(self.on_tblProductsElaborated_customContextMenuRequested)
+        self.tblProductsElaborated.table.itemSelectionChanged.connect(self.on_tblProductsElaborated_itemSelectionChanged)
         self.elaboratedproducts=ProductElaboratedManager(self.mem)
         self.on_cmd_pressed()
 
@@ -73,11 +74,11 @@ class wdgProductsElaborated(QWidget, Ui_wdgProductsElaborated):
             self.actionProductDelete.setEnabled(True)
             self.actionProductEdit.setEnabled(True)
         menu.addMenu(self.tblProductsElaborated.qmenu())
-        menu.exec_(self.tblProductsElaborated.mapToGlobal(pos))
+        menu.exec_(self.tblProductsElaborated.table.mapToGlobal(pos))
 
     def on_tblProductsElaborated_itemSelectionChanged(self):
         self.elaboratedproducts.cleanSelection()
-        for i in self.tblProductsElaborated.selectedItems():
+        for i in self.tblProductsElaborated.table.selectedItems():
             if i.column()==0:#only once per row
                 self.elaboratedproducts.selected=self.elaboratedproducts.arr[i.row()]
         debug("Selected elaboratedproducts: " + str(self.elaboratedproducts.selected))

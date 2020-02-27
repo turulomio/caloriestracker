@@ -21,7 +21,12 @@ class frmProductsElaboratedAdd(QDialog, Ui_frmProductsElaboratedAdd):
             self.lbl.setText(self.tr("Add a new personal and elaborated product"))
             self.spnFinalAmount.setEnabled(False)
             self.tblProductsIn.setEnabled(False)
+            self.mem.data.foodtypes.qcombobox(self.cmbFoodtypes)
+            self.cmbFoodtypes.setCurrentIndex(-1)
         else:
+            self.mem.data.foodtypes.qcombobox(self.cmbFoodtypes, self.elaboratedproduct.foodtype)
+            if self.product.foodtype==None:
+                self.cmbFoodtypes.setCurrentIndex(-1)
             self.elaboratedproduct.needStatus(1)
             self.txtName.setText(self.elaboratedproduct.name)
             self.spnFinalAmount.setValue(self.elaboratedproduct.final_amount)
@@ -104,14 +109,21 @@ class frmProductsElaboratedAdd(QDialog, Ui_frmProductsElaboratedAdd):
         debug("Selected product in elaborated products: " + str(self.elaboratedproduct.products_in.selected))
 
     def on_bb_accepted(self):
+        foodtype=None if self.cmbFoodtypes.currentIndex()==-1 else self.mem.data.foodtypes.find_by_id(self.cmbFoodtypes.itemData(self.cmbFoodtypes.currentIndex()))
+        if foodtype==None:
+            qmessagebox(self.tr("You neet to set a food type"),  ":/caloriestracker/book.png")
+            return
+ 
         if self.elaboratedproduct==None:        
             self.elaboratedproduct=ProductElaborated(self.mem)
             self.elaboratedproduct.name=self.txtName.text()
+            self.elaboratedproduct.foodtype=foodtype
             self.elaboratedproduct.final_amount=self.spnFinalAmount.value()
             self.mem.data.elaboratedproducts.append(self.elaboratedproduct)
             self.mem.data.elaboratedproducts.order_by_name()
         else:
             self.elaboratedproduct.name=self.txtName.text()
+            self.elaboratedproduct.foodtype=foodtype
             self.elaboratedproduct.final_amount=self.spnFinalAmount.value()
         self.elaboratedproduct.last=datetime.now()
         self.elaboratedproduct.save()

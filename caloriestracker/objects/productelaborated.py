@@ -14,17 +14,13 @@ from logging import debug
 class ProductElaborated:
     ##Biometrics(mem)
     ##Biometrics(mem,row)
-    def __init__(self, *args):        
-        def init__create(name, final_amount, last, id):
-            self.name=name
-            self.final_amount=final_amount
-            self.last=last
-            self.id=id
-        self.mem=args[0]
-        if len(args)==1:
-            init__create(None,None, None, None)
-        elif len(args)==2:
-            init__create(args[1]['name'], args[1]['final_amount'], args[1]['last'], args[1]['id'])
+    def __init__(self, mem=None, name=None, final_amount=None, last=None, foodtype=None, id=None):
+        self.mem=mem
+        self.name=name
+        self.final_amount=final_amount
+        self.last=last
+        self.foodtype=foodtype
+        self.id=id
         self.status=0
         
     def fullName(self):
@@ -59,6 +55,7 @@ class ProductElaborated:
     def register_in_personal_products(self):
         selected=self.mem.data.products.find_by_elaboratedproducts_id(self.id)
         if selected==None:
+            foodtypes_id=None if self.foodtype==None else self.foodtype.id
             o=ProductPersonal(
             self.mem,
             self.name, 
@@ -79,6 +76,8 @@ class ProductElaborated:
             self.products_in.sugars(), 
             self.products_in.saturated_fat(), 
             False,
+            foodtypes_id, 
+            [], 
             None)
             o.save() 
             self.mem.data.products.append(o)
@@ -92,19 +91,21 @@ class ProductElaborated:
             selected.carbohydrate=self.products_in.carbohydrate()
             selected.calories=self.products_in.calories()
             selected.fiber=self.products_in.fiber()
+            selected.foodtype=self.foodtype
             selected.save()
             selected.needStatus(1, downgrade_to=0)
 
     #DO NOT EDIT THIS ONE COPY FROM PRODUCT AND CHANGE TABLE
     def save(self):
+        foodtypes_id=None if self.foodtype==None else self.foodtype.id
         if self.id==None:
             self.id=self.mem.con.cursor_one_field("""insert into elaboratedproducts (
-                    name, final_amount, last
-                    )values (%s, %s, %s) returning id""",  
-                    (self.name, self.final_amount, self.last))
+                    name, final_amount, last, foodtypes_id
+                    )values (%s, %s, %s, %s) returning id""",  
+                    (self.name, self.final_amount, self.last, foodtypes_id))
         else:
-            self.mem.con.execute("""update elaboratedproducts set name=%s, final_amount=%s, last=%s where id=%s""", 
-            (self.name, self.final_amount, self.last, self.id))
+            self.mem.con.execute("""update elaboratedproducts set name=%s, final_amount=%s, last=%s, foodtypes_id=%s where id=%s""", 
+            (self.name, self.final_amount, self.last, foodtypes_id,  self.id))
         self.needStatus(1, downgrade_to=0)
         self.register_in_personal_products()
         
@@ -421,3 +422,7 @@ class ProductInElaboratedProductManager(QObject, ObjectManager_With_IdDatetime_S
         wdg.table.setItem(self.length()+1, 4, qnumber(product.component_in_100g(eProductComponent.Protein)))
         wdg.table.setItem(self.length()+1, 5, qnumber(product.component_in_100g(eProductComponent.Fat)))
         wdg.table.setItem(self.length()+1, 6, qnumber(product.component_in_100g(eProductComponent.Fiber)))
+
+def ProductElaborated_from_row(mem, row):
+    foodtype=None if row['foodtypes_id']==None else mem.data.foodtypes.find_by_id(row['foodtypes_id'])
+    return ProductElaborated(mem, row['name'], row['final_amount'], row['last'], foodtype, row['id'])
