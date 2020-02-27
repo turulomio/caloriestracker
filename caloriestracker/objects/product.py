@@ -8,7 +8,6 @@ from caloriestracker.libcaloriestrackertypes import eProductComponent
 from caloriestracker.objects.additives import AdditiveManager_from_integer_list__mem
 from caloriestracker.objects.company import CompanySystem
 from caloriestracker.objects.format import FormatAllManager
-from datetime import datetime
 from decimal import Decimal
 from logging import debug
 
@@ -150,7 +149,6 @@ class Product(QObject):
     def sql_insert(self, table="products", returning_id=True):
         companies_id=None if self.company==None else self.company.id
         foodtypes_id=None if self.foodtype==None else self.foodtype.id
-        self.last=datetime.now()
         
         sql= """insert into """+table+""" (
                     name, amount, fat, protein, carbohydrate, companies_id, last,
@@ -170,13 +168,12 @@ class Product(QObject):
             sql=sql.replace(") returning id", ", %s)")
 #            print(sql)
 #            print(sql_parameters)
-            r=b2s(self.mem.con.mogrify(sql, sql_parameters+(self.id, )))
-        return r
+            r=self.mem.con.mogrify(sql, sql_parameters+(self.id, ))
+        return b2s(r)
 
     def sql_update(self, table="products"):
         companies_id=None if self.company==None else self.company.id
         foodtypes_id=None if self.foodtype==None else self.foodtype.id
-        self.last=datetime.now() 
         sql="""update public.""" +table+ """ set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, last=%s,
             elaboratedproducts_id=%s, languages=%s, calories=%s, salt=%s, cholesterol=%s, sodium=%s, potassium=%s, fiber=%s, sugars=%s, saturated_fat=%s, 
             system_company=%s, foodtypes_id=%s, additives=%s 
@@ -185,8 +182,8 @@ class Product(QObject):
             self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, 
             self.system_company,  foodtypes_id, self.additives.array_of_ids(), 
             self.id)
-        print(sql)
-        print(sql_parameters)
+#        print(sql)
+#        print(sql_parameters)
         return b2s(self.mem.con.mogrify(sql, sql_parameters))
         
     def is_deletable(self):

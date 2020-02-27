@@ -1,13 +1,11 @@
-
 from PyQt5.QtCore import QObject
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import  QApplication, QProgressDialog, QCompleter
 from caloriestracker.casts import b2s, str2bool
 from caloriestracker.text_inputs import input_boolean, input_integer_or_none
 from caloriestracker.libmanagers import ObjectManager_With_IdName_Selectable
-
-from datetime import datetime
 from logging import debug
+
 class CompanySystem:
     ##CompanySystem(mem)
     ##CompanySystem(mem,rows)
@@ -63,7 +61,6 @@ class CompanySystem:
             self.mem.con.execute(self.sql_update(table))
     
     def sql_insert(self, table="companies", returning_id=True):
-        self.last=datetime.now()
         sql="insert into public."+table +"(name, last) values (%s, %s) returning id;"
         sql_parameters=(self.name, self.last)
         if returning_id==True:
@@ -77,7 +74,6 @@ class CompanySystem:
         return b2s(r)
         
     def sql_update(self, table="companies"):
-        self.last=datetime.now()
         return b2s(self.mem.con.mogrify("update public."+table +" set name=%s, last=%s where id=%s;", (self.name, self.last, self.id)))
 
     def qicon(self):

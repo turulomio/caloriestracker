@@ -3,7 +3,6 @@ from PyQt5.QtGui import QIcon
 from caloriestracker.casts import b2s
 from caloriestracker.objects.company import CompanySystem
 from caloriestracker.libmanagers import ObjectManager_With_IdName_Selectable, ManagerSelectionMode
-from datetime import datetime
 
 ## There is no need of system_formats or personal_formats because it's relacionated with the product as its properties
 class Format(QObject):
@@ -12,7 +11,7 @@ class Format(QObject):
     ##Format(mem, name, product, system_product,amount, last,  id):
     def __init__(self, *args):        
         def init__create( name, product, system_product,amount, last,  id):
-            self.name=self.mem.trHS(name)
+            self.name=name
             self.product=product
             self.system_product=system_product
             self.amount=amount
@@ -52,7 +51,6 @@ class Format(QObject):
             self.mem.con.execute(self.sql_update(table))
 
     def sql_insert(self, table="formats", returning_id=True):
-        self.last=datetime.now()
         sql="insert into "+table +"(name, amount, last, products_id, system_product) values (%s, %s, %s, %s, %s) returning id;"
         sql_parameters=(self.name, self.amount, self.last, self.product.id, self.product.system_product)
                     
@@ -61,14 +59,14 @@ class Format(QObject):
         else:
             sql=sql.replace(") values (", ", id ) values (")
             sql=sql.replace(") returning id", ", %s)")
-#            print(sql)
-#            print(sql_parameters)
             r=self.mem.con.mogrify(sql, sql_parameters+(self.id, ))
+
+        print(sql)
+        print(sql_parameters)
         return b2s(r)
 
     ## @param table Can be format or personalformats
     def sql_update(self, table):
-        self.last=datetime.now() 
         sql="update "+ table+ " set name=%s, products_id=%s, system_product=%s, amount=%s, last=%s where id=%s"
         sql_parameters=(self.name,  self.product.id, self.system_product, self.amount, self.last, self.id)
         return b2s(self.mem.con.mogrify(sql, sql_parameters))
@@ -82,7 +80,7 @@ class Format(QObject):
         system="S" if self.system_format==True else "P"
         sgrams=self.tr(" ({} g)").format(self.amount) if grams==True else ""
         if self.mem.debuglevel=="DEBUG":
-            return "{}{}. #{}{}".format(self.name, sgrams, system, self.id)
+            return "{}{}. #{}{}".format(self.mem.trHS(self.name), sgrams, system, self.id)
         else:
             return "{}{}".format(self.name, sgrams)
 

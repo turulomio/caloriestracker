@@ -105,9 +105,6 @@ class MemInit(MemGui):
         MemGui.__init__(self)
         
         self.settings=QSettings()
-        
-    def __del__(self):
-        self.settings.sync()
 
     def run(self):
         self.args=self.parse_arguments()
@@ -142,19 +139,10 @@ class MemConsole(Mem):
         self.app.setOrganizationName("caloriestracker")
         self.app.setOrganizationDomain("caloriestracker")
         self.app.setApplicationName("caloriestracker")
-        
         self.settings=QSettings()
-        
-
         self.localzone=self.settings.value("mem/localzone", "Europe/Madrid")
         self.load_translation()
-        
         self.create_parser()
-        
-
-    def __del__(self):
-        if hasattr(self, "settings")==True:
-            self.settings.sync()
 
     ##Must be overriden for other MemScripts
     def run(self, args=None):   

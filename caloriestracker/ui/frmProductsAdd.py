@@ -154,6 +154,7 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
             self.product.system_company=system_company
             self.product.foodtype=foodtype
             self.product.additives=self.cmbsAdditives.selected()
+            self.product.last=datetime.now()
         self.product.save()
         if self.mem.isProductsMaintainerMode():
             if self.__insert==True:
@@ -162,12 +163,12 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
                 self.mem.insertProducts.append(self.product)
             else:
                 self.mem.updateProducts.append(self.product)
-            self.mem.data.products.order_by_name()
         else:#Not maintainer mode
             if self.__insert==True:
                 self.parent.products.append(self.product) #Manager of the parent widget
                 self.mem.data.products.append(self.product) #Manager of the singleton
             self.mem.con.commit()
+        self.mem.data.products.order_by_name()
         self.accept()
 
     def on_bb_rejected(self):

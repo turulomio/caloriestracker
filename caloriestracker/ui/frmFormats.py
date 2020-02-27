@@ -11,6 +11,8 @@ class frmFormats(QDialog, Ui_frmFormats):
         self.mem=mem
         self.product=product
         self.tblFormats.settings(self.mem.settings, "frmFormats", "tblFormats")
+        self.tblFormats.table.customContextMenuRequested.connect(self.on_tblFormats_customContextMenuRequested)
+        self.tblFormats.table.itemSelectionChanged.connect(self.on_tblFormats_itemSelectionChanged)
         self.resize(self.mem.settings.value("frmFormats/qdialog", QSize(800, 600)))
         self.lbl.setText(self.tr("Formats of {}").format(self.product.fullName()))
         self.product.needStatus(1)
@@ -72,11 +74,11 @@ class frmFormats(QDialog, Ui_frmFormats):
         else:
             self.actionFormatDelete.setEnabled(True)
             self.actionFormatEdit.setEnabled(True)
-        menu.exec_(self.tblFormats.mapToGlobal(pos))
+        menu.exec_(self.tblFormats.table.mapToGlobal(pos))
 
     def on_tblFormats_itemSelectionChanged(self):
         self.product.formats.cleanSelection()
-        for i in self.tblFormats.selectedItems():
+        for i in self.tblFormats.table.selectedItems():
             if i.column()==0 and i.row()<self.product.formats.length():#only once per row
                 self.product.formats.selected=self.product.formats.arr[i.row()]
         debug("Selected format: " + str(self.product.formats.selected))

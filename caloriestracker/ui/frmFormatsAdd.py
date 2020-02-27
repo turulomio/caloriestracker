@@ -28,6 +28,7 @@ class frmFormatsAdd(QDialog, Ui_frmFormatsAdd):
         else:
             self.format.name=self.txtName.text()
             self.format.amount=self.spnAmount.value()
+            self.format.last=datetime.now()
         self.format.save()
         if self.mem.isProductsMaintainerMode():
             if self.__insert==True:

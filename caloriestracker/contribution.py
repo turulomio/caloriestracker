@@ -11,6 +11,7 @@ from caloriestracker.mem import  MemInit
 from caloriestracker.version import __versiondatetime__
 from colorama import Style, Fore
 from datetime import datetime
+from logging import debug
 from os import system
 
 def print_table_status(con):
@@ -33,13 +34,13 @@ def generate_contribution_dump(mem):
     f.write("select;\n")#For no personal data empty files
     for company in mem.data.companies.arr:
         if company.system_company==False:
-            f.write(company.sql_insert("personalcompanies") + ";\n")
+            f.write(company.sql_insert("personalcompanies", returning_id=False) + "\n")
     for product in mem.data.products.arr:
         product.needStatus(1)
         if product.system_product==False and product.elaboratedproducts_id==None:
-            f.write(product.sql_insert("personalproducts") + ";\n")
+            f.write(product.sql_insert("personalproducts", returning_id=False) + "\n")
             for format in product.formats.arr:
-                f.write(format.sql_insert("personalformats") + ";\n")
+                f.write(format.sql_insert("personalformats", returning_id=False) + "\n")
     f.close()
     print(Style.BRIGHT + Fore.GREEN + "Generated '{}'. Please send to '' without rename it".format(filename)+ Style.RESET_ALL)
     return filename
@@ -98,7 +99,7 @@ def parse_contribution_dump_generate_files_and_validates_them(auxiliar_con, cont
                 new_system_companies.append(system_company)
                 companies_map[company.string_id()]=system_company.string_id()
                 new_system_companies_id=new_system_companies_id+1
-                package_sql.write(system_company.sql_insert("companies")+ ";\n")
+                package_sql.write(system_company.sql_insert("companies", returning_id=False)+ "\n")
                 mem_temporary.data.companies.append(system_company) ##Appends new sistem company to mem_temporary.data
                 #print ("Company will change from {} to {}".format(company.string_id(), system_company.string_id()))
 
@@ -139,7 +140,9 @@ def parse_contribution_dump_generate_files_and_validates_them(auxiliar_con, cont
                     product.fiber, 
                     product.sugars, 
                     product.saturated_fat, 
-                    system_company,  
+                    system_company,
+                    product.foodtype, 
+                    product.additives.clone(), 
                     new_system_products_id)
                 new_system_products.append(system_product)
                 products_map[product.string_id()]=system_product.string_id()
@@ -147,7 +150,7 @@ def parse_contribution_dump_generate_files_and_validates_them(auxiliar_con, cont
                 #print ("Product will change from {} to {}".format(product, system_product))
                 #if company!=None:
                 #    print ("Its company will change from {} to {}".format(product.company.string_id(), company.string_id()))
-                package_sql.write(system_product.sql_insert("products") + ";\n")
+                package_sql.write(system_product.sql_insert("products", returning_id=False) + "\n")
     
     #formats
     new_system_formats_id=mem_temporary.con.cursor_one_field("select max(id)+1 from formats")
@@ -157,6 +160,7 @@ def parse_contribution_dump_generate_files_and_validates_them(auxiliar_con, cont
             if product.formats.length()==0:
                 continue
             for format in product.formats.arr:
+                print(format.name)
                 question=input_YN("Do you want to convert this format '{}' to a system one?".format(format), "Y")
                 if question==True:
                     system_product=new_system_products.find_by_string_id(new_system_products, products_map[format.product.string_id()])#Recently created in systemproducts
@@ -165,8 +169,9 @@ def parse_contribution_dump_generate_files_and_validates_them(auxiliar_con, cont
                     system_product.formats.append(system_format)
                     formats_map[format.string_id()]=system_format.string_id()
                     new_system_formats_id=new_system_formats_id+1
-                    package_sql.write(system_format.sql_insert("formats")+ ";\n")
+                    package_sql.write(system_format.sql_insert("formats", returning_id=False)+ "\n")
                     #print ("Format will change from {} to {}".format(format.string_id(), system_format.string_id()))
+                    debug(system_format.sql_insert("formats", returning_id=False))
 
     package_sql.close()
     
