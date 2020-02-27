@@ -13,7 +13,7 @@ from caloriestracker.ui.wdgCuriosities import wdgCuriosities
 from caloriestracker.ui.frmSettings import frmSettings
 from caloriestracker.version import __versiondatetime__
 from datetime import datetime
-from os import environ, system
+from os import environ
 
 class frmMainProductsMaintainer(QMainWindow, Ui_frmMainProductsMaintainer):
     def __init__(self, mem, parent = 0,  flags = False):
@@ -73,9 +73,6 @@ Do you want to generate it?"""),
                 f.write(o.sql_update("formats") + "\n")
             f.close()
         print ("App correctly closed")
-        system("cat {}".format(filename))
-#        self.close()
-#        self.destroy()
         exit(0)
         
     @pyqtSlot()

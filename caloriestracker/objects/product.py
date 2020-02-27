@@ -275,6 +275,7 @@ class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
     def __init__(self, mem):
         QObject.__init__(self)
         ObjectManager_With_IdName_Selectable.__init__(self)
+        self.setConstructorParameters(mem)
         self.setSelectionMode(ManagerSelectionMode.List)
         self.mem=mem
 
@@ -386,10 +387,11 @@ class ProductAllManager(QObject, ObjectManager_With_IdName_Selectable):
         system.load_from_db("select * from products")
         for o in system.arr:
             self.append(o)
-        personal=ProductPersonalManager(self.mem)
-        personal.load_from_db("select * from personalproducts")
-        for o in personal.arr:
-            self.append(o)
+        if self.mem.isProductsMaintainerMode()==False:
+            personal=ProductPersonalManager(self.mem)
+            personal.load_from_db("select * from personalproducts")
+            for o in personal.arr:
+                self.append(o)
         self.order_by_name()
 
     

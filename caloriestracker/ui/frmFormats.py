@@ -34,7 +34,7 @@ class frmFormats(QDialog, Ui_frmFormats):
 
     @pyqtSlot() 
     def on_actionFormatNew_triggered(self):
-        if self.product.system_product==False:
+        if self.product.system_product==False or self.mem.isProductsMaintainerMode()==True:
             from caloriestracker.ui.frmFormatsAdd import frmFormatsAdd
             w=frmFormatsAdd(self.mem, self.product, None , self)
             w.exec_()
@@ -48,7 +48,7 @@ class frmFormats(QDialog, Ui_frmFormats):
 
     @pyqtSlot() 
     def on_actionFormatEdit_triggered(self):
-        if self.product.system_product==False:
+        if self.product.system_product==False or self.mem.isProductsMaintainerMode()==True:
             from caloriestracker.ui.frmFormatsAdd import frmFormatsAdd
             w=frmFormatsAdd(self.mem, self.product, self.product.formats.selected, self)
             w.exec_()

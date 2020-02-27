@@ -18,10 +18,9 @@ class wdgProducts(QWidget, Ui_wdgProducts):
         if only_system_products==True:
             self.products=ProductManager(self.mem)
             self.products.load_from_db("select * from products order by name")
-            self.products.qtablewidget(self.products, self.tblProducts)
         else:
             self.products=ProductAllManager(self.mem)
-            self.products.qtablewidget(self.tblProducts)
+        self.products.qtablewidget(self.tblProducts)
 
     @pyqtSlot() 
     def on_actionProductDelete_triggered(self):
@@ -79,7 +78,7 @@ class wdgProducts(QWidget, Ui_wdgProducts):
                 elaborated=self.mem.data.elaboratedproducts.find_by_id(self.products.selected.elaboratedproducts_id)
                 w=frmProductsElaboratedAdd(self.mem, elaborated, self)
                 w.exec_()
-                self.on_cmd_pressed()
+        self.on_cmd_pressed()
 
     @pyqtSlot() 
     def on_actionFormats_triggered(self):
