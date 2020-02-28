@@ -140,18 +140,18 @@ class ProductElaboratedManager(ObjectManager_With_IdName_Selectable, QObject):
         self.setConstructorParameters(mem)
         self.mem=mem
 
-
-        
     ## It's a staticmethod due to it will be used in ProductAllManager
     def qtablewidget(self, wdg):        
         data=[]
         for i, o in enumerate(self.arr):
+            foodtype=None if o.foodtype==None else o.foodtype.name
             data.append([
                 o.fullName(),
+                foodtype, 
                 o.last, 
             ])
         wdg.setData(
-            [self.tr("Name"), self.tr("Last update")], 
+            [self.tr("Name"), self.tr("Food type"), self.tr("Last update")], 
             None, 
             data, 
             zonename=self.mem.localzone
