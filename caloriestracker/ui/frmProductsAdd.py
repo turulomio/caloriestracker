@@ -24,6 +24,9 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
         self.qlepFiber.setLabel(self.tr("Fiber"))
         self.qlepSugar.setLabel(self.tr("Sugar"))
         self.qlepSaturatedFat.setLabel(self.tr("Saturated fat"))
+        self.qlepFerrum.setLabel(self.tr("Ferrum"))
+        self.qlepMagnesium.setLabel(self.tr("Magnesium"))
+        self.qlepPhosphor.setLabel(self.tr("Phosphor"))
         
         self.qlepAmount.setSuffix(self.tr("g"))
         self.qlepFat.setSuffix(self.tr("g"))
@@ -37,6 +40,9 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
         self.qlepFiber.setSuffix(self.tr("g"))
         self.qlepSugar.setSuffix(self.tr("g"))
         self.qlepSaturatedFat.setSuffix(self.tr("g"))
+        self.qlepFerrum.setSuffix(self.tr("mg"))
+        self.qlepMagnesium.setSuffix(self.tr("mg"))
+        self.qlepPhosphor.setSuffix(self.tr("mg"))
         
         if self.product==None:
             self.__insert=True
@@ -67,9 +73,14 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
             self.qlepPotassium.setValue(self.product.potassium)
             self.qlepFiber.setValue(self.product.fiber)
             self.qlepSugar.setValue(self.product.sugars)
-            self.qlepSaturatedFat.setValue(self.product.saturated_fat)            
+            self.qlepSaturatedFat.setValue(self.product.saturated_fat)
+            self.qlepFerrum.setValue(self.product.ferrum)
+            self.qlepMagnesium.setValue(self.product.magnesium)
+            self.qlepPhosphor.setValue(self.product.phosphor)
             self.lbl.setText(self.tr("Edit a personal product"))
             self.cmbsAdditives.setManagers(self.mem.settings, "frmProductsAdd", "cmbsAdditives", self.mem.data.additives, self.product.additives)
+            self.chkGlutenFree.setChecked(self.product.glutenfree)
+            self.chkObsolete.setChecked(self.product.obsolete)
         self.qlepAmount.setMandatory(True)
         self.qlepCalories.setMandatory(True)
         self.qlepCarbohydrate.setMandatory(True)
@@ -113,48 +124,30 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
                 productclass=Product
             else:
                 productclass=ProductPersonal
-            self.product=productclass(
-            self.mem, 
-            self.txtName.text(), 
-            self.qlepAmount.value(), 
-            self.qlepFat.value(), 
-            self.qlepProtein.value(), 
-            self.qlepCarbohydrate.value(), 
-            company, 
-            datetime.now(), 
-            None, 
-            None, 
-            self.qlepCalories.value(), 
-            self.qlepSalt.value(), 
-            self.qlepCholesterol.value(), 
-            self.qlepSodium.value(), 
-            self.qlepPotassium.value(), 
-            self.qlepFiber.value(), 
-            self.qlepSugar.value(), 
-            self.qlepSaturatedFat.value(), 
-            system_company, 
-            foodtype, 
-            self.cmbsAdditives.selected(), 
-            None)
-        else:
-            self.product.name=self.txtName.text()
-            self.product.amount=self.qlepAmount.value()
-            self.product.fat=self.qlepFat.value()
-            self.product.protein=self.qlepProtein.value()
-            self.product.carbohydrate=self.qlepCarbohydrate.value()
-            self.product.company=company
-            self.product.calories=self.qlepCalories.value()
-            self.product.salt=self.qlepSalt.value()
-            self.product.cholesterol=self.qlepCholesterol.value()
-            self.product.sodium=self.qlepSodium.value()
-            self.product.potassium=self.qlepPotassium.value()
-            self.product.fiber=self.qlepFiber.value()
-            self.product.sugars=self.qlepSugar.value()
-            self.product.saturated_fat=self.qlepSaturatedFat.value()
-            self.product.system_company=system_company
-            self.product.foodtype=foodtype
-            self.product.additives=self.cmbsAdditives.selected()
-            self.product.last=datetime.now()
+            self.product=productclass(self.mem)
+        self.product.name=self.txtName.text()
+        self.product.amount=self.qlepAmount.value()
+        self.product.fat=self.qlepFat.value()
+        self.product.protein=self.qlepProtein.value()
+        self.product.carbohydrate=self.qlepCarbohydrate.value()
+        self.product.company=company
+        self.product.calories=self.qlepCalories.value()
+        self.product.salt=self.qlepSalt.value()
+        self.product.cholesterol=self.qlepCholesterol.value()
+        self.product.sodium=self.qlepSodium.value()
+        self.product.potassium=self.qlepPotassium.value()
+        self.product.fiber=self.qlepFiber.value()
+        self.product.sugars=self.qlepSugar.value()
+        self.product.saturated_fat=self.qlepSaturatedFat.value()
+        self.product.system_company=system_company
+        self.product.foodtype=foodtype
+        self.product.additives=self.cmbsAdditives.selected()
+        self.product.last=datetime.now()
+        self.product.glutenfree=self.chkGlutenFree.isChecked()
+        self.product.ferrum=self.qlepFerrum.value()
+        self.product.magnesium=self.qlepMagnesium.value()
+        self.product.phosphor=self.qlepPhosphor.value()
+        self.product.obsolete=self.chkObsolete.isChecked()
         self.product.save()
         if self.mem.isProductsMaintainerMode():
             if self.__insert==True:

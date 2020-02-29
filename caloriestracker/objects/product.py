@@ -12,54 +12,44 @@ from decimal import Decimal
 from logging import debug
 
 class Product(QObject):
-    ##Product(mem)
-    ##Product(mem,rows) #Uses products_id and users_id in row
-    ##Product(mem,datetime,product,name,amount,users_id,id)
-    def __init__(self, *args):        
-        def init__create( name, amount, fat, protein, carbohydrate, company, last, elaboratedproducts_id, languages_id, calories, salt, cholesterol, 
-            sodium, potassium, fiber, sugars, saturated_fat, system_company, foodtype, additives, id):
-            self.name=self.mem.trHS(name)
-            self.amount=amount
-            self.fat=fat
-            self.protein=protein
-            self.carbohydrate=carbohydrate
-            self.company=company
-            self.last=last
-            self.elaboratedproducts_id=elaboratedproducts_id
-            self.languages=languages_id
-            self.calories=calories
-            self.salt=salt
-            self.cholesterol=cholesterol
-            self.sodium=sodium
-            self.potassium=potassium
-            self.fiber=fiber
-            self.sugars=sugars
-            self.saturated_fat=saturated_fat
-            self.system_company=system_company
-            self.foodtype=foodtype
-            self.additives=additives
-            self.id=id
-            return self
-        # #########################################
+    def __init__(self, mem=None,  name=None, amount=None, fat=None, protein=None, carbohydrate=None, company=None, last=None, 
+            elaboratedproducts_id=None, languages_id=None, calories=None, salt=None, cholesterol=None, sodium=None, potassium=None, 
+            fiber=None, sugars=None, saturated_fat=None, system_company=None, foodtype=None, additives=None, glutenfree=None, 
+            ferrum=None, magnesium=None, phosphor=None, obsolete=None,  id=None):
         QObject.__init__(self)
-        self.mem=args[0]
-        if len(args)==1:#Product(mem)
-            init__create(*[None]*19)
-        elif len(args)==2:#Product(mem,rows)
-            company=self.mem.data.companies.find_by_id_system(args[1]['companies_id'], args[1]['system_company'])
-            foodtype=self.mem.data.foodtypes.find_by_id(args[1]['foodtypes_id'])
-            additives=AdditiveManager_from_integer_list__mem(self.mem, args[1]['additives'])
-            init__create(args[1]['name'], args[1]['amount'], args[1]['fat'], args[1]['protein'], args[1]['carbohydrate'], company, 
-            args[1]['last'], args[1]['elaboratedproducts_id'], args[1]['languages'], args[1]['calories'], args[1]['salt'], 
-            args[1]['cholesterol'], args[1]['sodium'], args[1]['potassium'], args[1]['fiber'], args[1]['sugars'], args[1]['saturated_fat'], args[1]['system_company'], foodtype, additives, args[1]['id'])
-        elif len(args)==22:#Product(mem,datetime,product,name,amount,users_id,id)
-            init__create(*args[1:])
+        self.mem=mem
+        self.name=name
+        self.amount=amount
+        self.fat=fat
+        self.protein=protein
+        self.carbohydrate=carbohydrate
+        self.company=company
+        self.last=last
+        self.elaboratedproducts_id=elaboratedproducts_id
+        self.languages=languages_id
+        self.calories=calories
+        self.salt=salt
+        self.cholesterol=cholesterol
+        self.sodium=sodium
+        self.potassium=potassium
+        self.fiber=fiber
+        self.sugars=sugars
+        self.saturated_fat=saturated_fat
+        self.system_company=system_company
+        self.foodtype=foodtype
+        self.additives=additives
+        self.glutenfree=glutenfree
+        self.ferrum=ferrum
+        self.magnesium=magnesium
+        self.phosphor=phosphor
+        self.obsolete=obsolete
+        self.id=id
+        
         self.system_product=True
         self.status=0
 
     def __repr__(self):
         return self.fullName()
-
 
     ## Returns the highest risk of its additives. It's product's risk
     def risk(self):
@@ -153,14 +143,17 @@ class Product(QObject):
         sql= """insert into """+table+""" (
                     name, amount, fat, protein, carbohydrate, companies_id, last,
                     elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, 
-                    potassium, fiber, sugars, saturated_fat, system_company, foodtypes_id, additives
+                    potassium, fiber, sugars, saturated_fat, system_company, foodtypes_id, additives,
+                    glutenfree, ferrum, magnesium, phosphor, obsolete
                     ) values (%s, %s, %s, %s, %s, %s, %s, 
                     %s, %s, %s, %s, %s, %s, 
-                    %s, %s, %s, %s, %s, %s, %s) returning id;"""
+                    %s, %s, %s, %s, %s, %s, %s,
+                    %s, %s, %s, %s,%s ) returning id;"""
         sql_parameters=(self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.last, 
                     self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, 
-                    self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company, foodtypes_id, self.additives.array_of_ids())
-                    
+                    self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company, foodtypes_id, self.additives.array_of_ids(), 
+                    self.glutenfree, self.ferrum, self.magnesium, self.phosphor, self.obsolete)
+
         if returning_id==True:
             r=self.mem.con.mogrify(sql, sql_parameters)
         else:
@@ -176,12 +169,13 @@ class Product(QObject):
         foodtypes_id=None if self.foodtype==None else self.foodtype.id
         sql="""update public.""" +table+ """ set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, last=%s,
             elaboratedproducts_id=%s, languages=%s, calories=%s, salt=%s, cholesterol=%s, sodium=%s, potassium=%s, fiber=%s, sugars=%s, saturated_fat=%s, 
-            system_company=%s, foodtypes_id=%s, additives=%s 
+            system_company=%s, foodtypes_id=%s, additives=%s, glutenfree=%s, ferrum=%s, magnesium=%s, phosphor=%s, obsolete=%s
             where id=%s;"""
         sql_parameters=(self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.last, 
             self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, 
-            self.system_company,  foodtypes_id, self.additives.array_of_ids(), 
+            self.system_company,  foodtypes_id, self.additives.array_of_ids(), self.glutenfree, self.ferrum, self.magnesium, self.phosphor, self.obsolete, 
             self.id)
+
 #        print(sql)
 #        print(sql_parameters)
         return b2s(self.mem.con.mogrify(sql, sql_parameters))
@@ -241,6 +235,11 @@ class Product(QObject):
         personal.saturated_fat=self.saturated_fat
         personal.system_company=self.system_company
         personal.foodtype=self.foodtype
+        personal.glutenfree=self.glutenfree
+        personal.ferrum=self.ferrum
+        personal.magnesium=self.magnesium
+        personal.phosphor=self.phosphor
+        personal.obsolete=self.obsolete
         personal.save()
         
         datestr=dtnaive2string(self.mem.inittime, "%Y%m%d%H%M")
@@ -294,9 +293,7 @@ class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
                 pd.setValue(cur.rownumber)
                 pd.update()
                 QApplication.processEvents()
-                
-            oo=Product(self.mem, rowms)
-            self.append(oo)
+            self.append(Product_from_row(self.mem, rowms, system=True))
         cur.close()
         
     @staticmethod
@@ -333,9 +330,7 @@ class ProductManager(QObject, ObjectManager_With_IdName_Selectable):
         
 ## ONLY CHANGES table name
 class ProductPersonal(Product):
-    ##ProductPersonal(mem)
-    ##ProductPersonal(mem,rows) #Uses products_id and users_id in row
-    ##ProductPersonal(mem,datetime,product,name,amount,users_id,id)
+
     def __init__(self, *args):
         Product.__init__(self, *args)
         self.system_product=False
@@ -346,27 +341,6 @@ class ProductPersonal(Product):
         row=cur.fetchone()
         cur.close()
         return self.init__db_row(row)
-
-#    #DO NOT EDIT THIS ONE COPY FROM PRODUCT AND CHANGE TABLE
-#    def save(self):
-#        companies_id=None if self.company==None else self.company.id
-#        if self.id==None:
-#            self.id=self.mem.con.cursor_one_field("""insert into personalproducts (
-#                    name, amount, fat, protein, carbohydrate, companies_id, last,
-#                    elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, 
-#                    potassium, fiber, sugars, saturated_fat, system_company, foodtypes_id
-#                    )values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning id""",  
-#                    (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.last, 
-#                    self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, 
-#                    self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company, self.foodtype.id))
-#        else:
-#            self.mem.con.execute("""update personalproducts set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, last=%s,
-#            elaboratedproducts_id=%s, languages=%s, calories=%s, salt=%s, cholesterol=%s, sodium=%s, potassium=%s, fiber=%s, sugars=%s, saturated_fat=%s, 
-#            system_company=%s, foodtypes_id=%s
-#            where id=%s""", 
-#            (self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, datetime.now(), 
-#            self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, 
-#            self.system_company,  self.foodtype.id, self.id))
 
     def delete(self):
         if self.is_deletable()==True:
@@ -453,8 +427,7 @@ class ProductPersonalManager(ProductManager):
                 pd.update()
                 QApplication.processEvents()
                 
-            oo=ProductPersonal(self.mem, rowms)
-            self.append(oo)
+            self.append(Product_from_row(self.mem, rowms, system=False))
         cur.close()
 
    
@@ -486,3 +459,40 @@ def myQTableWidget_ProductManagers(mem, manager, wdg):
         for i, o in enumerate(manager.arr):
             wdg.table.item(i, 0).setIcon(o.qicon())
             wdg.table.item(i, 2).setIcon(o.risk_qicon())
+
+## @param system boolean If true returns a Product, else a ProductPersonal
+def Product_from_row(mem, row, system):
+    company=mem.data.companies.find_by_id_system(row['companies_id'], row['system_company'])
+    foodtype=mem.data.foodtypes.find_by_id(row['foodtypes_id'])
+    additives=AdditiveManager_from_integer_list__mem(mem, row['additives'])
+    if system==True:
+        r=Product(mem)
+    else:
+        r=ProductPersonal(mem)
+    r.name=row['name']
+    r.amount=row['amount']
+    r.fat=row['fat']
+    r.protein=row['protein']
+    r.carbohydrate=row['carbohydrate']
+    r.company=company
+    r.last=row['last']
+    r.elaboratedproducts_id=row['elaboratedproducts_id']
+    r.languages=row['languages']
+    r.calories=row['calories']
+    r.salt=row['salt']
+    r.cholesterol=row['cholesterol']
+    r.sodium=row['sodium']
+    r.potassium=row['potassium']
+    r.fiber=row['fiber']
+    r.sugars=row['sugars']
+    r.saturated_fat=row['saturated_fat']
+    r.system_company=row['system_company']
+    r.foodtype=foodtype
+    r.additives=additives
+    r.glutenfree=row['glutenfree']
+    r.ferrum=row['ferrum']
+    r.magnesium=row['magnesium']
+    r.phosphor=row['phosphor']
+    r.obsolete=row['obsolete']
+    r.id=row['id']
+    return r

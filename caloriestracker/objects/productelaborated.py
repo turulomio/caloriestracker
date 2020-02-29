@@ -68,8 +68,13 @@ class ProductElaborated:
         selected.cholesterol=self.products_in.cholesterol()
         selected.sodium=self.products_in.sodium()
         selected.potassium=self.products_in.potassium()
-        selected.sugars=self.products_in.sugars(), 
+        selected.sugars=self.products_in.sugars()
         selected.foodtype=self.foodtype
+        selected.glutenfree=self.glutenfree
+        selected.ferrum=self.ferrum
+        selected.magnesium=self.magnesium
+        selected.phosphor=self.phosphor
+        selected.obsolete=self.obsolete
         selected.save()
         selected.needStatus(1, downgrade_to=0)
         self.mem.data.products.order_by_name()

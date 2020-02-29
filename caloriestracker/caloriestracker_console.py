@@ -50,28 +50,19 @@ def main():
         fat=input_decimal("Add fat amount", 0)
         fiber=input_decimal("Add fiber amount", 0)
         calories=input_decimal("Add calories amount", 0)
-        o=ProductPersonal(
-            mem, 
-            name, 
-            amount, 
-            fat, 
-            protein, 
-            carbohydrate, 
-            company, 
-            None, 
-            datetime.now(), 
-            None, 
-            None, 
-            calories, 
-            None, 
-            None, 
-            None, 
-            None, 
-            fiber, 
-            None, 
-            None, 
-            system_company,  
-            None)
+        o=ProductPersonal(mem)
+        o.mem=name
+        o.amount=amount
+        o.fat=fat
+        o.protein=protein
+        o.carbohydrate=carbohydrate
+        o.company=company
+        o.last=datetime.now()
+        o.calories=calories
+        o.fiber=fiber
+        o.system_company=system_company
+        #Basic insert not all attributes
+
         o.save()
         mem.con.commit()
         print("Product added with id={}".format(o.id))

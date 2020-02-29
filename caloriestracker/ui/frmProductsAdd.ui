@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>686</width>
-    <height>504</height>
+    <width>880</width>
+    <height>691</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -146,6 +146,13 @@
           <item>
            <widget class="myQLineEditPlus" name="qlepSaturatedFat" native="true"/>
           </item>
+          <item>
+           <widget class="QCheckBox" name="chkGlutenFree">
+            <property name="text">
+             <string>Gluten free</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
@@ -173,10 +180,26 @@
           <item>
            <widget class="myQLineEditPlus" name="qlepPotassium" native="true"/>
           </item>
+          <item>
+           <widget class="myQLineEditPlus" name="qlepMagnesium" native="true"/>
+          </item>
+          <item>
+           <widget class="myQLineEditPlus" name="qlepPhosphor" native="true"/>
+          </item>
+          <item>
+           <widget class="myQLineEditPlus" name="qlepFerrum" native="true"/>
+          </item>
          </layout>
         </widget>
        </item>
       </layout>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="chkObsolete">
+       <property name="text">
+        <string>Is it obselete?</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QDialogButtonBox" name="bb">
