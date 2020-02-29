@@ -52,49 +52,28 @@ class ProductElaborated:
         self.products_in.show_table()
 
     def register_in_personal_products(self):
-        selected=self.mem.data.products.find_by_elaboratedproducts_id(self.id)
+        selected=self.product()
         if selected==None:
-            foodtypes_id=None if self.foodtype==None else self.foodtype.id
-            o=ProductPersonal(
-            self.mem,
-            self.name, 
-            self.final_amount, 
-            self.products_in.fat(), 
-            self.products_in.protein(), 
-            self.products_in.carbohydrate(), 
-            None, 
-            datetime.now(), 
-            self.id, 
-            None, 
-            self.products_in.calories(), 
-            self.products_in.salt(), 
-            self.products_in.cholesterol(), 
-            self.products_in.sodium(), 
-            self.products_in.potassium(), 
-            self.products_in.fiber(), 
-            self.products_in.sugars(), 
-            self.products_in.saturated_fat(), 
-            False,
-            foodtypes_id, 
-            [], 
-            None)
-            o.save() 
-            self.mem.data.products.append(o)
-            self.mem.data.products.order_by_name()
-            o.needStatus(1, downgrade_to=0)
-        else:#It's already in personalproducts
-            selected.name=self.name
-            selected.amount=self.final_amount
-            selected.fat=self.products_in.fat()
-            selected.protein=self.products_in.protein()
-            selected.carbohydrate=self.products_in.carbohydrate()
-            selected.calories=self.products_in.calories()
-            selected.fiber=self.products_in.fiber()
-            selected.foodtype=self.foodtype
-            selected.save()
-            selected.needStatus(1, downgrade_to=0)
+            selected=ProductPersonal(self.mem)
+            self.mem.data.products.append(selected)
+        selected.name=self.name
+        selected.last=datetime.now()
+        selected.amount=self.final_amount
+        selected.fat=self.products_in.fat()
+        selected.protein=self.products_in.protein()
+        selected.carbohydrate=self.products_in.carbohydrate()
+        selected.calories=self.products_in.calories()
+        selected.fiber=self.products_in.fiber()
+        selected.salt=self.products_in.salt()
+        selected.cholesterol=self.products_in.cholesterol()
+        selected.sodium=self.products_in.sodium()
+        selected.potassium=self.products_in.potassium()
+        selected.sugars=self.products_in.sugars(), 
+        selected.foodtype=self.foodtype
+        selected.save()
+        selected.needStatus(1, downgrade_to=0)
+        self.mem.data.products.order_by_name()
 
-    #DO NOT EDIT THIS ONE COPY FROM PRODUCT AND CHANGE TABLE
     def save(self):
         foodtypes_id=None if self.foodtype==None else self.foodtype.id
         if self.id==None:
