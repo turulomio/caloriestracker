@@ -197,6 +197,7 @@ class CompanyAllManager(QObject, ObjectManager_With_IdName_Selectable):
 class CompanyPersonalManager(CompanySystemManager):
     def __init__(self, mem):
         CompanySystemManager.__init__(self, mem)
+
     def load_from_db(self, sql,  progress=False):
         self.clean()
         cur=self.mem.con.cursor()
