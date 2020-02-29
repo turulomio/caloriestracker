@@ -14,7 +14,7 @@ class Ui_frmCompaniesAdd(object):
     def setupUi(self, frmCompaniesAdd):
         frmCompaniesAdd.setObjectName("frmCompaniesAdd")
         frmCompaniesAdd.setWindowModality(QtCore.Qt.WindowModal)
-        frmCompaniesAdd.resize(417, 161)
+        frmCompaniesAdd.resize(417, 206)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/caloriestracker/list-add-user.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         frmCompaniesAdd.setWindowIcon(icon)
@@ -42,6 +42,9 @@ class Ui_frmCompaniesAdd(object):
         self.txtName.setObjectName("txtName")
         self.horizontalLayout_5.addWidget(self.txtName)
         self.verticalLayout_3.addLayout(self.horizontalLayout_5)
+        self.chkObsolete = QtWidgets.QCheckBox(frmCompaniesAdd)
+        self.chkObsolete.setObjectName("chkObsolete")
+        self.verticalLayout_3.addWidget(self.chkObsolete)
         self.bb = QtWidgets.QDialogButtonBox(frmCompaniesAdd)
         self.bb.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.bb.setObjectName("bb")
@@ -55,4 +58,5 @@ class Ui_frmCompaniesAdd(object):
         _translate = QtCore.QCoreApplication.translate
         frmCompaniesAdd.setWindowTitle(_translate("frmCompaniesAdd", "Managing companies"))
         self.label_6.setText(_translate("frmCompaniesAdd", "Name of the company"))
+        self.chkObsolete.setText(_translate("frmCompaniesAdd", "Is it obsolete?"))
 import caloriestracker.images.caloriestracker_rc

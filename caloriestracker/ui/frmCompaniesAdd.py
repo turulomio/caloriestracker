@@ -25,10 +25,10 @@ class frmCompaniesAdd(QDialog, Ui_frmCompaniesAdd):
                 company_class=CompanySystem
             else:
                 company_class=CompanyPersonal
-            self.company=company_class(self.mem, self.txtName.text(),  datetime.now(), None)
-        else:
-            self.company.name=self.txtName.text()
+            self.company=company_class(self.mem)
+        self.company.name=self.txtName.text()
         self.company.last=datetime.now()
+        self.company.obsolete=self.chkObsolete.isChecked()
         self.company.save()
 
         if self.mem.isProductsMaintainerMode():

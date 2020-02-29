@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>417</width>
-    <height>161</height>
+    <height>206</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -56,6 +56,13 @@
         <widget class="QLineEdit" name="txtName"/>
        </item>
       </layout>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="chkObsolete">
+       <property name="text">
+        <string>Is it obsolete?</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QDialogButtonBox" name="bb">

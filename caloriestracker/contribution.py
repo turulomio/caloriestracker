@@ -33,11 +33,11 @@ def generate_contribution_dump(mem):
     f=open(filename, "w")
     f.write("select;\n")#For no personal data empty files
     for company in mem.data.companies.arr:
-        if company.system_company==False:
+        if company.system_company==False and company.obsolete==False:
             f.write(company.sql_insert("personalcompanies", returning_id=False) + "\n")
     for product in mem.data.products.arr:
         product.needStatus(1)
-        if product.system_product==False and product.elaboratedproducts_id==None:
+        if product.system_product==False and product.elaboratedproducts_id==None and product.obsolete==False:
             f.write(product.sql_insert("personalproducts", returning_id=False) + "\n")
             for format in product.formats.arr:
                 f.write(format.sql_insert("personalformats", returning_id=False) + "\n")
@@ -95,7 +95,7 @@ def parse_contribution_dump_generate_files_and_validates_them(auxiliar_con, cont
         if company.system_company==False:
             question=input_YN("Do you want to convert this company '{}' to a system one?".format(company), "Y")
             if question==True:
-                system_company=CompanySystem(mem_temporary, company.name, company.last, new_system_companies_id)
+                system_company=CompanySystem(mem_temporary, company.name, company.last, company.obsolete,  new_system_companies_id)
                 new_system_companies.append(system_company)
                 companies_map[company.string_id()]=system_company.string_id()
                 new_system_companies_id=new_system_companies_id+1

@@ -22,7 +22,10 @@ def main():
 
     if mem.args.add_company==True:
         name=input_string("Name of the company: ")
-        o=CompanyPersonal(mem, name, datetime.now(), None, None)
+        o=CompanyPersonal(mem)
+        o.name=name
+        o.last=datetime.now()
+        o.obsolete=False
         o.save()
         mem.con.commit()
         print("CompanySystem added with id={}".format(o.id))

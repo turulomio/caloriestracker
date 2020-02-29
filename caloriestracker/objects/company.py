@@ -7,23 +7,12 @@ from caloriestracker.libmanagers import ObjectManager_With_IdName_Selectable
 from logging import debug
 
 class CompanySystem:
-    ##CompanySystem(mem)
-    ##CompanySystem(mem,rows)
-    ##CompanySystem(mem,name,last, id)
-    def __init__(self, *args):        
-        def init__create(name,  last, id):
-            self.name=name
-            self.last=last
-            self.id=id
-            return self
-        # #########################################
-        self.mem=args[0]
-        if len(args)==1:#CompanySystem(mem)
-            init__create(*[None]*4)
-        elif len(args)==2:#CompanySystem(mem,rows)
-            init__create(args[1]['name'], args[1]['last'], args[1]['id'])
-        elif len(args)==4:#CompanySystem(mem,name,last,id)
-            init__create(*args[1:])
+    def __init__(self, mem=None, name=None,  last=None, obsolete=None, id=None):
+        self.mem=mem
+        self.name=name
+        self.last=last
+        self.obsolete=obsolete
+        self.id=id
         self.system_company=True
 
     def __repr__(self):
@@ -61,8 +50,8 @@ class CompanySystem:
             self.mem.con.execute(self.sql_update(table))
     
     def sql_insert(self, table="companies", returning_id=True):
-        sql="insert into public."+table +"(name, last) values (%s, %s) returning id;"
-        sql_parameters=(self.name, self.last)
+        sql="insert into public."+table +"(name, last, obsolete) values (%s, %s, %s) returning id;"
+        sql_parameters=(self.name, self.last, self.obsolete)
         if returning_id==True:
             r=self.mem.con.mogrify(sql, sql_parameters)
         else:
@@ -74,7 +63,7 @@ class CompanySystem:
         return b2s(r)
         
     def sql_update(self, table="companies"):
-        return b2s(self.mem.con.mogrify("update public."+table +" set name=%s, last=%s where id=%s;", (self.name, self.last, self.id)))
+        return b2s(self.mem.con.mogrify("update public."+table +" set name=%s, last=%s, obsolete=%s where id=%s;", (self.name, self.last, self.obsolete, self.id)))
 
     def qicon(self):
         if self.system_company==True:
@@ -100,8 +89,7 @@ class CompanySystem:
             if p.company is not None and p.company.id==self.id and p.company.system_company==self.system_company:
                 r=r+1
         return r
-        
-        
+
 class CompanySystemManager(QObject, ObjectManager_With_IdName_Selectable):
     def __init__(self, mem):
         QObject.__init__(self)
@@ -136,24 +124,16 @@ class CompanySystemManager(QObject, ObjectManager_With_IdName_Selectable):
                 pd.setValue(cur.rownumber)
                 pd.update()
                 QApplication.processEvents()
-                
-            o=CompanySystem(self.mem, row)
-            self.append(o)
+            self.append(CompanySystem_from_row(self.mem, row))
         cur.close()
         
     def myqtablewidget(self, wdg):
         myQTableWidget_CompanyManagers(self, wdg)
 
 class CompanyPersonal(CompanySystem):
-    def __init__(self, *args):
-        CompanySystem.__init__(self, *args)
+    def __init__(self, mem=None, name=None,  last=None, obsolete=None, id=None):
+        CompanySystem.__init__(self, mem, name, last, obsolete, id)
         self.system_company=False
-        
-    def save(self):
-        if self.id==None:
-            self.id=self.mem.con.cursor_one_field("insert into personalcompanies(name,last) values (%s, %s) returning id", (self.name, self.last))
-        else:
-            self.mem.con.execute("update personalcompanies set name=%s, last=%s where id=%s", (self.name, self.last, self.id))
 
     def delete(self):
         if self.is_deletable()==True:
@@ -232,11 +212,15 @@ class CompanyPersonalManager(CompanySystemManager):
                 pd.setValue(cur.rownumber)
                 pd.update()
                 QApplication.processEvents()
-                
-            o=CompanyPersonal(self.mem, row)
-            self.append(o)
+            self.append(CompanyPersonal_from_row(self.mem, row))
         cur.close()
    
+def CompanySystem_from_row(mem, row):
+    return CompanySystem(mem, row['name'], row['last'], row['obsolete'], row['id'])
+
+def CompanyPersonal_from_row(mem, row):
+    return CompanyPersonal(mem, row['name'], row['last'], row['obsolete'], row['id'])
+
 def myQTableWidget_CompanyManagers(manager, wdg):     
     wdg.setDataFromManager(
         [wdg.tr("Name"), wdg.tr("Number of products"), wdg.tr("Last update")], 
