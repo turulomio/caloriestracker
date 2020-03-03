@@ -118,7 +118,12 @@
     <file>rusia.png</file>
   </qresource>
   <qresource prefix="/reusingcode">
+    <file>save.png</file>
+    <file>database.png</file>
     <file>search.png</file>
+    <file>sort_up.png</file>
+    <file>sort_down.png</file>
+    <file>button_cancel.png</file>
     <file>libreoffice_calc.png</file>
   </qresource>
 </RCC>

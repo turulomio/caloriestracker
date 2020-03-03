@@ -68,7 +68,7 @@ class Ui_wdgCompanies(object):
         self.label_2.setObjectName("label_2")
         self.verticalLayout_2.addWidget(self.label_2)
         self.verticalLayout_3.addWidget(self.groupBox)
-        self.tblCompanies = myQTableWidget(wdgCompanies)
+        self.tblCompanies = mqtwManager(wdgCompanies)
         self.tblCompanies.setObjectName("tblCompanies")
         self.verticalLayout_3.addWidget(self.tblCompanies)
         self.lblFound = QtWidgets.QLabel(wdgCompanies)
@@ -113,5 +113,5 @@ class Ui_wdgCompanies(object):
         self.actionCompanyEdit.setToolTip(_translate("wdgCompanies", "Edit company"))
         self.actionCompanyProducts.setText(_translate("wdgCompanies", "Show company products"))
         self.actionCompanyProducts.setToolTip(_translate("wdgCompanies", "Show company products"))
-from caloriestracker.ui.myqtablewidget import myQTableWidget
+from caloriestracker.ui.myqtablewidget import mqtwManager
 import caloriestracker.images.caloriestracker_rc
