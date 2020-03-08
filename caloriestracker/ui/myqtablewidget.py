@@ -279,10 +279,16 @@ class myQTableWidget(QWidget):
             return qright(o)
         elif o.__class__.__name__ in ["datetime"]:
             return qdatetime(o,zonename)
+        elif o.__class__.__name__ in ["date"]:
+            return qdate(o)
+        elif o.__class__.__name__ in ["time"]:
+            return qtime(o)
         elif o.__class__.__name__ in ["float","Decimal"]:
             return qnumber(o,decimals)
-        elif o.__class__.__name__ in ["Percentage","Money","Currency"]:
-            return o.qtablewidgetitem(decimals)
+        elif o.__class__.__name__ in ["Percentage",]:
+            return qpercentage(o, decimals)
+        elif o.__class__.__name__ in ["Money","Currency"]:
+            return qcurrency(o, decimals)
         elif o.__class__.__name__ in ["bool", ]:
             return wdgBool(o)
         elif o is None:
@@ -488,7 +494,7 @@ class mqtwDataWithObjects(mqtwData):
     ## Automatically set alignment
     ## @param manager Manager object from libmanagers
     ## @param manager_attributes List of Strings with name of the object attributes, order by appareance
-    ## @param additional Function without it's call, to add additional table information like Total Rows or icons
+    ## @param additional Function without it's call, to add additional table information like Total Rows or icons. Additional method has only one parameter, mqtw
     def setDataWithObjects(self, header_horizontal, header_vertical, data, decimals=2, zonename='UTC', additional=None):
         self.additional=additional
         self.data=data
@@ -539,7 +545,7 @@ class mqtwManager(myQTableWidget):
     ## Automatically set alignment
     ## @param manager Manager object from libmanagers
     ## @param manager_attributes List of Strings with name of the object attributes, order by appareance
-    ## @param additional Function without it's call, to add additional table information like Total Rows or icons
+    ## @param additional Function without it's call, to add additional table information like Total Rows or icons. Additional method has only one parameter, mqtw
     def setDataFromManager(self, header_horizontal, header_vertical, manager, manager_attributes, decimals=2, zonename='UTC', additional=None):
         self.manager_attributes=manager_attributes
         self.manager=manager
@@ -658,14 +664,13 @@ def qright(string):
     a=QTableWidgetItem(str(string))
     a.setTextAlignment(Qt.AlignVCenter|Qt.AlignRight)
     return a
-    
+
 ## Creates a QTableWidgetItem with the date
 def qdate(date):
     if date==None:
         return qnone()
-    return qcenter(str(date))
-    
-    
+    return qright(date)
+
 ## dt es un datetime con timezone, que se mostrara con la zone pasado como parametro
 ## Convierte un datetime a string, teniendo en cuenta los microsehgundos, para ello se convierte a datetime local
 def qdatetime(dt, tz_name):

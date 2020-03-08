@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import  QApplication, QProgressDialog, QCompleter
 from caloriestracker.casts import b2s, str2bool
 from caloriestracker.text_inputs import input_boolean, input_integer_or_none
 from caloriestracker.libmanagers import ObjectManager_With_IdName_Selectable
+from datetime import datetime
 from logging import debug
 
 class CompanySystem:
@@ -21,10 +22,24 @@ class CompanySystem:
     def is_deletable(self):
         products=self.mem.con.cursor_one_field("select count(*) from allproducts where companies_id =%s and system_company=%s", (self.id, self.system_company))
         personalproducts=self.mem.con.cursor_one_field("select count(*) from allproducts where companies_id =%s and system_company=%s", (self.id, self.system_company))
-        sum=products+personalproducts
-        if self.system_company==True or sum>0:
+        if products+personalproducts>0:
             return False
         return True
+
+    def logical_delete(self):        
+        self.obsolete=True
+        self.last=datetime.now()
+        self.save()
+            
+    def delete(self):
+        if self.__class__.__name__=="CompanyPersonal":
+            table="personalcompanies"
+        else:
+            table="companies"
+        if self.is_deletable()==True:
+            self.mem.con.execute(self.sql_delete(table))
+        else:
+            debug("I didn't delete this company because is not deletable")
 
     def fullName(self):
         if self.mem.debuglevel=="DEBUG":
@@ -65,6 +80,10 @@ class CompanySystem:
     def sql_update(self, table="companies"):
         return b2s(self.mem.con.mogrify("update public."+table +" set name=%s, last=%s, obsolete=%s where id=%s;", (self.name, self.last, self.obsolete, self.id)))
 
+    ## @param table String with the name of table used to generate sql command
+    def sql_delete(self, table):
+        return b2s(self.mem.con.mogrify("delete from public."+ table + " where id=%s;", (self.id, )))
+            
     def qicon(self):
         if self.system_company==True:
             return QIcon(":/caloriestracker/company.png")
@@ -135,11 +154,6 @@ class CompanyPersonal(CompanySystem):
         CompanySystem.__init__(self, mem, name, last, obsolete, id)
         self.system_company=False
 
-    def delete(self):
-        if self.is_deletable()==True:
-            self.mem.con.execute("delete from personalcompanies where id=%s", (self.id, ))
-        else:
-            debug("I didn't delete this company because is not deletable")
 
 class CompanyAllManager(QObject, ObjectManager_With_IdName_Selectable):
     ## ProductAllManager(mem)#Loads all database
@@ -232,6 +246,11 @@ def myQTableWidget_CompanyManagers(manager, wdg):
             ["get_number_products", []], 
             "last", 
         ], 
-    )   
-    for i, o in enumerate(manager.arr):
+        additional=myQTableWidget_CompanyManagers_additional
+    )
+
+def myQTableWidget_CompanyManagers_additional(wdg):     
+    for i, o in enumerate(wdg.manager.arr):
         wdg.table.item(i, 0).setIcon(o.qicon())
+        if o.obsolete==True:
+            wdg.setRowStrikeOut(i)

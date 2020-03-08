@@ -26,16 +26,25 @@ class wdgCompanies(QWidget, Ui_wdgCompanies):
 
     @pyqtSlot() 
     def on_actionCompanyDelete_triggered(self):
-        if self.companies.selected.is_deletable()==False:
-            qmessagebox(self.tr("This product can't be removed, because is marked as not remavable"))
-            return
+        if self.mem.isProductsMaintainerMode()==True:
+            if self.companies.selected.is_deletable()==True:
+                self.companies.selected.delete()
+                self.mem.deleteCompanies.append(self.companies.selected)
+                self.mem.data.companies.remove(self.companies.selected)
+            else:
+                self.companies.selected.logical_delete()
+                self.mem.updateCompanies.append(self.companies.selected)
+        else:
+            if self.companies.selected.is_deletable()==False:
+                qmessagebox(self.tr("This company can't be removed, because it has dependent data"))
+                return
             
-        reply = QMessageBox.question(None, self.tr('Asking your confirmation'), self.tr("This action can't be undone.\nDo you want to delete this record?"), QMessageBox.Yes, QMessageBox.No)                  
-        if reply==QMessageBox.Yes:
-            self.companies.selected.delete()
-            self.mem.con.commit()
-            self.mem.data.companies.remove(self.companies.selected)
-            self.on_cmd_pressed()
+            reply = QMessageBox.question(None, self.tr('Asking your confirmation'), self.tr("This action can't be undone.\nDo you want to delete this record?"), QMessageBox.Yes, QMessageBox.No)                  
+            if reply==QMessageBox.Yes:
+                self.companies.selected.delete()
+                self.mem.con.commit()
+                self.mem.data.companies.remove(self.companies.selected)
+        self.on_cmd_pressed()
 
     @pyqtSlot() 
     def on_actionCompanyNew_triggered(self):

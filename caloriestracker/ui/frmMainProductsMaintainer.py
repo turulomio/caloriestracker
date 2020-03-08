@@ -24,10 +24,13 @@ class frmMainProductsMaintainer(QMainWindow, Ui_frmMainProductsMaintainer):
         self.mem=mem
         self.mem.insertProducts=ProductManager(self.mem)
         self.mem.updateProducts=ProductManager(self.mem)
+        self.mem.deleteProducts=ProductManager(self.mem)
         self.mem.insertCompanies=CompanySystemManager(self.mem)
         self.mem.updateCompanies=CompanySystemManager(self.mem)
+        self.mem.deleteCompanies=CompanySystemManager(self.mem)
         self.mem.insertFormats=FormatSystemManagerHeterogeneus(self.mem)
         self.mem.updateFormats=FormatSystemManagerHeterogeneus(self.mem)
+        self.mem.deleteFormats=FormatSystemManagerHeterogeneus(self.mem)
         
         database_update(self.mem.con, "caloriestracker", __versiondatetime__, "Qt")
         
@@ -55,10 +58,13 @@ Do you want to generate it?"""),
             f=open(filename, "w")
             f.write("-- Companies inserts\n")
             for o in self.mem.insertCompanies.arr:
-                f.write(o.sql_insert() + "\n")
+                f.write(o.sql_insert(returning_id=False) + "\n")
             f.write("\n-- Companies updates\n")
             for o in self.mem.updateCompanies.arr:
                 f.write(o.sql_update() + "\n")
+            f.write("\n-- Companies deletes\n")
+            for o in self.mem.deleteCompanies.arr:
+                f.write(o.sql_delete("companies") + "\n")
             f.write("\n-- Products inserts\n")
             for o in self.mem.insertProducts.arr:
                 f.write(o.sql_insert("products", returning_id=False) + "\n")
