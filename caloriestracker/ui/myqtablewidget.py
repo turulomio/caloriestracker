@@ -19,6 +19,7 @@ class myQTableWidget(QWidget):
         self.lay=QVBoxLayout()
         self.laySearch=QHBoxLayout()
         self.lbl=QLabel()
+
         self.table=QTableWidget()
         self.table.setContextMenuPolicy(Qt.CustomContextMenu)
         self.table.verticalScrollBar().valueChanged.connect(self.on_table_verticalscrollbar_value_changed)
@@ -27,6 +28,8 @@ class myQTableWidget(QWidget):
         self.table.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.table.setSelectionMode(QAbstractItemView.SingleSelection)
         self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.table.setAlternatingRowColors(True)
+
         self.lbl.setText(self.tr("Add a string to filter rows"))
         self.txtSearch=QLineEdit()
         self.txtSearch.textChanged.connect(self.on_txt_textChanged)
@@ -55,7 +58,7 @@ class myQTableWidget(QWidget):
         self.actionSearch.setIcon(QIcon(":/reusingcode/search.png"))
         self.actionSearch.triggered.connect(self.on_actionSearch_triggered)
         self.actionSearch.setShortcut(Qt.CTRL + Qt.Key_F)
-        self.table.setAlternatingRowColors(True)
+        
         self._last_height=None
         self._none_at_top=True
         self._sort_action_reverse=None#Needed for first setData
@@ -84,15 +87,22 @@ class myQTableWidget(QWidget):
             self._last_height=height
 
     def sectionResized(self, logicalIndex, oldSize, newSize):
+        self.table.horizontalHeader().setStretchLastSection(False)
         modifiers = QApplication.keyboardModifiers()
         if modifiers == Qt.ShiftModifier:
             for i in range(self.table.columnCount()):
                 self.table.setColumnWidth(i, newSize)
             self.settings.setValue("{}/{}_horizontalheader_state".format(self.settingsSection, self.settingsObject), self.table.horizontalHeader().saveState() )
-            debug("Saved {}/{}_horizontalheader_state".format(self.settingsSection, self.settingsObject))
+            debug("Saved {}/{}_horizontalheader_state to equal sizes".format(self.settingsSection, self.settingsObject))
+            self.settings.sync()
         elif modifiers == Qt.ControlModifier:
             self.on_actionSizeMinimum_triggered()
-    
+        else:
+            self.settings.setValue("{}/{}_horizontalheader_state".format(self.settingsSection, self.settingsObject), self.table.horizontalHeader().saveState() )
+            debug("Saved {}/{}_horizontalheader_state manually".format(self.settingsSection, self.settingsObject))
+            self.settings.sync()
+
+
     @pyqtSlot(int)
     def on_table_verticalscrollbar_value_changed(self, value):
         if value % 3 ==1:
@@ -207,6 +217,7 @@ class myQTableWidget(QWidget):
         """settings must be defined before"""
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
         self.table.horizontalHeader().sectionResized.connect(self.sectionResized)
+        self.table.horizontalHeader().setStretchLastSection(False)
         state=self.settings.value("{}/{}_horizontalheader_state".format(self.settingsSection, self.settingsObject))
         if state:
             self.table.horizontalHeader().restoreState(state)
@@ -370,14 +381,16 @@ class myQTableWidget(QWidget):
         self.table.resizeRowsToContents()
         self.table.resizeColumnsToContents()
         self.settings.setValue("{}/{}_horizontalheader_state".format(self.settingsSection, self.settingsObject), self.table.horizontalHeader().saveState() )
-        debug("Saved {}/{}_horizontalheader_state".format(self.settingsSection, self.settingsObject))
+        self.settings.sync()
+        debug("Saved {}/{}_horizontalheader_state to minimum".format(self.settingsSection, self.settingsObject))
 
     def on_actionSizeNeeded_triggered(self):
         for i in range(self.table.columnCount()):
             if self.table.sizeHintForColumn(i)>self.table.columnWidth(i):
                 self.table.setColumnWidth(i, self.table.sizeHintForColumn(i))
         self.settings.setValue("{}/{}_horizontalheader_state".format(self.settingsSection, self.settingsObject), self.table.horizontalHeader().saveState() )
-        debug("Saved {}/{}_horizontalheader_state".format(self.settingsSection, self.settingsObject))
+        self.settings.sync()
+        debug("Saved {}/{}_horizontalheader_state to needed".format(self.settingsSection, self.settingsObject))
 
     def on_actionSearch_triggered(self):
         self.lbl.show()

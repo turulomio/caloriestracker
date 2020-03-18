@@ -39,6 +39,10 @@ class wdgCompanies(QWidget, Ui_wdgCompanies):
                 qmessagebox(self.tr("This company can't be removed, because it has dependent data"))
                 return
             
+            if self.companies.selected.system_company==True:
+                qmessagebox(self.tr("This company can't be removed, because it's a system one"))
+                return
+                
             reply = QMessageBox.question(None, self.tr('Asking your confirmation'), self.tr("This action can't be undone.\nDo you want to delete this record?"), QMessageBox.Yes, QMessageBox.No)                  
             if reply==QMessageBox.Yes:
                 self.companies.selected.delete()
@@ -86,7 +90,7 @@ class wdgCompanies(QWidget, Ui_wdgCompanies):
         lay.addWidget(lbl)
         companyproducts=self.mem.data.products.ProductAllManager_of_same_company(self.companies.selected)
         table=myQTableWidget(d)
-        table.settings(self.mem, "wdgCompanies", "tblCompanyProducts")
+        table.settings(self.mem.settings, "wdgCompanies", "tblCompanyProducts")
         companyproducts.qtablewidget(table)
         lay.addWidget(table)
         d.exec_()

@@ -351,29 +351,40 @@ class ObjectManager_With_IdName(ObjectManager_With_Id):
     def order_by_upper_name(self, reverse=False, none_at_top=True):
         self.order_with_none(("name.upper", []), reverse=reverse, none_at_top=none_at_top)
 
+
+    ## It doesn't emit selected if selected is None a nd needtoselect is False, in the rest of the cases it emmit itemChanged
     ## @param selected it's an object
     ## @param needtoselect Adds a foo item with value==None with the text select one
     ## @param icons Boolean. If it's true uses o.qicon() method to add an icon to the item
     def qcombobox(self, combo,  selected=None, needtoselect=False, icons=False):
         combo.blockSignals(True)
         combo.clear()
+
+        #Add items
         if needtoselect==True:
             if self.length()>0:
                 combo.addItem(combo.tr("Select an option"), None)
             else:
                 combo.addItem(combo.tr("No options to select"), None)
-        else:
-            combo.setCurrentIndex(-1)
-
         for a in self.arr:
             if icons==True:
                 combo.addItem(a.qicon(), a.name, a.id)
             else:
                 combo.addItem(a.name, a.id)
-        combo.blockSignals(False)
 
-        if selected!=None:
-            combo.setCurrentIndex(combo.findData(selected.id))
+        #Force without signals to be in -1. There were problems when 0 is selected, becouse it didn't emit anything
+        combo.setCurrentIndex(-1)
+
+        #Set selection
+        if needtoselect==True:
+            combo.blockSignals(False)
+            combo.setCurrentIndex(0)
+        else:#need to select False
+            if selected is None:
+                combo.blockSignals(False)
+            else:
+                combo.blockSignals(False)
+                combo.setCurrentIndex(combo.findData(selected.id))
 
     ## Creates a libreoffice sheet from the ObjectManager
     ##
