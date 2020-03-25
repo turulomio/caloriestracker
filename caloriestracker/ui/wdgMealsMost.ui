@@ -103,7 +103,7 @@
       </layout>
      </item>
      <item>
-      <widget class="myQTableWidget" name="tblMeals" native="true"/>
+      <widget class="mqtwObjects" name="tblMeals" native="true"/>
      </item>
     </layout>
    </item>
@@ -111,7 +111,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>myQTableWidget</class>
+   <class>mqtwObjects</class>
    <extends>QWidget</extends>
    <header location="global">myqtablewidget</header>
    <container>1</container>

@@ -27,7 +27,7 @@ class Ui_wdgUsers(object):
         self.lbl.setAlignment(QtCore.Qt.AlignCenter)
         self.lbl.setObjectName("lbl")
         self.verticalLayout_3.addWidget(self.lbl)
-        self.tblUsers = myQTableWidget(wdgUsers)
+        self.tblUsers = mqtwObjects(wdgUsers)
         self.tblUsers.setObjectName("tblUsers")
         self.verticalLayout_3.addWidget(self.tblUsers)
         self.lblFound = QtWidgets.QLabel(wdgUsers)
@@ -63,5 +63,5 @@ class Ui_wdgUsers(object):
         self.actionUserDelete.setToolTip(_translate("wdgUsers", "Delete user"))
         self.actionUserEdit.setText(_translate("wdgUsers", "Edit user"))
         self.actionUserEdit.setToolTip(_translate("wdgUsers", "Edit user"))
-from caloriestracker.ui.myqtablewidget import myQTableWidget
+from caloriestracker.ui.myqtablewidget import mqtwObjects
 import caloriestracker.images.caloriestracker_rc

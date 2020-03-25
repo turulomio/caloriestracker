@@ -6,11 +6,21 @@ from PyQt5.QtGui import QKeySequence, QColor, QIcon, QBrush, QFont
 from PyQt5.QtWidgets import QApplication, QHeaderView, QTableWidget, QFileDialog,  QTableWidgetItem, QWidget, QCheckBox, QHBoxLayout, QVBoxLayout, QLabel, QLineEdit, QAction, QMenu, QToolButton, QAbstractItemView
 from .. datetime_functions import dtaware2string, dtaware_changes_tz, time2string
 from .. libmanagers import ManagerSelectionMode
+from .. casts import lor_remove_columns
 from officegenerator import ODS_Write
 from logging import info, debug
 from datetime import datetime, date,  timedelta
-                
-class myQTableWidget(QWidget):
+
+
+## By default setselectionmode is object
+## This widget uses the next qt resources for icons, you must set this resources in your app
+## - :/reusingcode/button_cancel.png
+## - :/reusingcode/libreoffice_calc.png
+## - :/reusingcode/search.png
+## - :/reusingcode/sort_down.png
+## - :/reusingcode/sort_up.png
+
+class mqtw(QWidget):
     setDataFinished=pyqtSignal()
     tableSelectionChanged=pyqtSignal()
     def __init__(self, parent=None):
@@ -24,6 +34,7 @@ class myQTableWidget(QWidget):
         self.table.setContextMenuPolicy(Qt.CustomContextMenu)
         self.table.verticalScrollBar().valueChanged.connect(self.on_table_verticalscrollbar_value_changed)
         self.table.horizontalHeader().sectionClicked.connect(self.on_table_horizontalHeader_sectionClicked)
+        self.table.itemSelectionChanged.connect(self.on_itemSelectionChanged)
         self.table.verticalHeader().hide()
         self.table.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.table.setSelectionMode(QAbstractItemView.SingleSelection)
@@ -62,7 +73,36 @@ class myQTableWidget(QWidget):
         self._last_height=None
         self._none_at_top=True
         self._sort_action_reverse=None#Needed for first setData
+        self._ordering_enabled=False
+        self.setSelectionMode(ManagerSelectionMode.Object)
         
+    ## Sets if ordering must be enabled
+    ## In mqtw id False by default. In mqtwManager and mqtwObjects is True by default
+    ## @param boolean. Booleano to set if ordering is enabled
+    def setOrderingEnabled(self, boolean):
+        self._ordering_enabled=boolean
+
+    @pyqtSlot()
+    def on_itemSelectionChanged(self):
+        if hasattr(self, "data"):#Data is set
+            if self.table.selectionBehavior()==QAbstractItemView.SelectRows and self.table.selectionMode()==QAbstractItemView.SingleSelection:
+                pass
+            elif self.table.selectionBehavior()==QAbstractItemView.SelectItems and self.table.selectionMode()==QAbstractItemView.SingleSelection:
+                # Returns the item selected
+                self.selected=None
+                self.selected_values=None
+                for i in self.table.selectedItems():
+                    self.selected=i
+                    self.selected_values=self.itemData(i)
+            debug("{} data selection: {}".format(self.__class__.__name__,  self.selected))
+            self.tableSelectionChanged.emit()
+        else:
+            debug("ItemSectionChanged without self.setData")
+
+    ## You can obtain data value from an item
+    def itemData(self,item):
+        return self.data[item.row()][item.column()]
+
     def on_generic_customContextMenuRequested(self, pos):
         self.qmenu().exec_(self.table.mapToGlobal(pos))
         
@@ -74,6 +114,15 @@ class myQTableWidget(QWidget):
     def setRowStrikeOut(self, row):
         for i in range(self.table.horizontalHeader().count()):
             qtwiSetStrikeOut(self.table.item(row, i))
+
+    def setSelectionMode(self, manager_selection_mode):
+        self._selection_mode=manager_selection_mode
+        if self._selection_mode==ManagerSelectionMode.Object:
+            self.selected=None
+        elif self._selection_mode==ManagerSelectionMode.List:
+            self.selected=[]
+        elif hasattr(self, "manager")==True and self._selection_mode==ManagerSelectionMode.Manager:# Only if it's a mqtwManager widget won't have selected only manager
+            self.manager.setSelectionMode(ManagerSelectionMode.Manager)
 
     def setVerticalHeaderHeight(self, height):
         """height, if null default.
@@ -92,29 +141,31 @@ class myQTableWidget(QWidget):
         if modifiers == Qt.ShiftModifier:
             for i in range(self.table.columnCount()):
                 self.table.setColumnWidth(i, newSize)
-            self.settings.setValue("{}/{}_horizontalheader_state".format(self.settingsSection, self.settingsObject), self.table.horizontalHeader().saveState() )
-            debug("Saved {}/{}_horizontalheader_state to equal sizes".format(self.settingsSection, self.settingsObject))
-            self.settings.sync()
+            self._settings.setValue("{}/{}_horizontalheader_state".format(self._settingsSection, self._settingsObject), self.table.horizontalHeader().saveState() )
+            debug("Saved {}/{}_horizontalheader_state to equal sizes".format(self._settingsSection, self._settingsObject))
+            self._settings.sync()
         elif modifiers == Qt.ControlModifier:
             self.on_actionSizeMinimum_triggered()
         else:
-            self.settings.setValue("{}/{}_horizontalheader_state".format(self.settingsSection, self.settingsObject), self.table.horizontalHeader().saveState() )
-            debug("Saved {}/{}_horizontalheader_state manually".format(self.settingsSection, self.settingsObject))
-            self.settings.sync()
-
+            self._settings.setValue("{}/{}_horizontalheader_state".format(self._settingsSection, self._settingsObject), self.table.horizontalHeader().saveState() )
+            debug("Saved {}/{}_horizontalheader_state manually".format(self._settingsSection, self._settingsObject))
+            self._settings.sync()
 
     @pyqtSlot(int)
     def on_table_verticalscrollbar_value_changed(self, value):
         if value % 3 ==1:
             self.on_actionSizeNeeded_triggered()
 
-    def settings(self, settings, settingsSection,  objectname):
-        self.settings=settings
+    def setSettings(self, settings, settingsSection,  objectname):
+        self._settings=settings #Made private due it had the same name of the method
         #For all myQTableWidget in settings app
-        self.setVerticalHeaderHeight(int(self.settings.value("myQTableWidget/rowheight", 24)))
-        self.settingsSection=settingsSection
-        self.settingsObject=objectname
-        self.setObjectName(self.settingsObject)
+        self.setVerticalHeaderHeight(int(self._settings.value("myQTableWidget/rowheight", 24)))
+        self._settingsSection=settingsSection
+        self._settingsObject=objectname
+        self.setObjectName(self._settingsObject)
+        
+    def settings(self):
+        return self._settings
 
     def clear(self):
         """Clear table"""
@@ -129,15 +180,15 @@ class myQTableWidget(QWidget):
     @pyqtSlot()
     def keyPressEvent(self, event):
         if  event.matches(QKeySequence.ZoomIn) and self._last_height!=None:
-            height=int(self.settings.value("myQTableWidget/rowheight", 24))
-            self.settings.setValue("myQTableWidget/rowheight", height+1)
-            info("Setting myQTableWidget/rowheight set to {}".format(self.settings.value("myQTableWidget/rowheight", 24)))
-            self.table.setVerticalHeaderHeight(int(self.settings.value("myQTableWidget/rowheight", 24)))
+            height=int(self._settings.value("myQTableWidget/rowheight", 24))
+            self._settings.setValue("myQTableWidget/rowheight", height+1)
+            info("Setting myQTableWidget/rowheight set to {}".format(self._settings.value("myQTableWidget/rowheight", 24)))
+            self.table.setVerticalHeaderHeight(int(self._settings.value("myQTableWidget/rowheight", 24)))
         elif  event.matches(QKeySequence.ZoomOut) and self._last_height!=None:
-            height=int(self.settings.value("myQTableWidget/rowheight", 24))
-            self.settings.setValue("myQTableWidget/rowheight", height-1)
-            ("Setting myQTableWidget/rowheight set to {}".format(self.settings.value("myQTableWidget/rowheight", 24)))
-            self.table.setVerticalHeaderHeight(int(self.settings.value("myQTableWidget/rowheight", 24)))
+            height=int(self._settings.value("myQTableWidget/rowheight", 24))
+            self._settings.setValue("myQTableWidget/rowheight", height-1)
+            ("Setting myQTableWidget/rowheight set to {}".format(self._settings.value("myQTableWidget/rowheight", 24)))
+            self.table.setVerticalHeaderHeight(int(self._settings.value("myQTableWidget/rowheight", 24)))
         elif event.matches(QKeySequence.Print):
             filename = QFileDialog.getSaveFileName(self, self.tr("Save File"), "table.ods", self.tr("Libreoffice calc (*.ods)"))[0]
             if filename:
@@ -145,30 +196,23 @@ class myQTableWidget(QWidget):
                 self.officegeneratorModel( "My table").ods_sheet(ods)
                 ods.save()
 
-    ## Affeter selection an action of the OrderByAction list, returns its information, to be used in several classes
-    def _get_triggered_action_information(self):
-        action=QObject.sender(self)#Busca el objeto que ha hecho la signal en el slot en el que está conectado
-        self._sort_action_index=self.hh.index(action.text().replace(" (desc)",""))#Search the position in the headers of the action Text
+    ## Used to order using clicks in headers
+    def on_table_horizontalHeader_sectionClicked(self, index):
+        if hasattr(self, "data")==True and self._ordering_enabled==True:
+            self.actionListOrderBy[index].triggered.emit()
+            debug("Ordering table by header '{}'".format(self.actionListOrderBy[index].text()))
 
-        # Sets if its reverse or not and renames action
-        if action.text().find(self.tr(" (desc)"))>0:
-             self._sort_action_reverse=True
-             action.setText(action.text().replace(self.tr(" (desc)"),""))
-             action.setIcon(QIcon(":/reusingcode/sort_up.png"))
-        else: #No encontrado
-             self._sort_action_reverse=False
-             action.setText(action.text() + " (desc)")
-             action.setIcon(QIcon(":/reusingcode/sort_down.png"))
+    ## Used to order table progamatically
+    def setOrderBy(self, index, reverse):
+        if self._ordering_enabled==True:
+            action=self.actionListOrderBy[index]
+            action.setText(action.text().replace(" (desc)",""))#Leave action as ascendant
+            if reverse==True:#Emulated action change of text
+                action.setText(action.text() + " (desc)")
+            action.triggered.emit()
 
-        # Remover others (desc), to the rest of actions
-        for i, other_action in enumerate(self.actionListOrderBy):
-            if i!=self._sort_action_index:# Different to selected action index
-                other_action.setText(other_action.text().replace(self.tr(" (desc)"),""))
-                
-        self.on_orderby_action_triggered(action,  self._sort_action_index, self._sort_action_reverse)
-        
-    ## Orders self.data. Seperated due is used by several sub clases
-    def _order_data(self, action_index, reverse):
+    ## Order data columns. None values are set at the beginning
+    def on_orderby_action_triggered(self, action, action_index, reverse):
         nonull=[]
         null=[]
         for row in self.data:
@@ -190,24 +234,6 @@ class myQTableWidget(QWidget):
                 self.data=nonull+null
             else:
                 self.data=null+nonull
-
-    ## Used to order using clicks in headers
-    def on_table_horizontalHeader_sectionClicked(self, index):
-        self.actionListOrderBy[index].triggered.emit()
-        debug("Ordering table by header '{}'".format(self.actionListOrderBy[index].text()))
-        
-        
-    ## Used to order table progamatically
-    def setOrderBy(self, index, reverse):
-        action=self.actionListOrderBy[index]
-        action.setText(action.text().replace(" (desc)",""))#Leave action as ascendant
-        if reverse==True:#Emulated action change of text
-            action.setText(action.text() + " (desc)")
-        action.triggered.emit()
-
-    ## Order data columns. None values are set at the beginning
-    def on_orderby_action_triggered(self, action, action_index, reverse):
-        self._order_data(action_index, reverse)
         self.update()
 
     def update(self):
@@ -218,7 +244,7 @@ class myQTableWidget(QWidget):
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
         self.table.horizontalHeader().sectionResized.connect(self.sectionResized)
         self.table.horizontalHeader().setStretchLastSection(False)
-        state=self.settings.value("{}/{}_horizontalheader_state".format(self.settingsSection, self.settingsObject))
+        state=self._settings.value("{}/{}_horizontalheader_state".format(self._settingsSection, self._settingsObject))
         if state:
             self.table.horizontalHeader().restoreState(state)
         
@@ -227,17 +253,39 @@ class myQTableWidget(QWidget):
     ## Automatically set alignment
     ## @param decimals int or list with the columns decimals
     def setData(self, header_horizontal, header_vertical, data, decimals=2, zonename='UTC'):
+        ## Affeter selection an action of the OrderByAction list, returns its information, to be used in several classes
+        def get_triggered_action_information():
+            action=QObject.sender(self)#Busca el objeto que ha hecho la signal en el slot en el que está conectado
+            self._sort_action_index=self.hh.index(action.text().replace(" (desc)",""))#Search the position in the headers of the action Text
+
+            # Sets if its reverse or not and renames action
+            if action.text().find(self.tr(" (desc)"))>0:
+                 self._sort_action_reverse=True
+                 action.setText(action.text().replace(self.tr(" (desc)"),""))
+                 action.setIcon(QIcon(":/reusingcode/sort_up.png"))
+            else: #No encontrado
+                 self._sort_action_reverse=False
+                 action.setText(action.text() + " (desc)")
+                 action.setIcon(QIcon(":/reusingcode/sort_down.png"))
+
+            # Remover others (desc), to the rest of actions
+            for i, other_action in enumerate(self.actionListOrderBy):
+                if i!=self._sort_action_index:# Different to selected action index
+                    other_action.setText(other_action.text().replace(self.tr(" (desc)"),""))
+                    
+            self.on_orderby_action_triggered(action,  self._sort_action_index, self._sort_action_reverse)
+        # -----------------------------------------------------------------------------
         if decimals.__class__.__name__=="int":
             decimals=[decimals]*len(header_horizontal)
         self.data_decimals=decimals
         self.data_zonename=zonename
         # Creates order actions here after creating data
-        if hasattr(self,"actionListOrderBy")==False:
+        if hasattr(self,"actionListOrderBy")==False and self._ordering_enabled==True:
             self.actionListOrderBy=[]
             for header in header_horizontal:
                 action=QAction("{}".format(header))
                 self.actionListOrderBy.append(action)
-                action.triggered.connect(self._get_triggered_action_information)
+                action.triggered.connect(get_triggered_action_information)
                 action.setIcon(QIcon(":/reusingcode/sort_up.png"))
 
         # Headers
@@ -345,11 +393,6 @@ class myQTableWidget(QWidget):
                 data.append(self.table.item(row,column).text())
         return data
 
-    ## @param rsActionExport String ":/xulpymoney/save.png" for example
-    def setIcons(self, rsActionExport=None):
-        if rsActionExport is not None:
-            self.actionExport.setIcon(QIcon(rsActionExport))
-            
     def on_cmdCloseSearch_released(self):
         self.txtSearch.setText("")
         self.showSearchOptions(False)
@@ -380,17 +423,17 @@ class myQTableWidget(QWidget):
     def on_actionSizeMinimum_triggered(self):
         self.table.resizeRowsToContents()
         self.table.resizeColumnsToContents()
-        self.settings.setValue("{}/{}_horizontalheader_state".format(self.settingsSection, self.settingsObject), self.table.horizontalHeader().saveState() )
-        self.settings.sync()
-        debug("Saved {}/{}_horizontalheader_state to minimum".format(self.settingsSection, self.settingsObject))
+        self._settings.setValue("{}/{}_horizontalheader_state".format(self._settingsSection, self._settingsObject), self.table.horizontalHeader().saveState() )
+        self._settings.sync()
+        debug("Saved {}/{}_horizontalheader_state to minimum".format(self._settingsSection, self._settingsObject))
 
     def on_actionSizeNeeded_triggered(self):
         for i in range(self.table.columnCount()):
             if self.table.sizeHintForColumn(i)>self.table.columnWidth(i):
                 self.table.setColumnWidth(i, self.table.sizeHintForColumn(i))
-        self.settings.setValue("{}/{}_horizontalheader_state".format(self.settingsSection, self.settingsObject), self.table.horizontalHeader().saveState() )
-        self.settings.sync()
-        debug("Saved {}/{}_horizontalheader_state to needed".format(self.settingsSection, self.settingsObject))
+        self._settings.setValue("{}/{}_horizontalheader_state".format(self._settingsSection, self._settingsObject), self.table.horizontalHeader().saveState() )
+        self._settings.sync()
+        debug("Saved {}/{}_horizontalheader_state to needed".format(self._settingsSection, self._settingsObject))
 
     def on_actionSearch_triggered(self):
         self.lbl.show()
@@ -402,21 +445,21 @@ class myQTableWidget(QWidget):
     def qmenu(self, title="Table options"):
         menu=QMenu(self.parent)
         menu.setTitle(self.tr(title))
-        if hasattr(self,"actionListOrderBy")==True:
-            menu.addAction(self.actionExport)
-            menu.addSeparator()
-            menu.addAction(self.actionSearch)
-            menu.addSeparator()
+        menu.addAction(self.actionExport)
+        menu.addSeparator()
+        menu.addAction(self.actionSearch)
+        menu.addSeparator()
+        if hasattr(self,"actionListOrderBy")==True and self._ordering_enabled==True:
             order=QMenu(menu)
             order.setTitle(self.tr("Order by"))
             for action in self.actionListOrderBy:
                 order.addAction(action)
             menu.addMenu(order)
-            size=QMenu(menu)
-            size.setTitle(self.tr("Columns size"))
-            size.addAction(self.actionSizeMinimum)
-            size.addAction(self.actionSizeNeeded)
-            menu.addMenu(size)
+        size=QMenu(menu)
+        size.setTitle(self.tr("Columns size"))
+        size.addAction(self.actionSizeMinimum)
+        size.addAction(self.actionSizeNeeded)
+        menu.addMenu(size)
         return menu
 
     def on_txt_textChanged(self, text):
@@ -450,14 +493,19 @@ class myQTableWidget(QWidget):
         m.setTitle(title)
         m.setHorizontalHeaders(self.listHorizontalHeaders(), widths)
         m.setVerticalHeaders(self.listVerticalHeaders(),vwidth)
-        m.setData(self.data)
+        if len(self.data)>0 and self.__class__==mqtwObjects: #Need to remove last column (object column)
+            data=lor_remove_columns(self.data, [len(self.data[0])-1, ])
+        else:
+            data=self.data
+        m.setData(data)
         return m
-        
-## Acronim of myQTableWidget
-## Used for readibility improvement
-class mqtwData(myQTableWidget):
-    def __init__(self, parent):
-        myQTableWidget.__init__(self, parent)        
+
+    ## Returns the length of self.data. Additional functions doesn't affect this result
+    ## If we are using a mqtwObjects, self.data has the same length as self.objects(), so it's fine
+    def length(self):
+        return len(self.data)
+
+
 
 ## Uses data, but the last column of data it's the object of the row
 ## It's not a manager, but it's similar
@@ -465,12 +513,11 @@ class mqtwData(myQTableWidget):
 ##
 ## Selection is managed by self.mqtw.selected, not by self.manager, it's a data mqtw
 
-class mqtwDataWithObjects(mqtwData):
+class mqtwObjects(mqtw):
     def __init__(self, parent):
-        mqtwData.__init__(self, parent)
-        self._selection_mode=ManagerSelectionMode.Object #Used although it's not a manager
-        self.selected=None
-        self.table.itemSelectionChanged.connect(self.on_itemSelectionChanged)
+        mqtw.__init__(self, parent)
+        self.setSelectionMode(ManagerSelectionMode.Object) #Used although it's not a manager
+        self._ordering_enabled=True
         
     ## REturn the last index of a row, where the object is
     def objectColumnIndex(self):
@@ -491,7 +538,7 @@ class mqtwDataWithObjects(mqtwData):
     def on_itemSelectionChanged(self):
         if self._selection_mode==ManagerSelectionMode.Object:
             self.selected=None
-        else:
+        elif self._selection_mode==ManagerSelectionMode.List:
             self.selected=[]
         for i in self.table.selectedItems():#itera por cada item no row.
             if i.column()==0 and i.row()<len(self.data):
@@ -525,22 +572,15 @@ class mqtwDataWithObjects(mqtwData):
         if additional is not None:
             self.additional(self)
 
-    def setSelectionMode(self, manager_selection_mode):
-        self._selection_mode=manager_selection_mode
-
-    ## Order data columns. None values are set at the beginning
-    def on_orderby_action_triggered(self, action, action_index, reverse):
-        self._order_data(action_index, reverse)
-        self.update()
 
     def update(self):
         self.setDataWithObjects(self.hh, self.hv, self.data, self.data_decimals, self.data_zonename, additional=self.additional)
 
-class mqtwManager(myQTableWidget):
+class mqtwManager(mqtw):
     def __init__(self, parent):
-        myQTableWidget.__init__(self, parent)
+        mqtw.__init__(self, parent)
         self._manager_selection_mode=ManagerSelectionMode.Object
-        self.table.itemSelectionChanged.connect(self.on_itemSelectionChanged)
+        self._ordering_enabled=True
 
     def on_itemSelectionChanged(self):
         self.manager.cleanSelection()
@@ -565,7 +605,6 @@ class mqtwManager(myQTableWidget):
         self.additional=additional
 
         #Sets manager selection mode and table
-        self.manager.setSelectionMode(self._manager_selection_mode)
         self.table.setSelectionBehavior(QAbstractItemView.SelectRows)
         if self._manager_selection_mode==ManagerSelectionMode.Object:
             self.table.setSelectionMode(QAbstractItemView.SingleSelection)
@@ -583,9 +622,6 @@ class mqtwManager(myQTableWidget):
 
         if additional is not None:
             self.additional(self)
-
-    def setSelectionMode(self, manager_selection_mode):
-        self._manager_selection_mode=manager_selection_mode
 
     ## Order data columns. None values are set at the beginning
     def on_orderby_action_triggered(self, action, action_index, reverse):
@@ -837,20 +873,22 @@ def example():
     lay=QHBoxLayout(w)
     
     #mqtw
-    mqtw_data = mqtwData(w)
+    mqtw_data = mqtw(w)
+    mqtw_data.table.setSelectionBehavior(QAbstractItemView.SelectItems)#To debug selection
+    mqtw_data.table.setSelectionMode(QAbstractItemView.SingleSelection)
     mqtw_data.setGenericContextMenu()
     hv=["Johnny be good"]*len(data)
-    mqtw_data.settings(mem.settings, "myqtablewidget", "tblExample")
-    hh=["Id", "Name", "Date", "Last update","Mem.name", "Age"]
+    mqtw_data.setSettings(mem.settings, "myqtablewidget", "tblExample")
+    hh=["mqtw", "Name", "Date", "Last update","Mem.name", "Age"]
     mqtw_data.setData(hh, hv, data )
     mqtw_data.setOrderBy(2,  False)
     
     #mqtw with object
-    mqtw_data_with_object = mqtwDataWithObjects(w)
+    mqtw_data_with_object = mqtwObjects(w)
     mqtw_data_with_object.setGenericContextMenu()
     hv=["Johnny be good"]*len(data_object)
-    mqtw_data_with_object.settings(mem.settings, "myqtablewidget", "tblExample")
-    hh=["Id", "Name", "Date", "Last update","Mem.name", "Age"]
+    mqtw_data_with_object.setSettings(mem.settings, "myqtablewidget", "tblExample")
+    hh=["mqtwObjects", "Name", "Date", "Last update","Mem.name", "Age"]
     mqtw_data_with_object.setDataWithObjects(hh, hv, data_object, additional=__additional_with_objects )
     mqtw_data_with_object.setOrderBy(2,  False)
 
@@ -858,7 +896,7 @@ def example():
     mqtw_manager = mqtwManager(w)    
     mqtw_manager.setSelectionMode(ManagerSelectionMode.List)
     mqtw_manager.table.customContextMenuRequested.connect(__on_mqtw_manager_customContextMenuRequested)
-    mqtw_manager.settings(mem.settings, "myqtablewidget", "tblExample")
+    mqtw_manager.setSettings(mem.settings, "myqtablewidget", "tblExample")
     hh=["Id", "Name", "Date", "Last update","Mem.name", "Age"]
 
     mqtw_manager.setDataFromManager(hh, None, manager_manager, ["id", "name", "date", "datetime", "pruebita.name", ("pruebita.age", [1, ])], additional=manager_manager.prueba)

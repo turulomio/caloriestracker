@@ -157,32 +157,70 @@ class ProductInElaboratedProduct:
         return self.product.fullName() 
 
     def calories(self):
-        return self.amount * self.product.calories/self.product.amount
+        try:
+            return self.amount * self.product.calories/self.product.amount
+        except:
+            return None
         
     def fat(self):
-        return self.amount * self.product.fat/self.product.amount
+        try:
+            return self.amount * self.product.fat/self.product.amount
+        except:
+            return None
 
     def protein(self):
-        return self.amount * self.product.protein/self.product.amount
+        try:
+            return self.amount * self.product.protein/self.product.amount
+        except:
+            return None
 
     def carbohydrate(self):
-        return self.amount * self.product.carbohydrate/self.product.amount
+        try:
+            return self.amount * self.product.carbohydrate/self.product.amount
+        except:
+            return None
 
     def salt(self):
-        return self.amount * self.product.salt/self.product.amount
+        try:
+            return self.amount * self.product.salt/self.product.amount
+        except:
+            return None
 
     def fiber(self):
-        return self.amount * self.product.fiber/self.product.amount
+        try:
+            return self.amount * self.product.fiber/self.product.amount
+        except:
+            return None
+
     def sugars(self):
-        return self.amount * self.product.sugars/self.product.amount
+        try:
+            return self.amount * self.product.sugars/self.product.amount
+        except:
+            return None
+
     def sodium(self):
-        return self.amount * self.product.sodium/self.product.amount
+        try:
+            return self.amount * self.product.sodium/self.product.amount
+        except:
+            return None
+
     def potassium(self):
-        return self.amount * self.product.potassium/self.product.amount
+        try:
+            return self.amount * self.product.potassium/self.product.amount
+        except:
+            return None
+
     def cholesterol(self):
-        return self.amount * self.product.cholesterol/self.product.amount
+        try:
+            return self.amount * self.product.cholesterol/self.product.amount
+        except:
+            return None
+
     def saturated_fat(self):
-        return self.amount * self.product.saturated_fat/self.product.amount
+        try:
+            return self.amount * self.product.saturated_fat/self.product.amount
+        except:
+            return None
 
     def product_type(self):
         if self.elaboratedproducts_id==None and self.companies_id==None:
@@ -228,67 +266,100 @@ class ProductInElaboratedProductManager(ObjectManager_With_IdDatetime_Selectable
     def calories(self):
         r=Decimal(0)
         for product_in in self.arr:
-            r=r+product_in.calories()
+            try:
+                r=r+product_in.calories()
+            except:
+                return None
         return r
         
     def fat(self):
         r=Decimal(0)
         for product_in in self.arr:
-            r=r+product_in.fat()
+            try:
+                r=r+product_in.fat()
+            except:
+                return None
         return r
         
     def protein(self):
         r=Decimal(0)
         for product_in in self.arr:
-            r=r+product_in.protein()
+            try:
+                r=r+product_in.protein()
+            except:
+                return None
         return r
         
     def carbohydrate(self):
         r=Decimal(0)
         for product_in in self.arr:
-            r=r+product_in.carbohydrate()
+            try:
+                r=r+product_in.carbohydrate()
+            except:
+                return None
         return r
         
     def salt(self):
         r=Decimal(0)
         for product_in in self.arr:
-            r=r+product_in.salt()
+            try:
+                r=r+product_in.salt()
+            except:
+                return None
         return r
         
     def fiber(self):
         r=Decimal(0)
         for product_in in self.arr:
-            r=r+product_in.fiber()
+            try:
+                r=r+product_in.fiber()
+            except:
+                return None
         return r
         
     def cholesterol(self):
         r=Decimal(0)
         for product_in in self.arr:
-            r=r+product_in.cholesterol()
+            try:
+                r=r+product_in.cholesterol()
+            except:
+                return None
         return r
         
     def sugars(self):
         r=Decimal(0)
         for product_in in self.arr:
-            r=r+product_in.sugars()
+            try:
+                r=r+product_in.sugars()
+            except:
+                return None
         return r
         
     def saturated_fat(self):
         r=Decimal(0)
         for product_in in self.arr:
-            r=r+product_in.saturated_fat()
+            try:
+                r=r+product_in.saturated_fat()
+            except:
+                return None
         return r
         
     def sodium(self):
         r=Decimal(0)
         for product_in in self.arr:
-            r=r+product_in.sodium()
+            try:
+                r=r+product_in.sodium()
+            except:
+                return None
         return r
         
     def potassium(self):
         r=Decimal(0)
         for product_in in self.arr:
-            r=r+product_in.potassium()
+            try:
+                r=r+product_in.potassium()
+            except:
+                return None
         return r
         
     def grams(self):

@@ -75,7 +75,7 @@
           </widget>
          </item>
          <item>
-          <widget class="myQTableWidget" name="tblBiometrics" native="true"/>
+          <widget class="mqtwObjects" name="tblBiometrics" native="true"/>
          </item>
          <item>
           <widget class="QLabel" name="lblFound">
@@ -227,7 +227,7 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>myQTableWidget</class>
+   <class>mqtwObjects</class>
    <extends>QWidget</extends>
    <header location="global">myqtablewidget</header>
    <container>1</container>

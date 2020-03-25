@@ -31,7 +31,7 @@
       </widget>
      </item>
      <item>
-      <widget class="myQTableWidget" name="tblUsers" native="true"/>
+      <widget class="mqtwObjects" name="tblUsers" native="true"/>
      </item>
      <item>
       <widget class="QLabel" name="lblFound">
@@ -82,7 +82,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>myQTableWidget</class>
+   <class>mqtwObjects</class>
    <extends>QWidget</extends>
    <header location="global">myqtablewidget</header>
    <container>1</container>

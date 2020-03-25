@@ -67,7 +67,7 @@ class Ui_frmProductsElaboratedAdd(object):
         self.spnFinalAmount.setObjectName("spnFinalAmount")
         self.horizontalLayout_17.addWidget(self.spnFinalAmount)
         self.verticalLayout_3.addLayout(self.horizontalLayout_17)
-        self.tblProductsIn = myQTableWidget(frmProductsElaboratedAdd)
+        self.tblProductsIn = mqtwObjects(frmProductsElaboratedAdd)
         self.tblProductsIn.setObjectName("tblProductsIn")
         self.verticalLayout_3.addWidget(self.tblProductsIn)
         self.bb = QtWidgets.QDialogButtonBox(frmProductsElaboratedAdd)
@@ -113,5 +113,5 @@ class Ui_frmProductsElaboratedAdd(object):
         self.actionProductEdit.setText(_translate("frmProductsElaboratedAdd", "Edit product"))
         self.actionProductEdit.setToolTip(_translate("frmProductsElaboratedAdd", "Edit product"))
 from caloriestracker.ui.myqdoublespinbox import myQDoubleSpinBox
-from caloriestracker.ui.myqtablewidget import myQTableWidget
+from caloriestracker.ui.myqtablewidget import mqtwObjects
 import caloriestracker.images.caloriestracker_rc

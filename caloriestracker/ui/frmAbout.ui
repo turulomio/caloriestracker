@@ -117,7 +117,7 @@
      <item>
       <widget class="QTabWidget" name="tab">
        <property name="currentIndex">
-        <number>1</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="tabGLParchis">
         <attribute name="title">
@@ -141,7 +141,7 @@
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
-            <widget class="myQTableWidget" name="tblStatistics" native="true"/>
+            <widget class="mqtw" name="tblStatistics" native="true"/>
            </item>
           </layout>
          </item>
@@ -160,7 +160,7 @@
           </widget>
          </item>
          <item>
-          <widget class="myQTableWidget" name="tblSoftware" native="true"/>
+          <widget class="mqtw" name="tblSoftware" native="true"/>
          </item>
         </layout>
        </widget>
@@ -352,7 +352,7 @@ p, li { white-space: pre-wrap; }
  </widget>
  <customwidgets>
   <customwidget>
-   <class>myQTableWidget</class>
+   <class>mqtw</class>
    <extends>QWidget</extends>
    <header location="global">myqtablewidget</header>
    <container>1</container>

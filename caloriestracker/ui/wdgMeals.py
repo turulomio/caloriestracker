@@ -10,7 +10,7 @@ class wdgMeals(QWidget, Ui_wdgMeals):
         self.setupUi(self)
         self.mem=mem
         self.meals=MealManager(self.mem)
-        self.tblMeals.settings(self.mem.settings, "wdgMeals", "tblMeals")
+        self.tblMeals.setSettings(self.mem.settings, "wdgMeals", "tblMeals")
         self.tblMeals.table.customContextMenuRequested.connect(self.on_tblMeals_customContextMenuRequested)
         self.tblMeals.table.itemSelectionChanged.connect(self.on_tblMeals_itemSelectionChanged)
         self.on_calendar_selectionChanged()

@@ -8,7 +8,7 @@ class wdgMealsMost(QWidget, Ui_wdgMealsMost):
         QWidget.__init__(self, parent)
         self.setupUi(self)
         self.mem=mem
-        self.tblMeals.settings(self.mem.settings, "wdgMealsMost", "tblMeals")
+        self.tblMeals.setSettings(self.mem.settings, "wdgMealsMost", "tblMeals")
         self.tblMeals.table.customContextMenuRequested.connect(self.on_tblMeals_customContextMenuRequested)
         self.cmbPeriod.setCurrentIndex(int(self.mem.settings.value("wdgMealsMost/cmbPeriod_index", "0")))
 

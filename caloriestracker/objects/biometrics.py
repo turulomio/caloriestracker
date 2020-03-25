@@ -144,8 +144,9 @@ class BiometricsManager(QObject, ObjectManager_With_IdName_Selectable):
                 o.activity.name, 
                 o.weightwish.name, 
                 o.imc_comment(), 
+                o, 
             ])
-        table.setData(
+        table.setDataWithObjects(
             [self.tr("Date and time"), self.tr("Weight"), self.tr("Height"), self.tr("Activity"), self.tr("weightwish"), self.tr("Situation")], 
             None, 
             data

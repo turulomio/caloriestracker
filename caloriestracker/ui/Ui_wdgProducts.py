@@ -69,7 +69,7 @@ class Ui_wdgProducts(object):
         self.label_2.setObjectName("label_2")
         self.verticalLayout_2.addWidget(self.label_2)
         self.verticalLayout_3.addWidget(self.groupBox)
-        self.tblProducts = myQTableWidget(wdgProducts)
+        self.tblProducts = mqtwObjects(wdgProducts)
         self.tblProducts.setObjectName("tblProducts")
         self.verticalLayout_3.addWidget(self.tblProducts)
         self.lblFound = QtWidgets.QLabel(wdgProducts)
@@ -122,5 +122,5 @@ class Ui_wdgProducts(object):
         self.actionFormats.setToolTip(_translate("wdgProducts", "Show formats"))
         self.actionProductPersonalMerge.setText(_translate("wdgProducts", "Merge personal product"))
         self.actionProductPersonalMerge.setToolTip(_translate("wdgProducts", "Merge personal product into a system one"))
-from caloriestracker.ui.myqtablewidget import myQTableWidget
+from caloriestracker.ui.myqtablewidget import mqtwObjects
 import caloriestracker.images.caloriestracker_rc

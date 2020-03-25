@@ -9,7 +9,7 @@ class wdgProductsDataMove(QWidget, Ui_wdgProductsDataMove):
         self.origin=origin
         self.destiny=destiny
         self.setupUi(self)
-        self.wdg.settings(self.mem.settings, "wdgProductsDataMove", "wdg") 
+        self.wdg.setSettings(self.mem.settings, "wdgProductsDataMove", "wdg") 
         self.mem.data.products.ProductManager().qtablewidget(self.wdg)
 
     def on_bb_accepted(self):

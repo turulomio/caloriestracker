@@ -2,7 +2,7 @@ from PyQt5.QtCore import pyqtSlot, QSize, Qt
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox, QLabel, QDialog, QVBoxLayout
 from caloriestracker.objects.company import CompanyAllManager, CompanySystemManager
-from caloriestracker.ui.myqtablewidget import myQTableWidget
+from caloriestracker.ui.myqtablewidget import mqtwObjects
 from caloriestracker.ui.myqwidgets import qmessagebox
 from caloriestracker.libmanagers import ManagerSelectionMode
 from caloriestracker.ui.Ui_wdgCompanies import Ui_wdgCompanies
@@ -14,7 +14,7 @@ class wdgCompanies(QWidget, Ui_wdgCompanies):
         self.setupUi(self)
         self.mem=mem
         self.only_system_companies=only_system_companies
-        self.tblCompanies.settings(self.mem.settings, "wdgCompanies", "tblCompanies")
+        self.tblCompanies.setSettings(self.mem.settings, "wdgCompanies", "tblCompanies")
         self.tblCompanies.table.customContextMenuRequested.connect(self.on_tblCompanies_customContextMenuRequested)
         self.tblCompanies.table.itemSelectionChanged.connect(self.on_tblCompanies_itemSelectionChanged)
         if only_system_companies==True:
@@ -89,8 +89,8 @@ class wdgCompanies(QWidget, Ui_wdgCompanies):
         lbl.setAlignment(Qt.AlignCenter)
         lay.addWidget(lbl)
         companyproducts=self.mem.data.products.ProductAllManager_of_same_company(self.companies.selected)
-        table=myQTableWidget(d)
-        table.settings(self.mem.settings, "wdgCompanies", "tblCompanyProducts")
+        table=mqtwObjects(d)
+        table.setSettings(self.mem.settings, "wdgCompanies", "tblCompanyProducts")
         companyproducts.qtablewidget(table)
         lay.addWidget(table)
         d.exec_()

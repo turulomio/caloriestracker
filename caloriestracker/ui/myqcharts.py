@@ -6,7 +6,7 @@ from PyQt5.QtChart import QChart,  QLineSeries, QChartView, QValueAxis, QDateTim
 from PyQt5.QtCore import Qt, pyqtSlot, QObject, QPoint, pyqtSignal, QSize
 from PyQt5.QtGui import QPainter, QFont, QIcon, QColor, QImage, QClipboard
 from PyQt5.QtWidgets import QWidget, QAction, QMenu, QFileDialog, QProgressDialog, QApplication, QDialog, QLabel, QVBoxLayout, QHBoxLayout, QGraphicsSimpleTextItem
-from .myqtablewidget import myQTableWidget
+from .myqtablewidget import mqtw
 from .. objects.percentage import Percentage
 from .. casts import object2value
 from .. datetime_functions import epochms2dtaware, dtaware2epochms, dtnaive2string
@@ -525,7 +525,7 @@ class VCPie(QWidget):
         #piesizePolicy.setHorizontalStretch(2)
         #self.pie.setSizePolicy(piesizePolicy)
 
-        self.table=myQTableWidget(self)
+        self.table=mqtw(self)
         self.table.hide()
         #tablesizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         #tablesizePolicy.setHorizontalStretch(1)
@@ -543,12 +543,15 @@ class VCPie(QWidget):
 
         self.pie.customContextMenuRequested.connect(self.on_customContextMenuRequested)
 
-    def settings(self, settings, settingsSection,  settingsObject):
-        self.settings=settings
-        self.settingsSection=settingsSection
-        self.settingsObject=settingsObject
-        self.setObjectName(self.settingsObject)
-        self.table.settings(self.settings, self.settingsSection, self.settingsObject+"_mqtw")
+    def setSettings(self, settings, settingsSection,  settingsObject):
+        self._settings=settings
+        self._settingsSection=settingsSection
+        self._settingsObject=settingsObject
+        self.setObjectName(self._settingsObject)
+        self.table.setSettings(self._settings, self._settingsSection, self._settingsObject+"_mqtw")
+
+    def settings(self):
+        return self._settings
 
     def on_actionShowData_triggered(self):
         if self.actionShowData.text()==self.tr("Show chart data"):
@@ -590,7 +593,7 @@ class VCPie(QWidget):
         self.table.setOrderBy(2, False)
         self.lblTotal.setText(self.tr("Total: {}").format(self.pie.sum_values()))
         self.table.on_actionSizeMinimum_triggered()
-        self.table.settings.sync()
+        self.table.setSettings().sync()
 
 def example():
     d={'one':1, 'two':2, 'three':3, 'four':4}
@@ -611,7 +614,7 @@ def example():
     #Pie
     wdgvcpie=VCPie(w)
     wdgvcpie.pie.setTitle("Demo pie")
-    wdgvcpie.settings(settings, "example", "vcpie")
+    wdgvcpie.setSettings(settings, "example", "vcpie")
     for k, v in d.items():
         wdgvcpie.pie.appendData(k, v)
     wdgvcpie.display()

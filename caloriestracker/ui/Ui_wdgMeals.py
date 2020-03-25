@@ -43,7 +43,7 @@ class Ui_wdgMeals(object):
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem1)
         self.verticalLayout.addLayout(self.horizontalLayout)
-        self.tblMeals = myQTableWidget(wdgMeals)
+        self.tblMeals = mqtwObjects(wdgMeals)
         self.tblMeals.setObjectName("tblMeals")
         self.verticalLayout.addWidget(self.tblMeals)
         self.lblFound = QtWidgets.QLabel(wdgMeals)
@@ -93,5 +93,5 @@ class Ui_wdgMeals(object):
         self.actionProductEdit.setToolTip(_translate("wdgMeals", "Edit product"))
         self.actionMealDeleteDay.setText(_translate("wdgMeals", "Delete selected date meals"))
         self.actionMealDeleteDay.setToolTip(_translate("wdgMeals", "Delete selected date meals"))
-from caloriestracker.ui.myqtablewidget import myQTableWidget
+from caloriestracker.ui.myqtablewidget import mqtwObjects
 import caloriestracker.images.caloriestracker_rc

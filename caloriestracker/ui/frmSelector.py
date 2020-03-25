@@ -2,7 +2,7 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QFont, QIcon
 from PyQt5.QtWidgets import QLabel, QComboBox, QDialog, QDialogButtonBox, QWidget, QTableWidgetItem, QVBoxLayout, QToolButton, QHBoxLayout
 from logging import debug
-from .myqtablewidget import myQTableWidget
+from .myqtablewidget import mqtw
 
 class frmManagerSelector(QDialog):
     def __init__(self, parent=None):
@@ -32,15 +32,15 @@ class frmManagerSelector(QDialog):
         
     ## Both managers must have setConstructorParameters
     def setManagers(self, settings, settingsSection,  settingsObject, manager, selected):
-        self.settings=settings
-        self.settingsSection=settingsSection
-        self.settingsObject=settingsObject
-        self.widget.setManagers(settings, settingsSection, settingsObject, manager, selected)
-        self.resize(self.settings.value("{}/{}_dialog_size".format(self.settingsSection, self.settingsObject), QSize(800, 600)))
+        self._settings=settings
+        self._settingsSection=settingsSection
+        self._settingsObject=settingsObject
+        self.widget.setManagers(self._settings, self._settingsSection, self._settingsObject, manager, selected)
+        self.resize(self._settings.value("{}/{}_dialog_size".format(self._settingsSection, self._settingsObject), QSize(800, 600)))
 
     def exec_(self):
         QDialog.exec_(self)
-        self.settings.setValue("{}/{}_dialog_size".format(self.settingsSection, self.settingsObject), self.size())
+        self._settings.setValue("{}/{}_dialog_size".format(self._settingsSection, self._settingsObject), self.size())
         debug("Selected objects: {}".format(str(self.widget.selected.arr)))
 
     def setLabel(self, s):
@@ -51,12 +51,14 @@ class frmManagerSelector(QDialog):
 class wdgManagerSelector(QWidget):
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)
-        self.mqtw=myQTableWidget(self)
+        self.mqtw=mqtw(self)
         self.mqtw.showSearchOptions(True)
         self.mqtw.showSearchCloseButton(False)
-        self.mqtwSelected=myQTableWidget(self)
+        self.mqtw.setGenericContextMenu()
+        self.mqtwSelected=mqtw(self)
         self.mqtwSelected.showSearchOptions(True)
         self.mqtwSelected.showSearchCloseButton(False)
+        self.mqtwSelected.setGenericContextMenu()
         
         self.laybuttons = QVBoxLayout()
         self.cmdLeft=QToolButton(self)
@@ -97,11 +99,11 @@ class wdgManagerSelector(QWidget):
 
     ## manager needs to have add setConstructorParameters to generate emptyManager
     def setManagers(self, settings, settingsSection,  settingsObject, manager, selected):
-        self.settings=settings
-        self.settingsSection=settingsSection
-        self.settingsObject=settingsObject
-        self.mqtw.settings(self.settings, self.settingsSection, "{}_tbl".format(self.settingsObject))
-        self.mqtwSelected.settings(self.settings, self.settingsSection, "{}_tblSelected".format(self.settingsObject))
+        self._settings=settings
+        self._settingsSection=settingsSection
+        self._settingsObject=settingsObject
+        self.mqtw.setSettings(self._settings, self._settingsSection, "{}_tbl".format(self._settingsObject))
+        self.mqtwSelected.setSettings(self._settings, self._settingsSection, "{}_tblSelected".format(self._settingsObject))
 
         self.manager=manager.clone()#Clone manager to delete safely objects
 
@@ -238,7 +240,7 @@ class cmbManagerSelector(QWidget):
                 self.combo.addItem(str(o))
 
     def setManagers(self, settings, settingsSection, settingsObject, manager, selected):
-        self.settings=settings
+        self._settings=settings
         self.frm.setManagers(settings, settingsSection, settingsObject, manager, selected)
         if selected!=None:
             for o in selected.arr:
@@ -251,7 +253,7 @@ class cmbManagerSelector(QWidget):
     def selected(self):
         return self.frm.widget.selected
 
-if __name__ == '__main__':
+def example():
     from libmanagers import ObjectManager_With_IdName
     from PyQt5.QtCore import QSettings
     class Mem:
@@ -264,7 +266,7 @@ if __name__ == '__main__':
             self.name=name
             
         def qicon(self):
-            return QIcon(":/prueba.svg")
+            return QIcon(":/xulpymoney/xulpymoney.png")
     
     class PruebaManager(ObjectManager_With_IdName):
         def __init__(self):
@@ -283,6 +285,8 @@ if __name__ == '__main__':
     mem=Mem()
     from PyQt5.QtWidgets import QApplication
     app = QApplication([])
+    from importlib import import_module
+    import_module("xulpymoney.images.xulpymoney_rc")
 
     w = cmbManagerSelector()
     #w.frm.widget.hideUpDown()

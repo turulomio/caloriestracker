@@ -102,9 +102,10 @@ class Percentage:
         from .. ui.myqtablewidget  import qpercentage
         return qpercentage(self, decimals=2)
 
-
-
 ## Calculates porcentage to pass from a to b
 ## @param a. Can be an object divisible and that can be substracted
 def percentage_between(a,b):
-    return Percentage(b-a,a)
+    try:
+        return Percentage(b-a,a)
+    except:
+        return Percentage()

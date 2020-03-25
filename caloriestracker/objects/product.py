@@ -432,33 +432,37 @@ class ProductPersonalManager(ProductManager):
 
    
 def myQTableWidget_ProductManagers(mem, manager, wdg):     
-        data=[]
-        for i, o in enumerate(manager.arr):
-            company="" if o.company==None else o.company.fullName()
-            food_type="" if o.foodtype==None else o.foodtype.name
-            data.append([
-                o.fullName(), 
-                company, 
-                food_type, 
-                o.last, 
-                100, 
-                o.component_in_100g(eProductComponent.Calories), 
-                o.component_in_100g(eProductComponent.Carbohydrate), 
-                o.component_in_100g(eProductComponent.Protein), 
-                o.component_in_100g(eProductComponent.Fat), 
-                o.component_in_100g(eProductComponent.Fiber), 
-            ])
-        wdg.setData(
-            [wdg.tr("Name"), wdg.tr("Company"), wdg.tr("Food type"), wdg.tr("Last update"), 
-            wdg.tr("Grams"), wdg.tr("Calories"), wdg.tr("Carbohydrates"), wdg.tr("Protein"), 
-            wdg.tr("Fat"), wdg.tr("Fiber")], 
-            None, 
-            data, 
-            zonename=mem.localzone
-        )   
-        for i, o in enumerate(manager.arr):
-            wdg.table.item(i, 0).setIcon(o.qicon())
-            wdg.table.item(i, 2).setIcon(o.risk_qicon())
+    data=[]
+    for i, o in enumerate(manager.arr):
+        company="" if o.company==None else o.company.fullName()
+        food_type="" if o.foodtype==None else o.foodtype.name
+        data.append([
+            o.fullName(), 
+            company, 
+            food_type, 
+            o.last, 
+            100, 
+            o.component_in_100g(eProductComponent.Calories), 
+            o.component_in_100g(eProductComponent.Carbohydrate), 
+            o.component_in_100g(eProductComponent.Protein), 
+            o.component_in_100g(eProductComponent.Fat), 
+            o.component_in_100g(eProductComponent.Fiber), 
+            o, 
+        ])
+    wdg.setDataWithObjects(
+        [wdg.tr("Name"), wdg.tr("Company"), wdg.tr("Food type"), wdg.tr("Last update"), 
+        wdg.tr("Grams"), wdg.tr("Calories"), wdg.tr("Carbohydrates"), wdg.tr("Protein"), 
+        wdg.tr("Fat"), wdg.tr("Fiber")], 
+        None, 
+        data, 
+        zonename=mem.localzone, 
+        additional=myQTableWidget_ProductManagers_additional
+    )
+
+def myQTableWidget_ProductManagers_additional(wdg):
+    for i, o in enumerate(wdg.objects()):
+        wdg.table.item(i, 0).setIcon(o.qicon())
+        wdg.table.item(i, 2).setIcon(o.risk_qicon())
 
 ## @param system boolean If true returns a Product, else a ProductPersonal
 def Product_from_row(mem, row, system):

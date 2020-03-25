@@ -12,7 +12,7 @@ class wdgProducts(QWidget, Ui_wdgProducts):
         QWidget.__init__(self, parent)
         self.setupUi(self)
         self.mem=mem
-        self.tblProducts.settings(self.mem.settings, "wdgProducts", "tblProducts")
+        self.tblProducts.setSettings(self.mem.settings, "wdgProducts", "tblProducts")
         self.tblProducts.table.customContextMenuRequested.connect(self.on_tblProducts_customContextMenuRequested)
         self.tblProducts.table.itemSelectionChanged.connect(self.on_tblProducts_itemSelectionChanged)
         if only_system_products==True:

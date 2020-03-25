@@ -53,7 +53,7 @@ class Ui_wdgBiometrics(object):
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.verticalLayout_3.addLayout(self.verticalLayout)
         self.verticalLayout_4.addWidget(self.groupBox)
-        self.tblBiometrics = myQTableWidget(wdgBiometrics)
+        self.tblBiometrics = mqtwObjects(wdgBiometrics)
         self.tblBiometrics.setObjectName("tblBiometrics")
         self.verticalLayout_4.addWidget(self.tblBiometrics)
         self.lblFound = QtWidgets.QLabel(wdgBiometrics)
@@ -147,6 +147,6 @@ class Ui_wdgBiometrics(object):
         self.actionBiometricsDelete.setToolTip(_translate("wdgBiometrics", "Delete biometric information"))
         self.actionBiometricsEdit.setText(_translate("wdgBiometrics", "Edit biometric information"))
         self.actionBiometricsEdit.setToolTip(_translate("wdgBiometrics", "Edit biometric information"))
-from caloriestracker.ui.myqtablewidget import myQTableWidget
+from caloriestracker.ui.myqtablewidget import mqtwObjects
 from caloriestracker.ui.wdgYearMonth import wdgYearMonth
 import caloriestracker.images.caloriestracker_rc

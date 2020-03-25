@@ -14,7 +14,7 @@ class wdgBiometrics(QWidget, Ui_wdgBiometrics):
         self.setupUi(self)
         self.mem=mem
         self.biometrics=BiometricsManager(self.mem)
-        self.tblBiometrics.settings(self.mem.settings, "wdgBiometrics", "tblBiometrics") 
+        self.tblBiometrics.setSettings(self.mem.settings, "wdgBiometrics", "tblBiometrics") 
         self.tblBiometrics.table.customContextMenuRequested.connect(self.on_tblBiometrics_customContextMenuRequested)
 
         self.viewChartHeight=None

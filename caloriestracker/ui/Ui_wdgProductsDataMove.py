@@ -36,7 +36,7 @@ class Ui_wdgProductsDataMove(object):
         self.verticalLayout.addWidget(self.lblExplanation)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.wdg = myQTableWidget(wdgProductsDataMove)
+        self.wdg = mqtwObjects(wdgProductsDataMove)
         self.wdg.setObjectName("wdg")
         self.horizontalLayout.addWidget(self.wdg)
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -53,5 +53,5 @@ class Ui_wdgProductsDataMove(object):
         _translate = QtCore.QCoreApplication.translate
         self.lblExplanation.setText(_translate("wdgProductsDataMove", "All product data will be moved from origin product to destiny one. If there are invesments created with origin product, they will be referenced to destiny product.\n"
 "If origin is a user product, you can delete afterwards, because it won\'t have any data"))
-from caloriestracker.ui.myqtablewidget import myQTableWidget
+from caloriestracker.ui.myqtablewidget import mqtwObjects
 import caloriestracker.images.caloriestracker_rc

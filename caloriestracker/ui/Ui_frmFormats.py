@@ -33,7 +33,7 @@ class Ui_frmFormats(object):
         self.lbl.setAlignment(QtCore.Qt.AlignCenter)
         self.lbl.setObjectName("lbl")
         self.verticalLayout_3.addWidget(self.lbl)
-        self.tblFormats = myQTableWidget(frmFormats)
+        self.tblFormats = mqtwObjects(frmFormats)
         self.tblFormats.setObjectName("tblFormats")
         self.verticalLayout_3.addWidget(self.tblFormats)
         self.bb = QtWidgets.QDialogButtonBox(frmFormats)
@@ -69,5 +69,5 @@ class Ui_frmFormats(object):
         self.actionFormatDelete.setToolTip(_translate("frmFormats", "Delete product format"))
         self.actionFormatEdit.setText(_translate("frmFormats", "Edit product format"))
         self.actionFormatEdit.setToolTip(_translate("frmFormats", "Edit product format"))
-from caloriestracker.ui.myqtablewidget import myQTableWidget
+from caloriestracker.ui.myqtablewidget import mqtwObjects
 import caloriestracker.images.caloriestracker_rc

@@ -10,7 +10,7 @@ class frmFormats(QDialog, Ui_frmFormats):
         self.setupUi(self)
         self.mem=mem
         self.product=product
-        self.tblFormats.settings(self.mem.settings, "frmFormats", "tblFormats")
+        self.tblFormats.setSettings(self.mem.settings, "frmFormats", "tblFormats")
         self.tblFormats.table.customContextMenuRequested.connect(self.on_tblFormats_customContextMenuRequested)
         self.tblFormats.table.itemSelectionChanged.connect(self.on_tblFormats_itemSelectionChanged)
         self.resize(self.mem.settings.value("frmFormats/qdialog", QSize(800, 600)))

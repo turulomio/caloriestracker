@@ -46,7 +46,7 @@ class Ui_wdgMealsMost(object):
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem1)
         self.verticalLayout.addLayout(self.horizontalLayout_3)
-        self.tblMeals = myQTableWidget(wdgMealsMost)
+        self.tblMeals = mqtwObjects(wdgMealsMost)
         self.tblMeals.setObjectName("tblMeals")
         self.verticalLayout.addWidget(self.tblMeals)
         self.horizontalLayout_2.addLayout(self.verticalLayout)
@@ -64,5 +64,5 @@ class Ui_wdgMealsMost(object):
         self.cmbPeriod.setItemText(2, _translate("wdgMealsMost", "Last year"))
         self.cmbPeriod.setItemText(3, _translate("wdgMealsMost", "Last three years"))
         self.cmbPeriod.setItemText(4, _translate("wdgMealsMost", "All registers"))
-from caloriestracker.ui.myqtablewidget import myQTableWidget
+from caloriestracker.ui.myqtablewidget import mqtwObjects
 import caloriestracker.images.caloriestracker_rc

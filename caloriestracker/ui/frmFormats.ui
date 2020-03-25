@@ -44,7 +44,7 @@
       </widget>
      </item>
      <item>
-      <widget class="myQTableWidget" name="tblFormats" native="true"/>
+      <widget class="mqtwObjects" name="tblFormats" native="true"/>
      </item>
      <item>
       <widget class="QDialogButtonBox" name="bb">
@@ -95,7 +95,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>myQTableWidget</class>
+   <class>mqtwObjects</class>
    <extends>QWidget</extends>
    <header location="global">myqtablewidget</header>
    <container>1</container>

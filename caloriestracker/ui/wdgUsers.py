@@ -9,7 +9,7 @@ class wdgUsers(QWidget, Ui_wdgUsers):
         QWidget.__init__(self, parent)
         self.setupUi(self)
         self.mem=mem
-        self.tblUsers.settings(self.mem.settings, "wdgUsers", "tblUsers")
+        self.tblUsers.setSettings(self.mem.settings, "wdgUsers", "tblUsers")
         self.tblUsers.table.customContextMenuRequested.connect(self.on_tblUsers_customContextMenuRequested)
         self.update()
 

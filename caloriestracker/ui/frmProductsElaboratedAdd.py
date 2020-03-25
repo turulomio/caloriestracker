@@ -14,7 +14,7 @@ class frmProductsElaboratedAdd(QDialog, Ui_frmProductsElaboratedAdd):
         self.mem=mem
         self.resize(self.mem.settings.value("frmProductsElaboratedAdd/qdialog", QSize(800, 600)))
         self.elaboratedproduct=elaboratedproduct
-        self.tblProductsIn.settings(self.mem.settings, "frmProductsElaboratedAdd","tblProductsIn")
+        self.tblProductsIn.setSettings(self.mem.settings, "frmProductsElaboratedAdd","tblProductsIn")
         self.tblProductsIn.table.customContextMenuRequested.connect(self.on_tblProductsIn_customContextMenuRequested)
         self.tblProductsIn.table.itemSelectionChanged.connect(self.on_tblProductsIn_itemSelectionChanged)
         if self.elaboratedproduct==None:

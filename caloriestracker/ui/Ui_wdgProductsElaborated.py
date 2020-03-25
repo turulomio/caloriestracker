@@ -68,7 +68,7 @@ class Ui_wdgProductsElaborated(object):
         self.label_2.setObjectName("label_2")
         self.verticalLayout_2.addWidget(self.label_2)
         self.verticalLayout_3.addWidget(self.groupBox)
-        self.tblProductsElaborated = myQTableWidget(wdgProductsElaborated)
+        self.tblProductsElaborated = mqtwObjects(wdgProductsElaborated)
         self.tblProductsElaborated.setObjectName("tblProductsElaborated")
         self.verticalLayout_3.addWidget(self.tblProductsElaborated)
         self.lblFound = QtWidgets.QLabel(wdgProductsElaborated)
@@ -106,5 +106,5 @@ class Ui_wdgProductsElaborated(object):
         self.actionProductDelete.setToolTip(_translate("wdgProductsElaborated", "Delete user product"))
         self.actionProductEdit.setText(_translate("wdgProductsElaborated", "Edit product"))
         self.actionProductEdit.setToolTip(_translate("wdgProductsElaborated", "Edit product"))
-from caloriestracker.ui.myqtablewidget import myQTableWidget
+from caloriestracker.ui.myqtablewidget import mqtwObjects
 import caloriestracker.images.caloriestracker_rc

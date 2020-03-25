@@ -74,7 +74,7 @@ class Ui_frmAbout(object):
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout()
         self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.tblStatistics = myQTableWidget(self.tab_2)
+        self.tblStatistics = mqtw(self.tab_2)
         self.tblStatistics.setObjectName("tblStatistics")
         self.verticalLayout_4.addWidget(self.tblStatistics)
         self.horizontalLayout_2.addLayout(self.verticalLayout_4)
@@ -86,7 +86,7 @@ class Ui_frmAbout(object):
         self.label = QtWidgets.QLabel(self.tabSoftware)
         self.label.setObjectName("label")
         self.verticalLayout_3.addWidget(self.label)
-        self.tblSoftware = myQTableWidget(self.tabSoftware)
+        self.tblSoftware = mqtw(self.tabSoftware)
         self.tblSoftware.setObjectName("tblSoftware")
         self.verticalLayout_3.addWidget(self.tblSoftware)
         self.tab.addTab(self.tabSoftware, "")
@@ -256,7 +256,7 @@ class Ui_frmAbout(object):
         self.verticalLayout_2.addLayout(self.verticalLayout)
 
         self.retranslateUi(frmAbout)
-        self.tab.setCurrentIndex(1)
+        self.tab.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(frmAbout)
 
     def retranslateUi(self, frmAbout):
@@ -268,5 +268,5 @@ class Ui_frmAbout(object):
         self.label.setText(_translate("frmAbout", "Calories Tracker is an Open Source application. It uses the following software:"))
         self.tab.setTabText(self.tab.indexOf(self.tabSoftware), _translate("frmAbout", "Software used"))
         self.tab.setTabText(self.tab.indexOf(self.tabLicense), _translate("frmAbout", "License"))
-from caloriestracker.ui.myqtablewidget import myQTableWidget
+from caloriestracker.ui.myqtablewidget import mqtw
 import caloriestracker.images.caloriestracker_rc

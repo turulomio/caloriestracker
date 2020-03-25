@@ -77,7 +77,17 @@ def date_last_of_the_month(year, month):
     if month==12:
         return date(year, month, 31)
     return date(year, month+1, 1)-timedelta(days=1)
-    
+
+## Returns a date with the first date of the year
+## @param year Year to search first day
+def date_first_of_the_year(year):
+    return date_first_of_the_month(year,12)
+
+## Returns a date with the last date of the year
+## @param year Year to search last day
+def date_last_of_the_year(year):
+    return date_last_of_the_month(year,12)
+
 ## Returns a date with the first date of the month after x months
 ## @param year Year to search  day
 ## @param month Month to search day
