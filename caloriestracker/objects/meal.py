@@ -1,8 +1,7 @@
-
 from PyQt5.QtCore import QObject
 from caloriestracker.libcaloriestrackerfunctions import a2s, ca2s, rca2s, n2s
 from caloriestracker.libmanagers import ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime_Selectable, ManagerSelectionMode
-from caloriestracker.ui.myqtablewidget import qcenter, qleft, qnumber, qnumber_limited, qtime
+from caloriestracker.ui.myqtablewidget import qleft, qnumber, qnumber_limited, qcrossedout
 from colorama import Style, Fore
 from decimal import Decimal
 ## Clase parar trabajar con las opercuentas generadas automaticam
@@ -190,38 +189,33 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
         print (Style.BRIGHT + "="*(maxlength) + Style.RESET_ALL)
 
     def myqtablewidget(self, wdg):        
-        wdg.table.setColumnCount(9)
-        wdg.table.setHorizontalHeaderItem(0, qcenter(self.tr("Hour")))
-        wdg.table.setHorizontalHeaderItem(1, qcenter(self.tr("Name")))
-        wdg.table.setHorizontalHeaderItem(2, qcenter(self.tr("Foodtype")))
-        wdg.table.setHorizontalHeaderItem(3, qcenter(self.tr("Grams")))
-        wdg.table.setHorizontalHeaderItem(4, qcenter(self.tr("Calories")))
-        wdg.table.setHorizontalHeaderItem(5, qcenter(self.tr("Carbohydrates")))
-        wdg.table.setHorizontalHeaderItem(6, qcenter(self.tr("Protein")))
-        wdg.table.setHorizontalHeaderItem(7, qcenter(self.tr("Fat")))
-        wdg.table.setHorizontalHeaderItem(8, qcenter(self.tr("Fiber")))
-   
-        wdg.applySettings()
-        wdg.table.clearContents()
-        wdg.table.setRowCount(self.length()+2)
+        hh=[self.tr("Hour"), self.tr("Name"), self.tr("Foodtype"), self.tr("Grams"), self.tr("Calories"), self.tr("Carbohydrates"), self.tr("Protein"), self.tr("Fat"), self.tr("Fiber")]
+        data=[]
         for i, o in enumerate(self.arr):
-            wdg.table.setItem(i, 0, qtime(o.datetime))
-            wdg.table.setItem(i, 1, qleft(o.product.fullName()))
+            foodtype=None if o.product.foodtype is None else o.product.foodtype.name
+            data.append([
+                o.datetime.time(), 
+                o.product.fullName(), 
+                foodtype, 
+                o.amount, 
+                o.calories(), 
+                o.carbohydrate(), 
+                o.protein(), 
+                o.fat(), 
+                o.fiber(), 
+                o, 
+            ])
+        wdg.setDataWithObjects(hh, None, data, zonename=self.mem.localzone, additional=self.myqtablewidget_additional)
+        
+    def myqtablewidget_additional(self, wdg):
+        for i, o in enumerate(wdg.objects()):
             wdg.table.item(i, 1).setIcon(o.product.qicon())
-            if o.product.foodtype==None:
-                wdg.table.setItem(i, 2, qleft(""))
-            else:
-                wdg.table.setItem(i, 2, qleft(o.product.foodtype.name))
-            wdg.table.item(i, 2).setIcon(o.product.risk_qicon())
-            wdg.table.setItem(i, 3, qnumber(o.amount))
-            wdg.table.setItem(i, 4, qnumber(o.calories()))
-            wdg.table.setItem(i, 5, qnumber(o.carbohydrate()))
-            wdg.table.setItem(i, 6, qnumber(o.protein()))
-            wdg.table.setItem(i, 7, qnumber(o.fat()))
-            wdg.table.setItem(i, 8, qnumber(o.fiber()))
+        wdg.table.setRowCount(wdg.length()+2)
         if self.mem.user.last_biometrics.height!=None:#Without last_biometrics
             #Totals
+            wdg.table.setItem(self.length(), 0, qcrossedout())
             wdg.table.setItem(self.length(), 1, qleft(self.tr("Total")))
+            wdg.table.setItem(self.length(), 2, qcrossedout())
             wdg.table.setItem(self.length(), 3, qnumber(self.grams()))
             wdg.table.setItem(self.length(), 4, qnumber_limited(self.calories(), self.mem.user.last_biometrics.bmr()))
             wdg.table.setItem(self.length(), 5, qnumber_limited(self.carbohydrate(), self.mem.user.last_biometrics.carbohydrate()))
@@ -229,7 +223,10 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
             wdg.table.setItem(self.length(), 7, qnumber_limited(self.fat(), self.mem.user.last_biometrics.fat()))
             wdg.table.setItem(self.length(), 8, qnumber_limited(self.fiber(), self.mem.user.last_biometrics.fiber(), reverse=True))
             #Recomendatios
+            wdg.table.setItem(self.length()+1, 0, qcrossedout())
             wdg.table.setItem(self.length()+1, 1, qleft(self.tr("Recomendations")))
+            wdg.table.setItem(self.length()+1, 2, qcrossedout())
+            wdg.table.setItem(self.length()+1, 3, qcrossedout())
             wdg.table.setItem(self.length()+1, 4, qnumber(self.mem.user.last_biometrics.bmr()))
             wdg.table.setItem(self.length()+1, 5, qnumber(self.mem.user.last_biometrics.carbohydrate()))
             wdg.table.setItem(self.length()+1, 6, qnumber(self.mem.user.last_biometrics.protein()))

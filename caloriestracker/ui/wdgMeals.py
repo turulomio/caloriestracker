@@ -2,7 +2,6 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox
 from caloriestracker.objects.meal import MealManager
 from caloriestracker.ui.Ui_wdgMeals import Ui_wdgMeals
-from logging import debug
 
 class wdgMeals(QWidget, Ui_wdgMeals):
     def __init__(self, mem,  arrInt=[],  parent=None):
@@ -12,13 +11,13 @@ class wdgMeals(QWidget, Ui_wdgMeals):
         self.meals=MealManager(self.mem)
         self.tblMeals.setSettings(self.mem.settings, "wdgMeals", "tblMeals")
         self.tblMeals.table.customContextMenuRequested.connect(self.on_tblMeals_customContextMenuRequested)
-        self.tblMeals.table.itemSelectionChanged.connect(self.on_tblMeals_itemSelectionChanged)
         self.on_calendar_selectionChanged()
         
     def on_calendar_selectionChanged(self):
         del self.meals
         self.meals=MealManager(self.mem, self.mem.con.mogrify("select * from meals where users_id=%s and datetime::date=%s order by datetime", (self.mem.user.id, self.calendar.selectedDate().toPyDate() )))
         self.meals.myqtablewidget(self.tblMeals)
+        self.tblMeals.setOrderBy(0, False)
         self.lblFound.setText(self.tr("{} registers found").format(self.meals.length()))
         
     @pyqtSlot()
@@ -32,7 +31,7 @@ class wdgMeals(QWidget, Ui_wdgMeals):
     def on_actionMealDelete_triggered(self):
         reply = QMessageBox.question(None, self.tr('Asking your confirmation'), self.tr("This action can't be undone.\nDo you want to delete this record?"), QMessageBox.Yes, QMessageBox.No)                  
         if reply==QMessageBox.Yes:
-            self.meals.selected.delete()
+            self.tblMeals.selected.delete()
             self.mem.con.commit()
             self.on_calendar_selectionChanged()
             
@@ -48,35 +47,28 @@ class wdgMeals(QWidget, Ui_wdgMeals):
     @pyqtSlot()
     def on_actionMealEdit_triggered(self):
         from caloriestracker.ui.frmMealsAdd import frmMealsAdd
-        w=frmMealsAdd(self.mem, self.meals.selected, self)
+        w=frmMealsAdd(self.mem, self.tblMeals.selected, self)
         w.exec_()
         self.on_calendar_selectionChanged()
         
     @pyqtSlot() 
     def on_actionProductEdit_triggered(self):
-        if self.meals.selected.product.system_product==True:
+        if self.tblMeals.selected.product.system_product==True:
             from caloriestracker.ui.frmProductsAdd import frmProductsAdd
-            w=frmProductsAdd(self.mem, self.meals.selected.product, self)
+            w=frmProductsAdd(self.mem, self.tblMeals.selected.product, self)
             w.setReadOnly()
             w.exec_()
-        elif self.meals.selected.product.system_product==False:
-            if self.meals.selected.product.elaboratedproducts_id==None:
+        elif self.tblMeals.selected.product.system_product==False:
+            if self.tblMeals.selected.product.elaboratedproducts_id==None:
                 from caloriestracker.ui.frmProductsAdd import frmProductsAdd
-                w=frmProductsAdd(self.mem, self.meals.selected.product, self)
+                w=frmProductsAdd(self.mem, self.tblMeals.selected.product, self)
                 w.exec_()
             else:#Elaborated product
                 from caloriestracker.ui.frmProductsElaboratedAdd import frmProductsElaboratedAdd
-                elaborated=self.mem.data.elaboratedproducts.find_by_id(self.meals.selected.product.elaboratedproducts_id)
+                elaborated=self.mem.data.elaboratedproducts.find_by_id(self.tblMeals.selected.product.elaboratedproducts_id)
                 w=frmProductsElaboratedAdd(self.mem, elaborated, self)
                 w.exec_()
             self.on_calendar_selectionChanged()
-
-    def on_tblMeals_itemSelectionChanged(self):
-        self.meals.cleanSelection()
-        for i in self.tblMeals.table.selectedItems():
-            if i.column()==0 and i.row()<self.meals.length():#only once per row
-                self.meals.selected=self.meals.arr[i.row()]
-        debug("Selected meal: {}".format(self.meals.selected))
 
     def on_tblMeals_customContextMenuRequested(self,  pos):
         menu=QMenu()
@@ -87,13 +79,15 @@ class wdgMeals(QWidget, Ui_wdgMeals):
         menu.addAction(self.actionMealDeleteDay)
         menu.addSeparator()
         menu.addAction(self.actionProductEdit)
+        menu.addSeparator()
+        menu.addMenu(self.tblMeals.qmenu())
         
         if self.meals.length()>0:
             self.actionMealDeleteDay.setEnabled(True)
         else:
             self.actionMealDeleteDay.setEnabled(False)
         
-        if self.meals.selected==None:
+        if self.tblMeals.selected==None:
             self.actionMealDelete.setEnabled(False)
             self.actionMealEdit.setEnabled(False)
             self.actionProductEdit.setEnabled(False)
