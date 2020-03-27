@@ -13,12 +13,13 @@ from logging import debug
 class ProductElaborated:
     ##Biometrics(mem)
     ##Biometrics(mem,row)
-    def __init__(self, mem=None, name=None, final_amount=None, last=None, foodtype=None, id=None):
+    def __init__(self, mem=None, name=None, final_amount=None, last=None, foodtype=None, obsolete=None,  id=None):
         self.mem=mem
         self.name=name
         self.final_amount=final_amount
         self.last=last
         self.foodtype=foodtype
+        self.obsolete=obsolete
         self.id=id
         self.status=0
         
@@ -70,10 +71,10 @@ class ProductElaborated:
         selected.potassium=self.products_in.potassium()
         selected.sugars=self.products_in.sugars()
         selected.foodtype=self.foodtype
-        selected.glutenfree=self.glutenfree
-        selected.ferrum=self.ferrum
-        selected.magnesium=self.magnesium
-        selected.phosphor=self.phosphor
+        selected.glutenfree=self.products_in.is_glutenfree()
+        selected.ferrum=self.products_in.ferrum()
+        selected.magnesium=self.products_in.magnesium()
+        selected.phosphor=self.products_in.phosphor()
         selected.obsolete=self.obsolete
         selected.save()
         selected.needStatus(1, downgrade_to=0)
@@ -83,12 +84,12 @@ class ProductElaborated:
         foodtypes_id=None if self.foodtype==None else self.foodtype.id
         if self.id==None:
             self.id=self.mem.con.cursor_one_field("""insert into elaboratedproducts (
-                    name, final_amount, last, foodtypes_id
-                    )values (%s, %s, %s, %s) returning id""",  
-                    (self.name, self.final_amount, self.last, foodtypes_id))
+                    name, final_amount, last, foodtypes_id, obsolete
+                    )values (%s, %s, %s, %s,%s) returning id""",  
+                    (self.name, self.final_amount, self.last, self.obsolete,  foodtypes_id))
         else:
-            self.mem.con.execute("""update elaboratedproducts set name=%s, final_amount=%s, last=%s, foodtypes_id=%s where id=%s""", 
-            (self.name, self.final_amount, self.last, foodtypes_id,  self.id))
+            self.mem.con.execute("""update elaboratedproducts set name=%s, final_amount=%s, last=%s, foodtypes_id=%s, obsolete=%s where id=%s""", 
+            (self.name, self.final_amount, self.last, foodtypes_id, self.obsolete, self.id))
         self.needStatus(1, downgrade_to=0)
         self.register_in_personal_products()
         
@@ -133,16 +134,19 @@ class ProductElaboratedManager(ObjectManager_With_IdName_Selectable, QObject):
                 o.fullName(),
                 foodtype, 
                 o.last, 
+                o, 
             ])
-        wdg.setData(
+        wdg.setDataWithObjects(
             [self.tr("Name"), self.tr("Food type"), self.tr("Last update")], 
             None, 
             data, 
-            zonename=self.mem.localzone
-        )   
-        for i, o in enumerate(self.arr):
-            wdg.table.item(i, 0).setIcon(o.qicon())
+            zonename=self.mem.localzone, 
+            additional=self.qtablewidget_additional, 
+        )
 
+    def qtablewidget_additional(self, wdg):
+        for i, o in enumerate(wdg.objects()):
+            wdg.table.item(i, 0).setIcon(o.qicon())
 
 class ProductInElaboratedProduct:
     def __init__(self, mem, product=None, system_product=None, amount=None, elaboratedproduct=None, id=None):
@@ -262,6 +266,15 @@ class ProductInElaboratedProductManager(ObjectManager_With_IdDatetime_Selectable
         QObject.__init__(self)
         self.mem=mem
         self.elaboratedproduct=elaboratedproduct
+        
+    ## If one product in arr is not glutenfree elaboratedproduct will be not gluten free
+    def is_glutenfree(self):
+        r=True
+        for o in self.arr:
+            if o.product.glutenfree==False:
+                r=False
+                break
+        return r
 
     def calories(self):
         r=Decimal(0)
@@ -313,6 +326,30 @@ class ProductInElaboratedProductManager(ObjectManager_With_IdDatetime_Selectable
         for product_in in self.arr:
             try:
                 r=r+product_in.fiber()
+            except:
+                return None
+        return r
+    def ferrum(self):
+        r=Decimal(0)
+        for product_in in self.arr:
+            try:
+                r=r+product_in.ferrum()
+            except:
+                return None
+        return r
+    def magnesium(self):
+        r=Decimal(0)
+        for product_in in self.arr:
+            try:
+                r=r+product_in.magnesium()
+            except:
+                return None
+        return r
+    def phosphor(self):
+        r=Decimal(0)
+        for product_in in self.arr:
+            try:
+                r=r+product_in.phosphor()
             except:
                 return None
         return r
@@ -443,8 +480,7 @@ class ProductInElaboratedProductManager(ObjectManager_With_IdDatetime_Selectable
 
 def ProductElaborated_from_row(mem, row):
     foodtype=None if row['foodtypes_id']==None else mem.data.foodtypes.find_by_id(row['foodtypes_id'])
-    return ProductElaborated(mem, row['name'], row['final_amount'], row['last'], foodtype, row['id'])
-
+    return ProductElaborated(mem, row['name'], row['final_amount'], row['last'], foodtype, row['obsolete'], row['id'])
 
 def ProductInElaboratedProduct_from_row(mem, elaboratedproduct, row):
     product=mem.data.products.find_by_id_system(row['products_id'],row['system_product'])    

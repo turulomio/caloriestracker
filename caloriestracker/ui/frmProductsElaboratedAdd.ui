@@ -112,6 +112,13 @@
       </layout>
      </item>
      <item>
+      <widget class="QCheckBox" name="chkObsolete">
+       <property name="text">
+        <string>Is obsolete?</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="mqtwObjects" name="tblProductsIn" native="true"/>
      </item>
      <item>

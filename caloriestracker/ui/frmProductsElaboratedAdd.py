@@ -29,6 +29,7 @@ class frmProductsElaboratedAdd(QDialog, Ui_frmProductsElaboratedAdd):
                 self.cmbFoodtypes.setCurrentIndex(-1)
             self.elaboratedproduct.needStatus(1)
             self.txtName.setText(self.elaboratedproduct.name)
+            self.chkObsolete.setChecked(self.elaboratedproduct.obsolete)
             self.spnFinalAmount.setValue(self.elaboratedproduct.final_amount)
             self.lbl.setText(self.tr("Edit a personal and elaborated product"))
             self.elaboratedproduct.products_in.qtablewidget(self.tblProductsIn)
@@ -118,11 +119,13 @@ class frmProductsElaboratedAdd(QDialog, Ui_frmProductsElaboratedAdd):
             self.elaboratedproduct=ProductElaborated(self.mem)
             self.elaboratedproduct.name=self.txtName.text()
             self.elaboratedproduct.foodtype=foodtype
+            self.elaboratedproduct.obsolete=self.chkObsolete.isChecked()
             self.elaboratedproduct.final_amount=self.spnFinalAmount.value()
             self.mem.data.elaboratedproducts.append(self.elaboratedproduct)
             self.mem.data.elaboratedproducts.order_by_name()
         else:
             self.elaboratedproduct.name=self.txtName.text()
+            self.elaboratedproduct.obsolete=self.chkObsolete.isChecked()
             self.elaboratedproduct.foodtype=foodtype
             self.elaboratedproduct.final_amount=self.spnFinalAmount.value()
         self.elaboratedproduct.last=datetime.now()
