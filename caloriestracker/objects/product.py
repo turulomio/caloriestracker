@@ -447,12 +447,13 @@ def myQTableWidget_ProductManagers(mem, manager, wdg):
             o.component_in_100g(eProductComponent.Protein), 
             o.component_in_100g(eProductComponent.Fat), 
             o.component_in_100g(eProductComponent.Fiber), 
+            o.glutenfree, 
             o, 
         ])
     wdg.setDataWithObjects(
         [wdg.tr("Name"), wdg.tr("Company"), wdg.tr("Food type"), wdg.tr("Last update"), 
         wdg.tr("Grams"), wdg.tr("Calories"), wdg.tr("Carbohydrates"), wdg.tr("Protein"), 
-        wdg.tr("Fat"), wdg.tr("Fiber")], 
+        wdg.tr("Fat"), wdg.tr("Fiber"), wdg.tr("Gluten free")], 
         None, 
         data, 
         zonename=mem.localzone, 

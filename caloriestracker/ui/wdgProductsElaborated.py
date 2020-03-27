@@ -4,7 +4,6 @@ from caloriestracker.ui.Ui_wdgProductsElaborated import Ui_wdgProductsElaborated
 from caloriestracker.objects.productelaborated import ProductElaboratedManager
 from caloriestracker.ui.frmProductsElaboratedAdd import frmProductsElaboratedAdd
 from caloriestracker.ui.myqwidgets import qmessagebox
-from caloriestracker.libmanagers import ManagerSelectionMode
 
 class wdgProductsElaborated(QWidget, Ui_wdgProductsElaborated):
     def __init__(self, mem,  arrInt=[],  parent=None):

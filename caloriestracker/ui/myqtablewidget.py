@@ -363,7 +363,11 @@ class mqtw(QWidget):
     ## @param row integer with the row to add
     def addRow(self, row, value_list, decimals=2, zonename="UTC"):
         for column, value in enumerate(value_list):
-            self.table.setItem(row, column, self.object2qtablewidgetitem(value, decimals, zonename)) 
+            wdg=self.object2qtablewidgetitem(value, decimals, zonename)
+            if wdg.__class__.__name__=="QWidget":# For example wdgBool
+                    self.table.setCellWidget(row, column, wdg)
+            else:#QTablewidgetitem
+                self.table.setItem(row, column, wdg) 
 
     ## Returns a list of strings with the horizontal headers
     def listHorizontalHeaders(self):

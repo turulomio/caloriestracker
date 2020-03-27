@@ -4,7 +4,6 @@ from caloriestracker.libcaloriestrackerfunctions import a2s
 from caloriestracker.libcaloriestrackertypes import eProductComponent
 from caloriestracker.libmanagers import ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime_Selectable
 from caloriestracker.objects.product import ProductPersonal
-from caloriestracker.ui.myqtablewidget import qcenter, qleft, qright, qnumber
 from colorama import Style
 from datetime import datetime
 from decimal import Decimal
@@ -439,44 +438,34 @@ class ProductInElaboratedProductManager(ObjectManager_With_IdDatetime_Selectable
 
 
     def qtablewidget(self, wdg):        
-        wdg.table.setColumnCount(7)
-        wdg.table.setHorizontalHeaderItem(0, qcenter(self.tr("Name")))
-        wdg.table.setHorizontalHeaderItem(1, qcenter(self.tr("Grams")))
-        wdg.table.setHorizontalHeaderItem(2, qcenter(self.tr("Calories")))
-        wdg.table.setHorizontalHeaderItem(3, qcenter(self.tr("Carbohydrates")))
-        wdg.table.setHorizontalHeaderItem(4, qcenter(self.tr("Protein")))
-        wdg.table.setHorizontalHeaderItem(5, qcenter(self.tr("Fat")))
-        wdg.table.setHorizontalHeaderItem(6, qcenter(self.tr("Fiber")))
-   
-        wdg.applySettings()
-        wdg.table.clearContents()
-        wdg.table.setRowCount(self.length()+2)
+        hh=[self.tr("Name"), self.tr("Grams"), self.tr("Calories"), self.tr("Carbohydrates"), self.tr("Protein"), self.tr("Fat"), 
+            self.tr("Fiber"), self.tr("Gluten free")]
+        data=[]
         for i, o in enumerate(self.arr):
-            wdg.table.setItem(i, 0, qleft(o.product.fullName()))
+            data.append([
+                o.product.fullName(), 
+                o.amount, 
+                o.calories(), 
+                o.carbohydrate(), 
+                o.protein(), 
+                o.fat(),
+                o.fiber(), 
+                o.product.glutenfree, 
+                o
+            ])
+        wdg.setDataWithObjects(hh, None, data, additional=self.qtablewidget_additional)
+            
+    def qtablewidget_additional(self, wdg):
+        wdg.table.setRowCount(wdg.length()+2)
+        for i, o in enumerate(wdg.objects()):
             wdg.table.item(i, 0).setIcon(o.product.qicon())
-            wdg.table.setItem(i, 1, qright(o.amount))
-            wdg.table.setItem(i, 2, qright(o.calories()))
-            wdg.table.setItem(i, 3, qright(o.carbohydrate()))
-            wdg.table.setItem(i, 4, qright(o.protein()))
-            wdg.table.setItem(i, 5, qright(o.fat()))
-            wdg.table.setItem(i, 6, qright(o.fiber()))
-        #Totals
-        wdg.table.setItem(self.length(), 0, qleft(self.tr("Total")))
-        wdg.table.setItem(self.length(), 1, qnumber(self.grams()))
-        wdg.table.setItem(self.length(), 2, qnumber(self.calories()))
-        wdg.table.setItem(self.length(), 3, qnumber(self.carbohydrate()))
-        wdg.table.setItem(self.length(), 4, qnumber(self.protein()))
-        wdg.table.setItem(self.length(), 5, qnumber(self.fat()))
-        wdg.table.setItem(self.length(), 6, qnumber(self.fiber()))
+        wdg.addRow(wdg.length(), [self.tr("Total"), self.grams(), self.calories(), self.carbohydrate(), self.protein(), self.fat(), self.fiber(), self.is_glutenfree()])
         #Amounts in 100 grams of elaboratedproduct
         product=self.mem.data.products.find_by_elaboratedproducts_id(self.elaboratedproduct.id)
-        wdg.table.setItem(self.length()+1, 0, qleft(self.tr("Values in 100 g")))
-        wdg.table.setItem(self.length()+1, 1, qnumber(100))
-        wdg.table.setItem(self.length()+1, 2, qnumber(product.component_in_100g(eProductComponent.Calories)))
-        wdg.table.setItem(self.length()+1, 3, qnumber(product.component_in_100g(eProductComponent.Carbohydrate)))
-        wdg.table.setItem(self.length()+1, 4, qnumber(product.component_in_100g(eProductComponent.Protein)))
-        wdg.table.setItem(self.length()+1, 5, qnumber(product.component_in_100g(eProductComponent.Fat)))
-        wdg.table.setItem(self.length()+1, 6, qnumber(product.component_in_100g(eProductComponent.Fiber)))
+        wdg.addRow(wdg.length()+1, [self.tr("Values in 100 g"), 100, product.component_in_100g(eProductComponent.Calories), 
+            product.component_in_100g(eProductComponent.Carbohydrate), product.component_in_100g(eProductComponent.Protein), 
+            product.component_in_100g(eProductComponent.Fat), product.component_in_100g(eProductComponent.Fiber), "#crossedout"])
+            
 
 def ProductElaborated_from_row(mem, row):
     foodtype=None if row['foodtypes_id']==None else mem.data.foodtypes.find_by_id(row['foodtypes_id'])
