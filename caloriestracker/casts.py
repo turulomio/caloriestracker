@@ -55,10 +55,11 @@ def l10nDecimal(dec, digits=2):
 ## Converts strings True or False to boolean
 ## @param s String
 ## @return Boolean
-def str2bool(s):
-    if s=="True":
+def str2bool(value):
+    if value=="0" or value.lower()=="false":
+        return False
+    elif value=="1" or value.lower()=="true":
         return True
-    return False    
 
 ## Converts boolean to  True or False string
 ## @param s String

@@ -593,7 +593,7 @@ class VCPie(QWidget):
         self.table.setOrderBy(2, False)
         self.lblTotal.setText(self.tr("Total: {}").format(self.pie.sum_values()))
         self.table.on_actionSizeMinimum_triggered()
-        self.table.setSettings().sync()
+        self.table.settings().sync()
 
 def example():
     d={'one':1, 'two':2, 'three':3, 'four':4}

@@ -200,41 +200,70 @@ class mqtw(QWidget):
     def on_table_horizontalHeader_sectionClicked(self, index):
         if hasattr(self, "data")==True and self._ordering_enabled==True:
             self.actionListOrderBy[index].triggered.emit()
-            debug("Ordering table by header '{}'".format(self.actionListOrderBy[index].text()))
 
     ## Used to order table progamatically
     def setOrderBy(self, index, reverse):
         if self._ordering_enabled==True:
             action=self.actionListOrderBy[index]
-            action.setText(action.text().replace(" (desc)",""))#Leave action as ascendant
-            if reverse==True:#Emulated action change of text
+            if reverse==True:#Sort is made with action text, so I have to emulate. Text is changed from droawOrder By. It's how I will find in menu
                 action.setText(action.text() + " (desc)")
+            else: #No encontrado
+                action.setText(action.text().replace(self.tr(" (desc)"),""))
             action.triggered.emit()
+            
+    ## When data is loaded, usually it's from an ordered manager of an ordered sql, to avoid displaying and ordering data twice, you can only draw Order by in widget
+    def drawOrderBy(self, index, reverse):
+        if self._ordering_enabled==True:
+            action=self.actionListOrderBy[index]
+            # Sets if its reverse or not and renames action
+            if reverse==True:
+                action.setText(action.text().replace(self.tr(" (desc)"),""))
+                action.setIcon(QIcon(":/reusingcode/sort_up.png"))
+                self.table.horizontalHeaderItem(index).setIcon(QIcon(":reusingcode/sort_down.png"))
+            else: #No encontrado
+                action.setText(action.text() + " (desc)")
+                action.setIcon(QIcon(":/reusingcode/sort_down.png"))
+                self.table.horizontalHeaderItem(index).setIcon(QIcon(":reusingcode/sort_up.png"))
+
+            # Remover others (desc), to the rest of actions
+            for i, other_action in enumerate(self.actionListOrderBy):
+                if i!=index:# Different to selected action index
+                    other_action.setText(other_action.text().replace(self.tr(" (desc)"),""))
 
     ## Order data columns. None values are set at the beginning
-    def on_orderby_action_triggered(self, action, action_index, reverse):
+    def on_orderby_action_triggered(self):
+        action=QObject.sender(self)#Busca el objeto que ha hecho la signal en el slot en el que está conectado
+        self._sort_action_index=self.hh.index(action.text().replace(" (desc)",""))#Search the position in the headers of the action Text
+        if action.text().find(self.tr(" (desc)"))>0:
+            self._sort_action_reverse=True
+        else: #No encontrado
+            self._sort_action_reverse=False
+        output="Order {}/{} by '{}'".format(self._settingsSection, self._settingsObject, self.actionListOrderBy[self._sort_action_index].text())#Must be set before changing direction        # -----------------------------------------------------------------------------
+        start=datetime.now()
         nonull=[]
         null=[]
         for row in self.data:
-            if row[action_index] is None:
+            if row[self._sort_action_index] is None:
                 null.append(row)
             else:
                 nonull.append(row)
         try:
-            nonull=sorted(nonull, key=lambda c: c[action_index],  reverse=reverse)
+            nonull=sorted(nonull, key=lambda c: c[self._sort_action_index],  reverse=self._sort_action_reverse)
         except:
             debug("I couldn't order column due to there are different types on it.")
         if self._none_at_top==True:#Set None at top of the list
-            if reverse==False:# Desc must put None on the other side
+            if self._sort_action_reverse==False:# Desc must put None on the other side
                 self.data=null+nonull
             else:
                 self.data=nonull+null
         else:
-            if reverse==False:
+            if self._sort_action_reverse==False:
                 self.data=nonull+null
             else:
                 self.data=null+nonull
+        debug("{} took {}".format(output, datetime.now()-start))
         self.update()
+        self.drawOrderBy(self._sort_action_index, self._sort_action_reverse)
 
     def update(self):
         self.setData(self.hh, self.hv, self.data, self.data_decimals, self.data_zonename)
@@ -254,38 +283,20 @@ class mqtw(QWidget):
     ## @param decimals int or list with the columns decimals
     def setData(self, header_horizontal, header_vertical, data, decimals=2, zonename='UTC'):
         ## Affeter selection an action of the OrderByAction list, returns its information, to be used in several classes
-        def get_triggered_action_information():
-            action=QObject.sender(self)#Busca el objeto que ha hecho la signal en el slot en el que está conectado
-            self._sort_action_index=self.hh.index(action.text().replace(" (desc)",""))#Search the position in the headers of the action Text
 
-            # Sets if its reverse or not and renames action
-            if action.text().find(self.tr(" (desc)"))>0:
-                 self._sort_action_reverse=True
-                 action.setText(action.text().replace(self.tr(" (desc)"),""))
-                 action.setIcon(QIcon(":/reusingcode/sort_up.png"))
-            else: #No encontrado
-                 self._sort_action_reverse=False
-                 action.setText(action.text() + " (desc)")
-                 action.setIcon(QIcon(":/reusingcode/sort_down.png"))
-
-            # Remover others (desc), to the rest of actions
-            for i, other_action in enumerate(self.actionListOrderBy):
-                if i!=self._sort_action_index:# Different to selected action index
-                    other_action.setText(other_action.text().replace(self.tr(" (desc)"),""))
-                    
-            self.on_orderby_action_triggered(action,  self._sort_action_index, self._sort_action_reverse)
-        # -----------------------------------------------------------------------------
+        start=datetime.now()
         if decimals.__class__.__name__=="int":
             decimals=[decimals]*len(header_horizontal)
         self.data_decimals=decimals
         self.data_zonename=zonename
+
         # Creates order actions here after creating data
         if hasattr(self,"actionListOrderBy")==False and self._ordering_enabled==True:
             self.actionListOrderBy=[]
             for header in header_horizontal:
                 action=QAction("{}".format(header))
                 self.actionListOrderBy.append(action)
-                action.triggered.connect(get_triggered_action_information)
+                action.triggered.connect(self.on_orderby_action_triggered)
                 action.setIcon(QIcon(":/reusingcode/sort_up.png"))
 
         # Headers
@@ -296,10 +307,6 @@ class mqtw(QWidget):
         if self.hh is not None:
             for i in range(len(self.hh)):
                 self.table.setHorizontalHeaderItem(i, QTableWidgetItem(self.hh[i]))
-        if self._sort_action_reverse==True:
-            self.table.horizontalHeaderItem(self._sort_action_index).setIcon(QIcon(":reusingcode/sort_down.png"))
-        elif self._sort_action_reverse==False:
-            self.table.horizontalHeaderItem(self._sort_action_index).setIcon(QIcon(":reusingcode/sort_up.png"))
         if self.hv is not None:
             self.table.verticalHeader().show()
             self.table.setRowCount(len(self.data))# To do not lose data
@@ -318,6 +325,7 @@ class mqtw(QWidget):
                 else:#qtablewidgetitem
                     self.table.setItem(row, column, wdg)
         self.setDataFinished.emit()
+        debug("Set data to {}/{} took {}".format(self._settingsSection, self._settingsObject, datetime.now()-start))
 
     def print(self, hh, hv, data):
         print(hh)
@@ -576,7 +584,6 @@ class mqtwObjects(mqtw):
         if additional is not None:
             self.additional(self)
 
-
     def update(self):
         self.setDataWithObjects(self.hh, self.hv, self.data, self.data_decimals, self.data_zonename, additional=self.additional)
 
@@ -628,9 +635,19 @@ class mqtwManager(mqtw):
             self.additional(self)
 
     ## Order data columns. None values are set at the beginning
-    def on_orderby_action_triggered(self, action, action_index, reverse):
-        self.manager.order_with_none(self.manager_attributes[action_index], reverse=reverse, none_at_top=self._none_at_top)
-        self.update()
+    def on_orderby_action_triggered(self):
+        action=QObject.sender(self)#Busca el objeto que ha hecho la signal en el slot en el que está conectado 
+        self._sort_action_index=self.hh.index(action.text().replace(" (desc)",""))#Search the position in the headers of the action Text
+        if action.text().find(self.tr(" (desc)"))>0:
+            self._sort_action_reverse=True
+        else: #No encontrado
+            self._sort_action_reverse=False
+        output="Order {}/{} by '{}'".format(self._settingsSection, self._settingsObject, self.actionListOrderBy[self._sort_action_index].text())#Must be set before changing direction
+        start=datetime.now()
+        self.manager.order_with_none(self.manager_attributes[self._sort_action_index], reverse=self._sort_action_reverse, none_at_top=self._none_at_top)
+        debug("{} took {}".format(output, datetime.now()-start))
+        self.update()        
+        self.drawOrderBy(self._sort_action_index, self._sort_action_reverse)
 
     def update(self):
         self.setDataFromManager(self.hh, self.hv, self.manager, self.manager_attributes, self.data_decimals, self.data_zonename, additional=self.additional)
@@ -764,7 +781,7 @@ def qnumber_limited(n, limit, digits=2, reverse=False):
 ## Shows the time of a datetime
 ## See function time2string of datetime_functions to see formats
 ## @param ti must be a time object
-def qtime(ti, format="HH:MM"):
+def qtime(ti, format="HH:MM:SS"):
     if ti==None:
         return qnone()
     item=qright(time2string(ti, format))
@@ -825,7 +842,7 @@ def example():
             ObjectManager_With_IdName_Selectable.__init__(self)
 
         def prueba(self, wdg):
-            print("ICONS", wdg)
+            pass
 
     def __additional_with_objects(wdg):
         wdg.table.setRowCount(len(wdg.data)+1)
@@ -865,13 +882,14 @@ def example():
         
     data_object=[]
     for o in manager_manager.arr[0:10]:
-        data_object.append([o.id, o.name,  o.date,  o.datetime,  o.pruebita.name, o.pruebita.age(1), o])
+        data_object.append([o.id, o.name,  o.date,  o.datetime,  o.pruebita.name, o.datetime.time(), o])
 
     mem=Mem()
     app = QApplication([])
     from importlib import import_module
     import_module("xulpymoney.images.xulpymoney_rc")
     w=QWidget()
+    w.showMaximized()
     hv=None
 
     lay=QHBoxLayout(w)
@@ -882,29 +900,28 @@ def example():
     mqtw_data.table.setSelectionMode(QAbstractItemView.SingleSelection)
     mqtw_data.setGenericContextMenu()
     hv=["Johnny be good"]*len(data)
-    mqtw_data.setSettings(mem.settings, "myqtablewidget", "tblExample")
+    mqtw_data.setSettings(mem.settings, "myqtablewidget", "mqtw")
     hh=["mqtw", "Name", "Date", "Last update","Mem.name", "Age"]
     mqtw_data.setData(hh, hv, data )
-    mqtw_data.setOrderBy(2,  False)
     
     #mqtw with object
     mqtw_data_with_object = mqtwObjects(w)
     mqtw_data_with_object.setGenericContextMenu()
     hv=["Johnny be good"]*len(data_object)
-    mqtw_data_with_object.setSettings(mem.settings, "myqtablewidget", "tblExample")
-    hh=["mqtwObjects", "Name", "Date", "Last update","Mem.name", "Age"]
+    mqtw_data_with_object.setSettings(mem.settings, "myqtablewidget", "mqtwObjects")
+    hh=["mqtwObjects", "Name", "Date", "Last update","Mem.name", "Time"]
     mqtw_data_with_object.setDataWithObjects(hh, hv, data_object, additional=__additional_with_objects )
-    mqtw_data_with_object.setOrderBy(2,  False)
+    mqtw_data_with_object.drawOrderBy(2,  True)
 
     #mqtwManager
     mqtw_manager = mqtwManager(w)    
     mqtw_manager.setSelectionMode(ManagerSelectionMode.List)
     mqtw_manager.table.customContextMenuRequested.connect(__on_mqtw_manager_customContextMenuRequested)
-    mqtw_manager.setSettings(mem.settings, "myqtablewidget", "tblExample")
+    mqtw_manager.setSettings(mem.settings, "myqtablewidget", "mqtwManager")
     hh=["Id", "Name", "Date", "Last update","Mem.name", "Age"]
 
     mqtw_manager.setDataFromManager(hh, None, manager_manager, ["id", "name", "date", "datetime", "pruebita.name", ("pruebita.age", [1, ])], additional=manager_manager.prueba)
-    mqtw_manager.setOrderBy(2,  False)
+    mqtw_manager.setOrderBy(2,  True)
 
     lay.addWidget(mqtw_data)
     lay.addWidget(mqtw_data_with_object)

@@ -3,11 +3,12 @@ from PyQt5.QtGui import QIcon
 from caloriestracker.libcaloriestrackerfunctions import a2s
 from caloriestracker.libcaloriestrackertypes import eProductComponent
 from caloriestracker.libmanagers import ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime_Selectable
+from caloriestracker.objects.additives import AdditiveManager
 from caloriestracker.objects.product import ProductPersonal
 from colorama import Style
 from datetime import datetime
 from decimal import Decimal
-from logging import debug
+from logging import debug, error
 
 class ProductElaborated:
     ##Biometrics(mem)
@@ -21,6 +22,15 @@ class ProductElaborated:
         self.obsolete=obsolete
         self.id=id
         self.status=0
+        ## To avoid crashes when there is a produc elaborated without a personalproducts, I alwaysregenerate it
+        if self.id is not None and self.product() is None:
+            self.load_products_in()
+            self.register_in_personal_products()
+            error("Fixing an elaborated product with id, without a personal product.")
+            self.mem.con.commit()
+        
+    def __repr__(self):
+        return self.fullName()
         
     def fullName(self):
         if self.mem.debuglevel=="DEBUG":
@@ -53,7 +63,7 @@ class ProductElaborated:
 
     def register_in_personal_products(self):
         selected=self.product()
-        if selected==None:
+        if selected is None:
             selected=ProductPersonal(self.mem)
             self.mem.data.products.append(selected)
         selected.name=self.name
@@ -75,17 +85,19 @@ class ProductElaborated:
         selected.magnesium=self.products_in.magnesium()
         selected.phosphor=self.products_in.phosphor()
         selected.obsolete=self.obsolete
+        selected.additives=self.products_in.additives()
+        selected.elaboratedproducts_id=self.id
         selected.save()
         selected.needStatus(1, downgrade_to=0)
         self.mem.data.products.order_by_name()
 
     def save(self):
         foodtypes_id=None if self.foodtype==None else self.foodtype.id
-        if self.id==None:
+        if self.id is None:
             self.id=self.mem.con.cursor_one_field("""insert into elaboratedproducts (
                     name, final_amount, last, foodtypes_id, obsolete
                     )values (%s, %s, %s, %s,%s) returning id""",  
-                    (self.name, self.final_amount, self.last, self.obsolete,  foodtypes_id))
+                    (self.name, self.final_amount, self.last,  foodtypes_id, self.obsolete))
         else:
             self.mem.con.execute("""update elaboratedproducts set name=%s, final_amount=%s, last=%s, foodtypes_id=%s, obsolete=%s where id=%s""", 
             (self.name, self.final_amount, self.last, foodtypes_id, self.obsolete, self.id))
@@ -274,6 +286,19 @@ class ProductInElaboratedProductManager(ObjectManager_With_IdDatetime_Selectable
                 r=False
                 break
         return r
+        
+        
+    def additives(self):
+        r=AdditiveManager(self.mem)
+        # Create a set
+        se=set()
+        for o in self.arr:
+            for a in o.additives.arr:
+                se.add(a)
+        
+        for a in se:
+            r.append(a)
+        return r
 
     def calories(self):
         r=Decimal(0)
@@ -461,6 +486,7 @@ class ProductInElaboratedProductManager(ObjectManager_With_IdDatetime_Selectable
             wdg.table.item(i, 0).setIcon(o.product.qicon())
         wdg.addRow(wdg.length(), [self.tr("Total"), self.grams(), self.calories(), self.carbohydrate(), self.protein(), self.fat(), self.fiber(), self.is_glutenfree()])
         #Amounts in 100 grams of elaboratedproduct
+        print(self.elaboratedproduct.id, "ELABORATEDID")
         product=self.mem.data.products.find_by_elaboratedproducts_id(self.elaboratedproduct.id)
         wdg.addRow(wdg.length()+1, [self.tr("Values in 100 g"), 100, product.component_in_100g(eProductComponent.Calories), 
             product.component_in_100g(eProductComponent.Carbohydrate), product.component_in_100g(eProductComponent.Protein), 

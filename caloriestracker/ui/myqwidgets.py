@@ -5,15 +5,12 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMessageBox, QApplication
 from os import path, remove
 
-def qmessagebox(text, resource=None):
+def qmessagebox(text, resource=":/reusingcode/qmessagebox"):
     m=QMessageBox()
-    if resource==None:
-        m.setWindowIcon(QIcon(resource))
+    m.setWindowIcon(QIcon(resource))
     m.setIcon(QMessageBox.Information)
     m.setText(text)
     m.exec_()
-
-
 
 ## Asks a a question to delete a file
 ## Returns True or False if file has been deleted

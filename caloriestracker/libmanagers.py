@@ -490,7 +490,15 @@ class DatetimeValueManager(ObjectManager):
             sma.value=sma.value/period
             r.append(sma)
         return r
-        
+
+    ## Return find less or equal dv of a given datetime
+    ## @param dt datetime
+    def find_le(self, dt):
+        for o in reversed(self.arr):
+            if o.datetime<=dt:
+                return o
+        return None
+
 ## THIS IS A NEW SERIE OF MANAGERS DATE VALUE
 class DateValue:
     def __init__(self):
