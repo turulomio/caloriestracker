@@ -82,8 +82,8 @@ ALTER TABLE meals ADD CONSTRAINT meals_users_fk FOREIGN KEY (products_id) REFERE
 ALTER TABLE products ADD CONSTRAINT products_personalproducts_fk FOREIGN KEY (personalproducts_id) REFERENCES personalproducts(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE products ADD CONSTRAINT products_countries_fk FOREIGN KEY (countries_id) REFERENCES countries(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
 CREATE TABLE globals (
-	id serial,
-	name text,
+	global text,
 	value text
 );
-INSERT INTO public.globals(id,name,value) values (1, 'Database version', 0);
+ALTER TABLE public.globals ADD PRIMARY KEY (global);
+INSERT INTO public.globals(global,value) values ('Version', 0);
