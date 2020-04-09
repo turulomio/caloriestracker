@@ -5,7 +5,7 @@
 ## You have to use list objects if you are going to make selections and secuential access.
 
 from datetime import datetime, timedelta, date
-from logging import critical
+from logging import critical, debug
 from .datetime_functions import dtaware_day_end_from_date, dtaware_day_start_from_date, dtnaive_day_end_from_date, dtnaive_day_start_from_date
 
 ## Defines who self.selected is managed
@@ -223,6 +223,8 @@ class ObjectManager_With_Id(ObjectManager):
     def append(self,  obj):
         self.arr.append(obj)
         if self._use_dict_to_find==True:
+            if obj.id is None:
+                debug("You have added a key None to self._find_dict, perhaps you need to append it when object.id is set")
             self._find_dict[obj.id]=obj
 
     def remove(self, obj):

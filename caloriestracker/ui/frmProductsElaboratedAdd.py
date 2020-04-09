@@ -56,7 +56,6 @@ class frmProductsElaboratedAdd(QDialog, Ui_frmProductsElaboratedAdd):
         
     @pyqtSlot(float)
     def on_spnFinalAmount_valueChanged(self, value):
-        print("Changed")
         self.elaboratedproduct.final_amount=self.spnFinalAmount.value()
         self.elaboratedproduct.save()
         self.mem.con.commit()
@@ -115,14 +114,12 @@ class frmProductsElaboratedAdd(QDialog, Ui_frmProductsElaboratedAdd):
             qmessagebox(self.tr("You neet to set a food type"),  ":/caloriestracker/book.png")
             return
  
-        if self.elaboratedproduct==None:        
+        if self.elaboratedproduct is None:        
             self.elaboratedproduct=ProductElaborated(self.mem)
             self.elaboratedproduct.name=self.txtName.text()
             self.elaboratedproduct.foodtype=foodtype
             self.elaboratedproduct.obsolete=self.chkObsolete.isChecked()
             self.elaboratedproduct.final_amount=self.spnFinalAmount.value()
-            self.mem.data.elaboratedproducts.append(self.elaboratedproduct)
-            self.mem.data.elaboratedproducts.order_by_name()
         else:
             self.elaboratedproduct.name=self.txtName.text()
             self.elaboratedproduct.obsolete=self.chkObsolete.isChecked()
@@ -131,6 +128,7 @@ class frmProductsElaboratedAdd(QDialog, Ui_frmProductsElaboratedAdd):
         self.elaboratedproduct.last=datetime.now()
         self.elaboratedproduct.save()
         self.mem.con.commit()
+        self.mem.data.elaboratedproducts.append_distinct(self.elaboratedproduct)
         self.mem.settings.setValue("frmProductsElaboratedAdd/qdialog", self.size())
         self.accept()
 

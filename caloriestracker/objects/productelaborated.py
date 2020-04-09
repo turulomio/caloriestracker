@@ -65,7 +65,6 @@ class ProductElaborated:
         selected=self.product()
         if selected is None:
             selected=ProductPersonal(self.mem)
-            self.mem.data.products.append(selected)
         selected.name=self.name
         selected.last=datetime.now()
         selected.amount=self.final_amount
@@ -88,6 +87,7 @@ class ProductElaborated:
         selected.additives=self.products_in.additives()
         selected.elaboratedproducts_id=self.id
         selected.save()
+        self.mem.data.products.append_distinct(selected)
         selected.needStatus(1, downgrade_to=0)
         self.mem.data.products.order_by_name()
 
@@ -293,7 +293,7 @@ class ProductInElaboratedProductManager(ObjectManager_With_IdDatetime_Selectable
         # Create a set
         se=set()
         for o in self.arr:
-            for a in o.additives.arr:
+            for a in o.product.additives.arr:
                 se.add(a)
         
         for a in se:
@@ -486,7 +486,6 @@ class ProductInElaboratedProductManager(ObjectManager_With_IdDatetime_Selectable
             wdg.table.item(i, 0).setIcon(o.product.qicon())
         wdg.addRow(wdg.length(), [self.tr("Total"), self.grams(), self.calories(), self.carbohydrate(), self.protein(), self.fat(), self.fiber(), self.is_glutenfree()])
         #Amounts in 100 grams of elaboratedproduct
-        print(self.elaboratedproduct.id, "ELABORATEDID")
         product=self.mem.data.products.find_by_elaboratedproducts_id(self.elaboratedproduct.id)
         wdg.addRow(wdg.length()+1, [self.tr("Values in 100 g"), 100, product.component_in_100g(eProductComponent.Calories), 
             product.component_in_100g(eProductComponent.Carbohydrate), product.component_in_100g(eProductComponent.Protein), 

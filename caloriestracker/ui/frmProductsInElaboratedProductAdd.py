@@ -37,12 +37,12 @@ class frmProductsInElaboratedProductAdd(QDialog, Ui_frmProductsInElaboratedProdu
                     self.spnAmount.value(), 
                     self.elaboratedproduct, 
                     None)   
-            self.elaboratedproduct.products_in.append(self.productinelaboratedproduct)
         else:
             self.productinelaboratedproduct.product=self.product
             self.productinelaboratedproduct.amount=self.spnAmount.value()
             self.productinelaboratedproduct.system_product=self.product.system_product
         self.productinelaboratedproduct.save()
+        self.elaboratedproduct.products_in.append_distinct(self.productinelaboratedproduct)
         self.elaboratedproduct.save()
         self.mem.con.commit()
         self.accept()
