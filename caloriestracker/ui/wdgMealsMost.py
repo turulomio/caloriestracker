@@ -9,7 +9,7 @@ class wdgMealsMost(QWidget, Ui_wdgMealsMost):
         self.setupUi(self)
         self.mem=mem
         self.tblMeals.setSettings(self.mem.settings, "wdgMealsMost", "tblMeals")
-        self.tblMeals.table.customContextMenuRequested.connect(self.on_tblMeals_customContextMenuRequested)
+        self.tblMeals.setGenericContextMenu()
         self.cmbPeriod.setCurrentIndex(int(self.mem.settings.value("wdgMealsMost/cmbPeriod_index", "0")))
 
     @pyqtSlot(int)
@@ -55,7 +55,4 @@ class wdgMealsMost(QWidget, Ui_wdgMealsMost):
             [self.tr("Product"), self.tr("Amount")], 
             None, 
             data
-        )   
-
-    def on_tblMeals_customContextMenuRequested(self,  pos):
-        self.tblMeals.qmenu().exec_(self.tblMeals.mapToGlobal(pos))
+        )

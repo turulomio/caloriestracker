@@ -33,7 +33,7 @@ class frmAbout(QDialog, Ui_frmAbout):
         
         self.textBrowser.setHtml(s)
         self.lblVersion.setText("{} ({})".format(__version__, __versiondatetime__.date()))
-        dbversion=self.mem.con.cursor_one_field("select value from globals where id=1")
+        dbversion=self.mem.con.cursor_one_field("select value from globals where global='Version'")
         self.lblProductsVersion.setText(self.tr("Database version is: {}").format(dbversion))
         self.tblSoftware.setSettings(self.mem.settings, "frmAbout", "tblSoftware")
         self.tblStatistics.setSettings(self.mem.settings, "frmAbout", "tblStatistics")

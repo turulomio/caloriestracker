@@ -1,4 +1,3 @@
-
 from PyQt5.QtCore import QObject
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QProgressDialog, QApplication
@@ -109,7 +108,6 @@ class UserManager(QObject, ObjectManager_With_IdName_Selectable):
         for user in self.arr:
             user.load_last_biometrics()
 
-    ## It's a staticmethod due to it will be used in ProductAllManager
     def qtablewidget(self, wdg):                
         data=[]
         for i, o in enumerate(self.arr):
@@ -118,8 +116,9 @@ class UserManager(QObject, ObjectManager_With_IdName_Selectable):
                 o.male,
                 o.birthday, 
                 o.starts, 
+                o, 
             ])
-        wdg.setData(
+        wdg.setDataWithObjects(
             [self.tr("Name"), self.tr("Male"), self.tr("Birthday"), self.tr("Starts")], 
             None, 
             data, 

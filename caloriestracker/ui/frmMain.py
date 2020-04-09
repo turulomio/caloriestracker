@@ -9,6 +9,7 @@ from caloriestracker.ui.Ui_frmMain import Ui_frmMain
 from caloriestracker.ui.wdgCuriosities import wdgCuriosities
 from caloriestracker.ui.frmSettings import frmSettings
 from caloriestracker.version import __versiondatetime__
+from logging import debug
 from os import environ
 
 class frmMain(QMainWindow, Ui_frmMain):
@@ -62,8 +63,7 @@ class frmMain(QMainWindow, Ui_frmMain):
 
     @pyqtSlot()  
     def on_actionExit_triggered(self):
-
-        print ("App correctly closed")
+        debug("App correctly closed")
         self.close()
         self.destroy()
         
