@@ -82,7 +82,7 @@ Changelog
   * Added product mantainer mode. Only for developers.
   * Added more products.
   * Added glutenfree field.
-  * This version hasn't database issue documented [here](DATABASE_ISSUES.md)
+  * This version hasn't database issue documented [here](https://github.com/turulomio/caloriestracker/blob/master/doc/DATABASE_ISSUES.md)
 
 0.5.0
   * Now you can find translated strings
