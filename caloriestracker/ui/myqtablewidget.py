@@ -8,7 +8,7 @@ from .. datetime_functions import dtaware2string, dtaware_changes_tz, time2strin
 from .. libmanagers import ManagerSelectionMode
 from .. casts import lor_remove_columns
 from officegenerator import ODS_Write
-from logging import info, debug
+from logging import info, debug, error
 from datetime import datetime, date,  timedelta
 
 
@@ -36,8 +36,7 @@ class mqtw(QWidget):
         self.table.horizontalHeader().sectionClicked.connect(self.on_table_horizontalHeader_sectionClicked)
         self.table.itemSelectionChanged.connect(self.on_itemSelectionChanged)
         self.table.verticalHeader().hide()
-        self.table.setSelectionBehavior(QAbstractItemView.SelectRows)
-        self.table.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.setSelectionMode(QAbstractItemView.SelectRows, QAbstractItemView.SingleSelection)
         self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.table.setAlternatingRowColors(True)
 
@@ -74,7 +73,8 @@ class mqtw(QWidget):
         self._none_at_top=True
         self._sort_action_reverse=None#Needed for first setData
         self._ordering_enabled=False
-        self.setSelectionMode(ManagerSelectionMode.Object)
+        self.selected=None #Must be initializated
+        self.selected_items=None
         
     ## Sets if ordering must be enabled
     ## In mqtw id False by default. In mqtwManager and mqtwObjects is True by default
@@ -83,17 +83,38 @@ class mqtw(QWidget):
         self._ordering_enabled=boolean
 
     @pyqtSlot()
+    ## This is for mqtw only object
     def on_itemSelectionChanged(self):
+        self.selected_items=None
+        self.selected=None
         if hasattr(self, "data"):#Data is set
             if self.table.selectionBehavior()==QAbstractItemView.SelectRows and self.table.selectionMode()==QAbstractItemView.SingleSelection:
-                pass
+                # In this case returns a list with all items of the row
+                self.selected_items=[]
+                self.selected=[]
+                for i in self.table.selectedItems():
+                    self.selected_items.append(i)
+                    self.selected.append(self.itemData(i))
+            elif self.table.selectionBehavior()==QAbstractItemView.SelectRows and self.table.selectionMode()==QAbstractItemView.MultiSelection:
+                # In this case returns a list or rows
+                error("This method fails if there is a wdgBool due to selecteditems only shows QTableWidgetItem")
+                self.selected_items=[]
+                self.selected=[]
+                lastrow=[]
+                lastrowitems=[]
+                for i in self.table.selectedItems():
+                    lastrowitems.append(i)
+                    lastrow.append(self.itemData(i))
+                    if len(lastrow)==self.lengthRow():#Create a new row if len lastrow == leng. Minus 1 because it adds the last
+                        self.selected.append(lastrow)
+                        self.selected_items.append(lastrowitems)
+                        lastrow=[]
+                        lastrowitems=[]
             elif self.table.selectionBehavior()==QAbstractItemView.SelectItems and self.table.selectionMode()==QAbstractItemView.SingleSelection:
                 # Returns the item selected
-                self.selected=None
-                self.selected_values=None
                 for i in self.table.selectedItems():
-                    self.selected=i
-                    self.selected_values=self.itemData(i)
+                    self.selected_items=i
+                    self.selected=self.itemData(i)
             debug("{} data selection: {}".format(self.__class__.__name__,  self.selected))
             self.tableSelectionChanged.emit()
         else:
@@ -115,14 +136,11 @@ class mqtw(QWidget):
         for i in range(self.table.horizontalHeader().count()):
             qtwiSetStrikeOut(self.table.item(row, i))
 
-    def setSelectionMode(self, manager_selection_mode):
-        self._selection_mode=manager_selection_mode
-        if self._selection_mode==ManagerSelectionMode.Object:
-            self.selected=None
-        elif self._selection_mode==ManagerSelectionMode.List:
-            self.selected=[]
-        elif hasattr(self, "manager")==True and self._selection_mode==ManagerSelectionMode.Manager:# Only if it's a mqtwManager widget won't have selected only manager
-            self.manager.setSelectionMode(ManagerSelectionMode.Manager)
+    ## @param selectionBehavior are tags from Qt QAbstractItemView (SelectRows, SelectItems...)
+    ## @param selectionMode are tags from Qt QAbstractItemView (SingleSelection, MultiSelection)
+    def setSelectionMode(self, selectionBehavior, selectionMode):
+        self.table.setSelectionBehavior(selectionBehavior)
+        self.table.setSelectionMode(selectionMode)
 
     def setVerticalHeaderHeight(self, height):
         """height, if null default.
@@ -516,6 +534,15 @@ class mqtw(QWidget):
     ## If we are using a mqtwObjects, self.data has the same length as self.objects(), so it's fine
     def length(self):
         return len(self.data)
+        
+    ## REturns the len of a row using len of hh. If not uses len of self.data[0], if no returns 0
+    def lengthRow(self):
+        if self.hh is not None:
+            return len(self.hh)
+        elif self.length()>0:
+            return len (self.data[0])
+        else:
+            return 0
 
 
 
@@ -528,7 +555,6 @@ class mqtw(QWidget):
 class mqtwObjects(mqtw):
     def __init__(self, parent):
         mqtw.__init__(self, parent)
-        self.setSelectionMode(ManagerSelectionMode.Object) #Used although it's not a manager
         self._ordering_enabled=True
         
     ## REturn the last index of a row, where the object is
@@ -548,18 +574,40 @@ class mqtwObjects(mqtw):
 
     @pyqtSlot()
     def on_itemSelectionChanged(self):
-        if self._selection_mode==ManagerSelectionMode.Object:
-            self.selected=None
-        elif self._selection_mode==ManagerSelectionMode.List:
-            self.selected=[]
-        for i in self.table.selectedItems():#itera por cada item no row.
-            if i.column()==0 and i.row()<len(self.data):
-                if self._selection_mode==ManagerSelectionMode.Object:
-                    self.selected=self.object(i.row())
-                elif self._selection_mode==ManagerSelectionMode.List:
-                    self.selected.append(self.object(i.row()))
-        debug("{} data selection: {}".format(self.__class__.__name__,  self.selected))
-        self.tableSelectionChanged.emit()
+        self.selected_items=None
+        self.selected=None
+        if hasattr(self, "data"):#Data is set
+            if self.table.selectionBehavior()==QAbstractItemView.SelectRows and self.table.selectionMode()==QAbstractItemView.SingleSelection:
+                # In this case returns the object in values and a list
+                self.selected_items=[]
+                self.selected=[]
+                for i in self.table.selectedItems():
+                    self.selected_items.append(i)
+                    if i.column()==0:
+                        self.selected=self.object(i.row())
+            elif self.table.selectionBehavior()==QAbstractItemView.SelectRows and self.table.selectionMode()==QAbstractItemView.MultiSelection:
+                # In this case returns a list or rows for items and a list of objects for values
+                error("selected_items fails if there is a wdgBool due to selecteditems only shows QTableWidgetItem")
+                self.selected_items=[]
+                self.selected=[]
+                lastrow=[]
+                lastrowitems=[]
+                for i in self.table.selectedItems():
+                    lastrowitems.append(i)
+                    if len(lastrow)==self.lengthRow():#Create a new row if len lastrow == leng. Minus 1 because it adds the last
+                        self.selected_items.append(lastrowitems)
+                        lastrowitems=[]
+                    if i.column()==0:
+                        self.selected.append(self.object(i.row()))
+            elif self.table.selectionBehavior()==QAbstractItemView.SelectItems and self.table.selectionMode()==QAbstractItemView.SingleSelection:
+                # Returns the item selected and the value of the item
+                for i in self.table.selectedItems():
+                    self.selected_items=i
+                    self.selected=self.itemData(i)
+            debug("{} data objects selection: {}".format(self.__class__.__name__,  self.selected))
+            self.tableSelectionChanged.emit()
+        else:
+            debug("ItemSectionChanged without self.setData")
 
     ## Adds a horizontal header array , a vertical header array and a data array
     ##
@@ -570,13 +618,6 @@ class mqtwObjects(mqtw):
     def setDataWithObjects(self, header_horizontal, header_vertical, data, decimals=2, zonename='UTC', additional=None):
         self.additional=additional
         self.data=data
-
-        #Sets selection mode to table
-        self.table.setSelectionBehavior(QAbstractItemView.SelectRows)
-        if self._selection_mode==ManagerSelectionMode.Object:
-            self.table.setSelectionMode(QAbstractItemView.SingleSelection)
-        else:
-            self.table.setSelectionMode(QAbstractItemView.MultiSelection)
 
         # Sets data
         self.setData(header_horizontal, header_vertical, data, decimals, zonename)
@@ -590,7 +631,6 @@ class mqtwObjects(mqtw):
 class mqtwManager(mqtw):
     def __init__(self, parent):
         mqtw.__init__(self, parent)
-        self._manager_selection_mode=ManagerSelectionMode.Object
         self._ordering_enabled=True
 
     def on_itemSelectionChanged(self):
@@ -601,7 +641,7 @@ class mqtwManager(mqtw):
                     self.manager.selected=self.manager.object(i.row())
                 elif self.manager.selectionMode()==ManagerSelectionMode.List:
                     self.manager.selected.append(self.manager.object(i.row()))
-        debug("{} selection: {}".format(self.manager.__class__.__name__,  self.manager.selected))
+        debug("{} manager selection: {}".format(self.manager.__class__.__name__,  self.manager.selected))
         self.tableSelectionChanged.emit()
 
     ## Adds a horizontal header array , a vertical header array and a data array
@@ -617,7 +657,7 @@ class mqtwManager(mqtw):
 
         #Sets manager selection mode and table
         self.table.setSelectionBehavior(QAbstractItemView.SelectRows)
-        if self._manager_selection_mode==ManagerSelectionMode.Object:
+        if self.manager.selectionMode()==ManagerSelectionMode.Object:
             self.table.setSelectionMode(QAbstractItemView.SingleSelection)
         else:
             self.table.setSelectionMode(QAbstractItemView.MultiSelection)
@@ -896,8 +936,7 @@ def example():
     
     #mqtw
     mqtw_data = mqtw(w)
-    mqtw_data.table.setSelectionBehavior(QAbstractItemView.SelectItems)#To debug selection
-    mqtw_data.table.setSelectionMode(QAbstractItemView.SingleSelection)
+    mqtw_data.setSelectionMode(QAbstractItemView.SelectRows, QAbstractItemView.MultiSelection)
     mqtw_data.setGenericContextMenu()
     hv=["Johnny be good"]*len(data)
     mqtw_data.setSettings(mem.settings, "myqtablewidget", "mqtw")
@@ -906,6 +945,7 @@ def example():
     
     #mqtw with object
     mqtw_data_with_object = mqtwObjects(w)
+    mqtw_data_with_object.setSelectionMode(QAbstractItemView.SelectRows, QAbstractItemView.MultiSelection)
     mqtw_data_with_object.setGenericContextMenu()
     hv=["Johnny be good"]*len(data_object)
     mqtw_data_with_object.setSettings(mem.settings, "myqtablewidget", "mqtwObjects")
@@ -915,7 +955,7 @@ def example():
 
     #mqtwManager
     mqtw_manager = mqtwManager(w)    
-    mqtw_manager.setSelectionMode(ManagerSelectionMode.List)
+    manager_manager.setSelectionMode(ManagerSelectionMode.List)
     mqtw_manager.table.customContextMenuRequested.connect(__on_mqtw_manager_customContextMenuRequested)
     mqtw_manager.setSettings(mem.settings, "myqtablewidget", "mqtwManager")
     hh=["Id", "Name", "Date", "Last update","Mem.name", "Age"]

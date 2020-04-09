@@ -25,12 +25,21 @@ class ObjectManager(object):
     def __repr__(self):
         return "{} with {} objects".format(self.__class__.__name__, self.length())
 
+    ## Method to iterate self.arr iterating object
+    def __iter__(self):
+        return iter(self.arr)
+
     ## Store constructor params to allow create new instances of this managers
     def setConstructorParameters(self, *params):
         self.initparams=params
 
     def append(self,  obj):
         self.arr.append(obj)
+
+    ## Appends and object if it isn't in array. Array will act as a set()
+    def append_distinct(self, obj):
+        if obj not in self.arr:
+            self.append(obj)
 
     def remove(self, obj):
         self.arr.remove(obj)
@@ -205,14 +214,21 @@ class ObjectManager_With_Id(ObjectManager):
     def __init__(self):
         ObjectManager.__init__(self)
         self._find_dict={}
+        self._use_dict_to_find=True
+
+    ## If set to False disables de use of a dict to find by id
+    def setUseDictToFind(self, value):
+        self._use_dict_to_find=value
 
     def append(self,  obj):
         self.arr.append(obj)
-        self._find_dict[obj.id]=obj
+        if self._use_dict_to_find==True:
+            self._find_dict[obj.id]=obj
 
     def remove(self, obj):
         self.arr.remove(obj)
-        del self._find_dict[obj.id]
+        if self._use_dict_to_find==True:
+            del self._find_dict[obj.id]
 
 
     def arr_position(self, id):
@@ -231,9 +247,15 @@ class ObjectManager_With_Id(ObjectManager):
 
     ## Search by id iterating array
     def find_by_id(self, id):
-        try:
-            return self._find_dict[id]
-        except:
+        if self._use_dict_to_find==True:
+            try:
+                return self._find_dict[id]
+            except:
+                return None
+        else:
+            for o in self.arr:
+                if o.id==id:
+                    return o
             return None
 
     def order_by_id(self, reverse=False, none_at_top=True):
@@ -616,3 +638,7 @@ if __name__ == "__main__":
     find_name.print()
     find_name=manager.find_by_name("CD")
     find_name.print()
+
+    print("Iterating an object")
+    for o in manager:
+        print(o)
