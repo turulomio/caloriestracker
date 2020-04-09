@@ -214,9 +214,9 @@ class ObjectManager_With_Id(ObjectManager):
     def __init__(self):
         ObjectManager.__init__(self)
         self._find_dict={}
-        self._use_dict_to_find=True
+        self._use_dict_to_find=False
 
-    ## If set to False disables de use of a dict to find by id
+    ## If set to True enables the use of a dict to find by id
     def setUseDictToFind(self, value):
         self._use_dict_to_find=value
 
@@ -248,15 +248,18 @@ class ObjectManager_With_Id(ObjectManager):
         return r
 
     ## Search by id iterating array
-    def find_by_id(self, id):
+    def find_by_id(self, id, logging=False):
         if self._use_dict_to_find==True:
             try:
                 return self._find_dict[id]
             except:
                 return None
         else:
+            start=datetime.now()
             for o in self.arr:
                 if o.id==id:
+                    if logging==True:
+                        debug("{} took {} to find by id {} with list".format(self.__class__.__name__, datetime.now()-start, id))
                     return o
             return None
 
