@@ -72,6 +72,18 @@ In Calories tracker you can add your own products and you can share them with us
 
 Changelog
 =========
+0.6.0
+  * You can see all products of a company in companies list.
+  * You can see a system products without editing.
+  * Update a lot files from reusingcode project
+  * Added food types
+  * Added additives
+  * Added russian translations. Thanks DankanTsar
+  * Added product mantainer mode. Only for developers.
+  * Added more products.
+  * Added glutenfree field.
+  * This version hasn't database issue documented [here](DATABASE_ISSUES.md)
+
 0.5.0
   * Now you can find translated strings
   * Formats are now translated

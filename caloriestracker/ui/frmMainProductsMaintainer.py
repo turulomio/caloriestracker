@@ -47,9 +47,7 @@ class frmMainProductsMaintainer(QMainWindow, Ui_frmMainProductsMaintainer):
         reply = QMessageBox.question(
                     None, 
                     self.tr('Developer mode'), 
-                    self.tr("""You are in developer mode.
-Changes will not be saved in database, but they will added to a SQL format file, for futures updates.
-Do you want to generate it?"""), 
+                    self.tr("You are in developer mode. Changes will not be saved in database, but they will added to a SQL format file, for future updates. Do you want to generate it?"), 
                     QMessageBox.Yes, 
                     QMessageBox.No
                 )

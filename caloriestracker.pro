@@ -63,7 +63,6 @@ SOURCES         = \
                   caloriestracker/caloriestracker.py \
                   caloriestracker/caloriestracker_console.py \
                   caloriestracker/caloriestracker_init.py \
-                  caloriestracker/libcaloriestracker.py \
                   caloriestracker/mem.py \
                   caloriestracker/admin_pg.py \
                   caloriestracker/database_update.py \
