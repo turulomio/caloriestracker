@@ -20,7 +20,8 @@ def FoodTypeManager_from_sql(mem, sql, sql_args=[]):
     rows=mem.con.cursor_rows(sql, sql_args)
     for row in rows:
         r.append(FoodType_from_row(mem, row))
+    r.order_by_name()
     return r
     
 def FoodTypeManager_all(mem):
-    return FoodTypeManager_from_sql(mem, "select * from foodtypes order by name")
+    return FoodTypeManager_from_sql(mem, "select * from foodtypes")
