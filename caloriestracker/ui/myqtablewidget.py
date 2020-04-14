@@ -563,8 +563,10 @@ class mqtwObjects(mqtw):
         
     ## @row row integer
     def object(self, row):
-        return self.data[row][self.objectColumnIndex()]
-        
+        if row<self.length(): #Additional methods can add rows programatically
+            return self.data[row][self.objectColumnIndex()]
+        return None
+
     ## Returns a list of objects in self.data. Usefull to set additional data
     def objects(self):
         r=[]
