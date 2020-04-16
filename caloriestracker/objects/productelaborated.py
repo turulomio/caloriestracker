@@ -23,7 +23,8 @@ class ProductElaborated:
         self.id=id
         self.status=0
         ## To avoid crashes when there is a produc elaborated without a personalproducts, I alwaysregenerate it
-        if self.id is not None and self.product() is None:
+        ## This can be executed in maintenance mode due to it duplicates records
+        if self.mem is not None and self.id is not None and self.product() is None and self.mem.isProductsMaintainerMode()==False:
             self.load_products_in()
             self.register_in_personal_products()
             error("Fixing an elaborated product with id, without a personal product.")
