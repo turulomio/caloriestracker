@@ -2,7 +2,6 @@ from PyQt5.QtCore import QSize, pyqtSlot
 from PyQt5.QtWidgets import QDialog, QMenu
 from caloriestracker.ui.Ui_frmFormats import Ui_frmFormats
 from caloriestracker.ui.myqwidgets import qmessagebox
-from logging import debug
 
 class frmFormats(QDialog, Ui_frmFormats):
     def __init__(self, mem, product, parent=None, ):
@@ -12,7 +11,6 @@ class frmFormats(QDialog, Ui_frmFormats):
         self.product=product
         self.tblFormats.setSettings(self.mem.settings, "frmFormats", "tblFormats")
         self.tblFormats.table.customContextMenuRequested.connect(self.on_tblFormats_customContextMenuRequested)
-        self.tblFormats.table.itemSelectionChanged.connect(self.on_tblFormats_itemSelectionChanged)
         self.resize(self.mem.settings.value("frmFormats/qdialog", QSize(800, 600)))
         self.lbl.setText(self.tr("Formats of {}").format(self.product.fullName()))
         self.product.needStatus(1)
@@ -21,8 +19,8 @@ class frmFormats(QDialog, Ui_frmFormats):
     @pyqtSlot() 
     def on_actionFormatDelete_triggered(self):
         if self.product.system_product==False:
-            self.product.formats.selected.delete()
-            self.product.formats.remove(self.product.formats.selected)
+            self.tblFormats.selected.delete()
+            self.product.formats.remove(self.tblFormats.selected)
             self.mem.con.commit()
             self.product.formats.qtablewidget(self.tblFormats)
         else:
@@ -50,7 +48,7 @@ class frmFormats(QDialog, Ui_frmFormats):
     def on_actionFormatEdit_triggered(self):
         if self.product.system_product==False or self.mem.isProductsMaintainerMode()==True:
             from caloriestracker.ui.frmFormatsAdd import frmFormatsAdd
-            w=frmFormatsAdd(self.mem, self.product, self.product.formats.selected, self)
+            w=frmFormatsAdd(self.mem, self.product, self.tblFormats.selected, self)
             w.exec_()
             self.product.formats.qtablewidget(self.tblFormats)
         else:
@@ -68,20 +66,13 @@ class frmFormats(QDialog, Ui_frmFormats):
         menu.addAction(self.actionFormatEdit)
         
         #Enabled disabled  
-        if self.product.formats.selected==None:
+        if self.tblFormats.selected==None:
             self.actionFormatDelete.setEnabled(False)
             self.actionFormatEdit.setEnabled(False)
         else:
             self.actionFormatDelete.setEnabled(True)
             self.actionFormatEdit.setEnabled(True)
         menu.exec_(self.tblFormats.table.mapToGlobal(pos))
-
-    def on_tblFormats_itemSelectionChanged(self):
-        self.product.formats.cleanSelection()
-        for i in self.tblFormats.table.selectedItems():
-            if i.column()==0 and i.row()<self.product.formats.length():#only once per row
-                self.product.formats.selected=self.product.formats.arr[i.row()]
-        debug("Selected format: " + str(self.product.formats.selected))
 
     def on_bb_accepted(self):
         self.mem.settings.setValue("frmFormats/qdialog", self.size())

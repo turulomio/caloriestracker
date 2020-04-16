@@ -139,8 +139,8 @@ class FormatAllManager(QObject, ObjectManager_With_IdName_Selectable):
         if selected!=None:
             combo.setCurrentIndex(combo.findData(selected.string_id()))
 
-    def qtablewidget(self, table):
-        FormatSystemManagerHeterogeneus.qtablewidget(self, table)
+    def qtablewidget(self, wdg):
+        myQTableWidget_FormatManager(self, wdg)
 
 
 class FormatPersonal(Format):
@@ -166,15 +166,8 @@ class FormatSystemManagerHeterogeneus(ObjectManager_With_IdName_Selectable, QObj
             self.append(Format(self.mem, row))
         return self
 
-    @staticmethod
-    def qtablewidget(self, wdg):        
-        hh=[self.tr("Name"), self.tr("Grams")]
-        data=[]
-        for i, o in enumerate(self.arr):
-            data.append([o.fullName(grams=False), o.amount])
-        wdg.setData(hh, None, data)
-        for i, o in enumerate(self.arr):
-            wdg.table.item(i, 0).setIcon(o.qicon())
+    def qtablewidget(self, wdg):
+        myQTableWidget_FormatManager(self, wdg)
 
     def sql_insert(self, table="formats"):
         return b2s(self.mem.con.mogrify("insert into "+table +"(name, amount, products_id, system_product, last, id) values (%s, %s, %s, %s, %s, %s);", 
@@ -198,3 +191,14 @@ class FormatPersonalManager(FormatSystemManagerHomogeneus):
         for row in rows:
             self.append(FormatPersonal(self.mem, row))
         return self
+
+def myQTableWidget_FormatManager(manager, wdg):        
+    hh=[manager.tr("Name"), manager.tr("Grams")]
+    data=[]
+    for i, o in enumerate(manager):
+        data.append([o.fullName(grams=False), o.amount, o])
+    wdg.setDataWithObjects(hh, None, data, additional=myQTableWidget_FormatManager_additional)
+    
+def myQTableWidget_FormatManager_additional(wdg):
+    for i, o in enumerate(wdg.objects()):
+        wdg.table.item(i, 0).setIcon(o.qicon())
