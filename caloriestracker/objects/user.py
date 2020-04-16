@@ -46,8 +46,9 @@ class User:
                 self.last_biometrics=Biometrics(self.mem)
            
     def is_deletable(self):
-        biometrics=self.mem.con.cursor_one_field("select count(*) from biometrics")
-        meals=self.mem.con.cursor_one_field("select count(*) from meals")
+        biometrics=self.mem.con.cursor_one_field("select count(*) from biometrics where users_id=%s", (self.id, ))
+        meals=self.mem.con.cursor_one_field("select count(*) from meals where users_id=%s", (self.id, ))
+        debug(f"User has {biometrics} biometric data and {meals} meals")
         if biometrics+meals>0 or self.id==1:
             return False
         return True
