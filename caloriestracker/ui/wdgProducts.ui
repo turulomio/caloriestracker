@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>892</width>
-    <height>654</height>
+    <width>866</width>
+    <height>459</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -41,37 +41,68 @@
        <property name="title">
         <string>Select your search</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <layout class="QVBoxLayout" name="verticalLayout">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Enter a string to search</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="txt">
+            <property name="clearButtonEnabled">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="cmb">
+            <property name="currentIndex">
+             <number>-1</number>
+            </property>
+            <property name="sizeAdjustPolicy">
+             <enum>QComboBox::AdjustToContents</enum>
+            </property>
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout">
-              <item>
-               <widget class="QLabel" name="label">
-                <property name="text">
-                 <string>Enter a string to search</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="txt">
-                <property name="clearButtonEnabled">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-             </layout>
+             <property name="text">
+              <string>All products</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../images/caloriestracker.qrc">
+               <normaloff>:/caloriestracker/star.png</normaloff>:/caloriestracker/star.png</iconset>
+             </property>
             </item>
             <item>
-             <widget class="Line" name="line">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
+             <property name="text">
+              <string>Personal products</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../images/caloriestracker.qrc">
+               <normaloff>:/caloriestracker/meal.png</normaloff>:/caloriestracker/meal.png</iconset>
+             </property>
             </item>
-           </layout>
+            <item>
+             <property name="text">
+              <string>Elaborated products</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../images/caloriestracker.qrc">
+               <normaloff>:/caloriestracker/cooking.png</normaloff>:/caloriestracker/cooking.png</iconset>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>System products</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../images/caloriestracker.qrc">
+               <normaloff>:/caloriestracker/books.png</normaloff>:/caloriestracker/books.png</iconset>
+             </property>
+            </item>
+           </widget>
           </item>
           <item>
            <widget class="QToolButton" name="cmd">
@@ -82,16 +113,6 @@
            </widget>
           </item>
          </layout>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_2">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
         </item>
        </layout>
       </widget>

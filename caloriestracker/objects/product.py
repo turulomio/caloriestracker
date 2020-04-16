@@ -398,6 +398,30 @@ class ProductAllManager(QObject, ObjectManager_With_IdName_Selectable):
             if o.company is not None and o.company.id==company.id and o.system_company==company.system_company:
                 r.append(o)
         return r
+
+    ## Returns a ProductAllManager with all personal products
+    def ProductAllManager_only_personal(self):
+        r=ProductAllManager(self.mem)
+        for o in self.arr:
+            if o.system_product==False and o.elaboratedproducts_id is None:
+                r.append(o)
+        return r
+
+    ## Returns a ProductAllManager with all elaborated products
+    def ProductAllManager_only_elaborated(self):
+        r=ProductAllManager(self.mem)
+        for o in self.arr:
+            if o.system_product==False and o.elaboratedproducts_id is not None:
+                r.append(o)
+        return r
+        
+    ## Returns a ProductAllManager with all system products
+    def ProductAllManager_only_system(self):
+        r=ProductAllManager(self.mem)
+        for o in self.arr:
+            if o.system_product==True:
+                r.append(o)
+        return r
         
     ## Return a ProductManager with the system products of the arr
     def ProductManager(self):

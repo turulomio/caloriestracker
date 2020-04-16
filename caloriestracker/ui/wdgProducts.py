@@ -18,6 +18,7 @@ class wdgProducts(QWidget, Ui_wdgProducts):
             self.products.load_from_db("select * from products order by name")
         else:
             self.products=ProductAllManager(self.mem)
+        self.cmb.setCurrentIndex(int(self.mem.settings.value("wdgProducts/cmb", "0")))
         self.products.qtablewidget(self.tblProducts)
 
     @pyqtSlot() 
@@ -91,14 +92,28 @@ class wdgProducts(QWidget, Ui_wdgProducts):
     def on_txt_textChanged(self, text):
         self.on_cmd_pressed()
 
+    @pyqtSlot(int)
+    def on_cmbMult_currentIndexChanged(self, index):
+        self.cmb.setCurrentIndex(int(self.mem.settings.value("wdgProducts/cmb", "0")))
+
     def on_cmd_pressed(self):
         del self.products
-        self.products=self.mem.data.products.ObjectManager_which_name_contains(self.txt.text(), False)
+        if self.cmb.currentIndex()==0:
+            tmp=self.mem.data.products
+        elif self.cmb.currentIndex()==1:
+            tmp=self.mem.data.products.ProductAllManager_only_personal()
+        elif self.cmb.currentIndex()==2:
+            tmp=self.mem.data.products.ProductAllManager_only_elaborated()
+        elif self.cmb.currentIndex()==3:
+            tmp=self.mem.data.products.ProductAllManager_only_system()        
+        
+        self.products=tmp.ObjectManager_which_name_contains(self.txt.text(), False)
         self.products.setSelectionMode(ManagerSelectionMode.Object)
         self.products.qtablewidget(self.tblProducts)
         self.tblProducts.setOrderBy(0, False)
         self.lblFound.setText(self.tr("{} products found").format(self.products.length()))
-
+        self.mem.settings.setValue("wdgProducts/cmb", self.cmb.currentIndex())
+        
     def on_tblProducts_customContextMenuRequested(self,  pos):
         menu=QMenu()
         menu.addAction(self.actionProductNew)
