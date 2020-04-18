@@ -2,6 +2,7 @@ from PyQt5.QtCore import QObject
 from caloriestracker.libcaloriestrackerfunctions import a2s, ca2s, rca2s, n2s
 from caloriestracker.libmanagers import ObjectManager_With_IdName_Selectable, ObjectManager_With_IdDatetime_Selectable, ManagerSelectionMode
 from caloriestracker.ui.myqtablewidget import qleft, qnumber, qnumber_limited, qcrossedout
+from collections import OrderedDict 
 from colorama import Style, Fore
 from decimal import Decimal
 ## Clase parar trabajar con las opercuentas generadas automaticam
@@ -101,6 +102,28 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
         if len(args)==2:
             self.load_db_data(*args[1:])
         self.setSelectionMode(ManagerSelectionMode.Object)
+
+    ## @return Dict with meals amount group by fullName(
+    def dictionary_grouping_by_fullName(self):
+        r=OrderedDict()
+        #initialize values
+        for o in self.arr:
+            r[o.fullName()]=0
+        #Sum amounts:
+        for o in self.arr:
+            r[o.fullName()]=r[o.fullName()]+o.amount
+        return OrderedDict(sorted(r.items(), key=lambda item: item[1]))
+
+    ## @return Dict with meals amount group by fullName(
+    def dictionary_grouping_by_foodtype(self):
+        r=OrderedDict()
+        #initialize values
+        for o in self.arr:
+            r[o.product.foodtype.name]=0
+        #Sum amounts:
+        for o in self.arr:
+            r[o.product.foodtype.name]=r[o.product.foodtype.name]+o.amount
+        return OrderedDict(sorted(r.items(), key=lambda item: item[1]))
 
     def load_db_data(self, sql):
         rows=self.mem.con.cursor_rows(sql)

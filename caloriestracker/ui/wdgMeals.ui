@@ -12,7 +12,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
       <widget class="QLabel" name="lbl">
        <property name="font">
@@ -74,13 +74,63 @@
       </layout>
      </item>
      <item>
-      <widget class="mqtwObjects" name="tblMeals" native="true"/>
-     </item>
-     <item>
-      <widget class="QLabel" name="lblFound">
-       <property name="text">
-        <string>Registers found</string>
+      <widget class="QTabWidget" name="tabWidget">
+       <property name="currentIndex">
+        <number>0</number>
        </property>
+       <widget class="QWidget" name="tab">
+        <attribute name="icon">
+         <iconset resource="../images/caloriestracker.qrc">
+          <normaloff>:/caloriestracker/meals.png</normaloff>:/caloriestracker/meals.png</iconset>
+        </attribute>
+        <attribute name="title">
+         <string>Meals</string>
+        </attribute>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="mqtwObjects" name="tblMeals" native="true"/>
+           </item>
+           <item>
+            <widget class="QLabel" name="lblFound">
+             <property name="text">
+              <string>Registers found</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_2">
+        <attribute name="icon">
+         <iconset resource="../images/caloriestracker.qrc">
+          <normaloff>:/caloriestracker/pie.png</normaloff>:/caloriestracker/pie.png</iconset>
+        </attribute>
+        <attribute name="title">
+         <string>Meals chart</string>
+        </attribute>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="VCPie" name="wdgPieMeals" native="true"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_3">
+        <attribute name="icon">
+         <iconset resource="../images/caloriestracker.qrc">
+          <normaloff>:/caloriestracker/pie.png</normaloff>:/caloriestracker/pie.png</iconset>
+        </attribute>
+        <attribute name="title">
+         <string>Food types chart</string>
+        </attribute>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="VCPie" name="wdgPieFoodtypes" native="true"/>
+         </item>
+        </layout>
+       </widget>
       </widget>
      </item>
     </layout>
@@ -152,6 +202,12 @@
    <class>mqtwObjects</class>
    <extends>QWidget</extends>
    <header location="global">myqtablewidget</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VCPie</class>
+   <extends>QWidget</extends>
+   <header location="global">myqcharts</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -11,6 +11,10 @@ class wdgMeals(QWidget, Ui_wdgMeals):
         self.meals=MealManager(self.mem)
         self.tblMeals.setSettings(self.mem.settings, "wdgMeals", "tblMeals")
         self.tblMeals.table.customContextMenuRequested.connect(self.on_tblMeals_customContextMenuRequested)
+        
+        self.wdgPieMeals.setSettings(self.mem.settings, "wdgMeals", "wdgPieMeals")
+        self.wdgPieFoodtypes.setSettings(self.mem.settings, "wdgMeals", "wdgPieFoodtypes")
+        
         self.on_calendar_selectionChanged()
         
     def on_calendar_selectionChanged(self):
@@ -19,6 +23,16 @@ class wdgMeals(QWidget, Ui_wdgMeals):
         self.meals.myqtablewidget(self.tblMeals)
         self.tblMeals.setOrderBy(0, False)
         self.lblFound.setText(self.tr("{} registers found").format(self.meals.length()))
+        
+        self.wdgPieMeals.clear()
+        for key, value in self.meals.dictionary_grouping_by_fullName().items():
+            self.wdgPieMeals.pie.appendData(key, value)
+        self.wdgPieMeals.display()
+
+        self.wdgPieFoodtypes.clear()
+        for key, value in self.meals.dictionary_grouping_by_foodtype().items():
+            self.wdgPieFoodtypes.pie.appendData(key, value)
+        self.wdgPieFoodtypes.display()
         
     @pyqtSlot()
     def on_actionMealNew_triggered(self):
