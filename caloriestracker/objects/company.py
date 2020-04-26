@@ -1,7 +1,7 @@
 from PyQt5.QtCore import QObject
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import  QApplication, QProgressDialog, QCompleter
-from caloriestracker.casts import b2s, str2bool
+from caloriestracker.casts import str2bool
 from caloriestracker.text_inputs import input_boolean, input_integer_or_none
 from caloriestracker.libmanagers import ObjectManager_With_IdName_Selectable
 from datetime import datetime
@@ -58,31 +58,29 @@ class CompanySystem:
             #print(self.sql_insert(table, returning_id=True))
             if table=="companies":# id it's not linked to a sequence, so I must add a id. Only used for maintenance mode. Can't be two editors at the same time
                 self.id=self.mem.con.cursor_one_field("select max(id)+1 from companies")
-                self.mem.con.execute(self.sql_insert(table, returning_id=False))
+                self.mem.con.execute(*self.sql_insert(table, returning_id=False))
             else:# personalproducts has sequence
-                self.id=self.mem.con.cursor_one_field(self.sql_insert(table, returning_id=True))
+                self.id=self.mem.con.cursor_one_field(*self.sql_insert(table, returning_id=True))
         else:
-            self.mem.con.execute(self.sql_update(table))
+            self.mem.con.execute(*self.sql_update(table))
     
     def sql_insert(self, table="companies", returning_id=True):
         sql="insert into public."+table +"(name, last, obsolete) values (%s, %s, %s) returning id;"
         sql_parameters=(self.name, self.last, self.obsolete)
-        if returning_id==True:
-            r=self.mem.con.mogrify(sql, sql_parameters)
-        else:
+        if returning_id==False:
             sql=sql.replace(") values (", ", id ) values (")
             sql=sql.replace(") returning id", ", %s)")
 #            print(sql)
 #            print(sql_parameters)
-            r=self.mem.con.mogrify(sql, sql_parameters+(self.id, ))
-        return b2s(r)
+            sql_parameters=sql_parameters+(self.id, )
+        return sql, sql_parameters
         
     def sql_update(self, table="companies"):
-        return b2s(self.mem.con.mogrify("update public."+table +" set name=%s, last=%s, obsolete=%s where id=%s;", (self.name, self.last, self.obsolete, self.id)))
+        return "update public."+table +" set name=%s, last=%s, obsolete=%s where id=%s;", (self.name, self.last, self.obsolete, self.id)
 
     ## @param table String with the name of table used to generate sql command
     def sql_delete(self, table):
-        return b2s(self.mem.con.mogrify("delete from public."+ table + " where id=%s;", (self.id, )))
+        return "delete from public."+ table + " where id=%s;", (self.id, )
             
     def qicon(self):
         if self.system_company==True:

@@ -87,9 +87,6 @@ class Mem(QObject):
 class MemGui(Mem):
     def __init__(self):
         Mem.__init__(self)
-        
-    def app_resource(self):
-        return ":/caloriestracker/caloriestracker.png"
 
     def qicon(self):
         icon = QIcon()

@@ -35,6 +35,12 @@ class Connection:
         self.last_sql=s
         return  s
 
+    ## Sometimes it's needed to work with sql after converting %s as a string.
+    ## There is a problem with '%' when is used in a field and I use sql_insert returning a string
+    ## So I need to keep both parameters (sql, arr) and mogrify converts them correctly
+    def sql_string(self, sql, arr):
+        return b2s(self.mogrify(sql,arr))
+
     def setAutocommit(self, b):
         self._con.autocommit = b
 
@@ -135,8 +141,7 @@ class Connection:
                 res=True
         cur.close()
         return res
-        
-        
+
     ## Function to get password user PGPASSWORD environment or ask in console for it
     def get_password(self,  gettext_module=None, gettex_locale=None):
         try:
@@ -145,7 +150,7 @@ class Connection:
             _=t.gettext
         except:
             _=str
-        
+
         from os import environ
         from getpass import getpass
         try:

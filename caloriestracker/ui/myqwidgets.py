@@ -27,3 +27,17 @@ def question_delete_file(filename):
         if path.exists(filename)==False:
             return True
     return False
+    
+## Asks a a question 
+## Returns True or False when the user clicks in yes or no button
+def qmessagebox_question(text):
+    reply = QMessageBox.question(
+                    None, 
+                    QApplication.translate("Core", 'Please answer this question'), 
+                    text, 
+                    QMessageBox.Yes, 
+                    QMessageBox.No
+                )
+    if reply==QMessageBox.Yes:
+            return True
+    return False

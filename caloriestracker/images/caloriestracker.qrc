@@ -125,5 +125,6 @@
     <file>sort_down.png</file>
     <file>button_cancel.png</file>
     <file>libreoffice_calc.png</file>
+    <file>qmessagebox.png</file>
   </qresource>
 </RCC>

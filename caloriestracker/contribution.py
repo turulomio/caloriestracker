@@ -34,13 +34,13 @@ def generate_contribution_dump(mem):
     f.write("select;\n")#For no personal data empty files
     for company in mem.data.companies.arr:
         if company.system_company==False and company.obsolete==False:
-            f.write(company.sql_insert("personalcompanies", returning_id=False) + "\n")
+            f.write(mem.con.sql_string(*company.sql_insert("personalcompanies", returning_id=False)) + "\n")
     for product in mem.data.products.arr:
         product.needStatus(1)
         if product.system_product==False and product.elaboratedproducts_id==None and product.obsolete==False:
-            f.write(product.sql_insert("personalproducts", returning_id=False) + "\n")
+            f.write(mem.con.sql_string(*product.sql_insert("personalproducts", returning_id=False)) + "\n")
             for format in product.formats.arr:
-                f.write(format.sql_insert("personalformats", returning_id=False) + "\n")
+                f.write(mem.con.sql_string(*format.sql_insert("personalformats", returning_id=False)) + "\n")
     f.close()
     print(Style.BRIGHT + Fore.GREEN + "Generated '{}'. Please send to '' without rename it".format(filename)+ Style.RESET_ALL)
     return filename
@@ -80,7 +80,7 @@ def parse_contribution_dump_generate_files_and_validates_them(auxiliar_con, cont
 
 
     ## GENERATING XXXXXXXXXXXX.sql
-    package_sql_filename="XXXXXXXXXXXX.sql".format(datestr)        
+    package_sql_filename="XXXXXXXXXXXX.sql"  
     package_sql=open(package_sql_filename, "w")
     package_sql.write("select;\n")#For no personal data empty files
 
@@ -99,7 +99,7 @@ def parse_contribution_dump_generate_files_and_validates_them(auxiliar_con, cont
                 new_system_companies.append(system_company)
                 companies_map[company.string_id()]=system_company.string_id()
                 new_system_companies_id=new_system_companies_id+1
-                package_sql.write(system_company.sql_insert("companies", returning_id=False)+ "\n")
+                package_sql.write(mem_temporary.con.sql_string(*system_company.sql_insert("companies", returning_id=False))+ "\n")
                 mem_temporary.data.companies.append(system_company) ##Appends new sistem company to mem_temporary.data
                 #print ("Company will change from {} to {}".format(company.string_id(), system_company.string_id()))
 
@@ -156,7 +156,7 @@ def parse_contribution_dump_generate_files_and_validates_them(auxiliar_con, cont
                 #print ("Product will change from {} to {}".format(product, system_product))
                 #if company!=None:
                 #    print ("Its company will change from {} to {}".format(product.company.string_id(), company.string_id()))
-                package_sql.write(system_product.sql_insert("products", returning_id=False) + "\n")
+                package_sql.write(mem_temporary.con.sql_string(*system_product.sql_insert("products", returning_id=False))+ "\n")
     
     #formats
     new_system_formats_id=mem_temporary.con.cursor_one_field("select max(id)+1 from formats")
@@ -175,9 +175,9 @@ def parse_contribution_dump_generate_files_and_validates_them(auxiliar_con, cont
                     system_product.formats.append(system_format)
                     formats_map[format.string_id()]=system_format.string_id()
                     new_system_formats_id=new_system_formats_id+1
-                    package_sql.write(system_format.sql_insert("formats", returning_id=False)+ "\n")
+                    package_sql.write(mem_temporary.con.sql_string(*system_format.sql_insert("formats", returning_id=False))+ "\n")
                     #print ("Format will change from {} to {}".format(format.string_id(), system_format.string_id()))
-                    debug(system_format.sql_insert("formats", returning_id=False))
+                    debug(mem_temporary.con.sql_string(*system_format.sql_insert("formats", returning_id=False)))
 
     package_sql.close()
     

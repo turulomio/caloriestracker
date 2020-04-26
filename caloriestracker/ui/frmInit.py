@@ -1,9 +1,9 @@
 import logging
 from PyQt5.QtCore import pyqtSlot, QLocale
-from PyQt5.QtWidgets import QDialog, QMessageBox
+from PyQt5.QtWidgets import QDialog
 from caloriestracker.admin_pg import AdminPG
 from caloriestracker.database_update import database_update
-from caloriestracker.ui.myqwidgets import qmessagebox
+from caloriestracker.ui.myqwidgets import qmessagebox, qmessagebox_question
 from caloriestracker.ui.Ui_frmInit import Ui_frmInit
 from caloriestracker.version import __versiondatetime__
 
@@ -27,16 +27,15 @@ class frmInit(QDialog, Ui_frmInit):
     
     @pyqtSlot()
     def on_cmdCreate_released(self):
-        respuesta = QMessageBox.warning(self, self.windowTitle(), self.tr("Do you want to create {} database in {}?".format(self.txtDB.text(), self.cmbLanguage.currentText())), QMessageBox.Ok | QMessageBox.Cancel)
-        if respuesta==QMessageBox.Ok:                
+        if qmessagebox_question(self.tr("Do you want to create {} database in {}?".format(self.txtDB.text(), self.cmbLanguage.currentText())))==True:
             admin=AdminPG(self.txtUser.text(), self.txtPass.text(), self.txtServer.text(),  self.txtPort.text())
             if admin.db_exists(self.txtDB.text())==True:
-                qmessagebox("Database already exists", self.mem.app_resouce())
+                qmessagebox("Database already exists")
                 return
             if admin.create_db(self.txtDB.text())==True: 
                 newcon=admin.connect_to_database(self.txtDB.text())
                 database_update(newcon, "caloriestracker", __versiondatetime__, "Qt")
-                qmessagebox(self.tr("Database created. Please run Calories Tracker and login"), self.mem.app_resource())
+                qmessagebox(self.tr("Database created. Please run Calories Tracker and login"))
                 logging.info ("App correctly closed")
                 self.close()
             else:

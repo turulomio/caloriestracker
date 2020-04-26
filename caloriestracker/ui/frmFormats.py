@@ -28,7 +28,7 @@ class frmFormats(QDialog, Ui_frmFormats):
                 self.tr("This format is of a system product so you can't edit it.") + "\n" +
                 self.tr("Please, if it's something wrong with it create an issue at") + "\n" + 
                 "https://github.com/turulomio/caloriestracker/issues"+ "\n" +
-                self.tr("I'll fix it as soon as posible. ;)"),  self.mem.app_resource())
+                self.tr("I'll fix it as soon as posible. ;)"))
 
     @pyqtSlot() 
     def on_actionFormatNew_triggered(self):
@@ -42,7 +42,7 @@ class frmFormats(QDialog, Ui_frmFormats):
                 self.tr("This format is of a system product so you can't edit it.") + "\n" +
                 self.tr("Please, if it's something wrong with it create an issue at") + "\n" + 
                 "https://github.com/turulomio/caloriestracker/issues"+ "\n" +
-                self.tr("I'll fix it as soon as posible. ;)"),  self.mem.app_resource())
+                self.tr("I'll fix it as soon as posible. ;)"))
 
     @pyqtSlot() 
     def on_actionFormatEdit_triggered(self):
@@ -56,7 +56,7 @@ class frmFormats(QDialog, Ui_frmFormats):
                 self.tr("This format is of a system product so you can't edit it.") + "\n" +
                 self.tr("Please, if it's something wrong with it create an issue at") + "\n" + 
                 "https://github.com/turulomio/caloriestracker/issues"+ "\n" +
-                self.tr("I'll fix it as soon as posible. ;)"),  self.mem.app_resource())
+                self.tr("I'll fix it as soon as posible. ;)"))
 
 
     def on_tblFormats_customContextMenuRequested(self,  pos):

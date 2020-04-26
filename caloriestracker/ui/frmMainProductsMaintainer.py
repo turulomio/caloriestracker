@@ -56,25 +56,25 @@ class frmMainProductsMaintainer(QMainWindow, Ui_frmMainProductsMaintainer):
             f=open(filename, "w")
             f.write("-- Companies inserts\n")
             for o in self.mem.insertCompanies.arr:
-                f.write(o.sql_insert(returning_id=False) + "\n")
+                f.write(self.mem.con.sql_string(*o.sql_insert(returning_id=False)) + "\n")
             f.write("\n-- Companies updates\n")
             for o in self.mem.updateCompanies.arr:
-                f.write(o.sql_update() + "\n")
+                f.write(self.mem.con.sql_string(*o.sql_update()) + "\n")
             f.write("\n-- Companies deletes\n")
             for o in self.mem.deleteCompanies.arr:
-                f.write(o.sql_delete("companies") + "\n")
+                f.write(self.mem.con.sql_string(*o.sql_delete("companies")) + "\n")
             f.write("\n-- Products inserts\n")
             for o in self.mem.insertProducts.arr:
-                f.write(o.sql_insert("products", returning_id=False) + "\n")
+                f.write(self.mem.con.sql_string(*o.sql_insert("products", returning_id=False)) + "\n")
             f.write("\n-- Products updates\n")
             for o in self.mem.updateProducts.arr:
-                f.write(o.sql_update("products") + "\n")
+                f.write(self.mem.con.sql_string(*o.sql_update("products")) + "\n")
             f.write("\n-- Formats inserts\n")
             for o in self.mem.insertFormats.arr:
-                f.write(o.sql_insert("formats", returning_id=False) + "\n")
+                f.write(self.mem.con.sql_string(*o.sql_insert("formats", returning_id=False)) + "\n")
             f.write("\n-- Formats updates\n")
             for o in self.mem.updateFormats.arr:
-                f.write(o.sql_update("formats") + "\n")
+                f.write(self.mem.con.sql_string(*o.sql_update("formats")) + "\n")
             f.close()
         print ("App correctly closed")
         exit(0)

@@ -121,11 +121,11 @@ class Product(QObject):
             #print(self.sql_insert(table, returning_id=True))
             if table=="products":# id it's not linked to a sequence, so I must add a id. Only used for maintenance mode. Can't be two editors at the same time
                 self.id=self.mem.con.cursor_one_field("select max(id)+1 from products")
-                self.mem.con.execute(self.sql_insert(table, returning_id=False))
+                self.mem.con.execute(*self.sql_insert(table, returning_id=False))
             else:# personalproducts has sequence
-                self.id=self.mem.con.cursor_one_field(self.sql_insert(table, returning_id=True))
+                self.id=self.mem.con.cursor_one_field(*self.sql_insert(table, returning_id=True))
         else:
-            self.mem.con.execute(self.sql_update(table))
+            self.mem.con.execute(*self.sql_update(table))
 
     ## Generates an string with id and system_product
     def string_id(self):
@@ -154,15 +154,13 @@ class Product(QObject):
                     self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company, foodtypes_id, self.additives.array_of_ids(), 
                     self.glutenfree, self.ferrum, self.magnesium, self.phosphor, self.obsolete)
 
-        if returning_id==True:
-            r=self.mem.con.mogrify(sql, sql_parameters)
-        else:
+        if returning_id==False:
             sql=sql.replace(") values (", ", id ) values (")
             sql=sql.replace(") returning id", ", %s)")
-#            print(sql)
-#            print(sql_parameters)
-            r=self.mem.con.mogrify(sql, sql_parameters+(self.id, ))
-        return b2s(r)
+            sql_parameters=sql_parameters+(self.id, )
+        print(sql)
+        print(sql_parameters)
+        return sql, sql_parameters #Mogrify string needs both parameter to scape %% text fields
 
     def sql_update(self, table="products"):
         companies_id=None if self.company==None else self.company.id
@@ -176,9 +174,7 @@ class Product(QObject):
             self.system_company,  foodtypes_id, self.additives.array_of_ids(), self.glutenfree, self.ferrum, self.magnesium, self.phosphor, self.obsolete, 
             self.id)
 
-#        print(sql)
-#        print(sql_parameters)
-        return b2s(self.mem.con.mogrify(sql, sql_parameters))
+        return sql, sql_parameters
         
     def is_deletable(self):
         self.needStatus(1)
@@ -248,7 +244,7 @@ class Product(QObject):
         
         #Delete old personal products
         sql.write("-- caloriestracker_maintenance_products_system2personal\n")
-        sql.write(personal.sql_insert("personalproducts")+"\n")
+        sql.write(self.mem.con.sql_string(*personal.sql_insert("personalproducts"))+"\n")
         #UPDATING PRODUCTS IN THE REST OF TABLES
         for table in ['formats', 'meals', 'products_in_elaboratedproducts']:
             sql.write(b2s(self.mem.con.mogrify("update "+table+" set products_id=%s, system_product=%s where products_id=%s and system_product=%s;", 

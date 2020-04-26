@@ -13,10 +13,11 @@
 
 from PyQt5.QtCore import pyqtSlot, QSettings, QSize
 from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtWidgets import QDialog, QMessageBox
+from PyQt5.QtWidgets import QDialog
 from logging import debug
 from os import environ
 from .Ui_frmAccess import Ui_frmAccess
+from .myqwidgets import qmessagebox
 from .. connection_pg_qt import ConnectionQt
 from .. translationlanguages import TranslationLanguageManager
 
@@ -105,18 +106,11 @@ class frmAccess(QDialog, Ui_frmAccess):
         if self.con.is_active():
             self.accept()
         else:
-            self.qmessagebox(self.tr("Error conecting to {} database in {} server").format(self.con.db, self.con.server))
+            qmessagebox(self.tr("Error conecting to {} database in {} server").format(self.con.db, self.con.server))
 
     @pyqtSlot() 
     def on_cmdYN_rejected(self):
         self.reject()
-
-    def qmessagebox(self,  text):
-        m=QMessageBox()
-        m.setWindowIcon(self.icon)
-        m.setIcon(QMessageBox.Information)
-        m.setText(text)
-        m.exec_()
 
 if __name__ == '__main__':
     from PyQt5.QtWidgets import QApplication
