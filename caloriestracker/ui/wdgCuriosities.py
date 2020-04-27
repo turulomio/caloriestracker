@@ -28,10 +28,14 @@ class wdgCuriosities(QWidget, Ui_wdgCuriosities):
         c.setText(self.tr("The product with highest calories is {} with {} calories.".format(selected.fullName(), selected.component_in_100g(eProductComponent.Calories))))
         self.layout.addWidget(c)
 
+        c=wdgCuriosity(self.mem)
+        c.setTitle(self.tr("Which is the meal with highest calories I had eaten?"))
+        c.setText(self.tr("The meal with the highest calories I ate was '{}' with '{}' calories. I ate at {}.").format(*self.query_meal_with_the_highest_calories()))
+        self.layout.addWidget(c)
 
         c=wdgCuriosity(self.mem)
-        c.setTitle(self.tr("Which is the meal with highest calories I had eaten"))
-        c.setText(self.tr(""))
+        c.setTitle(self.tr("When did I take the highest calories amount in a day?"))
+        c.setText(self.tr("The day I took the highest amount of calories was {} and I took {}.").format(*self.query_day_i_took_the_highest_amount_of_calories()))
         self.layout.addWidget(c)
         
         self.addSeparator()
@@ -55,6 +59,43 @@ class wdgCuriosities(QWidget, Ui_wdgCuriosities):
         self.layout.addWidget(c)
 
         self.layout.addSpacerItem(QSpacerItem(10, 10, QSizePolicy.Expanding, QSizePolicy.Expanding))
+
+    def query_day_i_took_the_highest_amount_of_calories(self):
+        return self.mem.con.cursor_one_row("""
+select 
+    datetime::date, 
+    round(sum(meals.amount*allproducts.calories/allproducts.amount),0) as mealcalories
+from 
+    meals, 
+    allproducts 
+where 
+    meals.products_id=allproducts.id and 
+    meals.system_product=allproducts.system_product and 
+    users_id={}
+group by 
+    datetime::date 
+order by 
+    mealcalories desc 
+limit 1
+""".format(self.mem.user.id))
+
+    def query_meal_with_the_highest_calories(self):
+        return self.mem.con.cursor_one_row("""
+select 
+    allproducts.name, 
+    round(meals.amount*allproducts.calories/allproducts.amount, 0) as mealcalories,
+    datetime
+from 
+    meals, 
+    allproducts 
+where 
+    meals.products_id=allproducts.id and 
+    meals.system_product=allproducts.system_product   and 
+    users_id={}
+order by 
+    mealcalories desc, 
+    datetime desc
+""".format(self.mem.user.id))
 
 
     def addSeparator(self):
