@@ -10,6 +10,7 @@ from .myqtablewidget import mqtw
 from .. objects.percentage import Percentage
 from .. casts import object2value
 from .. datetime_functions import epochms2dtaware, dtaware2epochms, dtnaive2string
+from collections import OrderedDict
 from datetime import timedelta, datetime
 from decimal import Decimal
 
@@ -137,11 +138,17 @@ class VCCommons(QChartView):
         self._animations=boolean
 
 
-class VCTemporalSeries(VCCommons):
+class VCTemporalSeriesAlone(VCCommons):
     def __init__(self):
         VCCommons.__init__(self)
-        self.__chart=QChart() #After setChart you must call it with chart()
-        self.customContextMenuRequested.connect(self.on_customContextMenuRequested)
+        self.clear()
+
+
+    ## To clean pie, removes serie and everithing is like create an empty pie
+    def clear(self):
+        self.__chart=QChart()
+        self.setChart(self.__chart)
+        self.setRenderHint(QPainter.Antialiasing)
         self._allowHideSeries=True
 
         #Axis cration
@@ -153,13 +160,15 @@ class VCTemporalSeries(VCCommons):
         self.minx=None
         self.miny=None
 
-        self.__ohclduration=eOHCLDuration.Day
+#        self.__ohclduration=eOHCLDuration.Day
         self.axisY = QValueAxis()
         self.axisY.setLabelFormat("%i")
 
         self.setRenderHint(QPainter.Antialiasing);
         
+        self.data=[]
         self.series=[]
+        self.chart().legend().hide()
         self.popup=MyPopup(self)
 
     def appendCandlestickSeries(self, name):
@@ -187,8 +196,8 @@ class VCTemporalSeries(VCCommons):
         if x<self.minx:
             self.minx=x
 
-    def setOHCLDuration(self, ohclduration):
-        self.__ohclduration=ohclduration
+#    def setOHCLDuration(self, ohclduration):
+#        self.__ohclduration=ohclduration
 
     def appendScatterSeries(self, name):
         ls=QScatterSeries()
@@ -324,6 +333,8 @@ class VCTemporalSeries(VCCommons):
         pen.setColor(color)
         marker.setPen(pen)
 
+
+
     ## Used to display chart. You cannot use it twice. close the view widget and create another one
     def display(self):
         if self.__chart!=None:
@@ -372,13 +383,116 @@ class VCTemporalSeries(VCCommons):
         menu.addAction(self.actionSave)
         return menu
 
+    ## If you use VCPieAlone you can add a context menu setting boolean to True
+    def setCustomContextMenu(self, boolean):
+        self.customContextMenuRequested.connect(self.on_customContextMenuRequested)
     def on_customContextMenuRequested(self, pos):
         self.qmenu().exec_(self.mapToGlobal(pos))
+
+
+
+## Yo must:
+## 1. Create widget
+## 1. Append data
+## 1. Display
+
+## If you use clear, you must append data and display again
+
+class VCTemporalSeries(QWidget):
+    def __init__(self, parent=None):
+        QWidget.__init__(self, parent)
+        self.parent=parent
+        
+        self.lay=QHBoxLayout()
+        
+        self.layTable=QVBoxLayout()
+        
+        self.ts=VCTemporalSeriesAlone()
+        self.table=mqtw(self)
+        self.table.setGenericContextMenu()
+        self.table.hide()
+
+        self.lay.addWidget(self.ts)
+        self.layTable.addWidget(self.table)
+        self.lay.addLayout(self.layTable)
+        self.setLayout(self.lay)
+
+        self.actionShowData=QAction(self.tr("Show chart data"))
+        self.actionShowData.setIcon(QIcon(":/reusingcode/database.png"))
+        self.actionShowData.triggered.connect(self.on_actionShowData_triggered)
+
+        self.ts.customContextMenuRequested.connect(self.on_customContextMenuRequested)
+
+    def setSettings(self, settings, settingsSection,  settingsObject):
+        self._settings=settings
+        self._settingsSection=settingsSection
+        self._settingsObject=settingsObject
+        self.setObjectName(self._settingsObject)
+        self.table.setSettings(self._settings, self._settingsSection, self._settingsObject+"_mqtw")
+
+    def settings(self):
+        return self._settings
+
+    def on_actionShowData_triggered(self):
+        if self.actionShowData.text()==self.tr("Show chart data"):
+            self.table.setMinimumSize(QSize(self.width()*3/8, self.height()*3/8))
+            self.table.show()
+            self.actionShowData.setText(self.tr("Hide chart data"))
+        else:
+            self.table.hide()
+            self.actionShowData.setText(self.tr("Show chart data"))
+
+    ## Returns a qmenu to be used in other qmenus
+    def qmenu(self, title="Temporal serie chart options"):
+        menu=QMenu(self)
+        menu.setTitle(self.tr(title))
+        menu.addAction(self.ts.actionCopyToClipboard)
+        menu.addSeparator()
+        menu.addAction(self.ts.actionSave)
+        menu.addSeparator()
+        menu.addAction(self.actionShowData)
+        return menu
+
+    def on_customContextMenuRequested(self, pos):
+        self.qmenu().exec_(self.mapToGlobal(pos))
+
+    ## Widget is restored to fabric, it's like instanciate a new one
+    def clear(self):
+        self.ts.clear()
+        self.table.clear()
+
+    def display(self):
+        self.ts.display()
+        hh=["Datetime"]
+        #I create a dictionary con d[datetime]=(valor_serie0, valor_serie1)...
+        unordered={}
+        
+        #Initiate dictionary
+        for serie in self.ts.series:
+            hh.append(serie.name())
+            for point in serie.pointsVector():
+                unordered[epochms2dtaware(point.x())]=[None]*len(self.ts.series)
+        
+        d= OrderedDict(sorted(unordered.items(), key=lambda t: t[0]))
+                
+        #Filling
+        for i, serie in enumerate(self.ts.series):
+            for point in serie.pointsVector():
+                d[epochms2dtaware(point.x())][i]=point.y()            
+
+        data=[]
+        for key, value in d.items():
+            data.append((key, *value))
+        self.table.setData(hh, None, data)
+        self.table.drawOrderBy(0, False)
+        self.table.on_actionSizeMinimum_triggered()
+        self.table.settings().sync()
+
+
 
 class VCPieAlone(VCCommons):
     def __init__(self):
         VCCommons.__init__(self)
-        self.data=[]#Dta with float only for chart
         self.clear()
         
     ## If you use VCPieAlone you can add a context menu setting boolean to True
@@ -606,15 +720,25 @@ def example():
     
     #Temporal series
     vcts=VCTemporalSeries()
-    sBasic=vcts.appendTemporalSeries("Basic")
+    vcts.setSettings(settings, "example", "vcts")
+    sBasic=vcts.ts.appendTemporalSeries("Basic")
     for i in range(20):
-        vcts.appendTemporalSeriesData(sBasic, datetime.now()+timedelta(days=i),  i % 5)
+        vcts.ts.appendTemporalSeriesData(sBasic, datetime.now()+timedelta(days=i),  i % 5)
+    vcts.display()
+    vcts.clear()
+    sBasic=vcts.ts.appendTemporalSeries("Basic")
+    for i in range(20):
+        vcts.ts.appendTemporalSeriesData(sBasic, datetime.now()+timedelta(days=i),  i % 8)
     vcts.display()
     
     #Pie
     wdgvcpie=VCPie(w)
     wdgvcpie.pie.setTitle("Demo pie")
     wdgvcpie.setSettings(settings, "example", "vcpie")
+    for k, v in d.items():
+        wdgvcpie.pie.appendData(k, v)
+    wdgvcpie.display()
+    wdgvcpie.clear()
     for k, v in d.items():
         wdgvcpie.pie.appendData(k, v)
     wdgvcpie.display()

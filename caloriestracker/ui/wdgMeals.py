@@ -1,5 +1,6 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox
+from caloriestracker.datetime_functions import dtaware_day_end_from_date
 from caloriestracker.objects.meal import MealManager
 from caloriestracker.ui.Ui_wdgMeals import Ui_wdgMeals
 
@@ -14,8 +15,30 @@ class wdgMeals(QWidget, Ui_wdgMeals):
         
         self.wdgPieMeals.setSettings(self.mem.settings, "wdgMeals", "wdgPieMeals")
         self.wdgPieFoodtypes.setSettings(self.mem.settings, "wdgMeals", "wdgPieFoodtypes")
+        self.wdgTS.setSettings(self.mem.settings, "wdgMeals", "wdgTS")
+        
+        self.tab.setCurrentIndex(0)
         
         self.on_calendar_selectionChanged()
+        
+        
+    def query_daily_calories_evolution(self):
+        return self.mem.con.cursor_rows("""
+select 
+    datetime::date as date, 
+    sum(meals.amount*allproducts.calories/allproducts.amount) as mealcalories 
+from 
+    meals, 
+    allproducts 
+where 
+    meals.products_id=allproducts.id and 
+    meals.system_product=allproducts.system_product and 
+    users_id={}
+group by 
+    datetime::date 
+order by 
+    datetime::date
+""".format(self.mem.user.id))
         
     def on_calendar_selectionChanged(self):
         del self.meals
@@ -33,6 +56,12 @@ class wdgMeals(QWidget, Ui_wdgMeals):
         for key, value in self.meals.dictionary_grouping_by_foodtype().items():
             self.wdgPieFoodtypes.pie.appendData(key, value)
         self.wdgPieFoodtypes.display()
+        
+        self.wdgTS.clear()    #Temporal series
+        s_evolution=self.wdgTS.ts.appendTemporalSeries(self.tr("Daily evolution"))
+        for date,  calories in self.query_daily_calories_evolution():
+            self.wdgTS.ts.appendTemporalSeriesData(s_evolution, dtaware_day_end_from_date(date,  self.mem.localzone),  calories)
+        self.wdgTS.display()
         
     @pyqtSlot()
     def on_actionMealNew_triggered(self):

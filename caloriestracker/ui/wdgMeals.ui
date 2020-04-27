@@ -74,11 +74,11 @@
       </layout>
      </item>
      <item>
-      <widget class="QTabWidget" name="tabWidget">
+      <widget class="QTabWidget" name="tab">
        <property name="currentIndex">
         <number>0</number>
        </property>
-       <widget class="QWidget" name="tab">
+       <widget class="QWidget" name="tab_8">
         <attribute name="icon">
          <iconset resource="../images/caloriestracker.qrc">
           <normaloff>:/caloriestracker/meals.png</normaloff>:/caloriestracker/meals.png</iconset>
@@ -128,6 +128,20 @@
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
           <widget class="VCPie" name="wdgPieFoodtypes" native="true"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_4">
+        <attribute name="icon">
+         <iconset resource="../images/caloriestracker.qrc">
+          <normaloff>:/caloriestracker/investment.png</normaloff>:/caloriestracker/investment.png</iconset>
+        </attribute>
+        <attribute name="title">
+         <string>Daily evolution</string>
+        </attribute>
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <widget class="VCTemporalSeries" name="wdgTS" native="true"/>
          </item>
         </layout>
        </widget>
@@ -206,6 +220,12 @@
   </customwidget>
   <customwidget>
    <class>VCPie</class>
+   <extends>QWidget</extends>
+   <header location="global">myqcharts</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VCTemporalSeries</class>
    <extends>QWidget</extends>
    <header location="global">myqcharts</header>
    <container>1</container>
