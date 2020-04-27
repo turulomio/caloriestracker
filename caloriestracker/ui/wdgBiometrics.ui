@@ -98,17 +98,17 @@
          <item>
           <layout class="QVBoxLayout" name="layTab">
            <item>
-            <widget class="QTabWidget" name="tabWidget">
+            <widget class="QTabWidget" name="tab">
              <property name="currentIndex">
               <number>0</number>
              </property>
-             <widget class="QWidget" name="tab">
+             <widget class="QWidget" name="tab_4">
               <attribute name="title">
                <string>Weight</string>
               </attribute>
               <layout class="QVBoxLayout" name="verticalLayout_2">
                <item>
-                <layout class="QVBoxLayout" name="layWeight"/>
+                <widget class="VCWeight" name="wdgTSWeight" native="true"/>
                </item>
               </layout>
              </widget>
@@ -118,7 +118,7 @@
               </attribute>
               <layout class="QHBoxLayout" name="horizontalLayout_2">
                <item>
-                <layout class="QVBoxLayout" name="layHeight"/>
+                <widget class="VCHeight" name="wdgTSHeight" native="true"/>
                </item>
               </layout>
              </widget>
@@ -230,6 +230,18 @@
    <class>mqtwObjects</class>
    <extends>QWidget</extends>
    <header location="global">myqtablewidget</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VCHeight</class>
+   <extends>QWidget</extends>
+   <header location="global">wdgBiometrics</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VCWeight</class>
+   <extends>QWidget</extends>
+   <header location="global">wdgBiometrics</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

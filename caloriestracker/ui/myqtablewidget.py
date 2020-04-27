@@ -580,9 +580,9 @@ class mqtwObjects(mqtw):
         self.selected=None
         if hasattr(self, "data"):#Data is set
             if self.table.selectionBehavior()==QAbstractItemView.SelectRows and self.table.selectionMode()==QAbstractItemView.SingleSelection:
-                # In this case returns the object in values and a list
+                # In this case returns selected the object, selected_items a list of items. If there isn't selection returns [] and None
                 self.selected_items=[]
-                self.selected=[]
+                self.selected=None
                 for i in self.table.selectedItems():
                     self.selected_items.append(i)
                     if i.column()==0:
@@ -603,6 +603,8 @@ class mqtwObjects(mqtw):
                         self.selected.append(self.object(i.row()))
             elif self.table.selectionBehavior()==QAbstractItemView.SelectItems and self.table.selectionMode()==QAbstractItemView.SingleSelection:
                 # Returns the item selected and the value of the item
+                self.selected_items=None
+                self.selected=None
                 for i in self.table.selectedItems():
                     self.selected_items=i
                     self.selected=self.itemData(i)
