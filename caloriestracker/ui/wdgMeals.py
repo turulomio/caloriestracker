@@ -1,6 +1,7 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox
 from caloriestracker.datetime_functions import dtaware_day_end_from_date
+from caloriestracker.objects.biometrics import BiometricsManager_all
 from caloriestracker.objects.meal import MealManager
 from caloriestracker.ui.Ui_wdgMeals import Ui_wdgMeals
 
@@ -59,8 +60,14 @@ order by
         
         self.wdgTS.clear()    #Temporal series
         s_evolution=self.wdgTS.ts.appendTemporalSeries(self.tr("Daily evolution"))
-        for date,  calories in self.query_daily_calories_evolution():
-            self.wdgTS.ts.appendTemporalSeriesData(s_evolution, dtaware_day_end_from_date(date,  self.mem.localzone),  calories)
+        for date_,  calories in self.query_daily_calories_evolution():
+            self.wdgTS.ts.appendTemporalSeriesData(s_evolution, dtaware_day_end_from_date(date_,  self.mem.localzone),  calories)
+            
+        s_recommended=self.wdgTS.ts.appendTemporalSeries(self.tr("Recommended calories"))
+        biometrics=BiometricsManager_all(self.mem, self.mem.user)
+        for o in biometrics:
+            self.wdgTS.ts.appendTemporalSeriesData(s_recommended, dtaware_day_end_from_date(o.datetime.date(), self.mem.localzone), o.bmr())
+        
         self.wdgTS.display()
         
     @pyqtSlot()

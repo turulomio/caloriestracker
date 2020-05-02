@@ -41,7 +41,8 @@ class Biometrics:
             self.id=self.mem.con.cursor_one_field("insert into biometrics(datetime,weight,height,users_id,activity,weightwish) values (%s, %s, %s, %s, %s, %s) returning id", (self.datetime, self.weight, self.height, self.user.id, self.activity.id, self.weightwish.id))
         else:
             self.mem.con.execute("update biometrics set datetime=%s, weight=%s, height=%s, users_id=%s, activity=%s, weightwish=%s where id=%s", (self.datetime, self.weight, self.height, self.user.id, self.activity.id, self.weightwish.id, self.id))
-                ##basal metabolic rate
+    
+    ##basal metabolic rate
     def bmr(self):
         if self.user.male==True:
             return self.activity.multiplier*(Decimal(10)*self.weight + Decimal(6.25)*self.height - Decimal(5)*self.user.age() + 5)
@@ -151,3 +152,10 @@ class BiometricsManager(QObject, ObjectManager_With_IdName_Selectable):
             None, 
             data
         )
+
+
+def BiometricsManager_all(mem, user):
+    r=BiometricsManager(mem)
+    sql=mem.con.mogrify("select * from biometrics where users_id=%s order by datetime", (user.id, ))
+    r.load_from_db(sql, False)
+    return r
