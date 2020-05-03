@@ -16,7 +16,7 @@ from caloriestracker.objects.additive_risk import AdditiveRiskManager_all
 from caloriestracker.objects.food_type import FoodTypeManager_all
 from caloriestracker.objects.product import ProductAllManager
 from caloriestracker.objects.productelaborated import ProductElaboratedManager_from_sql
-from caloriestracker.objects.user import UserManager
+from caloriestracker.objects.user import UserManager_from_db
 from caloriestracker.objects.weightwish import WeightWishManager
 from caloriestracker.package_resources import package_filename
 from signal import signal, SIGINT
@@ -285,10 +285,10 @@ class DBData:
         
         self.elaboratedproducts=ProductElaboratedManager_from_sql(self.mem, "select * from elaboratedproducts order by name")
         
-        self.users=UserManager(self.mem, "select * from users", progress)
-        self.users.load_last_biometrics()
+        self.users=UserManager_from_db(self.mem, "select * from users", progress)
         self.mem.user=self.mem.data.users.find_by_id(int(self.mem.settings.value("mem/currentuser", 1)))
         if self.mem.user==None:
-            self.mem.user=self.mem.data.users.find_by_id(1)#For empty databases (contribution)            
+            self.mem.user=self.mem.data.users.find_by_id(1)#For empty databases (contribution)     
+        self.mem.user.needStatus(1)
         
         debug("DBData took {}".format(datetime.now()-start))

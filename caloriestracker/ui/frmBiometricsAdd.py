@@ -19,17 +19,17 @@ class frmBiometricsAdd(QDialog, Ui_frmBiometricsAdd):
             self.spnHeight.setValue(self.biometric.height)
             self.spnWeight.setValue(self.biometric.weight)
             self.lbl.setText(self.tr("Edit a biometrics information register"))
-        elif self.mem.user.last_biometrics.datetime==None:#No last_biometrics no data in database
+        elif self.mem.user.biometrics.last().datetime==None:#No last_biometrics no data in database
             self.wdgDT.set(datetime.now(), self.mem.localzone)
             self.mem.data.activities.qcombobox(self.cmbActivity)
             self.mem.data.weightwishes.qcombobox(self.cmbWeightWish)
             self.lbl.setText(self.tr("Add a new biometrics information register"))        
         else:#Uses last data
             self.wdgDT.set(datetime.now(), self.mem.localzone)
-            self.mem.data.activities.qcombobox(self.cmbActivity, self.mem.user.last_biometrics.activity)
-            self.mem.data.weightwishes.qcombobox(self.cmbWeightWish, self.mem.user.last_biometrics.weightwish)
-            self.spnHeight.setValue(self.mem.user.last_biometrics.height)
-            self.spnWeight.setValue(self.mem.user.last_biometrics.weight)
+            self.mem.data.activities.qcombobox(self.cmbActivity, self.mem.user.biometrics.last().activity)
+            self.mem.data.weightwishes.qcombobox(self.cmbWeightWish, self.mem.user.biometrics.last().weightwish)
+            self.spnHeight.setValue(self.mem.user.biometrics.last().height)
+            self.spnWeight.setValue(self.mem.user.biometrics.last().weight)
             self.lbl.setText(self.tr("Add a new biometrics information register"))
 
     def on_bb_accepted(self):
@@ -52,10 +52,9 @@ class frmBiometricsAdd(QDialog, Ui_frmBiometricsAdd):
             self.biometric.weight=self.spnWeight.value()
             self.biometric.activity=activity
             self.biometric.weightwish=weightwish
-        if self.mem.user.last_biometrics.datetime==None or self.biometric.datetime>self.mem.user.last_biometrics.datetime: #None if empty database
-            self.mem.user.last_biometrics=self.biometric
         self.biometric.save()
         self.mem.con.commit()
+        self.mem.user.needStatus(1, downgrade_to=0)
         self.accept()
 
     def on_bb_rejected(self):

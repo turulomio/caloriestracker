@@ -134,6 +134,12 @@ class BiometricsManager(QObject, ObjectManager_With_IdName_Selectable):
             o=Biometrics(self.mem, row)
             self.append(o)
         cur.close()
+        
+    def find_by_date(self, date_):
+        for o in reversed(self.arr):
+            if o.datetime.date()<=date_:
+                return o
+        return None
 
     def myqtablewidget(self, table):
         data=[]
@@ -153,8 +159,22 @@ class BiometricsManager(QObject, ObjectManager_With_IdName_Selectable):
             data
         )
 
+def BiometricsManager_in_a_month(biometricsmanager, year, month):
+    r=BiometricsManager(biometricsmanager.mem)
+    for o in biometricsmanager:
+        if o.datetime.year==year and o.datetime.month==month:
+            r.append(o)
+    return r
+    
+def BiometricsManager_n_last(biometricsmanager, n):
+    r=BiometricsManager(biometricsmanager.mem)
+    if biometricsmanager.length()<n:
+        n=biometricsmanager.length()
+    r.arr=biometricsmanager.arr[biometricsmanager.length()-n:biometricsmanager.length()]
+    return r
 
-def BiometricsManager_all(mem, user):
+
+def BiometricsManager_all_from_db(mem, user):
     r=BiometricsManager(mem)
     sql=mem.con.mogrify("select * from biometrics where users_id=%s order by datetime", (user.id, ))
     r.load_from_db(sql, False)

@@ -114,6 +114,8 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
             r[o.fullName()]=r[o.fullName()]+o.amount
         return OrderedDict(sorted(r.items(), key=lambda item: item[1]))
 
+
+
     ## @return Dict with meals amount group by fullName(
     def dictionary_grouping_by_foodtype(self):
         r=OrderedDict()
@@ -196,8 +198,8 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
 
         print (Style.BRIGHT+ "="*(maxlength) + Style.RESET_ALL)
         print (Style.BRIGHT+ "{} NUTRICIONAL REPORT AT {}".format(self.mem.user.name.upper(), date).center(maxlength," ") + Style.RESET_ALL)
-        print (Style.BRIGHT+ Fore.YELLOW + "{} Kg. {} cm. {} years".format(self.mem.user.last_biometrics.weight, self.mem.user.last_biometrics.height, self.mem.user.age()).center(maxlength," ") + Style.RESET_ALL)
-        print (Style.BRIGHT+ Fore.BLUE + "IMC: {} ==> {}".format(round(self.mem.user.last_biometrics.imc(),2),self.mem.user.last_biometrics.imc_comment()).center(maxlength," ") + Style.RESET_ALL)
+        print (Style.BRIGHT+ Fore.YELLOW + "{} Kg. {} cm. {} years".format(self.mem.user.biometrics.last().weight, self.mem.user.biometrics.last().height, self.mem.user.age()).center(maxlength," ") + Style.RESET_ALL)
+        print (Style.BRIGHT+ Fore.BLUE + "IMC: {} ==> {}".format(round(self.mem.user.biometrics.last().imc(),2),self.mem.user.biometrics.last().imc_comment()).center(maxlength," ") + Style.RESET_ALL)
         print (Style.BRIGHT+ "="*(maxlength) + Style.RESET_ALL)
 
         print (Style.BRIGHT+ "{}  {}  {}  {}  {}  {}  {}  {}".format("HOUR ","NAME".ljust(maxname," "),"GRAMS".rjust(7,' '), "CALORIE".rjust(7,' '), "CARBOHY".rjust(7,' '), "PROTEIN".rjust(7,' '), "FAT".rjust(7,' '), "FIBER".rjust(7,' ')) + Style.RESET_ALL)
@@ -206,9 +208,9 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
 
         print (Style.BRIGHT+ "-"*(maxlength) + Style.RESET_ALL)
         total="{} MEALS WITH THIS TOTALS".format(self.length())
-        print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}  {}".format(total.ljust(maxname+7), a2s(self.grams()), ca2s(self.calories(),self.mem.user.last_biometrics.bmr()), ca2s(self.carbohydrate(),self.mem.user.last_biometrics.carbohydrate()), ca2s(self.protein(), self.mem.user.last_biometrics.protein()), ca2s(self.fat(),self.mem.user.last_biometrics.fat()), rca2s(self.fiber(),self.mem.user.last_biometrics.fiber())) + Style.RESET_ALL)
+        print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}  {}".format(total.ljust(maxname+7), a2s(self.grams()), ca2s(self.calories(),self.mem.user.biometrics.last().bmr()), ca2s(self.carbohydrate(),self.mem.user.biometrics.last().carbohydrate()), ca2s(self.protein(), self.mem.user.biometrics.last().protein()), ca2s(self.fat(),self.mem.user.biometrics.last().fat()), rca2s(self.fiber(),self.mem.user.biometrics.last().fiber())) + Style.RESET_ALL)
         recomendations="RECOMMENDATIONS"
-        print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}  {}".format(recomendations.ljust(maxname+7), n2s(), a2s(self.mem.user.last_biometrics.bmr()), a2s(self.mem.user.last_biometrics.carbohydrate()), a2s(self.mem.user.last_biometrics.protein()), a2s(self.mem.user.last_biometrics.fat()), a2s(self.mem.user.last_biometrics.fiber())) + Style.RESET_ALL)
+        print (Style.BRIGHT + "{}  {}  {}  {}  {}  {}  {}".format(recomendations.ljust(maxname+7), n2s(), a2s(self.mem.user.biometrics.last().bmr()), a2s(self.mem.user.biometrics.last().carbohydrate()), a2s(self.mem.user.biometrics.last().protein()), a2s(self.mem.user.biometrics.last().fat()), a2s(self.mem.user.biometrics.last().fiber())) + Style.RESET_ALL)
         print (Style.BRIGHT + "="*(maxlength) + Style.RESET_ALL)
 
     def myqtablewidget(self, wdg):        
@@ -234,25 +236,25 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
         for i, o in enumerate(wdg.objects()):
             wdg.table.item(i, 1).setIcon(o.product.qicon())
         wdg.table.setRowCount(wdg.length()+2)
-        if self.mem.user.last_biometrics.height!=None:#Without last_biometrics
+        if self.mem.user.biometrics.last().height is not None:#Without last_biometrics
             #Totals
             wdg.table.setItem(self.length(), 0, qcrossedout())
             wdg.table.setItem(self.length(), 1, qleft(self.tr("Total")))
             wdg.table.setItem(self.length(), 2, qcrossedout())
             wdg.table.setItem(self.length(), 3, qnumber(self.grams()))
-            wdg.table.setItem(self.length(), 4, qnumber_limited(self.calories(), self.mem.user.last_biometrics.bmr()))
-            wdg.table.setItem(self.length(), 5, qnumber_limited(self.carbohydrate(), self.mem.user.last_biometrics.carbohydrate()))
-            wdg.table.setItem(self.length(), 6, qnumber_limited(self.protein(), self.mem.user.last_biometrics.protein()))
-            wdg.table.setItem(self.length(), 7, qnumber_limited(self.fat(), self.mem.user.last_biometrics.fat()))
-            wdg.table.setItem(self.length(), 8, qnumber_limited(self.fiber(), self.mem.user.last_biometrics.fiber(), reverse=True))
+            wdg.table.setItem(self.length(), 4, qnumber_limited(self.calories(), self.mem.user.biometrics.last().bmr()))
+            wdg.table.setItem(self.length(), 5, qnumber_limited(self.carbohydrate(), self.mem.user.biometrics.last().carbohydrate()))
+            wdg.table.setItem(self.length(), 6, qnumber_limited(self.protein(), self.mem.user.biometrics.last().protein()))
+            wdg.table.setItem(self.length(), 7, qnumber_limited(self.fat(), self.mem.user.biometrics.last().fat()))
+            wdg.table.setItem(self.length(), 8, qnumber_limited(self.fiber(), self.mem.user.biometrics.last().fiber(), reverse=True))
             #Recomendatios
             wdg.table.setItem(self.length()+1, 0, qcrossedout())
             wdg.table.setItem(self.length()+1, 1, qleft(self.tr("Recomendations")))
             wdg.table.setItem(self.length()+1, 2, qcrossedout())
             wdg.table.setItem(self.length()+1, 3, qcrossedout())
-            wdg.table.setItem(self.length()+1, 4, qnumber(self.mem.user.last_biometrics.bmr()))
-            wdg.table.setItem(self.length()+1, 5, qnumber(self.mem.user.last_biometrics.carbohydrate()))
-            wdg.table.setItem(self.length()+1, 6, qnumber(self.mem.user.last_biometrics.protein()))
-            wdg.table.setItem(self.length()+1, 7, qnumber(self.mem.user.last_biometrics.fat()))
-            wdg.table.setItem(self.length()+1, 8, qnumber(self.mem.user.last_biometrics.fiber()))
+            wdg.table.setItem(self.length()+1, 4, qnumber(self.mem.user.biometrics.last().bmr()))
+            wdg.table.setItem(self.length()+1, 5, qnumber(self.mem.user.biometrics.last().carbohydrate()))
+            wdg.table.setItem(self.length()+1, 6, qnumber(self.mem.user.biometrics.last().protein()))
+            wdg.table.setItem(self.length()+1, 7, qnumber(self.mem.user.biometrics.last().fat()))
+            wdg.table.setItem(self.length()+1, 8, qnumber(self.mem.user.biometrics.last().fiber()))
         

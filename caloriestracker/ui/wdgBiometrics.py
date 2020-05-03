@@ -1,7 +1,7 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QWidget, QMenu
-from caloriestracker.objects.biometrics import BiometricsManager
+from caloriestracker.objects.biometrics import BiometricsManager_in_a_month, BiometricsManager_n_last
 from caloriestracker.ui.myqcharts import VCTemporalSeries
 from caloriestracker.ui.myqwidgets import qmessagebox_question
 from caloriestracker.libmanagers import DateValueManager
@@ -120,7 +120,6 @@ class wdgBiometrics(QWidget, Ui_wdgBiometrics):
         QWidget.__init__(self, parent)
         self.setupUi(self)
         self.mem=mem
-        self.biometrics=BiometricsManager(self.mem)
         self.tblBiometrics.setSettings(self.mem.settings, "wdgBiometrics", "tblBiometrics") 
         self.tblBiometrics.table.customContextMenuRequested.connect(self.on_tblBiometrics_customContextMenuRequested)
         
@@ -138,21 +137,11 @@ class wdgBiometrics(QWidget, Ui_wdgBiometrics):
         self.update()
 
     def update(self):
-        del self.biometrics
         if self.rad20days.isChecked()==False:
-            sql=self.mem.con.mogrify("select * from biometrics where users_id=%s and date_part('year',datetime)=%s and date_part('month',datetime)=%s order by datetime", (self.mem.user.id, self.wdgYM.year, self.wdgYM.month ))
+            self.biometrics=BiometricsManager_in_a_month(self.mem.user.biometrics, self.wdgYM.year, self.wdgYM.month )
         else:
-            sql=self.mem.con.mogrify("""
-WITH t AS (
-    select * from biometrics where users_id=%s order by datetime desc limit 20
-)
-SELECT * FROM t ORDER BY datetime ASC""", (self.mem.user.id, ))
-            
-        #Update table
-        self.biometrics=BiometricsManager(self.mem, sql, True)
+            self.biometrics=BiometricsManager_n_last(self.mem.user.biometrics, 20)
         self.biometrics.myqtablewidget(self.tblBiometrics)
-#        if self.tblBiometrics.selected==None:#Selects last row if there is no selection
-#            self.tblBiometrics.table.selectRow(self.biometrics.length()-1)
        
         #Create new objects
         if self.biometrics.length()>0:
@@ -198,7 +187,7 @@ SELECT * FROM t ORDER BY datetime ASC""", (self.mem.user.id, ))
         if qmessagebox_question( self.tr("This action can't be undone.\nDo you want to delete this record?"))==True:
             self.tblBiometrics.selected.delete()
             self.mem.con.commit()
-            self.mem.user.load_last_biometrics()
+            self.mem.user.needStatus(1, downgrade_to=0)
         self.update()
 
     @pyqtSlot()

@@ -43,14 +43,14 @@ class frmMain(QMainWindow, Ui_frmMain):
         self.cmbUsers.currentIndexChanged.connect(self.on_cmbUsers_currentIndexChanged)
         
         # Adds biometric data if empty
-        if self.mem.user.last_biometrics.datetime==None:
+        if self.mem.user.biometrics.last().datetime==None:
             self.on_actionBiometricsAdd_triggered()
         
 
     @pyqtSlot(int)
     def on_cmbUsers_currentIndexChanged(self, index):
         self.mem.user=self.mem.data.users.find_by_id(int(self.cmbUsers.itemData(self.cmbUsers.currentIndex())))
-        print(self.mem.user, index)
+        self.mem.user.needStatus(1)
         self.mem.settings.setValue("mem/currentuser", self.mem.user.id)
         self.on_actionBiometrics_triggered()
         qmessagebox("Changed user to {}".format(self.mem.user.name))        

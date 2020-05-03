@@ -2,7 +2,7 @@ from PyQt5.QtCore import QObject
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QProgressDialog, QApplication
 from caloriestracker.libmanagers import ObjectManager_With_IdName_Selectable
-from caloriestracker.objects.biometrics import BiometricsManager, Biometrics
+from caloriestracker.objects.biometrics import BiometricsManager, BiometricsManager_all_from_db
 from datetime import date, timedelta
 from logging import debug
 
@@ -10,22 +10,32 @@ class User:
     ##User(mem)
     ##User(mem,rows) #Uses products_id and users_id in row
     ##User(mem, name, male, birthday, starts, ends, id):
-    def __init__(self, *args):        
-        def init__create( name, male, birthday, starts, ends, id):
-            self.name=name
-            self.male=male
-            self.birthday=birthday
-            self.starts=starts
-            self.ends=ends
-            self.id=id
-        # #########################################
-        self.mem=args[0]
-        if len(args)==1:#User(mem)
-            init__create(*[None]*6)
-        elif len(args)==2:#User(mem,rows)
-            init__create(args[1]['name'], args[1]['male'], args[1]['birthday'], args[1]['starts'],  args[1]['ends'], args[1]['id'])
-        elif len(args)==7:#User(mem, name, male, birthday, starts, ends, id):
-            init__create(*args[1:])
+    def __init__(self, mem, name=None, male=None, birthday=None, starts=None, ends=None, id=None):
+        self.mem=mem
+        self.name=name
+        self.male=male
+        self.birthday=birthday
+        self.starts=starts
+        self.ends=ends
+        self.id=id
+        ## Variable with the current product status
+        ## 0 No data
+        ## 1 Loaded all biometrics
+        self.status=0
+        
+    ## @param statusneeded  Integer with the status needed 
+    ## @param downgrade_to Integer with the status to downgrade before checking needed status. If None it does nothing
+    def needStatus(self, statusneeded, downgrade_to=None):
+        if downgrade_to!=None:
+            self.status=downgrade_to
+        
+        if self.status==statusneeded:
+            return
+        #0
+        if self.status==0 and statusneeded==1: #MAIN
+            self.biometrics=BiometricsManager_all_from_db(self.mem, self)
+            self.status=1
+
     
     def __repr__(self):
         if self.mem.debuglevel=="DEBUG":
@@ -34,16 +44,11 @@ class User:
             return "{}".format(self.name)
     
     ##Must be loaded later becaouse usermanager searches in users and is not yet loaded
-    def load_last_biometrics(self):
-        #Loads biometrics
+    def load_biometrics(self):
         if self.id==None:
-            self.last_biometrics=Biometrics(self.mem)
+            self.biometrics=BiometricsManager(self.mem)
         else:
-            biometrics=BiometricsManager(self.mem, self.mem.con.mogrify("select * from biometrics where users_id= %s order by datetime desc limit 1", (self.id, )), False)
-            if biometrics.length()==1:
-                self.last_biometrics=biometrics.first()
-            else:
-                self.last_biometrics=Biometrics(self.mem)
+            self.biometrics=BiometricsManager_all_from_db(self.mem, self.id)
            
     def is_deletable(self):
         biometrics=self.mem.con.cursor_one_field("select count(*) from biometrics where users_id=%s", (self.id, ))
@@ -80,34 +85,10 @@ class User:
 ## UserManager(mem)
 ## UserManager(mem,sql,progress)
 class UserManager(QObject, ObjectManager_With_IdName_Selectable):
-    def __init__(self, *args):
-        def load_from_db(sql,  progress):
-            self.clean()
-            cur=self.mem.con.cursor()
-            cur.execute(sql)
-            if progress==True:
-                pd= QProgressDialog(self.tr("Loading {0} users from database").format(cur.rowcount),None, 0,cur.rowcount)
-                pd.setWindowIcon(QIcon(":/caloriestracker/coins.png"))
-                pd.setModal(True)
-                pd.setWindowTitle(self.tr("Loading users..."))
-                pd.forceShow()
-            for rowms in cur:
-                if progress==True:
-                    pd.setValue(cur.rownumber)
-                    pd.update()
-                    QApplication.processEvents()
-                self.append(User(self.mem, rowms))
-            cur.close()
-        # ####################################################
+    def __init__(self, mem):
         QObject.__init__(self)
         ObjectManager_With_IdName_Selectable.__init__(self)
-        self.mem=args[0]
-        if len(args)==3:
-            load_from_db(*args[1:])
-    
-    def load_last_biometrics(self):
-        for user in self.arr:
-            user.load_last_biometrics()
+        self.mem=mem
 
     def qtablewidget(self, wdg):                
         data=[]
@@ -125,3 +106,31 @@ class UserManager(QObject, ObjectManager_With_IdName_Selectable):
             data, 
             zonename=self.mem.localzone
         )
+
+def User_from_row(mem, row):
+    r=User(mem)
+    r.name=row['name']
+    r.male=row['male']
+    r.birthday=row['birthday']
+    r.starts=row['starts']
+    r.ends=row['ends']
+    r.id=row['id']
+    return r
+    
+    
+def UserManager_from_db(mem, sql,  progress):
+    r=UserManager(mem)
+    rows=mem.con.cursor_rows(sql)
+    if progress==True:
+        pd= QProgressDialog(r.tr("Loading {0} users from database").format(len(rows)),None, 0,len(rows))
+        pd.setWindowIcon(QIcon(":/caloriestracker/coins.png"))
+        pd.setModal(True)
+        pd.setWindowTitle(r.tr("Loading users..."))
+        pd.forceShow()
+    for i, rowms in enumerate(rows):
+        if progress==True:
+            pd.setValue(i)
+            pd.update()
+            QApplication.processEvents()
+        r.append(User_from_row(mem, rowms))
+    return r

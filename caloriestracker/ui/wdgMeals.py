@@ -1,8 +1,8 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox
 from caloriestracker.datetime_functions import dtaware_day_end_from_date
-from caloriestracker.objects.biometrics import BiometricsManager_all
 from caloriestracker.objects.meal import MealManager
+from caloriestracker.objects.mealtotal import MealTotalManager_all
 from caloriestracker.ui.Ui_wdgMeals import Ui_wdgMeals
 
 class wdgMeals(QWidget, Ui_wdgMeals):
@@ -17,31 +17,15 @@ class wdgMeals(QWidget, Ui_wdgMeals):
         self.wdgPieMeals.setSettings(self.mem.settings, "wdgMeals", "wdgPieMeals")
         self.wdgPieFoodtypes.setSettings(self.mem.settings, "wdgMeals", "wdgPieFoodtypes")
         self.wdgTS.setSettings(self.mem.settings, "wdgMeals", "wdgTS")
+        self.wdgPieFulfillment.setSettings(self.mem.settings, "wdgMeals", "wdgPieFulfillment")
         
         self.tab.setCurrentIndex(0)
         
         self.on_calendar_selectionChanged()
-        
-        
-    def query_daily_calories_evolution(self):
-        return self.mem.con.cursor_rows("""
-select 
-    datetime::date as date, 
-    sum(meals.amount*allproducts.calories/allproducts.amount) as mealcalories 
-from 
-    meals, 
-    allproducts 
-where 
-    meals.products_id=allproducts.id and 
-    meals.system_product=allproducts.system_product and 
-    users_id={}
-group by 
-    datetime::date 
-order by 
-    datetime::date
-""".format(self.mem.user.id))
-        
+
     def on_calendar_selectionChanged(self):
+        mealtotals=MealTotalManager_all(self.mem, self.mem.user)
+        mealtotals.load_biometrics()
         del self.meals
         self.meals=MealManager(self.mem, self.mem.con.mogrify("select * from meals where users_id=%s and datetime::date=%s order by datetime", (self.mem.user.id, self.calendar.selectedDate().toPyDate() )))
         self.meals.myqtablewidget(self.tblMeals)
@@ -49,26 +33,34 @@ order by
         self.lblFound.setText(self.tr("{} registers found").format(self.meals.length()))
         
         self.wdgPieMeals.clear()
+        self.wdgPieMeals.pie.setTitle(self.tr("Daily user meals"))
         for key, value in self.meals.dictionary_grouping_by_fullName().items():
             self.wdgPieMeals.pie.appendData(key, value)
         self.wdgPieMeals.display()
 
         self.wdgPieFoodtypes.clear()
+        self.wdgPieFoodtypes.pie.setTitle(self.tr("Daily user meals food types"))
         for key, value in self.meals.dictionary_grouping_by_foodtype().items():
             self.wdgPieFoodtypes.pie.appendData(key, value)
         self.wdgPieFoodtypes.display()
         
         self.wdgTS.clear()    #Temporal series
+        self.wdgTS.ts.setTitle(self.tr("Daily user calories evolution"))
         s_evolution=self.wdgTS.ts.appendTemporalSeries(self.tr("Daily evolution"))
-        for date_,  calories in self.query_daily_calories_evolution():
-            self.wdgTS.ts.appendTemporalSeriesData(s_evolution, dtaware_day_end_from_date(date_,  self.mem.localzone),  calories)
+        for o in mealtotals:
+            self.wdgTS.ts.appendTemporalSeriesData(s_evolution, dtaware_day_end_from_date(o.date,  self.mem.localzone),  o.calories)
             
         s_recommended=self.wdgTS.ts.appendTemporalSeries(self.tr("Recommended calories"))
-        biometrics=BiometricsManager_all(self.mem, self.mem.user)
-        for o in biometrics:
+        for o in self.mem.user.biometrics:
             self.wdgTS.ts.appendTemporalSeriesData(s_recommended, dtaware_day_end_from_date(o.datetime.date(), self.mem.localzone), o.bmr())
-        
         self.wdgTS.display()
+        
+        self.wdgPieFulfillment.clear()
+        self.wdgPieFulfillment.pie.setTitle(self.tr("Daily user calories fulfillment"))
+
+        for key, value in mealtotals.dictionary_of_fulfillment().items():
+            self.wdgPieFulfillment.pie.appendData(key, value)
+        self.wdgPieFulfillment.display()
         
     @pyqtSlot()
     def on_actionMealNew_triggered(self):
