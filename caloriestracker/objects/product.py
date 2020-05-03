@@ -364,9 +364,11 @@ class ProductAllManager(QObject, ObjectManager_With_IdName_Selectable):
             personal.load_from_db("select * from personalproducts")
             for o in personal.arr:
                 self.append(o)
-        self.order_by_name()
+        self.order_by_fullName()
+        
+    def order_by_fullName(self):
+        self.order_with_none(("fullName", ()), reverse=False, none_at_top=True)
 
-    
     def qcombobox(self, combo, selected=None):
         combo.completer().setCompletionMode(QCompleter.PopupCompletion)
         self.order_by_name()
@@ -523,4 +525,17 @@ def Product_from_row(mem, row, system):
     r.calcium=row['calcium']
     r.obsolete=row['obsolete']
     r.id=row['id']
+    return r
+
+## Returns a ProductAllManager from other extracting products with s in its fullName method
+def ProductAllManager_fullName_contains(manager, s,  casesensitive=False):
+    s=s.upper() if casesensitive==False else s
+    r=ProductAllManager(manager.mem)
+    for o in manager:
+        if casesensitive==True:
+            if s in o.fullName():
+                r.append(o)
+        else:
+            if s in o.fullName().upper():
+                r.append(o)
     return r

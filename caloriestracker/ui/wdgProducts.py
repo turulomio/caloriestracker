@@ -1,9 +1,8 @@
 from PyQt5.QtCore import pyqtSlot, QSize
 from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox, QDialog, QVBoxLayout
 from caloriestracker.ui.Ui_wdgProducts import Ui_wdgProducts
-from caloriestracker.objects.product import ProductAllManager, ProductManager
+from caloriestracker.objects.product import ProductAllManager, ProductManager,  ProductAllManager_fullName_contains
 from caloriestracker.ui.myqwidgets import qmessagebox
-from caloriestracker.libmanagers import ManagerSelectionMode
 
 class wdgProducts(QWidget, Ui_wdgProducts):
     ## @param only_system_products Boolean. True only system products. False all products
@@ -107,10 +106,9 @@ class wdgProducts(QWidget, Ui_wdgProducts):
         elif self.cmb.currentIndex()==3:
             tmp=self.mem.data.products.ProductAllManager_only_system()        
         
-        self.products=tmp.ObjectManager_which_name_contains(self.txt.text(), False)
-        self.products.setSelectionMode(ManagerSelectionMode.Object)
+        self.products=ProductAllManager_fullName_contains(tmp, self.txt.text(), False)
         self.products.qtablewidget(self.tblProducts)
-        self.tblProducts.setOrderBy(0, False)
+        self.tblProducts.drawOrderBy(0, False)
         self.lblFound.setText(self.tr("{} products found").format(self.products.length()))
         self.mem.settings.setValue("wdgProducts/cmb", self.cmb.currentIndex())
         
