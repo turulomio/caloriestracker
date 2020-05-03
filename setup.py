@@ -264,21 +264,21 @@ class Doc(Command):
         print("Is connection active?",  con.is_active())
         
         f=open("caloriestracker/hardcoded_strings.py", "w", encoding='utf-8')
-        f.write("from PyQt5.QtCore import QT_TRANSLATE_NOOP\n")
+        f.write("from PyQt5.QtWidgets import QApplication\n")
         
         rows=con.cursor_rows("select distinct(name) from products where companies_id is Null and elaboratedproducts_id is null order by name")
         for row in rows:
-            f.write("QT_TRANSLATE_NOOP('HardcodedStrings','{}')\n".format(row["name"]))
+            f.write("QApplication.translate('HardcodedStrings','{}')\n".format(row["name"]))
             
         f.write("\n#Formats\n")
         rows=con.cursor_rows("select distinct(name) from formats order by name")
         for row in rows:
-            f.write("QT_TRANSLATE_NOOP('HardcodedStrings','{}')\n".format(row["name"]))
+            f.write("QApplication.translate('HardcodedStrings','{}')\n".format(row["name"]))
             
         f.write("\n#Foodtypes\n")
         rows=con.cursor_rows("select * from foodtypes order by name")
         for row in rows:
-            f.write("QT_TRANSLATE_NOOP('HardcodedStrings','{}')\n".format(row["name"]))
+            f.write("QApplication.translate('HardcodedStrings','{}')\n".format(row["name"]))
 
         f.close()
         con.disconnect()
