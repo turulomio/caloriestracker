@@ -84,6 +84,7 @@ class ProductElaborated:
         selected.ferrum=self.products_in.ferrum()
         selected.magnesium=self.products_in.magnesium()
         selected.phosphor=self.products_in.phosphor()
+        selected.calcium=self.products_in.calcium()
         selected.obsolete=self.obsolete
         selected.additives=self.products_in.additives()
         selected.elaboratedproducts_id=self.id
@@ -375,6 +376,14 @@ class ProductInElaboratedProductManager(ObjectManager_With_IdDatetime_Selectable
         for product_in in self.arr:
             try:
                 r=r+product_in.phosphor()
+            except:
+                return None
+        return r
+    def calcium(self):
+        r=Decimal(0)
+        for product_in in self.arr:
+            try:
+                r=r+product_in.calcium()
             except:
                 return None
         return r

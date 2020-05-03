@@ -147,6 +147,7 @@ def parse_contribution_dump_generate_files_and_validates_them(auxiliar_con, cont
                     ferrum=product.ferrum, 
                     magnesium=product.magnesium, 
                     phosphor=product.phosphor, 
+                    calcium=product.calcium, 
                     obsolete=product.obsolete, 
                     id=new_system_products_id)
 

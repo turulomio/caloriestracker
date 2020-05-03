@@ -14,7 +14,7 @@ class Ui_frmProductsAdd(object):
     def setupUi(self, frmProductsAdd):
         frmProductsAdd.setObjectName("frmProductsAdd")
         frmProductsAdd.setWindowModality(QtCore.Qt.WindowModal)
-        frmProductsAdd.resize(880, 691)
+        frmProductsAdd.resize(937, 786)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/caloriestracker/books.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         frmProductsAdd.setWindowIcon(icon)
@@ -140,6 +140,9 @@ class Ui_frmProductsAdd(object):
         self.qlepFerrum = myQLineEditPlus(self.groupBox_2)
         self.qlepFerrum.setObjectName("qlepFerrum")
         self.verticalLayout_2.addWidget(self.qlepFerrum)
+        self.qlepCalcium = myQLineEditPlus(self.groupBox_2)
+        self.qlepCalcium.setObjectName("qlepCalcium")
+        self.verticalLayout_2.addWidget(self.qlepCalcium)
         self.horizontalLayout_15.addWidget(self.groupBox_2)
         self.verticalLayout_3.addLayout(self.horizontalLayout_15)
         self.chkObsolete = QtWidgets.QCheckBox(frmProductsAdd)

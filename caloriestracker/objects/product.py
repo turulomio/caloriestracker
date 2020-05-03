@@ -15,7 +15,7 @@ class Product(QObject):
     def __init__(self, mem=None,  name=None, amount=None, fat=None, protein=None, carbohydrate=None, company=None, last=None, 
             elaboratedproducts_id=None, languages_id=None, calories=None, salt=None, cholesterol=None, sodium=None, potassium=None, 
             fiber=None, sugars=None, saturated_fat=None, system_company=None, foodtype=None, additives=None, glutenfree=None, 
-            ferrum=None, magnesium=None, phosphor=None, obsolete=None,  id=None):
+            ferrum=None, magnesium=None, phosphor=None, calcium=None, obsolete=None,  id=None):
         QObject.__init__(self)
         self.mem=mem
         self.name=name
@@ -42,6 +42,7 @@ class Product(QObject):
         self.ferrum=ferrum
         self.magnesium=magnesium
         self.phosphor=phosphor
+        self.calcium=calcium
         self.obsolete=obsolete
         self.id=id
         
@@ -144,15 +145,15 @@ class Product(QObject):
                     name, amount, fat, protein, carbohydrate, companies_id, last,
                     elaboratedproducts_id, languages, calories, salt, cholesterol, sodium, 
                     potassium, fiber, sugars, saturated_fat, system_company, foodtypes_id, additives,
-                    glutenfree, ferrum, magnesium, phosphor, obsolete
+                    glutenfree, ferrum, magnesium, phosphor, calcium, obsolete
                     ) values (%s, %s, %s, %s, %s, %s, %s, 
                     %s, %s, %s, %s, %s, %s, 
                     %s, %s, %s, %s, %s, %s, %s,
-                    %s, %s, %s, %s,%s ) returning id;"""
+                    %s, %s, %s, %s, %s, %s ) returning id;"""
         sql_parameters=(self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.last, 
                     self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, 
                     self.potassium, self.fiber, self.sugars, self.saturated_fat, self.system_company, foodtypes_id, self.additives.array_of_ids(), 
-                    self.glutenfree, self.ferrum, self.magnesium, self.phosphor, self.obsolete)
+                    self.glutenfree, self.ferrum, self.magnesium, self.phosphor, self.calcium, self.obsolete)
 
         if returning_id==False:
             sql=sql.replace(") values (", ", id ) values (")
@@ -167,11 +168,11 @@ class Product(QObject):
         foodtypes_id=None if self.foodtype==None else self.foodtype.id
         sql="""update public.""" +table+ """ set name=%s, amount=%s, fat=%s, protein=%s, carbohydrate=%s, companies_id=%s, last=%s,
             elaboratedproducts_id=%s, languages=%s, calories=%s, salt=%s, cholesterol=%s, sodium=%s, potassium=%s, fiber=%s, sugars=%s, saturated_fat=%s, 
-            system_company=%s, foodtypes_id=%s, additives=%s, glutenfree=%s, ferrum=%s, magnesium=%s, phosphor=%s, obsolete=%s
+            system_company=%s, foodtypes_id=%s, additives=%s, glutenfree=%s, ferrum=%s, magnesium=%s, phosphor=%s, calcium=%s, obsolete=%s
             where id=%s;"""
         sql_parameters=(self.name, self.amount, self.fat, self.protein, self.carbohydrate, companies_id, self.last, 
             self.elaboratedproducts_id, self.languages, self.calories, self.salt, self.cholesterol, self.sodium, self.potassium, self.fiber, self.sugars, self.saturated_fat, 
-            self.system_company,  foodtypes_id, self.additives.array_of_ids(), self.glutenfree, self.ferrum, self.magnesium, self.phosphor, self.obsolete, 
+            self.system_company,  foodtypes_id, self.additives.array_of_ids(), self.glutenfree, self.ferrum, self.magnesium, self.phosphor, self.calcium, self.obsolete, 
             self.id)
 
         return sql, sql_parameters
@@ -235,6 +236,7 @@ class Product(QObject):
         personal.ferrum=self.ferrum
         personal.magnesium=self.magnesium
         personal.phosphor=self.phosphor
+        personal.calcium=self.calcium
         personal.obsolete=self.obsolete
         personal.save()
         
@@ -518,6 +520,7 @@ def Product_from_row(mem, row, system):
     r.ferrum=row['ferrum']
     r.magnesium=row['magnesium']
     r.phosphor=row['phosphor']
+    r.calcium=row['calcium']
     r.obsolete=row['obsolete']
     r.id=row['id']
     return r

@@ -27,6 +27,7 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
         self.qlepFerrum.setLabel(self.tr("Ferrum"))
         self.qlepMagnesium.setLabel(self.tr("Magnesium"))
         self.qlepPhosphor.setLabel(self.tr("Phosphor"))
+        self.qlepCalcium.setLabel(self.tr("Calcium"))
         
         self.qlepAmount.setSuffix(self.tr("g"))
         self.qlepFat.setSuffix(self.tr("g"))
@@ -43,6 +44,7 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
         self.qlepFerrum.setSuffix(self.tr("mg"))
         self.qlepMagnesium.setSuffix(self.tr("mg"))
         self.qlepPhosphor.setSuffix(self.tr("mg"))
+        self.qlepCalcium.setSuffix(self.tr("mg"))
         
         if self.product==None:
             self.__insert=True
@@ -77,6 +79,7 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
             self.qlepFerrum.setValue(self.product.ferrum)
             self.qlepMagnesium.setValue(self.product.magnesium)
             self.qlepPhosphor.setValue(self.product.phosphor)
+            self.qlepCalcium.setValue(self.product.calcium)
             self.lbl.setText(self.tr("Edit a personal product"))
             self.cmbsAdditives.setManagers(self.mem.settings, "frmProductsAdd", "cmbsAdditives", self.mem.data.additives, self.product.additives)
             self.chkGlutenFree.setChecked(self.product.glutenfree)
@@ -147,6 +150,7 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
         self.product.ferrum=self.qlepFerrum.value()
         self.product.magnesium=self.qlepMagnesium.value()
         self.product.phosphor=self.qlepPhosphor.value()
+        self.product.calcium=self.qlepCalcium.value()
         self.product.obsolete=self.chkObsolete.isChecked()
         self.product.save()
         if self.mem.isProductsMaintainerMode():
