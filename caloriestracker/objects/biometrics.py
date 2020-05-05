@@ -156,7 +156,8 @@ class BiometricsManager(QObject, ObjectManager_With_IdName_Selectable):
         table.setDataWithObjects(
             [self.tr("Date and time"), self.tr("Weight"), self.tr("Height"), self.tr("Activity"), self.tr("weightwish"), self.tr("Situation")], 
             None, 
-            data
+            data, 
+            zonename=self.mem.localzone, 
         )
 
 def BiometricsManager_in_a_month(biometricsmanager, year, month):
