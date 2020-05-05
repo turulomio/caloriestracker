@@ -3,6 +3,7 @@
 ## DO NOT UPDATE IT IN YOUR CODE IT WILL BE REPLACED USING FUNCTION IN README
 
 from datetime import datetime
+from .casts import b2s
 from psycopg2 import OperationalError
 from psycopg2.extras import DictConnection
 
