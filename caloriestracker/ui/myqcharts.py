@@ -423,6 +423,12 @@ class VCTemporalSeries(QWidget):
 
         self.ts.customContextMenuRequested.connect(self.on_customContextMenuRequested)
 
+    ## Returns if the Widget hasn't series loaded
+    def isEmpty(self):
+        if len(self.ts.series)==0:
+            return True
+        return False
+
     def setSettings(self, settings, settingsSection,  settingsObject):
         self._settings=settings
         self._settingsSection=settingsSection

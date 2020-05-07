@@ -75,6 +75,7 @@ class mqtw(QWidget):
         self._ordering_enabled=False
         self.selected=None #Must be initializated
         self.selected_items=None
+        self.auxiliar=None #Auxiliar value, sometimes I need to pass some value between mqtw and myqtw_additional (For example, active), this attribute helps to do it
         
     ## Sets if ordering must be enabled
     ## In mqtw id False by default. In mqtwManager and mqtwObjects is True by default

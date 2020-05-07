@@ -156,6 +156,17 @@ def lor_transposed(lor):
         r.append(tran_row)
     return r
 
+## Extract a column from the list of row
+def lor_get_row(lor, row):
+    return lor[row]
+
+## Extract a column from the list of row
+def lor_get_column(lor, column):
+    r=[]
+    for row in lor:
+        r.append(row[column])
+    return r
+
 ## Return sum of values of a column from and index to and other index position. This method ignores None values
 ## This method can sum several objects
 ## @zerovalue 0 or Money(self.mem, 0, self.mem.localcurrency)....
