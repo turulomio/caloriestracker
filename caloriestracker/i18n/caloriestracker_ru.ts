@@ -3,12 +3,12 @@
 <context>
     <name>Core</name>
     <message>
-        <location filename="../ui/myqtablewidget.py" line="707"/>
+        <location filename="../ui/myqtablewidget.py" line="708"/>
         <source>True</source>
         <translation>Правда</translation>
     </message>
     <message>
-        <location filename="../ui/myqtablewidget.py" line="710"/>
+        <location filename="../ui/myqtablewidget.py" line="711"/>
         <source>False</source>
         <translation>Ложь</translation>
     </message>
@@ -261,7 +261,7 @@
         <translation>Груша</translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="49"/>
+        <location filename="../hardcoded_strings.py" line="50"/>
         <source>Persimmon</source>
         <translation>Хурма</translation>
     </message>
@@ -560,11 +560,6 @@
         <source>Vegetables</source>
         <translation>Овощи</translation>
     </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="50"/>
-        <source>Pimientos de padrón</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <location filename="../hardcoded_strings.py" line="41"/>
         <source>Menestra de verduras</source>
@@ -583,6 +578,11 @@
     <message>
         <location filename="../hardcoded_strings.py" line="104"/>
         <source>Homemade food</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="49"/>
+        <source>Peppers from Padrón</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -714,7 +714,7 @@
 <context>
     <name>MyPopup</name>
     <message>
-        <location filename="../ui/myqcharts.py" line="605"/>
+        <location filename="../ui/myqcharts.py" line="611"/>
         <source>{} (Last: {})</source>
         <translation>{} (Последний: {})</translation>
     </message>
@@ -768,32 +768,32 @@
 <context>
     <name>VCPie</name>
     <message>
-        <location filename="../ui/myqcharts.py" line="679"/>
+        <location filename="../ui/myqcharts.py" line="685"/>
         <source>Show chart data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/myqcharts.py" line="675"/>
+        <location filename="../ui/myqcharts.py" line="681"/>
         <source>Hide chart data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/myqcharts.py" line="706"/>
+        <location filename="../ui/myqcharts.py" line="712"/>
         <source>Name</source>
         <translation type="unfinished">Имя</translation>
     </message>
     <message>
-        <location filename="../ui/myqcharts.py" line="706"/>
+        <location filename="../ui/myqcharts.py" line="712"/>
         <source>Value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/myqcharts.py" line="706"/>
+        <location filename="../ui/myqcharts.py" line="712"/>
         <source>Percentage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/myqcharts.py" line="708"/>
+        <location filename="../ui/myqcharts.py" line="714"/>
         <source>Total: {}</source>
         <translation type="unfinished"></translation>
     </message>
@@ -801,12 +801,12 @@
 <context>
     <name>VCTemporalSeries</name>
     <message>
-        <location filename="../ui/myqcharts.py" line="443"/>
+        <location filename="../ui/myqcharts.py" line="449"/>
         <source>Show chart data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/myqcharts.py" line="440"/>
+        <location filename="../ui/myqcharts.py" line="446"/>
         <source>Hide chart data</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2027,27 +2027,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/myqtablewidget.py" line="447"/>
+        <location filename="../ui/myqtablewidget.py" line="448"/>
         <source>Save File</source>
         <translation type="unfinished">Сохранить файл</translation>
     </message>
     <message>
-        <location filename="../ui/myqtablewidget.py" line="447"/>
+        <location filename="../ui/myqtablewidget.py" line="448"/>
         <source>Libreoffice calc (*.ods)</source>
         <translation type="unfinished">Libreoffice calc (*.ods)</translation>
     </message>
     <message>
-        <location filename="../ui/myqtablewidget.py" line="255"/>
+        <location filename="../ui/myqtablewidget.py" line="256"/>
         <source> (desc)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/myqtablewidget.py" line="484"/>
+        <location filename="../ui/myqtablewidget.py" line="485"/>
         <source>Order by</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/myqtablewidget.py" line="489"/>
+        <location filename="../ui/myqtablewidget.py" line="490"/>
         <source>Columns size</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2055,7 +2055,7 @@
 <context>
     <name>mqtwManager</name>
     <message>
-        <location filename="../ui/myqtablewidget.py" line="685"/>
+        <location filename="../ui/myqtablewidget.py" line="686"/>
         <source> (desc)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2472,7 +2472,7 @@ Do you want to delete all meals from selected day?</source>
         <translation>Удалить пользовательский продукт</translation>
     </message>
     <message>
-        <location filename="../ui/wdgProducts.py" line="27"/>
+        <location filename="../ui/wdgProducts.py" line="26"/>
         <source>This product can&apos;t be removed, because is marked as not remavable</source>
         <translation>Этот продукт не может быть удалён, так как помечен как неудаляемый</translation>
     </message>
@@ -2482,19 +2482,19 @@ Do you want to delete all meals from selected day?</source>
         <translation>Править продукт</translation>
     </message>
     <message>
-        <location filename="../ui/wdgProducts.py" line="34"/>
+        <location filename="../ui/wdgProducts.py" line="33"/>
         <source>Asking your confirmation</source>
         <translation>Запрашиваем подтверждения</translation>
     </message>
     <message>
-        <location filename="../ui/wdgProducts.py" line="34"/>
+        <location filename="../ui/wdgProducts.py" line="33"/>
         <source>This action can&apos;t be undone.
 Do you want to delete this record?</source>
         <translation>Это действие не может быть отменено.
 Вы действительно хотите удалить эту запись?</translation>
     </message>
     <message>
-        <location filename="../ui/wdgProducts.py" line="114"/>
+        <location filename="../ui/wdgProducts.py" line="112"/>
         <source>{} products found</source>
         <translation>{} продуктов найдено</translation>
     </message>
@@ -2504,7 +2504,7 @@ Do you want to delete this record?</source>
         <translation>Введите строку для поиска</translation>
     </message>
     <message>
-        <location filename="../ui/wdgProducts.py" line="31"/>
+        <location filename="../ui/wdgProducts.py" line="30"/>
         <source>Not developed yet, for elaborated product</source>
         <translation>Ещё не разработано для elaborated product</translation>
     </message>
@@ -2519,7 +2519,7 @@ Do you want to delete this record?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/wdgProducts.py" line="47"/>
+        <location filename="../ui/wdgProducts.py" line="46"/>
         <source>Merge personal product into a system one</source>
         <translation type="unfinished"></translation>
     </message>

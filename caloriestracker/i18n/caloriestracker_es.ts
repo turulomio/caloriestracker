@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="es_ES" sourcelanguage="en">
+<!DOCTYPE TS>
+<TS version="2.1" language="es_ES" sourcelanguage="en">
 <context>
     <name>Core</name>
     <message>
-        <location filename="../ui/myqtablewidget.py" line="707"/>
+        <location filename="../ui/myqtablewidget.py" line="708"/>
         <source>True</source>
         <translation>Verdadero</translation>
     </message>
     <message>
-        <location filename="../ui/myqtablewidget.py" line="710"/>
+        <location filename="../ui/myqtablewidget.py" line="711"/>
         <source>False</source>
         <translation>Falso</translation>
     </message>
@@ -261,7 +262,7 @@
         <translation>Pera</translation>
     </message>
     <message>
-        <location filename="../hardcoded_strings.py" line="49"/>
+        <location filename="../hardcoded_strings.py" line="50"/>
         <source>Persimmon</source>
         <translation>Persimón</translation>
     </message>
@@ -580,10 +581,10 @@
         <source>Homemade food</source>
         <translation>Comida casera</translation>
     </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="50"/>
-        <source>Pimientos de padrón</source>
-        <translation type="unfinished"></translation>
+    <message>
+        <location filename="../hardcoded_strings.py" line="49"/>
+        <source>Peppers from Padrón</source>
+        <translation>Pimientos de Padrón</translation>
     </message>
 </context>
 <context>
@@ -595,7 +596,7 @@
     </message>
     <message>
         <location filename="../mem.py" line="36"/>
-        <source>Developed by Mariano Mu&#xf1;oz 2019-{} &#xa9;</source>
+        <source>Developed by Mariano Muñoz 2019-{} ©</source>
         <translation>Desarrollado por Mariano Muñoz 2019-{} ©</translation>
     </message>
     <message>
@@ -629,7 +630,7 @@
     <message>
         <location filename="../mem.py" line="229"/>
         <source>Products mantainer interface (only developers)</source>
-        <translation type="unfinished"></translation>
+        <translation>Interfaz de mantenimiento de productos (solo desarrolladores)</translation>
     </message>
 </context>
 <context>
@@ -714,7 +715,7 @@
 <context>
     <name>MyPopup</name>
     <message>
-        <location filename="../ui/myqcharts.py" line="605"/>
+        <location filename="../ui/myqcharts.py" line="611"/>
         <source>{} (Last: {})</source>
         <translation>{} (Último: {})</translation>
     </message>
@@ -768,32 +769,32 @@
 <context>
     <name>VCPie</name>
     <message>
-        <location filename="../ui/myqcharts.py" line="679"/>
+        <location filename="../ui/myqcharts.py" line="685"/>
         <source>Show chart data</source>
         <translation>Muestra los datos del gráfico</translation>
     </message>
     <message>
-        <location filename="../ui/myqcharts.py" line="675"/>
+        <location filename="../ui/myqcharts.py" line="681"/>
         <source>Hide chart data</source>
         <translation>Oculta los datos del gráfico</translation>
     </message>
     <message>
-        <location filename="../ui/myqcharts.py" line="706"/>
+        <location filename="../ui/myqcharts.py" line="712"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="../ui/myqcharts.py" line="706"/>
+        <location filename="../ui/myqcharts.py" line="712"/>
         <source>Value</source>
         <translation>Valor</translation>
     </message>
     <message>
-        <location filename="../ui/myqcharts.py" line="706"/>
+        <location filename="../ui/myqcharts.py" line="712"/>
         <source>Percentage</source>
         <translation>Porcentaje</translation>
     </message>
     <message>
-        <location filename="../ui/myqcharts.py" line="708"/>
+        <location filename="../ui/myqcharts.py" line="714"/>
         <source>Total: {}</source>
         <translation>Total: {}</translation>
     </message>
@@ -801,12 +802,12 @@
 <context>
     <name>VCTemporalSeries</name>
     <message>
-        <location filename="../ui/myqcharts.py" line="443"/>
+        <location filename="../ui/myqcharts.py" line="449"/>
         <source>Show chart data</source>
         <translation>Muestra los datos del gráfico</translation>
     </message>
     <message>
-        <location filename="../ui/myqcharts.py" line="440"/>
+        <location filename="../ui/myqcharts.py" line="446"/>
         <source>Hide chart data</source>
         <translation>Oculta los datos del gráfico</translation>
     </message>
@@ -839,7 +840,7 @@
     <message>
         <location filename="../ui/frmSelector.py" line="218"/>
         <source>Press to open a manager selector</source>
-        <translation type="unfinished"></translation>
+        <translation>Pulsa para realizar su selección</translation>
     </message>
 </context>
 <context>
@@ -879,7 +880,7 @@
     </message>
     <message>
         <location filename="../ui/frmAbout.py" line="24"/>
-        <source>This program has been developed by Mariano Mu&#xf1;oz</source>
+        <source>This program has been developed by Mariano Muñoz</source>
         <translation>Este programa ha sido desarrollado por Mariano Muñoz</translation>
     </message>
     <message>
@@ -1308,12 +1309,12 @@
     </message>
     <message>
         <location filename="../ui/frmMain.py" line="32"/>
-        <source>Calories Tracker 2019-{0} &#xa9; (Admin mode)</source>
+        <source>Calories Tracker 2019-{0} © (Admin mode)</source>
         <translation>Calories Tracker 2019-{0} © (Modo administrador)</translation>
     </message>
     <message>
         <location filename="../ui/frmMain.py" line="35"/>
-        <source>Calories Tracker 2019-{0} &#xa9;</source>
+        <source>Calories Tracker 2019-{0} ©</source>
         <translation>Calories Tracker 2019-{0} ©</translation>
     </message>
     <message>
@@ -1542,7 +1543,7 @@
     <message>
         <location filename="../ui/frmMainProductsMaintainer.py" line="42"/>
         <source>Calories Tracker 2019-{0} (Product maintenance mode)</source>
-        <translation type="unfinished"></translation>
+        <translation>Calories Tracker 2019-{0} (Modo de mantenimiento de productos)</translation>
     </message>
 </context>
 <context>
@@ -1968,7 +1969,7 @@
     <message>
         <location filename="../ui/Ui_frmUsersAdd.py" line="102"/>
         <source>Select your meal proportions</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccione las proporciones de su comida</translation>
     </message>
     <message>
         <location filename="../ui/frmUsersAdd.py" line="16"/>
@@ -2004,7 +2005,7 @@
     <message>
         <location filename="../ui/myqtablewidget.py" line="43"/>
         <source>Add a string to filter rows</source>
-        <translation type="unfinished"></translation>
+        <translation>Escriba una cadena para filtrar los registros</translation>
     </message>
     <message>
         <location filename="../ui/myqtablewidget.py" line="58"/>
@@ -2014,40 +2015,40 @@
     <message>
         <location filename="../ui/myqtablewidget.py" line="62"/>
         <source>Minimum column size</source>
-        <translation type="unfinished"></translation>
+        <translation>Mínimo tamaño de columna</translation>
     </message>
     <message>
         <location filename="../ui/myqtablewidget.py" line="64"/>
         <source>Needed column size</source>
-        <translation type="unfinished"></translation>
+        <translation>Tamaño de columna necesitado</translation>
     </message>
     <message>
         <location filename="../ui/myqtablewidget.py" line="67"/>
         <source>Search in table</source>
-        <translation type="unfinished"></translation>
+        <translation>Buscar en la tabla</translation>
     </message>
     <message>
-        <location filename="../ui/myqtablewidget.py" line="447"/>
+        <location filename="../ui/myqtablewidget.py" line="448"/>
         <source>Save File</source>
         <translation>Guardar fichero</translation>
     </message>
     <message>
-        <location filename="../ui/myqtablewidget.py" line="447"/>
+        <location filename="../ui/myqtablewidget.py" line="448"/>
         <source>Libreoffice calc (*.ods)</source>
         <translation>Libreoffice calc (*.ods)</translation>
     </message>
     <message>
-        <location filename="../ui/myqtablewidget.py" line="255"/>
+        <location filename="../ui/myqtablewidget.py" line="256"/>
         <source> (desc)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/myqtablewidget.py" line="484"/>
+        <location filename="../ui/myqtablewidget.py" line="485"/>
         <source>Order by</source>
         <translation>Ordenar por</translation>
     </message>
     <message>
-        <location filename="../ui/myqtablewidget.py" line="489"/>
+        <location filename="../ui/myqtablewidget.py" line="490"/>
         <source>Columns size</source>
         <translation>Tamaño de columnas</translation>
     </message>
@@ -2055,7 +2056,7 @@
 <context>
     <name>mqtwManager</name>
     <message>
-        <location filename="../ui/myqtablewidget.py" line="685"/>
+        <location filename="../ui/myqtablewidget.py" line="686"/>
         <source> (desc)</source>
         <translation> (desc)</translation>
     </message>
@@ -2471,7 +2472,7 @@ Do you want to delete all meals from selected day?</source>
         <translation>Borrar producto de usuario</translation>
     </message>
     <message>
-        <location filename="../ui/wdgProducts.py" line="27"/>
+        <location filename="../ui/wdgProducts.py" line="26"/>
         <source>This product can&apos;t be removed, because is marked as not remavable</source>
         <translation>Este producto no puede ser borrado, porque está marcado como no borrable</translation>
     </message>
@@ -2481,19 +2482,19 @@ Do you want to delete all meals from selected day?</source>
         <translation>Editar producto</translation>
     </message>
     <message>
-        <location filename="../ui/wdgProducts.py" line="34"/>
+        <location filename="../ui/wdgProducts.py" line="33"/>
         <source>Asking your confirmation</source>
         <translation>Pidiendo confirmación</translation>
     </message>
     <message>
-        <location filename="../ui/wdgProducts.py" line="34"/>
+        <location filename="../ui/wdgProducts.py" line="33"/>
         <source>This action can&apos;t be undone.
 Do you want to delete this record?</source>
         <translation>Esta acción no puede deshacerse.
 ¿Quieres borrar el registro?</translation>
     </message>
     <message>
-        <location filename="../ui/wdgProducts.py" line="114"/>
+        <location filename="../ui/wdgProducts.py" line="112"/>
         <source>{} products found</source>
         <translation>{} productos encontrados</translation>
     </message>
@@ -2503,7 +2504,7 @@ Do you want to delete this record?</source>
         <translation>Introduce una cadena de búsqueda</translation>
     </message>
     <message>
-        <location filename="../ui/wdgProducts.py" line="31"/>
+        <location filename="../ui/wdgProducts.py" line="30"/>
         <source>Not developed yet, for elaborated product</source>
         <translation>No desarrollado todavía, para productos elaborados</translation>
     </message>
@@ -2518,7 +2519,7 @@ Do you want to delete this record?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/wdgProducts.py" line="47"/>
+        <location filename="../ui/wdgProducts.py" line="46"/>
         <source>Merge personal product into a system one</source>
         <translation type="unfinished"></translation>
     </message>
