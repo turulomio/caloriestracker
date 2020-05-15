@@ -25,6 +25,9 @@ class Doxygen(Command):
         os.system("rm -Rf build")
         os.chdir("doc")
         os.system("doxygen Doxyfile")
+        
+        os.system("cp caloriestracker.html html/")
+        
         os.system("rsync -avzP -e 'ssh -l turulomio' html/ frs.sourceforge.net:/home/users/t/tu/turulomio/userweb/htdocs/doxygen/caloriestracker/ --delete-after")
         os.chdir("..")
 

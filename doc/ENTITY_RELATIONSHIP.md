@@ -1,2 +1,2 @@
 # Entity Relationship Schema
-![HOLA](caloriestracker_er.png)
+[![](caloriestracker_er.png)](caloriestracker.html)
