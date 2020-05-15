@@ -6,7 +6,7 @@ from caloriestracker.libmanagers import ObjectManager_With_IdName_Selectable, Ma
 ## There is no need of system_formats or personal_formats because it's relacionated with the product as its properties
 class Format(QObject):
     ##Format(mem)
-    ##Format(mem,rows) #Uses products_id and users_id in row
+    ##Format(mem,rows) Uses products_id and users_id in row
     ##Format(mem, name, product, system_product,amount, last,  id):
     def __init__(self, *args):        
         def init__create( name, product, system_product,amount, last,  id):
@@ -92,7 +92,7 @@ class Format(QObject):
         return "{}#{}".format(self.id, self.system_format)
 
 class FormatAllManager(QObject, ObjectManager_With_IdName_Selectable):
-    ## ProductAllManager(mem,product)#Loads all database
+    ## ProductAllManager(mem,product) 
     def __init__(self, *args):
         QObject.__init__(self)
         ObjectManager_With_IdName_Selectable.__init__(self)

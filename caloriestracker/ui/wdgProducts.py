@@ -5,7 +5,9 @@ from caloriestracker.objects.product import ProductAllManager, ProductManager,  
 from caloriestracker.ui.myqwidgets import qmessagebox
 
 class wdgProducts(QWidget, Ui_wdgProducts):
+    ## @param mem Singleton
     ## @param only_system_products Boolean. True only system products. False all products
+    ## @param parent QWidget parent
     def __init__(self, mem,  only_system_products=False, parent=None):
         QWidget.__init__(self, parent)
         self.setupUi(self)

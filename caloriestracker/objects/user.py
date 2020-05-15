@@ -7,9 +7,6 @@ from datetime import date, timedelta
 from logging import debug
 
 class User:
-    ##User(mem)
-    ##User(mem,rows) #Uses products_id and users_id in row
-    ##User(mem, name, male, birthday, starts, ends, id):
     def __init__(self, mem, name=None, male=None, birthday=None, starts=None, ends=None, id=None):
         self.mem=mem
         self.name=name

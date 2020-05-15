@@ -136,6 +136,7 @@ class Product(QObject):
     def string_id2tuple(string_id):
         return CompanySystem.string_id2tuple(string_id)
         
+    ## @param table String that can be products or personalproducts
     ## @param returning_id True sql with returning id (normal insert). False without returning_id and id inside sql. Used for automatic inserts
     def sql_insert(self, table="products", returning_id=True):
         companies_id=None if self.company==None else self.company.id
@@ -347,7 +348,6 @@ class ProductPersonal(Product):
             debug("I did not delete personalproducts because is not deletable")
 
 class ProductAllManager(QObject, ObjectManager_With_IdName_Selectable):
-    ## ProductAllManager(mem)#Loads all database
     def __init__(self, mem):
         QObject.__init__(self)
         ObjectManager_With_IdName_Selectable.__init__(self)
@@ -391,7 +391,7 @@ class ProductAllManager(QObject, ObjectManager_With_IdName_Selectable):
         return ProductManager.find_by_elaboratedproducts_id(self, elaboratedproducts_id)
 
     ## Returns a ProductAllManager with all the products of the same company
-    ## @param company. It's a Company object
+    ## @param company It's a Company object
     def ProductAllManager_of_same_company(self, company):
         r=ProductAllManager(self.mem)
         for o in self.arr:
@@ -489,6 +489,8 @@ def myQTableWidget_ProductManagers_additional(wdg):
         wdg.table.item(i, 0).setIcon(o.qicon())
         wdg.table.item(i, 2).setIcon(o.risk_qicon())
 
+## @param mem Singleton
+## @param row Database row
 ## @param system boolean If true returns a Product, else a ProductPersonal
 def Product_from_row(mem, row, system):
     company=mem.data.companies.find_by_id_system(row['companies_id'], row['system_company'])
