@@ -18,6 +18,7 @@ class Doxygen(Command):
         pass
 
     def run(self):
+        os.system("cp doc/caloriestracker_er.png doc/html/")
         print("Creating Doxygen Documentation")
         os.system("""sed -i -e "41d" doc/Doxyfile""")#Delete line 41
         os.system("""sed -i -e "41iPROJECT_NUMBER         = {}" doc/Doxyfile""".format(__version__))#Insert line 41
@@ -285,6 +286,13 @@ class Doc(Command):
 
         os.system("pylupdate5 -noobsolete -verbose caloriestracker.pro")
         os.system("lrelease -qt5 caloriestracker.pro")
+
+        print("Updating Entity Relationship Schema")
+        os.chdir("doc")
+        os.system("/usr/bin/postgresql_autodoc -d {} -h {} -u {} -p {} --password={} -t html".format(self.db,self.server,self.user, self.port,con.password))
+        os.system("/usr/bin/postgresql_autodoc -d {} -h {} -u {} -p {} --password={} -t dot_shortfk".format(self.db,self.server,self.user, self.port,con.password))
+        os.system("dot -Tpng {0}.dot_shortfk -o {0}_er.png".format(self.db))
+        os.system("rm caloriestracker.dot_shortfk")
     ########################################################################
 
 #Description
