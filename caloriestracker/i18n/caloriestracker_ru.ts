@@ -622,12 +622,12 @@
 <context>
     <name>MemCaloriestracker</name>
     <message>
-        <location filename="../mem.py" line="227"/>
+        <location filename="../mem.py" line="226"/>
         <source>Report of calories</source>
         <translation>Отчёт по калориям</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="229"/>
+        <location filename="../mem.py" line="228"/>
         <source>Products mantainer interface (only developers)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -635,57 +635,57 @@
 <context>
     <name>MemConsole</name>
     <message>
-        <location filename="../mem.py" line="186"/>
+        <location filename="../mem.py" line="185"/>
         <source>Report of calories</source>
         <translation>Отчёт по калориям</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="190"/>
+        <location filename="../mem.py" line="189"/>
         <source>Date to show</source>
         <translation>Дата для отображения</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="191"/>
+        <location filename="../mem.py" line="190"/>
         <source>User id</source>
         <translation>ID пользователя</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="192"/>
+        <location filename="../mem.py" line="191"/>
         <source>Find data</source>
         <translation>Найти</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="195"/>
+        <location filename="../mem.py" line="194"/>
         <source>Adds a company</source>
         <translation>Добавляет компанию</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="194"/>
+        <location filename="../mem.py" line="193"/>
         <source>Adds a product</source>
         <translation>Добавляет продукт</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="197"/>
+        <location filename="../mem.py" line="196"/>
         <source>Generate a dump to collaborate updating companies and products</source>
         <translation>Генерирует дамп для совместной работы по обновлению компаний и продуктов</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="200"/>
+        <location filename="../mem.py" line="199"/>
         <source>Show elaborated product</source>
         <translation>Показать разработанные продукт</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="198"/>
+        <location filename="../mem.py" line="197"/>
         <source>Parses a dump and generates sql files for the package and for the dump owner</source>
         <translation>Обрабатывает дамп и генерирует sql-файлы для пакета и для владельца дампа</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="199"/>
+        <location filename="../mem.py" line="198"/>
         <source>Converts personal data to system data in the database using generated sql file of the dump owner</source>
         <translation>Преобразовывает персональные данные в системные данные в базе данных с помощью сгенерированного sql-файла владельца дампа</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="196"/>
+        <location filename="../mem.py" line="195"/>
         <source>Adds biometric information</source>
         <translation>Добавляет биометрическую информацию</translation>
     </message>
@@ -693,7 +693,7 @@
 <context>
     <name>MemInit</name>
     <message>
-        <location filename="../mem.py" line="128"/>
+        <location filename="../mem.py" line="127"/>
         <source>Create a new caloriestracker database</source>
         <translation>Создать новую базу данных CaloriesTracker</translation>
     </message>
@@ -701,12 +701,12 @@
 <context>
     <name>MemMaintenanceProductSystem2Personal</name>
     <message>
-        <location filename="../mem.py" line="260"/>
+        <location filename="../mem.py" line="259"/>
         <source>Converts a system product in a personal one</source>
         <translation>Конвертирует системный продукт в персональный</translation>
     </message>
     <message>
-        <location filename="../mem.py" line="264"/>
+        <location filename="../mem.py" line="263"/>
         <source>System product</source>
         <translation>Системный продукт</translation>
     </message>
@@ -2472,7 +2472,7 @@ Do you want to delete all meals from selected day?</source>
         <translation>Удалить пользовательский продукт</translation>
     </message>
     <message>
-        <location filename="../ui/wdgProducts.py" line="26"/>
+        <location filename="../ui/wdgProducts.py" line="28"/>
         <source>This product can&apos;t be removed, because is marked as not remavable</source>
         <translation>Этот продукт не может быть удалён, так как помечен как неудаляемый</translation>
     </message>
@@ -2482,19 +2482,19 @@ Do you want to delete all meals from selected day?</source>
         <translation>Править продукт</translation>
     </message>
     <message>
-        <location filename="../ui/wdgProducts.py" line="33"/>
+        <location filename="../ui/wdgProducts.py" line="35"/>
         <source>Asking your confirmation</source>
         <translation>Запрашиваем подтверждения</translation>
     </message>
     <message>
-        <location filename="../ui/wdgProducts.py" line="33"/>
+        <location filename="../ui/wdgProducts.py" line="35"/>
         <source>This action can&apos;t be undone.
 Do you want to delete this record?</source>
         <translation>Это действие не может быть отменено.
 Вы действительно хотите удалить эту запись?</translation>
     </message>
     <message>
-        <location filename="../ui/wdgProducts.py" line="112"/>
+        <location filename="../ui/wdgProducts.py" line="114"/>
         <source>{} products found</source>
         <translation>{} продуктов найдено</translation>
     </message>
@@ -2504,7 +2504,7 @@ Do you want to delete this record?</source>
         <translation>Введите строку для поиска</translation>
     </message>
     <message>
-        <location filename="../ui/wdgProducts.py" line="30"/>
+        <location filename="../ui/wdgProducts.py" line="32"/>
         <source>Not developed yet, for elaborated product</source>
         <translation>Ещё не разработано для elaborated product</translation>
     </message>
@@ -2519,7 +2519,7 @@ Do you want to delete this record?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/wdgProducts.py" line="46"/>
+        <location filename="../ui/wdgProducts.py" line="48"/>
         <source>Merge personal product into a system one</source>
         <translation type="unfinished"></translation>
     </message>
