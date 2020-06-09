@@ -235,6 +235,7 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
     def myqtablewidget_additional(self, wdg):
         for i, o in enumerate(wdg.objects()):
             wdg.table.item(i, 1).setIcon(o.product.qicon())
+            wdg.table.item(i, 2).setIcon(o.product.risk_qicon())
         wdg.table.setRowCount(wdg.length()+2)
         if self.mem.user.biometrics.last().height is not None:#Without last_biometrics
             #Totals
@@ -257,4 +258,3 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
             wdg.table.setItem(self.length()+1, 6, qnumber(self.mem.user.biometrics.last().protein()))
             wdg.table.setItem(self.length()+1, 7, qnumber(self.mem.user.biometrics.last().fat()))
             wdg.table.setItem(self.length()+1, 8, qnumber(self.mem.user.biometrics.last().fiber()))
-        
