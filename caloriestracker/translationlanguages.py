@@ -18,7 +18,8 @@ class TranslationLanguageManager(ObjectManager_With_IdName_Selectable):
         self.append(TranslationLanguage("ro","Rom\xe2n" ))
         self.append(TranslationLanguage("ru",'\u0420\u0443\u0441\u0441\u043a\u0438\u0439' ))
 
-    ## @param id String
+    ## @param id string
+    ## @param module string
     def cambiar(self, id, module):
         from PyQt5.QtCore import QTranslator
         from PyQt5.QtWidgets import qApp

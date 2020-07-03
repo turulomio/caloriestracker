@@ -327,7 +327,7 @@ def dtnaive2string(dt, format):
 ## - libcaloriestrackerfunctions.dtaware_changes_tz(a,"Europe/London")
 ## - datetime.datetime(2018, 5, 18, 7, 12, tzinfo=<DstTzInfo 'Europe/London' BST+1:00:00 DST>)
 ## @param dt datetime aware object
-## @tzname String with datetime zone. For example: "Europe/Madrid"
+## @param tzname String with datetime zone. For example: "Europe/Madrid"
 ## @return datetime aware object
 def dtaware_changes_tz(dt,  tzname):
     if dt==None:
@@ -336,6 +336,24 @@ def dtaware_changes_tz(dt,  tzname):
     tarjet=tzt.normalize(dt.astimezone(tzt))
     return tarjet
 
+## Returns a list of tuples (year, month) from a month to another month, both included
+## @param year_from Integer
+## @param month_from Integer
+## @param year_to Integer If none uses current year
+## @param month_to Integer If none uses current month
+def months(year_from, month_from, year_to=None, month_to=None):
+    if year_to is None or month_to is None:
+        year_to=date.today().year
+        month_to=date.today().month
+    r=[]
+    end=date_first_of_the_month(year_to, month_to)
+    current=date_first_of_the_month(year_from, month_from)
+    while True:
+        if current>end:
+            break
+        r.append((current.year,current.month))
+        current=date_first_of_the_next_x_months(current.year, current.month, 1)
+    return r
 
 if __name__ == "__main__":
     tz="Europe/Madrid"

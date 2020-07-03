@@ -3,6 +3,8 @@
 
 from decimal import Decimal
 from logging import warning
+from .objects.currency import Currency
+from .objects.percentage import Percentage
 
 def list2string(lista):
         """Covierte lista a string"""
@@ -169,7 +171,10 @@ def lor_get_column(lor, column):
 
 ## Return sum of values of a column from and index to and other index position. This method ignores None values
 ## This method can sum several objects
-## @zerovalue 0 or Money(self.mem, 0, self.mem.localcurrency)....
+## @param row
+## @param from_index
+## @param to_index
+## @param zerovalue 0 or Money(self.mem, 0, self.mem.localcurrency)....
 def lor_sum_row(row, from_index, to_index, zerovalue=0):
     s=zerovalue
     for i, column in enumerate(row):
@@ -227,10 +232,31 @@ def xml2string(s):
 def object2value(o):
     if o.__class__.__name__ in ["int", "float", "Decimal"]:
         return o
-    elif o.__class__.__name__ in ["Currency",  "Money"]:
+    elif o.__class__.__name__ in ["Currency",  "Money", "USD", "EUR"]:
         return o.amount
-
-
+    elif o.__class__.__name__ == "Percentage":
+        return o.value
+    return o
+        
+        
+def value2object(value, stringtypes):
+    if value is None:
+        return None
+    if stringtypes=="int":
+        return int(value)
+    elif stringtypes=="float":
+        return float(value)
+    elif stringtypes=="Decimal":
+        return Decimal(value)
+    elif stringtypes==["datetime", "date", "time"]:
+        return value
+    elif stringtypes in ["EUR", "€"]:
+        return Currency(value, "EUR")
+    elif stringtypes in ["USD", "$"]:
+        return Currency(value, "EUR")
+    elif stringtypes=="Percentage":
+        return Percentage(value, 1)
+    return value
 
 if __name__ == "__main__":
     def print_lor(lor):

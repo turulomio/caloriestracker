@@ -7,6 +7,7 @@
 from datetime import datetime, timedelta, date
 from logging import critical, debug
 from .datetime_functions import dtaware_day_end_from_date, dtaware_day_start_from_date, dtnaive_day_end_from_date, dtnaive_day_start_from_date
+from .call_by_name import call_by_name
 
 ## Defines who self.selected is managed
 ## If can take the following values
@@ -89,27 +90,36 @@ class ObjectManager(object):
         nonull=[]
         null=[]
         for o in self.arr:
-            com=self._string_or_tuple_to_command(o, string_or_tuple)
+            com=call_by_name(o, string_or_tuple)
             if com is None:
                 null.append(o)
             else:
                 nonull.append(o)
-        nonull=sorted(nonull, key=lambda c: self._string_or_tuple_to_command(c,string_or_tuple), reverse=reverse)
+        nonull=sorted(nonull, key=lambda c: call_by_name(c,string_or_tuple), reverse=reverse)
         if none_at_top==True:#Set None at top of the list
             self.arr=null+nonull
         else:
             self.arr=nonull+null
-            
+
+    ## @param string_or_tuple String or tuple used with a call_by_name method
+    ## @return List returned with a call_by_name string or tuplen array with all object ids
+    def list_of(self, string_or_tuple):
+        r=[]
+        for o in self:
+            r.append(call_by_name(o, string_or_tuple))
+        return r
+
     ## Returns a new manager with the objects that have found a list of strings in several commands, passed as 
     ## This function doen't make exact matches. Only if strings in s_list are contained
     ## @param string_or_tuple_list List of _string_or_tuple_to_command parameters
     ## @param s_list List of string to search
+    ## @param upper boolean
     def find_strings_contained_in_string_or_tuple_results(self, string_or_tuple_list, s_list, upper=False):
         r=self.emptyManager()
         for o in self.arr:
             string_=""
             for string_or_tuple in string_or_tuple_list:
-                string_=string_+str(self._string_or_tuple_to_command(o, string_or_tuple))
+                string_=string_+str(call_by_name(o, string_or_tuple))
                 
             for s in s_list:
                 if upper==True:
@@ -126,33 +136,12 @@ class ObjectManager(object):
         r=self.emptyManager()
         for o in self.arr:
             if upper==True:
-                if s.upper() == self._string_or_tuple_to_command(o, string_or_tuple).upper():
+                if s.upper() == call_by_name(o, string_or_tuple).upper():
                     r.append(o)
             else:#upper False
-                if s == self._string_or_tuple_to_command(o, string_or_tuple):
+                if s == call_by_name(o, string_or_tuple):
                     r.append(o)
         return r
-
-    ## @param attribute str or list
-    ## Class Person, has self.name, self.age(), self.age_years_ago(year) self.son (another Person object)
-    ## manager_attributes of setDataFromManager must be called in a PersonManager
-    ## - ["name", ["age",[]], ["age_years_ago", [year]], ["son.age",[]]
-    def _string_or_tuple_to_command(self, o, string_or_tuple):
-        ## Returns an object 
-        def string_with_points(o, string_):
-            for s in string_.split("."): # With .
-                if "()" in s:#object.method1().attirbute
-                    o=getattr(o, s)()
-                else:#object.attribute1
-                    o=getattr(o, s)
-            return o
-        # --------------------------------------
-        if string_or_tuple.__class__.__name__=="str":
-            return string_with_points(o, string_or_tuple)
-        else:#List
-            function=string_with_points(o, string_or_tuple[0])
-            parameters=string_or_tuple[1]
-            return function(*parameters)
 
 ## Manager Selection class
 ## By default selectionmode is
@@ -296,7 +285,7 @@ class ObjectManager_With_IdDatetime(ObjectManager_With_Id):
                 
     ## Function that returns the same object manager, with a pointer to the of the objects that contains from the datetime given in the parameter.
     ## For example the constuctor of InvemestOperationHomogeneous is InvesmentOperationHomogeneous(mem,investment). so to use this function you need ObjectManager_from_datetime(dt,mem,investment)
-    ## @param datetime. This function copies all object with datetime until this parameter
+    ## @param dt datetime This function copies all object with datetime until this parameter
     def ObjectManager_from_datetime(self, dt):
         result=self.emptyManager()
         for a in self.arr:
@@ -323,7 +312,7 @@ class ObjectManager_With_IdDatetime(ObjectManager_With_Id):
         
     ## Function that returns the same object manager, but with a copy of the objects that contains until the datetime given in the parameter.
     ## For exemple the constuctor of InvemestOperationHomogeneous is InvemestOperationHomogeneous(mem,investment). so to use this function you need ObjectManager_copy_until_datetime(dt,mem,investment)
-    ## @param datetime. This function copies all object with datetime until this parameter
+    ## @param dt datetime This function copies all object with datetime until this parameter
     def ObjectManager_copy_until_datetime(self, dt):
         result=self.emptyManager()
         for a in self.arr:
@@ -338,7 +327,7 @@ class ObjectManager_With_IdName(ObjectManager_With_Id):
         
     ##Returns an array with all object name
     ## @param sort Boolean to sort or not the array
-    ## @oaram nones Boolean. If True adds None and empty strings values to the list. If False it doesn't
+    ## @param nones Boolean. If True adds None and empty strings values to the list. If False it doesn't
     def array_of_names(self, sort=True, nones=False):
         r=[]
         for o in self.arr:
@@ -355,7 +344,7 @@ class ObjectManager_With_IdName(ObjectManager_With_Id):
 
     ## Returns another object manager of the same class with the elements that contains a string in the name
     ## @param s string to search
-    ## @casesensitive Boolean if it's a case sensitive search    
+    ## @param casesensitive Boolean if it's a case sensitive search    
     def ObjectManager_which_name_contains(self, s, casesensitive):
         result=self.emptyManager()
         if s is None:
@@ -380,10 +369,11 @@ class ObjectManager_With_IdName(ObjectManager_With_Id):
 
 
     ## It doesn't emit selected if selected is None a nd needtoselect is False, in the rest of the cases it emmit itemChanged
+    ## @param combo
     ## @param selected it's an object
     ## @param needtoselect Adds a foo item with value==None with the text select one
     ## @param icons Boolean. If it's true uses o.qicon() method to add an icon to the item
-    def qcombobox(self, combo,  selected=None, needtoselect=False, icons=False):
+    def qcombobox(self, combo,  selected=None, needtoselect=False, icons=False, id_attr="id", name_attr="name"):
         combo.blockSignals(True)
         combo.clear()
 
@@ -394,10 +384,12 @@ class ObjectManager_With_IdName(ObjectManager_With_Id):
             else:
                 combo.addItem(combo.tr("No options to select"), None)
         for a in self.arr:
+            id_  =call_by_name(a, id_attr)
+            name_=call_by_name(a, name_attr)
             if icons==True:
-                combo.addItem(a.qicon(), a.name, a.id)
+                combo.addItem(a.qicon(), name_, id_)
             else:
-                combo.addItem(a.name, a.id)
+                combo.addItem(name_, id_)
 
         #Force without signals to be in -1. There were problems when 0 is selected, becouse it didn't emit anything
         combo.setCurrentIndex(-1)
@@ -416,8 +408,8 @@ class ObjectManager_With_IdName(ObjectManager_With_Id):
     ## Creates a libreoffice sheet from the ObjectManager
     ##
     ## This function needs the officegenerator package
+    ## @param ods Officegenerator ODS_Write object
     ## @param sheetname String with the name of the libreoffice sheet
-    ## @param Officegenerator ODS_Write object
     ## @param titles List of strings with the titles of the columns
     ## @param order_by_name Boolean. True: orders by name. False: orders by id
     ## @returns Officegenerator OdfSheet
@@ -433,8 +425,7 @@ class ObjectManager_With_IdName(ObjectManager_With_Id):
         for number, o in enumerate(self.arr):
             s.add(Coord("A2").addRow(number), o.id, "WhiteRight")        
             s.add(Coord("B2").addRow(number), o.name, "WhiteLeft")
-        s.setSplitPosition("A1")
-        s.setCursorPosition(Coord("B2").addRow(self.length()))
+        s.freezeAndSelect("A1")
         return s
 
 ## Usefull when creating a class with two attributes self.id and self.name only

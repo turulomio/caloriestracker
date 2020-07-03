@@ -1,8 +1,9 @@
-from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtCore import QSize, Qt, pyqtSignal
 from PyQt5.QtGui import QFont, QIcon
 from PyQt5.QtWidgets import QLabel, QComboBox, QDialog, QDialogButtonBox, QWidget, QTableWidgetItem, QVBoxLayout, QToolButton, QHBoxLayout
 from logging import debug
 from .myqtablewidget import mqtw
+from .. call_by_name import call_by_name
 
 class frmManagerSelector(QDialog):
     def __init__(self, parent=None):
@@ -87,6 +88,12 @@ class wdgManagerSelector(QWidget):
         self.lay.addLayout(self.laybuttons)
         self.lay.addWidget(self.mqtwSelected)        
         self._showObjectIcons=True
+        self._showObjectCallingByName="name"
+        
+    ## Objects are showed in tables using call_by_name method
+    ## @param string_or_tuple parameter to call mehtod using call_by_name module
+    def setShowObjectCallingByName(self, string_or_tuple):
+        self._showObjectCallingByName=string_or_tuple
 
     ## Hides Up and Down button
     def showUpDown(self):
@@ -130,7 +137,7 @@ class wdgManagerSelector(QWidget):
         self.mqtwSelected.applySettings() 
         self.mqtwSelected.table.setRowCount(self.selected.length())
         for i, o in enumerate(self.selected.arr):
-            self.mqtwSelected.table.setItem(i, 0, QTableWidgetItem(str(o)))
+            self.mqtwSelected.table.setItem(i, 0, QTableWidgetItem(str(call_by_name(o, self._showObjectCallingByName))))
             if self._showObjectIcons==True:
                 self.mqtwSelected.table.item(i, 0).setIcon(o.qicon())
         
@@ -140,7 +147,7 @@ class wdgManagerSelector(QWidget):
         self.mqtw.applySettings()
         self.mqtw.table.setRowCount(self.manager.length())
         for i, o in enumerate(self.manager.arr):
-            self.mqtw.table.setItem(i, 0, QTableWidgetItem(str(o)))
+            self.mqtw.table.setItem(i, 0, QTableWidgetItem(str(call_by_name(o, self._showObjectCallingByName))))
             if self._showObjectIcons==True:
                 self.mqtw.table.item(i, 0).setIcon(o.qicon())
 
@@ -210,6 +217,7 @@ class wdgManagerSelector(QWidget):
 ## - ":/reusingcode/search.png"
 ## Shows selected objects in a QComboBox. You can press a button to open frmManagerSelector
 class cmbManagerSelector(QWidget):
+    comboSelectionChanged=pyqtSignal()
     def __init__(self, parent=None):
         QDialog.__init__(self, parent=None)
         self.combo=QComboBox(self)
@@ -235,9 +243,10 @@ class cmbManagerSelector(QWidget):
         self.combo.clear()
         for o in self.frm.widget.selected.arr:
             if self._showObjectIcons==True:
-                self.combo.addItem(o.qicon(), str(o))
+                self.combo.addItem(o.qicon(), call_by_name(o, self.frm.widget._showObjectCallingByName))
             else:
-                self.combo.addItem(str(o))
+                self.combo.addItem(call_by_name(o, self.frm.widget._showObjectCallingByName))
+        self.comboSelectionChanged.emit()
 
     def setManagers(self, settings, settingsSection, settingsObject, manager, selected):
         self._settings=settings
@@ -245,9 +254,9 @@ class cmbManagerSelector(QWidget):
         if selected!=None:
             for o in selected.arr:
                 if self._showObjectIcons==True:
-                    self.combo.addItem(o.qicon(), str(o))
+                    self.combo.addItem(o.qicon(), call_by_name(o, self.frm.widget._showObjectCallingByName))
                 else:
-                    self.combo.addItem(str(o))
+                    self.combo.addItem(call_by_name(o, self.frm.widget._showObjectCallingByName))
 
     ## Returns the selected manager
     def selected(self):

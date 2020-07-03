@@ -72,6 +72,10 @@ class Percentage:
         else:
             return self.value*Decimal(100)
 
+    ## @return percentage float value
+    def float_100(self):
+        return float(self.value_100())
+
     def string(self, rnd=2):
         if self.value==None:
             return "None %"

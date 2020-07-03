@@ -13,7 +13,7 @@ class wdgCuriosities(QWidget, Ui_wdgCuriosities):
         c.setTitle(self.tr("Since when there is data in the database?"))
         c.setText("The first data is from {}".format(self.mem.con.cursor_one_field("select min(datetime) from meals where users_id=%s", (self.mem.user.id, ))))
         self.layout.addWidget(c)
-        
+
         self.addSeparator()
 
         c=wdgCuriosity(self.mem)
@@ -30,6 +30,7 @@ class wdgCuriosities(QWidget, Ui_wdgCuriosities):
 
         c=wdgCuriosity(self.mem)
         c.setTitle(self.tr("Which is the meal with highest calories I had eaten?"))
+        print(*self.query_meal_with_the_highest_calories())
         c.setText(self.tr("The meal with the highest calories I ate was '{}' with '{}' calories. I ate at {}.").format(*self.query_meal_with_the_highest_calories()))
         self.layout.addWidget(c)
 
@@ -63,7 +64,7 @@ class wdgCuriosities(QWidget, Ui_wdgCuriosities):
     def query_day_i_took_the_highest_amount_of_calories(self):
         return self.mem.con.cursor_one_row("""
 select 
-    datetime::date, 
+    datetime::date,
     round(sum(meals.amount*allproducts.calories/allproducts.amount),0) as mealcalories
 from 
     meals, 
@@ -95,6 +96,7 @@ where
 order by 
     mealcalories desc, 
     datetime desc
+limit 1
 """.format(self.mem.user.id))
 
 

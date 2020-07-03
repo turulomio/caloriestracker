@@ -2,8 +2,9 @@
 ## THIS IS FILE IS FROM https://github.com/turulomio/reusingcode IF YOU NEED TO UPDATE IT PLEASE MAKE A PULL REQUEST IN THAT PROJECT
 ## DO NOT UPDATE IT IN YOUR CODE IT WILL BE REPLACED USING FUNCTION IN README
 
-from datetime import datetime
 from .casts import b2s
+from datetime import datetime
+from logging import debug
 from psycopg2 import OperationalError
 from psycopg2.extras import DictConnection
 
@@ -56,9 +57,17 @@ class Connection:
         cur=self._con.cursor()
         s=self.mogrify(sql,arr)
         cur.execute(s)
-        row=cur.fetchone()
-        cur.close()
-        return row
+        if cur.rowcount==0:
+            cur.close()
+            return None
+        elif cur.rowcount==1:
+            row=cur.fetchone()
+            cur.close()
+            return row
+        else:
+            cur.close()
+            debug("More than one row is returned in cursor_one_row. Use cursor_rows instead.")
+            return None
 
     def cursor_rows(self, sql, arr=[]):
         cur=self._con.cursor()
@@ -109,8 +118,10 @@ class Connection:
     def url_string(self):
         return "psql://{}@{}:{}/{}".format(self.user, self.server, self.port, self.db)
 
+
+    ## @param connection_string string. If None automatic connection_string is generated from attributes
+    ## @return boolean True if connection was made
     def connect(self, connection_string=None):
-        """Used in code to connect using last self.strcon"""
         if connection_string==None:
             s=self.connection_string()
         else:
@@ -119,9 +130,12 @@ class Connection:
             self._con=DictConnection(s)
             self.init=datetime.now()
             self._active=True
+            return True
         except OperationalError as e:
             self._active=False
             print('Unable to connect: {}'.format(e))
+            print('Connection string used: {}'.format(s))
+            return False
 
     def disconnect(self):
         if self.is_active()==True:
@@ -160,12 +174,16 @@ class Connection:
             print(_("Write the password for {}").format(self.url_string()))
             self.password=getpass()
         return self.password
-        
+
 ## Function that adds an argparse argument group with connection parameters
 ## @param parser Argparse object
 ## @param gettext_module Gettext module
 ## @param gettex_locale Locale path
-def argparse_connection_arguments_group(parser, gettext_module=None,  gettex_locale=None,  default_user="postgres", default_port=5432, default_server="127.0.0.1",  default_db="postgres"): 
+## @param default_user
+## @param default_port
+## @param default_server
+## @param default_db
+def argparse_connection_arguments_group(parser, gettext_module=None,  gettex_locale=None,  default_user="postgres", default_port=5432, default_server="127.0.0.1",  default_db="postgres"):
     try:
         import gettext
         t=gettext.translation(gettext_module,  gettex_locale)
@@ -204,6 +222,7 @@ def script_with_connection_arguments(name="",  description="", epilog="", versio
 if __name__ == "__main__":
     con=script_with_connection_arguments("connection_pg_demo", "This is a connection script demo",  "Developed by Mariano Muñoz", "",  None, None)
     print("Is connection active?",  con.is_active())
-    con.execute("SELECT datname FROM pg_database WHERE datistemplate = false;")
-    print(con.last_sql)
+    if con.is_active():
+        con.execute("SELECT datname FROM pg_database WHERE datistemplate = false;")
+        print(con.last_sql)
     

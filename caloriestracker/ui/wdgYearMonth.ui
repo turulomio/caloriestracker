@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>673</width>
-    <height>38</height>
+    <height>48</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -34,6 +34,9 @@
       <widget class="QComboBox" name="cmbMonth">
        <property name="toolTip">
         <string>Select a month</string>
+       </property>
+       <property name="currentIndex">
+        <number>-1</number>
        </property>
        <item>
         <property name="text">

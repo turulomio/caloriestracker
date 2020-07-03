@@ -8,7 +8,7 @@ from platform import system as platform_system
 from sys import exit
 
 ## allows you to measure the execution time of the method/function by just adding the @timeit decorator on the method.
-## @timeit
+## @param method
 def timeit(method):
     def timed(*args, **kw):
         ts = time()

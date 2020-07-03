@@ -90,6 +90,7 @@ class Reusing(Command):
         path.append("caloriestracker")
         from github import download_from_github
         download_from_github('turulomio','reusingcode','python/admin_pg.py', 'caloriestracker')
+        download_from_github('turulomio','reusingcode','python/call_by_name.py', 'caloriestracker')
         download_from_github('turulomio','reusingcode','python/casts.py', 'caloriestracker')
         download_from_github('turulomio','reusingcode','python/database_update.py', 'caloriestracker')
         download_from_github('turulomio','reusingcode','python/libmanagers.py', 'caloriestracker')
@@ -99,6 +100,7 @@ class Reusing(Command):
         download_from_github('turulomio','reusingcode','python/ui/frmAccess.py', 'caloriestracker/ui')
         download_from_github('turulomio','reusingcode','python/ui/frmSelector.py', 'caloriestracker/ui')
         download_from_github('turulomio','reusingcode','python/ui/myqcharts.py', 'caloriestracker/ui')
+        download_from_github('turulomio','reusingcode','python/ui/myqdialog.py', 'caloriestracker/ui')
         download_from_github('turulomio','reusingcode','python/ui/myqwidgets.py', 'caloriestracker/ui')
         download_from_github('turulomio','reusingcode','python/ui/myqtablewidget.py', 'caloriestracker/ui')
         download_from_github('turulomio','reusingcode','python/ui/wdgDatetime.ui', 'caloriestracker/ui')
@@ -112,6 +114,7 @@ class Reusing(Command):
         download_from_github('turulomio','reusingcode','python/decorators.py', 'caloriestracker')
         download_from_github('turulomio','reusingcode','python/sqlparser.py', 'caloriestracker')
         download_from_github('turulomio','reusingcode','python/objects/percentage.py', 'caloriestracker/objects')
+        download_from_github('turulomio','reusingcode','python/objects/currency.py', 'caloriestracker/objects')
         download_from_github('turulomio','reusingcode','python/ui/wdgDistributeAmount.py', 'caloriestracker/ui')
 
 

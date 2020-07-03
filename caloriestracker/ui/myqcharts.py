@@ -3,30 +3,16 @@
 ## DO NOT UPDATE IT IN YOUR CODE IT WILL BE REPLACED USING FUNCTION IN README
 
 from PyQt5.QtChart import QChart,  QLineSeries, QChartView, QValueAxis, QDateTimeAxis,  QPieSeries, QScatterSeries, QCandlestickSeries,  QCandlestickSet
-from PyQt5.QtCore import Qt, pyqtSlot, QObject, QPoint, pyqtSignal, QSize
+from PyQt5.QtCore import Qt, pyqtSlot, QObject, QPoint, pyqtSignal, QSize, QMutex
 from PyQt5.QtGui import QPainter, QFont, QIcon, QColor, QImage, QClipboard
-from PyQt5.QtWidgets import QWidget, QAction, QMenu, QFileDialog, QProgressDialog, QApplication, QDialog, QLabel, QVBoxLayout, QHBoxLayout, QGraphicsSimpleTextItem
+from PyQt5.QtWidgets import QWidget, QAction, QMenu, QFileDialog, QProgressDialog, QApplication, QDialog, QLabel, QVBoxLayout, QHBoxLayout, QFrame
 from .myqtablewidget import mqtw
 from .. objects.percentage import Percentage
 from .. casts import object2value
 from .. datetime_functions import epochms2dtaware, dtaware2epochms, dtnaive2string
 from collections import OrderedDict
 from datetime import timedelta, datetime
-from decimal import Decimal
-
-class eOHCLDuration:
-    Day=1
-    Week=2
-    Month=3
-    Year=4
-
-    @classmethod
-    def qcombobox(self, combo, selected_eOHCLDuration):
-        combo.addItem(QApplication.translate("Mem", "Day"), 1)
-        combo.addItem(QApplication.translate("Mem", "Week"), 2)
-        combo.addItem(QApplication.translate("Mem", "Month"), 3)
-        combo.addItem(QApplication.translate("Mem", "Year"), 4)
-        combo.setCurrentIndex(combo.findData(selected_eOHCLDuration))
+from logging import error
 
 class VCCommons(QChartView):
     displayed=pyqtSignal()
@@ -78,7 +64,11 @@ class VCCommons(QChartView):
     ##Set progress dialog attributes
     ## Only will be shown if self.progressDialogEnabled()==True (By default)
     ## if None leaves default
+    ## @param title string
+    ## @param text string
     ## @param qicon Qicon object
+    ## @param min integer
+    ## @param max integer
     def setProgressDialogAttributes(self, title, text, qicon, min=0, max=0):       
         self.progressdialog=QProgressDialog()
         self.progressdialog.setWindowIcon(qicon)
@@ -136,37 +126,60 @@ class VCCommons(QChartView):
     ## Sets if the chart must show animations
     def setAnimations(self, boolean):
         self._animations=boolean
-
+        
+    ## Used to represent values in charts, using predefined formats set with setXFormat
+    ## Value willbe epochms for datetimes
+    ## @param value
+    ## @param  format 
+    def value2formated_string(self, value, format, decimals=2):
+        if value=="---" or value is None:# Valores nulos
+            return "---"
+        
+        if format=="date":
+            return str(epochms2dtaware(value).date())
+        elif format=="time":
+            time=epochms2dtaware(value).time()
+            return "{}:{}".format(time.hour, time.minute)
+        elif format=="datetime":
+            return str(epochms2dtaware(value))
+        elif format=="int":
+            return str(value)
+        elif format=="float":
+            return str(round(value, decimals))
+        elif format=="EUR":
+            return "{} €".format(round(value, decimals))
+        else:
+            error("{} is not a valid format in value2formated_string".format(format))
 
 class VCTemporalSeriesAlone(VCCommons):
     def __init__(self):
         VCCommons.__init__(self)
         self.clear()
-
+        self.popuplock=QMutex()
+        self._x_format="date"
+        self._x_timezone="UTC"
+        self._x_decimals=0#Needed in popup
+        self._x_tickcount=8
+        self._x_title=""
+        self._y_format="float"
+        self._y_decimals=2
+        self._y_title=""
 
     ## To clean pie, removes serie and everithing is like create an empty pie
     def clear(self):
-        self.__chart=QChart()
-        self.setChart(self.__chart)
+        self._chart=QChart()
+        self.setChart(self._chart)
         self.setRenderHint(QPainter.Antialiasing)
         self._allowHideSeries=True
 
-        #Axis cration
         self.axisX=QDateTimeAxis()
-        self.axisX.setTickCount(8);
-        self.axisX.setFormat("yyyy-MM");
         self.maxx=None
-        self.maxy=None
         self.minx=None
-        self.miny=None
 
-#        self.__ohclduration=eOHCLDuration.Day
         self.axisY = QValueAxis()
-        self.axisY.setLabelFormat("%i")
-
-        self.setRenderHint(QPainter.Antialiasing);
+        self.maxy=None
+        self.miny=None
         
-        self.data=[]
         self.series=[]
         self.chart().legend().hide()
         self.popup=MyPopup(self)
@@ -196,9 +209,7 @@ class VCTemporalSeriesAlone(VCCommons):
         if x<self.minx:
             self.minx=x
 
-#    def setOHCLDuration(self, ohclduration):
-#        self.__ohclduration=ohclduration
-
+    ## Used to draw poinnts in a temporal series
     def appendScatterSeries(self, name):
         ls=QScatterSeries()
         ls.setName(name)
@@ -208,27 +219,36 @@ class VCTemporalSeriesAlone(VCCommons):
     def appendScatterSeriesData(self, ls, x, y):
         self.appendTemporalSeriesData(ls, x, y)
 
-    def setAxisFormat(self, axis,  min, max, type, zone=None):
-        """
-            type=0 #Value
-            type=1 # Datetime
-            
-            if zone=None remains in UTC, zone is a zone object.
-        """
-        if type==0:
-            if max-min<=Decimal(0.01):
-                axis.setLabelFormat("%.4f")
-            elif max-min<=Decimal(100):
-                axis.setLabelFormat("%.2f")
-            else:
-                axis.setLabelFormat("%i")
-        elif type==1:
-            max=epochms2dtaware(max)#UTC aware
-            min=epochms2dtaware(min)
-            if max-min<timedelta(days=1):
-                axis.setFormat("hh:mm")
-            else:
-                axis.setFormat("yyyy-MM-dd")
+
+    ## @param stringtype is one of the types in casts.value2object. Can be auto too to auto select best datetime format
+    def setXFormat(self, stringtype, title="",  zone_name="UTC", tickcount=8):
+        self._x_format=stringtype
+        self._x_zone_name=zone_name
+        self._x_tickcount=tickcount
+        self._x_title=title
+        
+        
+        
+    def _applyXFormat(self):
+        self.axisX.setTickCount(8)
+        self.axisX.setTitleText(self._x_title)
+        if self._x_format=="time":
+            self.axisX.setFormat("hh:mm")
+        else:
+            self.axisX.setFormat("yyyy-MM-dd")
+        
+
+    def setYFormat(self, stringtype,   title="", decimals=2):
+        self._y_format=stringtype
+        self._y_decimals=decimals
+        self._y_title=title
+
+    def _applyYFormat(self):
+        self.axisY.setTitleText(self._y_title)
+        if self._y_format=="int":
+            self.axisY.setLabelFormat("%i")
+        elif self._y_format in ["float", "Decimal"]:
+            self.axisY.setLabelFormat("%.{}f".format(self._y_decimals))
 
     def setAllowHideSeries(self, boolean):
         self._allowHideSeries=boolean
@@ -245,7 +265,6 @@ class VCTemporalSeriesAlone(VCCommons):
             x is a datetime zone aware
         """
         x=dtaware2epochms(x)
-        x=float(x)
         y=float(y)
         ls.append(x, y)
         
@@ -274,15 +293,12 @@ class VCTemporalSeriesAlone(VCCommons):
             if event.y()>self.height()-self.popup.height()-15:
                 resultado.setY(event.y()-self.popup.height()-15)
             return resultado
-        def showCurrentPosition():
-            if hasattr(self, "qgstiCurrentX")==False:
-                self.qgstiCurrentX=QGraphicsSimpleTextItem(self.chart())
-                self.qgstiCurrentY=QGraphicsSimpleTextItem(self.chart())
-            self.qgstiCurrentX.setPos(event.pos().x(), maxY-10)
-            self.qgstiCurrentY.setPos(self.chart().size().width()-47, event.pos().y())
-            self.qgstiCurrentX.setText(str(epochms2dtaware(xVal).date()))
-            self.qgstiCurrentY.setText(str(round(yVal,2)))
+
         # ---------------------------------------
+        
+        if self.popuplock.tryLock()==False:
+            event.reject()
+            return
         QChartView.mouseMoveEvent(self, event)
         xVal = self.chart().mapToValue(event.pos()).x()
         yVal = self.chart().mapToValue(event.pos()).y()
@@ -294,16 +310,29 @@ class VCTemporalSeriesAlone(VCCommons):
         if xVal <= maxX and  xVal >= minX and yVal <= maxY and yVal >= minY:
             self.popup.move(self.mapToGlobal(placePopUp()))
             self.popup.refresh(self, xVal, yVal)
-            showCurrentPosition()
-            self.popup.show()
-        else:
-            self.popup.hide()
+        self.popuplock.unlock()
 
     ## Return the value of the serie in x
     def series_value(self, serie, x):
-        for point in serie.pointsVector():
-            if point.x()>=x:
-                return point.y()
+        if serie.__class__.__name__=="QLineSeries":
+            for point in serie.pointsVector():
+                if point.x()>=x:
+                    return point.y()
+        elif serie.__class__.__name__=="QCandlestickSeries":
+            for qohcl in serie.sets():
+                if qohcl.timestamp()>=x:
+                    return qohcl.close
+
+    ## Returns values from QSeries objects in an ordereddict d[x]=y, key is a dtaware
+    def series_dictionary(self, serie):
+        d=OrderedDict()
+        if serie.__class__.__name__=="QLineSeries":
+            for point in serie.pointsVector():
+                d[epochms2dtaware(point.x())]=point.y()
+        elif serie.__class__.__name__=="QCandlestickSeries":
+            for qohcl in serie.sets():
+                d[epochms2dtaware(qohcl.timestamp())]=qohcl.close
+        return d
 
     @pyqtSlot()
     def on_marker_clicked(self):
@@ -337,21 +366,21 @@ class VCTemporalSeriesAlone(VCCommons):
 
     ## Used to display chart. You cannot use it twice. close the view widget and create another one
     def display(self):
-        if self.__chart!=None:
-            del self.__chart
-        self.__chart=QChart()
-        self.setChart(self.__chart)
+        if self._chart!=None:
+            del self._chart
+        self._chart=QChart()
+        self.setChart(self._chart)
         if self._animations==True:
-            self.chart().setAnimationOptions(QChart.AllAnimations);
+            self.chart().setAnimationOptions(QChart.AllAnimations)
         else:
             self.chart().setAnimationOptions(QChart.NoAnimation)
         self.chart().layout().setContentsMargins(0,0,0,0)
         self._display_set_title()
 
-        self.setAxisFormat(self.axisX, self.minx, self.maxx, 1)
-        self.setAxisFormat(self.axisY, self.miny, self.maxy, 0)
-        self.chart().addAxis(self.axisY, Qt.AlignLeft);
-        self.chart().addAxis(self.axisX, Qt.AlignBottom);
+        self._applyXFormat()
+        self._applyYFormat()
+        self.chart().addAxis(self.axisY, Qt.AlignLeft)
+        self.chart().addAxis(self.axisX, Qt.AlignBottom)
 
         for s in self.series:
             self.chart().addSeries(s)
@@ -386,6 +415,7 @@ class VCTemporalSeriesAlone(VCCommons):
     ## If you use VCPieAlone you can add a context menu setting boolean to True
     def setCustomContextMenu(self, boolean):
         self.customContextMenuRequested.connect(self.on_customContextMenuRequested)
+
     def on_customContextMenuRequested(self, pos):
         self.qmenu().exec_(self.mapToGlobal(pos))
 
@@ -476,15 +506,15 @@ class VCTemporalSeries(QWidget):
         #Initiate dictionary
         for serie in self.ts.series:
             hh.append(serie.name())
-            for point in serie.pointsVector():
-                unordered[epochms2dtaware(point.x())]=[None]*len(self.ts.series)
+            for dt, value in self.ts.series_dictionary(serie).items():
+                unordered[dt]=[None]*len(self.ts.series)
         
         d= OrderedDict(sorted(unordered.items(), key=lambda t: t[0]))
                 
         #Filling
         for i, serie in enumerate(self.ts.series):
-            for point in serie.pointsVector():
-                d[epochms2dtaware(point.x())][i]=point.y()            
+            for dt, value in self.ts.series_dictionary(serie).items():
+                d[dt][i]=value           
 
         data=[]
         for key, value in d.items():
@@ -493,8 +523,426 @@ class VCTemporalSeries(QWidget):
         self.table.drawOrderBy(0, False)
         self.table.on_actionSizeMinimum_triggered()
         self.table.settings().sync()
+        
+
+class VCTemporalSeriesWithTwoYAxisAlone(VCTemporalSeriesAlone):
+    def __init__(self):
+        VCTemporalSeriesAlone.__init__(self)
+        self.series2=[]
+        self._y2_format="Decimal"
+        self._y2_decimals=2
+        self._y2_title=""
+
+    ## To clean pie, removes serie and everithing is like create an empty pie
+    def clear(self):
+        VCTemporalSeriesAlone.clear(self)
+
+        self.axisY2 = QValueAxis()
+        self.maxy2=None
+        self.miny2=None
+        self.series2=[]
+
+        
+    def appendTemporalSeriesAxis2(self, name):
+        ls=QLineSeries()
+        ls.setName(name)
+        self.series2.append(ls)
+        return ls
 
 
+    def setY2Format(self, stringtype,   title="", decimals=2):
+        self._y2_format=stringtype
+        self._y2_decimals=decimals
+        self._y2_title=title
+        
+    def appendTemporalSeriesDataAxis2(self, ls, x, y):
+        x=dtaware2epochms(x)
+        y=float(y)
+        ls.append(x, y)
+
+        if self.maxy2==None:#Gives first maxy and miny
+            self.maxy2=y*1.01
+            self.miny2=y*0.99
+            self.maxx=x*1.01
+            self.minx=x*0.99
+            
+        if y>self.maxy2:
+            self.maxy2=y
+        if y<self.miny2:
+            self.miny2=y
+        if x>self.maxx:
+            self.maxx=x
+        if x<self.minx:
+            self.minx=x
+
+
+    def _applyY2Format(self):
+        self.axisY2.setTitleText(self._y2_title)
+        if self._y2_format=="int":
+            self.axisY2.setLabelFormat("%i")
+        elif self._y2_format in ["float", "Decimal"]:
+            self.axisY2.setLabelFormat("%.{}f".format(self._y2_decimals))
+
+    ## Used to display chart. You cannot use it twice. close the view widget and create another one
+    def display(self):
+        if self._chart!=None:
+            del self._chart
+        self._chart=QChart()
+        self.setChart(self._chart)
+        if self._animations==True:
+            self.chart().setAnimationOptions(QChart.AllAnimations);
+        else:
+            self.chart().setAnimationOptions(QChart.NoAnimation)
+        self.chart().layout().setContentsMargins(0,0,0,0)
+        self._display_set_title()
+
+        self._applyXFormat()
+        self._applyYFormat()
+        self._applyY2Format()
+        self.chart().addAxis(self.axisY, Qt.AlignLeft)
+        self.chart().addAxis(self.axisX, Qt.AlignBottom)
+        self.chart().addAxis(self.axisY2, Qt.AlignRight)
+
+        for s in self.series:
+            self.chart().addSeries(s)
+            s.attachAxis(self.axisX)
+            s.attachAxis(self.axisY)
+        self.axisY.setRange(self.miny, self.maxy)
+
+        for s in self.series2:
+            self.chart().addSeries(s)
+            s.attachAxis(self.axisX)
+            s.attachAxis(self.axisY2)
+        self.axisY2.setRange(self.miny2, self.maxy2)
+
+        #Legend positions
+        if len(self.chart().legend().markers())>6:
+            self.chart().legend().setAlignment(Qt.AlignLeft)
+        else:
+            self.chart().legend().setAlignment(Qt.AlignTop)
+
+        if self._allowHideSeries==True:
+            for marker in self.chart().legend().markers():
+                try:
+                    marker.clicked.disconnect()
+                except:
+                    pass
+                marker.clicked.connect(self.on_marker_clicked)
+        self.repaint()
+
+class VCTemporalSeriesWithTwoYAxis(VCTemporalSeries):
+    def __init__(self,parent=None):
+        VCTemporalSeries.__init__(self,parent)
+        self.lay.removeWidget(self.ts)
+        
+        self.ts=VCTemporalSeriesWithTwoYAxisAlone()
+        self.lay.addWidget(self.ts)
+
+class VCScatterAlone(VCCommons):
+    def __init__(self):
+        VCCommons.__init__(self)
+        self.clear()
+        self.popuplock=QMutex()
+        self._x_format="float"
+        self._x_decimals=2
+        self._x_title=""
+        self._y_format="float"
+        self._y_decimals=2
+        self._y_title=""
+
+    ## To clean pie, removes serie and everithing is like create an empty pie
+    def clear(self):
+        self._chart=QChart()
+        self.setChart(self._chart)
+        self.setRenderHint(QPainter.Antialiasing)
+        self._allowHideSeries=True
+
+        self.axisX=QValueAxis()
+        self.maxx=None
+        self.minx=None
+
+        self.axisY = QValueAxis()
+        self.maxy=None
+        self.miny=None
+        
+        self.series=[]
+        self.chart().legend().hide()
+        self.popup=MyPopup(self)
+
+    def appendScatterSeries(self, name, list_x, list_y):
+        ls=QScatterSeries()
+        ls.setName(name)
+        self.series.append(ls)
+        for i in range(len(list_x)):
+            x=float(list_x[i])
+            y=float(list_y[i])
+            ls.append(x, y)
+            
+            if self.maxy==None:#Gives first maxy and miny
+                self.maxy=y*1.01
+                self.miny=y*0.99
+                self.maxx=x*1.01
+                self.minx=x*0.99
+                
+            if y>self.maxy:
+                self.maxy=y
+            if y<self.miny:
+                self.miny=y
+            if x>self.maxx:
+                self.maxx=x
+            if x<self.minx:
+                self.minx=x
+        
+
+    def setXFormat(self, stringtype,   title="", decimals=2):
+        self._x_format=stringtype
+        self._x_decimals=decimals
+        self._x_title=title
+        
+        
+        
+    def _applyXFormat(self):
+#        self.axisX.setTickCount(8)
+        self.axisX.setTitleText(self._x_title)
+        if self._x_format=="int":
+            self.axisX.setLabelFormat("%i")
+        elif self._x_format in ["float", "Decimal"]:
+            self.axisX.setLabelFormat("%.{}f".format(self._x_decimals))
+
+
+    def setYFormat(self, stringtype,   title="", decimals=2):
+        self._y_format=stringtype
+        self._y_decimals=decimals
+        self._y_title=title
+
+    def _applyYFormat(self):
+        self.axisY.setTitleText(self._y_title)
+        if self._y_format=="int":
+            self.axisY.setLabelFormat("%i")
+        elif self._y_format in ["float", "Decimal"]:
+            self.axisY.setLabelFormat("%.{}f".format(self._y_decimals))
+
+    def setAllowHideSeries(self, boolean):
+        self._allowHideSeries=boolean
+
+    def mouseMoveEvent(self, event):     
+        ##Sets the place of the popup in the windows to avoid getout of the screen
+        ##frmshow can be a frmShowCasilla or a frmShowFicha
+        def placePopUp():
+            resultado=QPoint(event.x()+15, event.y()+15)
+            if event.x()>self.width()-self.popup.width()-15:
+                resultado.setX(event.x()-self.popup.width()-15)
+            if event.y()>self.height()-self.popup.height()-15:
+                resultado.setY(event.y()-self.popup.height()-15)
+            return resultado
+
+        # ---------------------------------------
+        if self.popuplock.tryLock()==False:
+            event.reject()
+            return
+        QChartView.mouseMoveEvent(self, event)
+        xVal = self.chart().mapToValue(event.pos()).x()
+        yVal = self.chart().mapToValue(event.pos()).y()
+
+        maxX = self.axisX.max()
+        minX = self.axisX.min()
+        maxY = self.axisY.max()
+        minY = self.axisY.min()
+        if xVal <= maxX and  xVal >= minX and yVal <= maxY and yVal >= minY:
+            self.popup.move(self.mapToGlobal(placePopUp()))
+            self.popup.refresh(self, xVal, yVal)
+        self.popuplock.unlock()
+
+    @pyqtSlot()
+    def on_marker_clicked(self):
+        marker=QObject.sender(self)#Busca el objeto que ha hecho la signal en el slot en el que está conectado, ya que estaban conectados varios objetos a una misma señal
+        marker.series().setVisible(not marker.series().isVisible())
+        marker.setVisible(True)
+        if marker.series().isVisible():
+            alpha = 1
+        else:
+            alpha=0.5
+
+        lbrush=marker.labelBrush()
+        color=lbrush.color()
+        color.setAlphaF(alpha)
+        lbrush.setColor(color)
+        marker.setLabelBrush(lbrush)
+
+        brush=marker.brush()
+        color=brush.color()
+        color.setAlphaF(alpha)
+        brush.setColor(color)
+        marker.setBrush(brush)
+        
+        pen=marker.pen()
+        color=pen.color()
+        color.setAlphaF(alpha)
+        pen.setColor(color)
+        marker.setPen(pen)
+
+
+
+    ## Used to display chart. You cannot use it twice. close the view widget and create another one
+    def display(self):
+        if self._chart!=None:
+            del self._chart
+        self._chart=QChart()
+        self.setChart(self._chart)
+        if self._animations==True:
+            self.chart().setAnimationOptions(QChart.AllAnimations);
+        else:
+            self.chart().setAnimationOptions(QChart.NoAnimation)
+        self.chart().layout().setContentsMargins(0,0,0,0)
+        self._display_set_title()
+
+        self._applyXFormat()
+        self._applyYFormat()
+        self.chart().addAxis(self.axisY, Qt.AlignLeft);
+        self.chart().addAxis(self.axisX, Qt.AlignBottom);
+
+        for s in self.series:
+            self.chart().addSeries(s)
+            s.attachAxis(self.axisX)
+            s.attachAxis(self.axisY)
+        self.axisY.setRange(self.miny, self.maxy)
+
+        #Legend positions
+        if len(self.chart().legend().markers())>6:
+            self.chart().legend().setAlignment(Qt.AlignLeft)
+        else:
+            self.chart().legend().setAlignment(Qt.AlignTop)
+
+        if self._allowHideSeries==True:
+            for marker in self.chart().legend().markers():
+                try:
+                    marker.clicked.disconnect()
+                except:
+                    pass
+                marker.clicked.connect(self.on_marker_clicked)
+        self.repaint()
+
+    ## Returns a qmenu to be used in other qmenus
+    def qmenu(self, title="Chart options"):
+        menu=QMenu(self)
+        menu.setTitle(self.tr(title))
+        menu.addAction(self.actionCopyToClipboard)
+        menu.addSeparator()
+        menu.addAction(self.actionSave)
+        return menu
+
+    ## If you use VCPieAlone you can add a context menu setting boolean to True
+    def setCustomContextMenu(self, boolean):
+        self.customContextMenuRequested.connect(self.on_customContextMenuRequested)
+
+    def on_customContextMenuRequested(self, pos):
+        self.qmenu().exec_(self.mapToGlobal(pos))
+
+
+
+## Yo must:
+## 1. Create widget
+## 1. Append data
+## 1. Display
+
+## If you use clear, you must append data and display again
+
+class VCScatter(QWidget):
+    def __init__(self, parent=None):
+        QWidget.__init__(self, parent)
+        self.parent=parent
+        
+        self.lay=QHBoxLayout()
+        
+        self.layTable=QVBoxLayout()
+        
+        self.scatter=VCScatterAlone()
+        self.table=mqtw(self)
+        self.table.setGenericContextMenu()
+        self.table.hide()
+
+        self.lay.addWidget(self.scatter)
+        self.layTable.addWidget(self.table)
+        self.lay.addLayout(self.layTable)
+        self.setLayout(self.lay)
+
+        self.actionShowData=QAction(self.tr("Show chart data"))
+        self.actionShowData.setIcon(QIcon(":/reusingcode/database.png"))
+        self.actionShowData.triggered.connect(self.on_actionShowData_triggered)
+
+        self.scatter.customContextMenuRequested.connect(self.on_customContextMenuRequested)
+
+    ## Returns if the Widget hasn't series loaded
+    def isEmpty(self):
+        if len(self.scatter.series)==0:
+            return True
+        return False
+
+    def setSettings(self, settings, settingsSection,  settingsObject):
+        self._settings=settings
+        self._settingsSection=settingsSection
+        self._settingsObject=settingsObject
+        self.setObjectName(self._settingsObject)
+        self.table.setSettings(self._settings, self._settingsSection, self._settingsObject+"_mqtw")
+
+    def settings(self):
+        return self._settings
+
+    def on_actionShowData_triggered(self):
+        if self.actionShowData.text()==self.tr("Show chart data"):
+            self.table.setMinimumSize(QSize(self.width()*3/8, self.height()*3/8))
+            self.table.show()
+            self.actionShowData.setText(self.tr("Hide chart data"))
+        else:
+            self.table.hide()
+            self.actionShowData.setText(self.tr("Show chart data"))
+
+    ## Returns a qmenu to be used in other qmenus
+    def qmenu(self, title="Scatter chart options"):
+        menu=QMenu(self)
+        menu.setTitle(self.tr(title))
+        menu.addAction(self.scatter.actionCopyToClipboard)
+        menu.addSeparator()
+        menu.addAction(self.scatter.actionSave)
+        menu.addSeparator()
+        menu.addAction(self.actionShowData)
+        return menu
+
+    def on_customContextMenuRequested(self, pos):
+        self.qmenu().exec_(self.mapToGlobal(pos))
+
+    ## Widget is restored to fabric, it's like instanciate a new one
+    def clear(self):
+        self.scatter.clear()
+        self.table.clear()
+
+    def display(self):
+        self.scatter.display()
+        return 
+#        hh=["Datetime"]
+#        #I create a dictionary con d[datetime]=(valor_serie0, valor_serie1)...
+#        unordered={}
+#        
+#        #Initiate dictionary
+#        for serie in self.scatter.series:
+#            hh.append(serie.name())
+#            for dt, value in self.scatter.series_dictionary(serie).items():
+#                unordered[dt]=[None]*len(self.scatter.series)
+#        
+#        d= OrderedDict(sorted(unordered.items(), key=lambda t: t[0]))
+#                
+#        #Filling
+#        for i, serie in enumerate(self.scatter.series):
+#            for dt, value in self.scatter.series_dictionary(serie).items():
+#                d[dt][i]=value           
+#
+#        data=[]
+#        for key, value in d.items():
+#            data.append((key, *value))
+#        self.table.setData(hh, None, data)
+#        self.table.drawOrderBy(0, False)
+#        self.table.on_actionSizeMinimum_triggered()
+#        self.table.settings().sync()
 
 class VCPieAlone(VCCommons):
     def __init__(self):
@@ -513,8 +961,8 @@ class VCPieAlone(VCCommons):
     
     ## To clean pie, removes serie and everithing is like create an empty pie
     def clear(self):
-        self.__chart=QChart()
-        self.setChart(self.__chart)
+        self._chart=QChart()
+        self.setChart(self._chart)
         self.setRenderHint(QPainter.Antialiasing)
         self.data=[]
         self.serie=QPieSeries()
@@ -580,6 +1028,20 @@ class MyPopup(QDialog):
         #Creating empy labels
         if hasattr(self, 'lblTitles')==False:
             self.lay = QVBoxLayout(self)
+            self.lblPosition=QLabel()
+            self.lblPosition.setAlignment(Qt.AlignCenter)
+            font = QFont()
+            font.setPointSize(12)
+            font.setBold(True)
+            font.setWeight(75)
+            self.lblPosition.setFont(font)
+            self.lay.addWidget(self.lblPosition)
+            
+            self.line = QFrame(self)
+            self.line.setFrameShape(QFrame.HLine)
+            self.line.setFrameShadow(QFrame.Sunken)
+            self.lay.addWidget(self.line)
+            
             self.lblTitles=[]
             self.lblValues=[]
             for serie in self.vc.series:
@@ -592,29 +1054,62 @@ class MyPopup(QDialog):
                 layh.addWidget(value)
                 self.lay.addLayout(layh)
             self.setLayout(self.lay)
+        
+        modifiers = QApplication.keyboardModifiers()        
+        
+        if modifiers== Qt.ShiftModifier: #SHOW CCURRENT VALUE
+            self.lblPosition.setText("{}, {}".format(self.parent.value2formated_string(xVal, self.parent._x_format, self.parent._x_decimals), self.parent.value2formated_string(yVal, self.parent._y_format, self.parent._y_decimals)))
+            for i, serie in enumerate(self.vc.series):
+                    self.lblValues[i].hide()
+                    self.lblTitles[i].hide()
+                    self.line.hide()
+            self.show()
 
-        #Displaying values
-        for i, serie in enumerate(self.vc.series):
-            if serie.isVisible():
-                self.lblValues[i].show()
-                self.lblTitles[i].show()
+        elif modifiers== Qt.ControlModifier: #SHOW CURRENT VALUES OF SERIES
+            self.lblPosition.setText("{}, {}".format(self.parent.value2formated_string(xVal, self.parent._x_format, self.parent._x_decimals), self.parent.value2formated_string(yVal, self.parent._y_format, self.parent._y_decimals)))
+            for i, serie in enumerate(self.vc.series):
+                if serie.isVisible():
+                    self.lblValues[i].show()
+                    self.lblTitles[i].show()
+                    self.lblTitles[i].setText(serie.name())
+                    try:
+                        value=self.vc.series_value(serie, self.xVal)
+                    except:
+                        value="---"
+                    self.lblValues[i].setText(self.parent.value2formated_string(value, self.parent._y_format, self.parent._y_decimals))
+                    self.line.show()
+                    self.show()
+                else:
+                    self.lblValues[i].hide()
+                    self.lblTitles[i].hide()
+            self.show()
 
-                self.lblTitles[i].setText(serie.name())
-                try:
-                    value=round(self.vc.series_value(serie, self.xVal),2)
-                except:
-                    value="---"
-                try:
-                    last=round(serie.pointsVector()[len(serie.pointsVector())-1].y(),2)
-                except:
-                    last="---"
-                self.lblValues[i].setText(self.tr("{} (Last: {})").format(value,last))
-            else:
-                self.lblValues[i].hide()
-                self.lblTitles[i].hide()
+        elif modifiers ==Qt.ShiftModifier|Qt.ControlModifier: #SHOW LAST VALUES OF SERIES
+            self.lblPosition.setText(self.tr("Last value") )
+            for i, serie in enumerate(self.vc.series):
+                if serie.isVisible():
+                    self.lblValues[i].show()
+                    self.lblTitles[i].show()
+                    self.lblTitles[i].setText(serie.name())
+                    try:
+                        value=serie.pointsVector()[len(serie.pointsVector())-1].y()
+                    except:
+                        value="---"
+                    self.lblValues[i].setText(self.parent.value2formated_string(value, self.parent._y_format, self.parent._y_decimals))
+                    self.line.show()
+                    self.show()
+                else:
+                    self.lblValues[i].hide()
+                    self.lblTitles[i].hide()
+            self.show()
+        
+        else:
+            self.hide()
+
 
     def mousePressEvent(self, event):
         self.hide()
+
 
 
 ## Yo must:
@@ -726,7 +1221,10 @@ def example():
     
     #Temporal series
     vcts=VCTemporalSeries()
+    vcts.ts.setTitle("Example of VCTemporalSeries")
     vcts.setSettings(settings, "example", "vcts")
+    vcts.ts.setXFormat("date", "Time")
+    vcts.ts.setYFormat("EUR", "Money (€)" , decimals=2)
     sBasic=vcts.ts.appendTemporalSeries("Basic")
     for i in range(20):
         vcts.ts.appendTemporalSeriesData(sBasic, datetime.now()+timedelta(days=i),  i % 5)
@@ -748,14 +1246,49 @@ def example():
     for k, v in d.items():
         wdgvcpie.pie.appendData(k, v)
     wdgvcpie.display()
+    
+    
+    #Scatter
+    wdgscatter=VCScatter(w)
+    wdgscatter.scatter.setTitle("Scatter chart")
+    wdgscatter.setSettings(settings, "example", "scatter")
+    wdgscatter.scatter.appendScatterSeries("Correlation", [1, 2, 3, 4, 5], [0, 2, 1, 3, 3])
+    wdgscatter.display()
+    print("SEGUNDO")
+    wdgscatter.clear()
+    wdgscatter.scatter.setTitle("Scatter chart")
+    wdgscatter.setSettings(settings, "example", "scatter")
+    wdgscatter.scatter.appendScatterSeries("Correlation", [1, 2, 3, 4, 5], [0, 2, 1, 3, 3])
+    wdgscatter.display()
+    
+
+    #Temporal series two axis
+    vcts2=VCTemporalSeriesWithTwoYAxis(w)
+    vcts2.ts.setTitle("Example of VCTemporalSeries with two axis")
+    vcts2.setSettings(settings, "example", "vcts2")
+    vcts2.ts.setXFormat("time", "Time")
+    vcts2.ts.setYFormat("EUR", "Money (€)" , decimals=2)
+    vcts2.ts.setY2Format("EUR", "Money (€)" , decimals=2)
+    sBasic=vcts2.ts.appendTemporalSeries("Basic")
+    for i in range(20):
+        vcts2.ts.appendTemporalSeriesData(sBasic, datetime.now()+timedelta(days=i),  i % 5)
+    sBasic2=vcts2.ts.appendTemporalSeriesAxis2("Basic 2")
+    for i in range(20):
+        vcts2.ts.appendTemporalSeriesDataAxis2(sBasic2, datetime.now()+timedelta(days=i),  i % 8)
+    vcts2.display()
+
 
     #Widget
     lay=QHBoxLayout(w)
     lay.addWidget(vcts)
     lay.addWidget(wdgvcpie)
+    lay.addWidget(wdgscatter)
+    lay.addWidget(vcts2)
     w.resize(1500, 450)
     w.move(300, 300)
     w.setWindowTitle('myqcharts example')
     w.show()
     
+
+
     app.exec()

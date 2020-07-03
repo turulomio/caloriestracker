@@ -4,6 +4,7 @@
 from PyQt5.QtCore import Qt,  pyqtSlot, QObject,  pyqtSignal
 from PyQt5.QtGui import QKeySequence, QColor, QIcon, QBrush, QFont
 from PyQt5.QtWidgets import QApplication, QHeaderView, QTableWidget, QFileDialog,  QTableWidgetItem, QWidget, QCheckBox, QHBoxLayout, QVBoxLayout, QLabel, QLineEdit, QAction, QMenu, QToolButton, QAbstractItemView
+from .. call_by_name import call_by_name
 from .. datetime_functions import dtaware2string, dtaware_changes_tz, time2string
 from .. libmanagers import ManagerSelectionMode
 from .. casts import lor_remove_columns
@@ -79,13 +80,13 @@ class mqtw(QWidget):
         
     ## Sets if ordering must be enabled
     ## In mqtw id False by default. In mqtwManager and mqtwObjects is True by default
-    ## @param boolean. Booleano to set if ordering is enabled
+    ## @param boolean Booleano to set if ordering is enabled
     def setOrderingEnabled(self, boolean):
         self._ordering_enabled=boolean
 
     @pyqtSlot()
     ## This is for mqtw only object
-    def on_itemSelectionChanged(self):
+    def on_itemSelectionChanged(self):        
         self.selected_items=None
         self.selected=None
         if hasattr(self, "data"):#Data is set
@@ -94,6 +95,10 @@ class mqtw(QWidget):
                 self.selected_items=[]
                 self.selected=[]
                 for i in self.table.selectedItems():
+                    if i.row()>=len(self.data):## Se pulsa un row fuera del data, por ejemplo un total
+                        self.selected_items==None
+                        self.selected==None
+                        break
                     self.selected_items.append(i)
                     self.selected.append(self.itemData(i))
             elif self.table.selectionBehavior()==QAbstractItemView.SelectRows and self.table.selectionMode()==QAbstractItemView.MultiSelection:
@@ -104,6 +109,10 @@ class mqtw(QWidget):
                 lastrow=[]
                 lastrowitems=[]
                 for i in self.table.selectedItems():
+                    if i.row()>=len(self.data):## Se pulsa un row fuera del data, por ejemplo un total
+                        self.selected_items==None
+                        self.selected==None
+                        break
                     lastrowitems.append(i)
                     lastrow.append(self.itemData(i))
                     if len(lastrow)==self.lengthRow():#Create a new row if len lastrow == leng. Minus 1 because it adds the last
@@ -114,6 +123,10 @@ class mqtw(QWidget):
             elif self.table.selectionBehavior()==QAbstractItemView.SelectItems and self.table.selectionMode()==QAbstractItemView.SingleSelection:
                 # Returns the item selected
                 for i in self.table.selectedItems():
+                    if i.row()>=len(self.data):## Se pulsa un row fuera del data, por ejemplo un total
+                        self.selected_items==None
+                        self.selected==None
+                        break
                     self.selected_items=i
                     self.selected=self.itemData(i)
             debug("{} data selection: {}".format(self.__class__.__name__,  self.selected))
@@ -322,6 +335,7 @@ class mqtw(QWidget):
         self.hh=header_horizontal
         self.hv=header_vertical
         self.data=data
+
         self.table.setColumnCount(len(self.hh))
         if self.hh is not None:
             for i in range(len(self.hh)):
@@ -335,7 +349,7 @@ class mqtw(QWidget):
         # Data
         self.applySettings()
         self.table.clearContents()
-        self.table.setRowCount(len(self.data))        
+        self.table.setRowCount(len(self.data))
         for row in range(len(self.data)):
             for column in range(len(self.hh)):
                 wdg=self.object2qtablewidgetitem(self.data[row][column], decimals[column], zonename)
@@ -558,11 +572,11 @@ class mqtwObjects(mqtw):
         mqtw.__init__(self, parent)
         self._ordering_enabled=True
         
-    ## REturn the last index of a row, where the object is
+    ## Return the last index of a row, where the object is
     def objectColumnIndex(self):
         return len(self.hh)
         
-    ## @row row integer
+    ## @param row integer
     def object(self, row):
         if row<self.length(): #Additional methods can add rows programatically
             return self.data[row][self.objectColumnIndex()]
@@ -617,8 +631,11 @@ class mqtwObjects(mqtw):
     ## Adds a horizontal header array , a vertical header array and a data array
     ##
     ## Automatically set alignment
-    ## @param manager Manager object from libmanagers
-    ## @param manager_attributes List of Strings with name of the object attributes, order by appareance
+    ## @param header_horizontal List
+    ## @param header_vertical List
+    ## @param data lor
+    ## @param decimals
+    ## @param zonename
     ## @param additional Function without it's call, to add additional table information like Total Rows or icons. Additional method has only one parameter, mqtw
     def setDataWithObjects(self, header_horizontal, header_vertical, data, decimals=2, zonename='UTC', additional=None):
         self.additional=additional
@@ -649,11 +666,12 @@ class mqtwManager(mqtw):
         debug("{} manager selection: {}".format(self.manager.__class__.__name__,  self.manager.selected))
         self.tableSelectionChanged.emit()
 
-    ## Adds a horizontal header array , a vertical header array and a data array
-    ##
-    ## Automatically set alignment
-    ## @param manager Manager object from libmanagers
-    ## @param manager_attributes List of Strings with name of the object attributes, order by appareance
+    ## @param header_horizontal List
+    ## @param header_vertical List
+    ## @param manager ObjectManager
+    ## @param manager_attributes
+    ## @param decimals
+    ## @param zonename
     ## @param additional Function without it's call, to add additional table information like Total Rows or icons. Additional method has only one parameter, mqtw
     def setDataFromManager(self, header_horizontal, header_vertical, manager, manager_attributes, decimals=2, zonename='UTC', additional=None):
         self.manager_attributes=manager_attributes
@@ -672,7 +690,7 @@ class mqtwManager(mqtw):
         for o in manager.arr:
             row=[]
             for attribute in self.manager_attributes:
-                row.append(self.manager._string_or_tuple_to_command(o,attribute))
+                row.append(call_by_name(o,attribute))
             data.append(row)
         self.setData(header_horizontal, header_vertical, data, decimals, zonename)
 
@@ -826,6 +844,7 @@ def qnumber_limited(n, limit, digits=2, reverse=False):
 ## Shows the time of a datetime
 ## See function time2string of datetime_functions to see formats
 ## @param ti must be a time object
+## @param format
 def qtime(ti, format="HH:MM:SS"):
     if ti==None:
         return qnone()
