@@ -45,7 +45,8 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
         self.qlepMagnesium.setSuffix(self.tr("mg"))
         self.qlepPhosphor.setSuffix(self.tr("mg"))
         self.qlepCalcium.setSuffix(self.tr("mg"))
-        
+
+        self.cmbsAdditives.frm.widget.setShowObjectCallingByName(["fullName",()])
         if self.product==None:
             self.__insert=True
             self.mem.data.companies.qcombobox(self.cmbCompanies)

@@ -9,16 +9,18 @@ class Additive:
         self.name=self.mem.trHS(name)#E121
         self.description=self.mem.trHS(description)#Acido ...
         self.risk=risk
-        
+
     def __str__(self):
+        return self.fullName()
+
+    def fullName(self):
         return "{}: {}".format(self.name, self.description)
-        
+
     def qicon(self):
         if self.risk==None:
             return QIcon(":/caloriestracker/empty.png")
         return self.risk.qicon()
-        
-        
+
 class AdditiveManager(QObject, ObjectManager_With_IdName_Selectable):
     def __init__(self, mem):
         QObject.__init__(self)
