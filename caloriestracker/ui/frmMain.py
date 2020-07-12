@@ -43,7 +43,7 @@ class frmMain(QMainWindow, Ui_frmMain):
         self.cmbUsers.currentIndexChanged.connect(self.on_cmbUsers_currentIndexChanged)
         
         # Adds biometric data if empty
-        if self.mem.user.biometrics.last().datetime==None:
+        if self.mem.user.biometrics.last() is None:
             self.on_actionBiometricsAdd_triggered()
         
 

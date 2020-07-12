@@ -19,7 +19,7 @@ class frmBiometricsAdd(QDialog, Ui_frmBiometricsAdd):
             self.spnHeight.setValue(self.biometric.height)
             self.spnWeight.setValue(self.biometric.weight)
             self.lbl.setText(self.tr("Edit a biometrics information register"))
-        elif self.mem.user.biometrics.last().datetime==None:#No last_biometrics no data in database
+        elif self.mem.user.biometrics.last()==None:#No last_biometrics no data in database
             self.wdgDT.set(datetime.now(), self.mem.localzone)
             self.mem.data.activities.qcombobox(self.cmbActivity)
             self.mem.data.weightwishes.qcombobox(self.cmbWeightWish)
