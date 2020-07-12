@@ -5,10 +5,11 @@ from argparse import ArgumentParser, RawTextHelpFormatter
 from datetime import date,  datetime
 
 from caloriestracker.connection_pg import argparse_connection_arguments_group, Connection
-from caloriestracker.datetime_functions import  string2date
+from caloriestracker.datetime_functions import  string2date, dtaware_now
 from caloriestracker.version import __version__,  __versiondatetime__
 from colorama import Fore, Style
 from caloriestracker.database_update import database_update
+from caloriestracker.libmanagers import ObjectManager
 from caloriestracker.objects.activity import ActivityManager
 from caloriestracker.objects.company import CompanyAllManager
 from caloriestracker.objects.additives import AdditiveManager_all
@@ -198,10 +199,12 @@ class MemConsole(Mem):
         group.add_argument('--update_after_contribution',  help=self.tr("Converts personal data to system data in the database using generated sql file of the dump owner"),  action="store", default=None)
         group.add_argument('--elaborated', help=self.tr("Show elaborated product"), action="store", default=None)
 
+
 class MemCaloriestracker(MemGui):
     def __init__(self):        
         MemGui.__init__(self)
         self._products_maintainer_mode=False
+        self.clipboard=ObjectManager()#Manager to work with copy/paste clipboard
  
     def setProductsMaintainerMode(self, boolean):
         self._products_maintainer_mode=boolean
@@ -231,6 +234,10 @@ class MemCaloriestracker(MemGui):
         
     def setLocalzone(self):
         self.localzone=self.settings.value("mem/localzone", "Europe/Madrid")
+
+    ## @return dtaware with self.localzone as OFFSEt
+    def now(self):
+        return dtaware_now(self.localzone)
 
 class MemMaintenanceProductSystem2Personal(MemConsole):
     def __init__(self):

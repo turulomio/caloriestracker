@@ -10,25 +10,14 @@ class Meal:
     ##Meal(mem)
     ##Meal(mem,rows) #Uses products_id and users_id in row
     ##Meal(mem,datetime,product,name,amount,users_id,id)
-    def __init__(self, *args):        
-        def init__create( dt, product, amount, user, system_product, id):
-            self.datetime=dt
-            self.product=product
-            self.amount=amount
-            self.user=user
-            self.system_product=system_product
-            self.id=id
-            return self
-        # #########################################
-        self.mem=args[0]
-        if len(args)==1:#Meal(mem)
-            init__create(*[None]*6)
-        elif len(args)==2:#Meal(mem,rows)
-            product=self.mem.data.products.find_by_id_system(args[1]['products_id'], args[1]['system_product'])
-            user=self.mem.data.users.find_by_id(args[1]['users_id'])
-            init__create(args[1]['datetime'], product, args[1]['amount'], user, args[1]['system_product'], args[1]['id'])
-        elif len(args)==7:#Meal(mem,datetime,product, amount,users_id,id)
-            init__create(*args[1:])
+    def __init__(self, mem=None,  dt=None, product=None, amount=None, user=None, system_product=None, id=None):
+        self.mem=mem
+        self.datetime=dt
+        self.product=product
+        self.amount=amount
+        self.user=user
+        self.system_product=system_product
+        self.id=id
 
     def fullName(self):
         return self.product.fullName() 
@@ -95,12 +84,10 @@ class Meal:
 class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
     ##MealManager(mem)
     ##MealManager(mem,sql, progress)
-    def __init__(self, *args ):
+    def __init__(self, mem ):
         QObject.__init__(self)
         ObjectManager_With_IdName_Selectable.__init__(self)
-        self.mem=args[0]
-        if len(args)==2:
-            self.load_db_data(*args[1:])
+        self.mem=mem
         self.setSelectionMode(ManagerSelectionMode.Object)
 
     ## @return Dict with meals amount group by fullName(
@@ -126,12 +113,6 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
         for o in self.arr:
             r[o.product.foodtype.name]=r[o.product.foodtype.name]+o.amount
         return OrderedDict(sorted(r.items(), key=lambda item: item[1]))
-
-    def load_db_data(self, sql):
-        rows=self.mem.con.cursor_rows(sql)
-        for row in rows:
-            self.append(Meal(self.mem, row))
-        return self
 
     def calories(self):
         r=Decimal(0)
@@ -258,3 +239,22 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
             wdg.table.setItem(self.length()+1, 6, qnumber(self.mem.user.biometrics.last().protein()))
             wdg.table.setItem(self.length()+1, 7, qnumber(self.mem.user.biometrics.last().fat()))
             wdg.table.setItem(self.length()+1, 8, qnumber(self.mem.user.biometrics.last().fiber()))
+
+def Meal_from_dict(mem, d):
+    product=mem.data.products.find_by_id_system(d['products_id'], d['system_product'])
+    user=mem.data.users.find_by_id(d['users_id'])
+    return Meal (mem, d['datetime'], product, d['amount'], user, d['system_product'], d['id'])
+
+## Copies a meal
+## @param meal Meal object to copy
+## @param new_id None or Integer. If None leaves id to Noneid. If Integer copy will have this id
+## @return Meal Object
+def Meal_copy(mem, meal, new_id):
+    return Meal (mem, meal.datetime, meal.product, meal.amount, meal.user, meal.system_product, new_id)
+
+def MealManager_from_sql(mem, sql, params):
+    r=MealManager(mem)
+    rows=mem.con.cursor_rows(sql, params)
+    for row in rows:
+        r.append(Meal_from_dict(mem, row))
+    return r

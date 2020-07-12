@@ -76,7 +76,7 @@
      <item>
       <widget class="QTabWidget" name="tab">
        <property name="currentIndex">
-        <number>4</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="tab_8">
         <attribute name="icon">
@@ -222,6 +222,30 @@
    </property>
    <property name="toolTip">
     <string>Delete selected date meals</string>
+   </property>
+  </action>
+  <action name="actionMealCopy">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/copy.png</normaloff>:/caloriestracker/copy.png</iconset>
+   </property>
+   <property name="text">
+    <string>Copy meal</string>
+   </property>
+   <property name="toolTip">
+    <string>Copy meal</string>
+   </property>
+  </action>
+  <action name="actionMealPaste">
+   <property name="icon">
+    <iconset resource="../images/caloriestracker.qrc">
+     <normaloff>:/caloriestracker/paste.png</normaloff>:/caloriestracker/paste.png</iconset>
+   </property>
+   <property name="text">
+    <string>Paste meal</string>
+   </property>
+   <property name="toolTip">
+    <string>Paste meal</string>
    </property>
   </action>
  </widget>

@@ -127,9 +127,19 @@ class Ui_wdgMeals(object):
         icon8.addPixmap(QtGui.QPixmap(":/caloriestracker/button_cancel.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionMealDeleteDay.setIcon(icon8)
         self.actionMealDeleteDay.setObjectName("actionMealDeleteDay")
+        self.actionMealCopy = QtWidgets.QAction(wdgMeals)
+        icon9 = QtGui.QIcon()
+        icon9.addPixmap(QtGui.QPixmap(":/caloriestracker/copy.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionMealCopy.setIcon(icon9)
+        self.actionMealCopy.setObjectName("actionMealCopy")
+        self.actionMealPaste = QtWidgets.QAction(wdgMeals)
+        icon10 = QtGui.QIcon()
+        icon10.addPixmap(QtGui.QPixmap(":/caloriestracker/paste.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionMealPaste.setIcon(icon10)
+        self.actionMealPaste.setObjectName("actionMealPaste")
 
         self.retranslateUi(wdgMeals)
-        self.tab.setCurrentIndex(4)
+        self.tab.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(wdgMeals)
 
     def retranslateUi(self, wdgMeals):
@@ -151,6 +161,10 @@ class Ui_wdgMeals(object):
         self.actionProductEdit.setToolTip(_translate("wdgMeals", "Edit product"))
         self.actionMealDeleteDay.setText(_translate("wdgMeals", "Delete selected date meals"))
         self.actionMealDeleteDay.setToolTip(_translate("wdgMeals", "Delete selected date meals"))
+        self.actionMealCopy.setText(_translate("wdgMeals", "Copy meal"))
+        self.actionMealCopy.setToolTip(_translate("wdgMeals", "Copy meal"))
+        self.actionMealPaste.setText(_translate("wdgMeals", "Paste meal"))
+        self.actionMealPaste.setToolTip(_translate("wdgMeals", "Paste meal"))
 from caloriestracker.ui.myqcharts import VCPie, VCTemporalSeries
 from caloriestracker.ui.myqtablewidget import mqtwObjects
 import caloriestracker.images.caloriestracker_rc

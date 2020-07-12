@@ -1,5 +1,5 @@
 from datetime import datetime
-from caloriestracker.objects.meal import MealManager
+from caloriestracker.objects.meal import MealManager_from_sql
 from caloriestracker.objects.company import CompanyPersonal
 from caloriestracker.objects.product import ProductPersonal
 from caloriestracker.objects.company_product import CompaniesAndProducts
@@ -103,6 +103,6 @@ def main():
 
     user=mem.data.users.find_by_id(mem.args.users_id)
 
-    meals=MealManager(mem, mem.con.mogrify("select * from meals where datetime::date=%s and users_id=%s", (mem.args.date, user.id))) 
+    meals=MealManager_from_sql(mem, "select * from meals where datetime::date=%s and users_id=%s", (mem.args.date, user.id))
     meals.order_by_datetime()
     meals.show_table(mem.args.date)

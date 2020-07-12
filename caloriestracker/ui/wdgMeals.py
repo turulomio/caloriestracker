@@ -1,9 +1,11 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QMenu, QMessageBox
 from caloriestracker.datetime_functions import dtaware_day_end_from_date
-from caloriestracker.objects.meal import MealManager
+from caloriestracker.objects.meal import MealManager, MealManager_from_sql, Meal_copy
 from caloriestracker.objects.mealtotal import MealTotalManager_all
 from caloriestracker.ui.Ui_wdgMeals import Ui_wdgMeals
+from caloriestracker.ui.myqwidgets import qmessagebox
+from datetime import date
 
 class wdgMeals(QWidget, Ui_wdgMeals):
     def __init__(self, mem,  arrInt=[],  parent=None):
@@ -27,7 +29,7 @@ class wdgMeals(QWidget, Ui_wdgMeals):
         mealtotals=MealTotalManager_all(self.mem, self.mem.user)
         mealtotals.load_biometrics()
         del self.meals
-        self.meals=MealManager(self.mem, self.mem.con.mogrify("select * from meals where users_id=%s and datetime::date=%s order by datetime", (self.mem.user.id, self.calendar.selectedDate().toPyDate() )))
+        self.meals=MealManager_from_sql(self.mem, "select * from meals where users_id=%s and datetime::date=%s order by datetime", (self.mem.user.id, self.calendar.selectedDate().toPyDate() ))
         self.meals.myqtablewidget(self.tblMeals)
         self.tblMeals.setOrderBy(0, False)
         self.lblFound.setText(self.tr("{} registers found").format(self.meals.length()))
@@ -93,6 +95,24 @@ class wdgMeals(QWidget, Ui_wdgMeals):
         w.exec_()
         self.on_calendar_selectionChanged()
         
+        
+    @pyqtSlot()
+    def on_actionMealCopy_triggered(self):
+        if self.tblMeals.selected is not None:
+            self.mem.clipboard.append(Meal_copy(self.mem, self.tblMeals.selected, new_id=None))
+
+    @pyqtSlot()
+    def on_actionMealPaste_triggered(self):
+        for meal in self.mem.clipboard:
+            if meal.__class__.__name__=="Meal":
+                meal.datetime=self.mem.now()
+                meal.save()
+            else:
+                qmessagebox(self.tr("Clipboard hasn't meals"))
+                self.mem.clipboard.clean()
+                return
+        self.calendar.setSelectedDate(date.today())
+
     @pyqtSlot() 
     def on_actionProductEdit_triggered(self):
         if self.tblMeals.selected.product.system_product==True:
@@ -118,6 +138,9 @@ class wdgMeals(QWidget, Ui_wdgMeals):
         menu.addAction(self.actionMealDelete)
         menu.addAction(self.actionMealEdit)
         menu.addSeparator()
+        menu.addAction(self.actionMealCopy)
+        menu.addAction(self.actionMealPaste)
+        menu.addSeparator()
         menu.addAction(self.actionMealDeleteDay)
         menu.addSeparator()
         menu.addAction(self.actionProductEdit)
@@ -128,6 +151,11 @@ class wdgMeals(QWidget, Ui_wdgMeals):
             self.actionMealDeleteDay.setEnabled(True)
         else:
             self.actionMealDeleteDay.setEnabled(False)
+            
+        if self.mem.clipboard.length()>0:
+            self.actionMealPaste.setEnabled(True)
+        else:
+            self.actionMealPaste.setEnabled(False)
         
         if self.tblMeals.selected==None:
             self.actionMealDelete.setEnabled(False)
