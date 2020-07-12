@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QDialog
 from caloriestracker.ui.Ui_frmBiometricsAdd import Ui_frmBiometricsAdd
+from caloriestracker.ui.myqwidgets import qmessagebox
 from caloriestracker.objects.biometrics import Biometrics
 from datetime import datetime
 
@@ -35,6 +36,10 @@ class frmBiometricsAdd(QDialog, Ui_frmBiometricsAdd):
     def on_bb_accepted(self):
         activity=self.mem.data.activities.find_by_id(self.cmbActivity.itemData(self.cmbActivity.currentIndex()))
         weightwish=self.mem.data.weightwishes.find_by_id(self.cmbWeightWish.itemData(self.cmbWeightWish.currentIndex()))
+        
+        if activity is None or weightwish is None:
+            qmessagebox(self.tr("You must select an activity and a weight wish"))
+            return
 
         if self.biometric==None:        
             self.biometric=Biometrics(
