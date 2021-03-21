@@ -46,7 +46,6 @@ class PyInstaller(Command):
         os.system("python setup.py install")
         
         self.entry_point("caloriestracker.caloriestracker","caloriestracker")
-        self.entry_point("caloriestracker.caloriestracker_init","caloriestracker_init")
 
     ## Makes a entry_point for this module, fuction should be main. It also executes pyinstaller
     ## @param module strings with the module to import
