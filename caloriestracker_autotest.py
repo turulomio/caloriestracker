@@ -1,8 +1,6 @@
-
 from PyQt5.QtWidgets import  QDialog
 from caloriestracker.ui.frmAccess import frmAccess
 from caloriestracker.mem import MemInit, MemCaloriestracker
-from caloriestracker.ui.frmInit import frmInit
 import caloriestracker.images.caloriestracker_rc #Images of frmAccess were not loaded without this
 
 from os import system, environ
@@ -17,13 +15,14 @@ system("dropdb -U postgres -h 127.0.0.1 caloriestracker_autotest")
 
 print("Emulating caloriestracker_init main function")
 
-mem=MemInit()
+mem=MemCaloriestracker()
 mem.run()
-frm = frmInit(mem)
-frm.show()
-frm.txtDB.setText("caloriestracker_autotest")
-frm.txtPass.setText(password)
-frm.on_cmdCreate_released()
+mem.frmAccess=frmAccess("caloriestracker", "frmAccess")
+mem.frmAccess.setResources(":/caloriestracker/caloriestracker.png", ":/caloriestracker/caloriestracker.png")
+mem.frmAccess.setLabel(mem.tr("Please login to the Calories Tracker database"))
+mem.frmAccess.txtDB.setText("caloriestracker_autotest")
+mem.frmAccess.txtPass.setText(password)
+mem.frmAccess.on_cmdDatabaseNew_released()
 
 print("You must select yes and ok to message")
 
