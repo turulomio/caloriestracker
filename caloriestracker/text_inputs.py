@@ -75,7 +75,6 @@ def input_boolean(text, default="T"):
             return True
         else:
             return False
-            
 
 def input_YN(pregunta, default="Y"):
     ansyes=_("Y")
@@ -94,16 +93,20 @@ def input_YN(pregunta, default="Y"):
         else:
                 print (_("Please enter '{}' or '{}'".format(ansyes, ansno)))
 
-def input_string(text,default=None):
+def input_string(text,default="", allow_blank=True):
     while True:
-        if default==None:
-            res=input(Style.BRIGHT+text+": ")
+        if default=="":
+            res=input(Style.BRIGHT+text+": " + Fore.YELLOW)
         else:
-            print(Style.BRIGHT+ Fore.WHITE+"{} [{}]: ".format(text, Fore.GREEN+str(default)+Fore.WHITE), end="")
+            print(Style.BRIGHT+ Fore.WHITE+"{} [{}]: ".format(text, Fore.GREEN+str(default)+Fore.WHITE) + Fore.YELLOW, end="")
             res=input()
+        print(Style.RESET_ALL, end="")
         try:
             if res==None or res=="":
-                res=default
+                if default=="" and allow_blank is False:
+                    continue
+                else:
+                    res=default
             res=str(res)
             return res
         except:
@@ -116,3 +119,12 @@ def press_key_to_continue():
     else:
        s=_("Press a key to continue...")
        system("read -p '{}'".format(s))
+
+if __name__ == '__main__':
+    ans=input_string("What's your name?")
+    print(ans)
+    ans=input_string("What's your name (mandatory)?", allow_blank=False)
+    print(ans)
+    ans=input_string("What's your name with default?", "Name")
+    print(ans)
+    

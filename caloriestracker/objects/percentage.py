@@ -10,6 +10,9 @@ class Percentage:
     def __init__(self, numerator=None, denominator=None):
         self.setValue(self.toDecimal(numerator),self.toDecimal(denominator))
 
+
+
+
     def toDecimal(self, o):
         if o==None:
             return o
@@ -45,6 +48,14 @@ class Percentage:
         if value1<value2:
             return True
         return False
+
+
+
+    def __add__(self,p):
+        return self.__class__(self.value+p.value,1)
+
+    def __sub__(self, p):
+        return self.__class__(self.value-p.value,1)
 
     def __mul__(self, value):
         if self.value==None or value==None:

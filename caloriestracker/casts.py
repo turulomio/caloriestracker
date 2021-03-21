@@ -6,6 +6,9 @@ from logging import warning
 from .objects.currency import Currency
 from .objects.percentage import Percentage
 
+def valueORempty(v):
+    return "" if v is None else v
+
 def list2string(lista):
         """Covierte lista a string"""
         if  len(lista)==0:

@@ -291,6 +291,16 @@ def epochms2dtaware(n, tz="UTC"):
     utc_aware=utc_unaware.replace(tzinfo=timezone('UTC'))#Due to epoch is in UTC
     return dtaware_changes_tz(utc_aware, tz)
 
+## epoch is the time from 1,1,1970 in UTC
+## return now(timezone(self.name))
+def dtaware2epochmicros(d):
+    return int(d.timestamp()*1000000)
+## Return a UTC datetime aware
+def epochmicros2dtaware(n, tz="UTC"):
+    utc_unaware=datetime.utcfromtimestamp(n/1000000)
+    utc_aware=utc_unaware.replace(tzinfo=timezone('UTC'))#Due to epoch is in UTC
+    return dtaware_changes_tz(utc_aware, tz)
+
 
 ## Returns a formated string of a dtaware string formatting with a zone name
 ## @param dt datetime aware object
@@ -357,14 +367,17 @@ def months(year_from, month_from, year_to=None, month_to=None):
 
 if __name__ == "__main__":
     tz="Europe/Madrid"
-    now=datetime.now()
+    now=dtnaive_now()
     print("Current localzone is", tz)
     print ("DtNaive:",  now)
     now_aware=dtaware(now.date(), now.time(), tz)
-    print("DtAware:", now_aware)
+    print("DtAware:", now_aware, "With dtaware_now", dtaware_now(tz))
     epochms=dtaware2epochms(now_aware)
     print("Epoch in miliseconds:", epochms)
     print("Dtaware reconverting epoch {}".format(epochms2dtaware(epochms, tz)) )
+    epochmicros=dtaware2epochmicros(now_aware)
+    print("Epoch in microseconds:", epochmicros)
+    print("Dtaware reconverting epoch in microseconds {}".format(epochmicros2dtaware(epochmicros, tz)) )
     now_aware_in_utc=dtaware_changes_tz(now_aware, 'UTC')
     print("Datetime '{}' changes to UTC '{}'".format(now_aware, now_aware_in_utc))
     print()

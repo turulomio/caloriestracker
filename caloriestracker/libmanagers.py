@@ -143,6 +143,64 @@ class ObjectManager(object):
                     r.append(o)
         return r
 
+
+    ## Search by id iterating array
+    def find_by_id_builtin(self, id_, logging=False):
+        start=datetime.now()
+        for o in self.arr:
+            if id(o)==id_:
+                if logging==True:
+                    debug("{} took {} to find by id builtin {} with list".format(self.__class__.__name__, datetime.now()-start, id))
+                return o
+        return None
+
+
+    ## It doesn't emit selected if selected is None a nd needtoselect is False, in the rest of the cases it emmit itemChanged
+    ## @param combo
+    ## @param selected it's an object
+    ## @param needtoselect Adds a foo item with value==None with the text select one
+    ## @param icons Boolean. If it's true uses o.qicon() method to add an icon to the item
+    ## @param id_attr. Atribute to call_by_name for id. If None uses id(o). Normally will user "id"
+    ## @param name_attr. Atribute to call_by_name for name. If None user str(o). Normally will use "name"
+    
+    def qcombobox(self, combo,  selected=None, needtoselect=False, icons=False, id_attr="id", name_attr="name"):
+        combo.blockSignals(True)
+        combo.clear()
+
+        #Add items
+        if needtoselect==True:
+            if self.length()>0:
+                combo.addItem(combo.tr("Select an option"), None)
+            else:
+                combo.addItem(combo.tr("No options to select"), None)
+        for a in self.arr:
+            print(a,id_attr,name_attr)
+            id_  =call_by_name(a, id_attr) if id_attr is not None else id(a)
+            name_=call_by_name(a, name_attr) if name_attr is not None else str(a)
+            if icons==True:
+                combo.addItem(a.qicon(), name_, id_)
+            else:
+                combo.addItem(name_, id_)
+
+        #Force without signals to be in -1. There were problems when 0 is selected, becouse it didn't emit anything
+        combo.setCurrentIndex(-1)
+
+        #Set selection
+        if needtoselect==True:
+            combo.blockSignals(False)
+            combo.setCurrentIndex(0)
+        else:#need to select False
+            if selected is None:
+                combo.blockSignals(False)
+            else:
+                combo.blockSignals(False)
+                if id_attr is None:
+                    selected_id=id(id_attr)
+                else:
+                    selected_id=selected.id
+                combo.setCurrentIndex(combo.findData(selected_id))
+
+
 ## Manager Selection class
 ## By default selectionmode is
 class ManagerSelection(object):
@@ -367,43 +425,6 @@ class ObjectManager_With_IdName(ObjectManager_With_Id):
     def order_by_upper_name(self, reverse=False, none_at_top=True):
         self.order_with_none(("name.upper", []), reverse=reverse, none_at_top=none_at_top)
 
-
-    ## It doesn't emit selected if selected is None a nd needtoselect is False, in the rest of the cases it emmit itemChanged
-    ## @param combo
-    ## @param selected it's an object
-    ## @param needtoselect Adds a foo item with value==None with the text select one
-    ## @param icons Boolean. If it's true uses o.qicon() method to add an icon to the item
-    def qcombobox(self, combo,  selected=None, needtoselect=False, icons=False, id_attr="id", name_attr="name"):
-        combo.blockSignals(True)
-        combo.clear()
-
-        #Add items
-        if needtoselect==True:
-            if self.length()>0:
-                combo.addItem(combo.tr("Select an option"), None)
-            else:
-                combo.addItem(combo.tr("No options to select"), None)
-        for a in self.arr:
-            id_  =call_by_name(a, id_attr)
-            name_=call_by_name(a, name_attr)
-            if icons==True:
-                combo.addItem(a.qicon(), name_, id_)
-            else:
-                combo.addItem(name_, id_)
-
-        #Force without signals to be in -1. There were problems when 0 is selected, becouse it didn't emit anything
-        combo.setCurrentIndex(-1)
-
-        #Set selection
-        if needtoselect==True:
-            combo.blockSignals(False)
-            combo.setCurrentIndex(0)
-        else:#need to select False
-            if selected is None:
-                combo.blockSignals(False)
-            else:
-                combo.blockSignals(False)
-                combo.setCurrentIndex(combo.findData(selected.id))
 
     ## Creates a libreoffice sheet from the ObjectManager
     ##

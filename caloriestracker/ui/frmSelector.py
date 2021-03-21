@@ -56,10 +56,15 @@ class wdgManagerSelector(QWidget):
         self.mqtw.showSearchOptions(True)
         self.mqtw.showSearchCloseButton(False)
         self.mqtw.setGenericContextMenu()
+        self.mqtw.setOrderingEnabled(True)
+        self.mqtw.table.cellDoubleClicked.connect(self.on_mqtw_cellDoubleClicked)
+        
         self.mqtwSelected=mqtw(self)
         self.mqtwSelected.showSearchOptions(True)
         self.mqtwSelected.showSearchCloseButton(False)
         self.mqtwSelected.setGenericContextMenu()
+        self.mqtwSelected.setOrderingEnabled(True)
+        self.mqtwSelected.table.cellDoubleClicked.connect(self.on_mqtwSelected_cellDoubleClicked)
         
         self.laybuttons = QVBoxLayout()
         self.cmdLeft=QToolButton(self)
@@ -136,20 +141,26 @@ class wdgManagerSelector(QWidget):
         self.mqtwSelected.table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Object")))
         self.mqtwSelected.applySettings() 
         self.mqtwSelected.table.setRowCount(self.selected.length())
+        self.selected.arr=sorted(self.selected.arr, key=lambda o: str(call_by_name(o, self._showObjectCallingByName)),  reverse=False)  
         for i, o in enumerate(self.selected.arr):
             self.mqtwSelected.table.setItem(i, 0, QTableWidgetItem(str(call_by_name(o, self._showObjectCallingByName))))
             if self._showObjectIcons==True:
                 self.mqtwSelected.table.item(i, 0).setIcon(o.qicon())
+            self.mqtwSelected.table.showRow(i)
+        self.mqtwSelected.on_txt_textChanged(self.mqtwSelected.txtSearch.text())
         
     def _load_tbl(self):  
         self.mqtw.table.setColumnCount(1)
         self.mqtw.table.setHorizontalHeaderItem(0, QTableWidgetItem(self.tr("Object")))
         self.mqtw.applySettings()
         self.mqtw.table.setRowCount(self.manager.length())
+        self.manager.arr=sorted(self.manager.arr, key=lambda o: str(call_by_name(o, self._showObjectCallingByName)),  reverse=False)  
         for i, o in enumerate(self.manager.arr):
             self.mqtw.table.setItem(i, 0, QTableWidgetItem(str(call_by_name(o, self._showObjectCallingByName))))
             if self._showObjectIcons==True:
                 self.mqtw.table.item(i, 0).setIcon(o.qicon())
+            self.mqtw.table.showRow(i)
+        self.mqtw.on_txt_textChanged(self.mqtw.txtSearch.text())
 
     def on_cmdLeft_released(self):
         for i in self.mqtwSelected.table.selectedItems():
@@ -206,10 +217,10 @@ class wdgManagerSelector(QWidget):
         self._load_tbl()
         self._load_tblSelected()        
         
-    def on_tbl_cellDoubleClicked(self, row, column):
+    def on_mqtw_cellDoubleClicked(self, row, column):
         self.on_cmdRight_released()
         
-    def on_tblSelected_cellDoubleClicked(self, row, column):
+    def on_mqtwSelected_cellDoubleClicked(self, row, column):
         self.on_cmdLeft_released()
         
 
@@ -281,7 +292,7 @@ def example():
         def __init__(self):
             ObjectManager_With_IdName.__init__(self)
             
-    d={'one':1, 'two':2, 'three':3, 'four':4}
+    d={'one':1, 'two':2, 'three':3, 'four':4, 'five':5, 'six':6, 'seven':7, 'eight':8, 'nine':9, 'ten':10, 'eleven':11}
     manager=PruebaManager()
     manager.setConstructorParameters()
     for k, v in d.items():

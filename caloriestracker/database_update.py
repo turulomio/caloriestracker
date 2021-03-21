@@ -1,3 +1,7 @@
+## THIS IS FILE IS FROM https://github.com/turulomio/reusingcode IF YOU NEED TO UPDATE IT PLEASE MAKE A PULL REQUEST IN THAT PROJECT
+## DO NOT UPDATE IT IN YOUR CODE IT WILL BE REPLACED USING FUNCTION IN README
+
+
 from .package_resources import package_listdir, package_filename
 from .datetime_functions import string2dtnaive
 from .casts import str2bool, list2string, string2list_of_integers, string2list_of_strings

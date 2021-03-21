@@ -309,7 +309,6 @@ entry_points={
         ],
         'gui_scripts':  [
             'caloriestracker=caloriestracker.caloriestracker:main',
-            'caloriestracker_init=caloriestracker.caloriestracker_init:main',
         ],
     }
 if platform.system()=="Windows":

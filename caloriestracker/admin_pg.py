@@ -67,9 +67,14 @@ class AdminPG:
 
         
     ## Returns a Connection object to a database using Admin connection information
-    def connect_to_database(self, database):
-        con=Connection().init__create(self.con.user, self.con.password, self.con.server, self.con.port, database)
-        con.connect()
+    def connect_to_database(self, database, connectionqt=False):
+        if connectionqt is False:
+            con=Connection().init__create(self.con.user, self.con.password, self.con.server, self.con.port, database)
+            con.connect()
+        else:
+            from .connection_pg_qt import ConnectionQt
+            con=ConnectionQt().init__create(self.con.user, self.con.password, self.con.server, self.con.port, database)
+            con.connect()
         return con
         
     ## Used to copy between tables, and sql to table_destiny, table origin and destiny must have the same structure

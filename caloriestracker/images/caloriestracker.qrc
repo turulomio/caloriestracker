@@ -122,11 +122,16 @@
   <qresource prefix="/reusingcode">
     <file>save.png</file>
     <file>database.png</file>
+    <file>database_new.png</file>
     <file>search.png</file>
     <file>sort_up.png</file>
     <file>sort_down.png</file>
     <file>button_cancel.png</file>
     <file>libreoffice_calc.png</file>
     <file>qmessagebox.png</file>
+    <file>frmaccess_icon.png</file>
+    <file>frmaccess_pixmap.png</file>
+    <file>profile_new.png</file>
+    <file>profile_update.png</file>
   </qresource>
 </RCC>
