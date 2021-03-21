@@ -72,6 +72,16 @@ In Calories tracker you can add your own products and you can share them with us
 
 Changelog
 =========
+0.7.0
+  * Food types are now ordered by translated name
+  * Fixed bug deleting a user
+  * Added a combobox to filter products by personal, system and elaborated types.
+  * Added meals and foodtype pies.
+  * Added curiosities
+  * Added daily meal evolution chart
+  * Calcium component has been added to products
+  * Added copy and paste meals
+
 0.6.0
   * You can see all products of a company in companies list.
   * You can see a system products without editing.
