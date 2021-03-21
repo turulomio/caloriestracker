@@ -32,6 +32,7 @@ class Mem(QObject):
         self.con=None
         self.inittime=datetime.now()
         signal(SIGINT, self.signal_handler)
+        self._products_maintainer_mode=False
 
     def epilog(self):
         return self.tr("If you like this app, please give me a star in GitHub (https://github.com/turulomio/caloriestracker).")+"\n" + self.tr("Developed by Mariano Mu\xf1oz 2019-{} \xa9".format(__versiondatetime__.year))
@@ -44,6 +45,12 @@ class Mem(QObject):
         self.data.load(progress)
 
         info("Loading db data took {}".format(datetime.now()-inicio))
+
+    def setProductsMaintainerMode(self, boolean):
+        self._products_maintainer_mode=boolean
+        
+    def isProductsMaintainerMode(self):
+        return self._products_maintainer_mode
 
     def __del__(self):
         try:
@@ -206,11 +213,6 @@ class MemCaloriestracker(MemGui):
         self._products_maintainer_mode=False
         self.clipboard=ObjectManager()#Manager to work with copy/paste clipboard
  
-    def setProductsMaintainerMode(self, boolean):
-        self._products_maintainer_mode=boolean
-        
-    def isProductsMaintainerMode(self):
-        return self._products_maintainer_mode
 
     def run(self):
         self.args=self.parse_arguments()

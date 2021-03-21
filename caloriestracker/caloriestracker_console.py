@@ -80,7 +80,7 @@ def main():
     
     if mem.args.parse_contribution_dump!=None:
         mem.languages.cambiar("en", "caloriestracker")
-        dbversion=mem.con.cursor_one_field("select value from globals where id=1")
+        dbversion=mem.con.cursor_one_field("select value from globals where global='Version'")
         filenameversion=mem.args.parse_contribution_dump.replace("caloriestracker_collaboration_", "").replace(".sql", "")
         if dbversion==filenameversion:
             parse_contribution_dump_generate_files_and_validates_them(mem.con, mem.args.parse_contribution_dump)
@@ -90,8 +90,9 @@ def main():
         
     if mem.args.update_after_contribution!=None:
         mem.languages.cambiar("en", "caloriestracker")
-        dbversion=mem.con.cursor_one_field("select value from globals where id=1")
+        dbversion=mem.con.cursor_one_field("select value from globals where global='Version'")
         filenameversion=mem.args.update_after_contribution[0:12]
+        print(dbversion,  filenameversion)
         if dbversion==filenameversion:
             mem.con.load_script(mem.args.update_after_contribution)
             mem.con.commit()

@@ -28,7 +28,7 @@ def print_table_status(con):
 ## Generate a dump for the collaborator
 ## @param mem Current database to extract personal data only
 def generate_contribution_dump(mem):
-    database_version=int(mem.con.cursor_one_field("select value from globals where id=1"))
+    database_version=int(mem.con.cursor_one_field("select value from globals where global='Version'"))
     filename="caloriestracker_collaboration_{}.sql".format(database_version)
     f=open(filename, "w")
     f.write("select;\n")#For no personal data empty files
@@ -131,7 +131,6 @@ def parse_contribution_dump_generate_files_and_validates_them(auxiliar_con, cont
                     company=company, 
                     last=product.last,
                     elaboratedproducts_id=product.elaboratedproducts_id, 
-                    languages=product.languages, 
                     calories=product.calories, 
                     salt=product.salt, 
                     cholesterol=product.cholesterol, 
