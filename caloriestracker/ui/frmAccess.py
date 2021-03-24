@@ -52,9 +52,9 @@ class frmAccess(QDialog, Ui_frmAccess):
         self.languages.qcombobox(self.cmbLanguages, self.languages.selected)
 
         self.con=ConnectionQt()#Pointer to connection
-        
+
         self.setTitle(self.tr("Log in PostreSQL database"))
-        
+
         self.cmbProfiles_update()
         current_profile=self.settings.value(self.settingsSection+"/current_profile", "")
         if current_profile=="":
@@ -64,7 +64,7 @@ class frmAccess(QDialog, Ui_frmAccess):
             self.txtServer.setText(self.settings.value(self.settingsSection +"/server", "127.0.0.1" ))
         else:
             self.cmbProfiles.setCurrentText(current_profile)
-        
+
     ## Reimplements QDialog.exec_ method to make an autologin if PGPASSWORD environment variable is detected.
     def exec_(self):
         try:
@@ -104,14 +104,22 @@ class frmAccess(QDialog, Ui_frmAccess):
             self.lblLanguage.hide()
             self.cmbLanguages.hide()
 
+    def setProfilesVisible(self, boolean):
+        if boolean==False:
+            self.lineProfile.hide()
+            self.lblProfile.hide()
+            self.cmbProfiles.hide()
+            self.cmdProfileNew.hide()
+            self.cmdProfileUpdate.hide()
+            self.cmdProfileDelete.hide()
+
     @pyqtSlot(int)
     def on_cmbLanguages_currentIndexChanged(self, stri):
         self.languages.selected=self.languages.find_by_id(self.cmbLanguages.itemData(self.cmbLanguages.currentIndex()))
         self.settings.setValue(self.settingsSection+"/language", self.languages.selected.id)
         self.languages.cambiar(self.languages.selected.id, self.module)
         self.retranslateUi(self)
-        
-        
+
     @pyqtSlot(str)
     def on_cmbProfiles_currentTextChanged(self, stri):
         self.txtDB.setText(self.settings.value(self.settingsSection +"_profile_" + self.cmbProfiles.currentText() + "/db", "xulpymoney"))
@@ -222,4 +230,5 @@ if __name__ == '__main__':
     app = QApplication([])
     w=frmAccess("xulpymoney", "frmAccessExample")
     w.setLabel("Probe conection")
+    #w.setProfilesVisible(False)
     w.exec_()

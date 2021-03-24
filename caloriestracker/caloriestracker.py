@@ -26,6 +26,7 @@ def main():
     mem.frmAccess.setResources(":/caloriestracker/caloriestracker.png", ":/caloriestracker/caloriestracker.png")
     mem.frmAccess.databaseCreated.connect(on_database_created)
     mem.frmAccess.setLabel(mem.tr("Please login to the Calories Tracker database"))
+    mem.frmAccess.setProfilesVisible(False)
     mem.frmAccess.exec_()
 
     if mem.frmAccess.result()==QDialog.Accepted:
