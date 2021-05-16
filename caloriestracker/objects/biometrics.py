@@ -78,6 +78,12 @@ class Biometrics:
 
     def carbohydrate(self):
         return self.bmr()*Decimal(0.60)/Decimal(4)
+        
+    ## Recomendación de la OMS para el consumo de azúcar
+    ## Pronto hará tres años que la Organización Mundial de la Salud (OMS) publicó un documento con recomendaciones y directrices sobre el consumo de azúcar en adultos y niños, y lo dejó bien claro:
+    ## Tanto para los adultos como para los niños, el consumo de azúcares libres se debería reducir a menos del 10% de la ingesta calórica total. Una reducción por debajo del 5% de la ingesta calórica total produciría beneficios adicionales para la salud.”
+    def sugars(self):
+        return self.bmr()*Decimal(0.05)/Decimal(4)
 
 
     def fiber(self):

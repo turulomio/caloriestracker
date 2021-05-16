@@ -52,9 +52,9 @@ class Meal:
         except:
             None
             
-    def sugar(self):
+    def sugars(self):
         try:
-            return self.amount * self.product.sugar/self.product.amount
+            return self.amount * self.product.sugars/self.product.amount
         except:
             None
 
@@ -157,12 +157,12 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
             r=r+meal.salt()
         return r
     
-    def sugar(self):
+    def sugars(self):
         r=Decimal(0)
         for meal in self.arr:
-            if meal.sugar() is None:
+            if meal.sugars() is None:
                 return None
-            r=r+meal.sugar()
+            r=r+meal.sugars()
         return r
         
     def fiber(self):
@@ -225,7 +225,7 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
                 o.protein(), 
                 o.fat(), 
                 o.fiber(), 
-                o.sugar(), 
+                o.sugars(), 
                 o, 
             ])
         wdg.setDataWithObjects(hh, None, data, zonename=self.mem.localzone, additional=self.myqtablewidget_additional)
@@ -246,6 +246,7 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
             wdg.table.setItem(self.length(), 6, qnumber_limited(self.protein(), self.mem.user.biometrics.last().protein()))
             wdg.table.setItem(self.length(), 7, qnumber_limited(self.fat(), self.mem.user.biometrics.last().fat()))
             wdg.table.setItem(self.length(), 8, qnumber_limited(self.fiber(), self.mem.user.biometrics.last().fiber(), reverse=True))
+            wdg.table.setItem(self.length(), 9, qnumber_limited(self.sugars(), self.mem.user.biometrics.last().sugars()))
             #Recomendatios
             wdg.table.setItem(self.length()+1, 0, qcrossedout())
             wdg.table.setItem(self.length()+1, 1, qleft(self.tr("Recomendations")))
@@ -256,6 +257,7 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
             wdg.table.setItem(self.length()+1, 6, qnumber(self.mem.user.biometrics.last().protein()))
             wdg.table.setItem(self.length()+1, 7, qnumber(self.mem.user.biometrics.last().fat()))
             wdg.table.setItem(self.length()+1, 8, qnumber(self.mem.user.biometrics.last().fiber()))
+            wdg.table.setItem(self.length()+1, 9, qnumber(self.mem.user.biometrics.last().sugars()))
 
 def Meal_from_dict(mem, d):
     product=mem.data.products.find_by_id_system(d['products_id'], d['system_product'])
