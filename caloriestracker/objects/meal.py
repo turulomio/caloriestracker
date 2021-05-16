@@ -51,6 +51,12 @@ class Meal:
             return self.amount * self.product.salt/self.product.amount
         except:
             None
+            
+    def sugar(self):
+        try:
+            return self.amount * self.product.sugar/self.product.amount
+        except:
+            None
 
     def fiber(self):
         try:
@@ -142,6 +148,7 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
                 return None
             r=r+meal.carbohydrate()
         return r
+    
     def salt(self):
         r=Decimal(0)
         for meal in self.arr:
@@ -149,6 +156,15 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
                 return None
             r=r+meal.salt()
         return r
+    
+    def sugar(self):
+        r=Decimal(0)
+        for meal in self.arr:
+            if meal.sugar() is None:
+                return None
+            r=r+meal.sugar()
+        return r
+        
     def fiber(self):
         r=Decimal(0)
         for meal in self.arr:
@@ -195,7 +211,7 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
         print (Style.BRIGHT + "="*(maxlength) + Style.RESET_ALL)
 
     def myqtablewidget(self, wdg):        
-        hh=[self.tr("Hour"), self.tr("Name"), self.tr("Foodtype"), self.tr("Grams"), self.tr("Calories"), self.tr("Carbohydrates"), self.tr("Protein"), self.tr("Fat"), self.tr("Fiber")]
+        hh=[self.tr("Hour"), self.tr("Name"), self.tr("Foodtype"), self.tr("Grams"), self.tr("Calories"), self.tr("Carbohydrates"), self.tr("Protein"), self.tr("Fat"), self.tr("Fiber"), self.tr("Sugar")]
         data=[]
         for i, o in enumerate(self.arr):
             foodtype=None if o.product.foodtype is None else o.product.foodtype.name
@@ -209,6 +225,7 @@ class MealManager(QObject, ObjectManager_With_IdDatetime_Selectable):
                 o.protein(), 
                 o.fat(), 
                 o.fiber(), 
+                o.sugar(), 
                 o, 
             ])
         wdg.setDataWithObjects(hh, None, data, zonename=self.mem.localzone, additional=self.myqtablewidget_additional)
