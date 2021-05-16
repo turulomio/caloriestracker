@@ -580,15 +580,10 @@
         <source>Homemade food</source>
         <translation>Comida casera</translation>
     </message>
-    <message encoding="UTF-8">
-        <location filename="../hardcoded_strings.py" line="52"/>
-        <source>Peppers from Padrón</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <location filename="../hardcoded_strings.py" line="25"/>
         <source>Gin</source>
-        <translation type="unfinished"></translation>
+        <translation>Ginebra</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="33"/>
@@ -598,21 +593,26 @@
     <message>
         <location filename="../hardcoded_strings.py" line="48"/>
         <source>Orange</source>
-        <translation type="unfinished"></translation>
+        <translation>Naranja</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="68"/>
         <source>Sweet corn</source>
-        <translation type="unfinished"></translation>
+        <translation>Maiz dulce</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="75"/>
         <source>White wine</source>
-        <translation type="unfinished"></translation>
+        <translation>Vino blanco</translation>
     </message>
     <message>
         <location filename="../hardcoded_strings.py" line="84"/>
         <source>Bottle</source>
+        <translation>Botella</translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../hardcoded_strings.py" line="52"/>
+        <source>Peppers from Padrón</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -627,6 +627,11 @@
         <location filename="../mem.py" line="38"/>
         <source>Developed by Mariano Mu&#xf1;oz 2019-{} &#xa9;</source>
         <translation>Desarrollado por Mariano Muñoz 2019-{} ©</translation>
+    </message>
+    <message>
+        <location filename="../caloriestracker.py" line="16"/>
+        <source>Calories Tracker have been correctly installed. Please login again</source>
+        <translation>Calories Tracker ha sido instalado correctamente. Por favor autentícate otra vez</translation>
     </message>
 </context>
 <context>
@@ -726,7 +731,7 @@
     <message>
         <location filename="../ui/myqcharts.py" line="1088"/>
         <source>Last value</source>
-        <translation type="unfinished"></translation>
+        <translation>Último valor</translation>
     </message>
 </context>
 <context>
@@ -813,12 +818,12 @@
     <message>
         <location filename="../ui/myqcharts.py" line="898"/>
         <source>Show chart data</source>
-        <translation type="unfinished">Muestra los datos del gráfico</translation>
+        <translation>Muestra los datos del gráfico</translation>
     </message>
     <message>
         <location filename="../ui/myqcharts.py" line="895"/>
         <source>Hide chart data</source>
-        <translation type="unfinished">Oculta los datos del gráfico</translation>
+        <translation>Oculta los datos del gráfico</translation>
     </message>
 </context>
 <context>
@@ -860,7 +865,7 @@
 <context>
     <name>cmbManagerSelector</name>
     <message>
-        <location filename="../ui/frmSelector.py" line="226"/>
+        <location filename="../ui/frmSelector.py" line="237"/>
         <source>Press to open a manager selector</source>
         <translation>Pulsa para realizar su selección</translation>
     </message>
@@ -868,12 +873,12 @@
 <context>
     <name>combo</name>
     <message>
-        <location filename="../libmanagers.py" line="383"/>
+        <location filename="../libmanagers.py" line="173"/>
         <source>Select an option</source>
         <translation>Selecciona una opción</translation>
     </message>
     <message>
-        <location filename="../libmanagers.py" line="385"/>
+        <location filename="../libmanagers.py" line="175"/>
         <source>No options to select</source>
         <translation>No hay opciones para seleccionar</translation>
     </message>
@@ -954,44 +959,89 @@
 <context>
     <name>frmAccess</name>
     <message>
-        <location filename="../ui/Ui_frmAccess.py" line="163"/>
+        <location filename="../ui/Ui_frmAccess.py" line="213"/>
         <source>Language</source>
         <translation>Idioma</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAccess.py" line="164"/>
+        <location filename="../ui/Ui_frmAccess.py" line="214"/>
         <source>Server</source>
         <translation>Servidor</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAccess.py" line="165"/>
+        <location filename="../ui/Ui_frmAccess.py" line="215"/>
         <source>Port</source>
         <translation>Puerto</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAccess.py" line="166"/>
+        <location filename="../ui/Ui_frmAccess.py" line="216"/>
         <source>Database</source>
         <translation>Base de datos</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAccess.py" line="167"/>
+        <location filename="../ui/Ui_frmAccess.py" line="217"/>
         <source>User</source>
         <translation>Usuario</translation>
     </message>
     <message>
-        <location filename="../ui/Ui_frmAccess.py" line="168"/>
+        <location filename="../ui/Ui_frmAccess.py" line="218"/>
         <source>Password</source>
         <translation>Contraseña</translation>
     </message>
     <message>
-        <location filename="../ui/frmAccess.py" line="109"/>
+        <location filename="../ui/frmAccess.py" line="156"/>
         <source>Error conecting to {} database in {} server</source>
         <translation>Error al conectar a la base de datos {} del servidor {}</translation>
     </message>
     <message>
-        <location filename="../ui/frmAccess.py" line="53"/>
+        <location filename="../ui/frmAccess.py" line="56"/>
         <source>Log in PostreSQL database</source>
         <translation>Autentícate en la base de datos PostgreSQL</translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmAccess.py" line="209"/>
+        <source>Select a profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmAccess.py" line="210"/>
+        <source>Create a new profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmAccess.py" line="211"/>
+        <source>Update current profile name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmAccess.py" line="212"/>
+        <source>Delete current profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/Ui_frmAccess.py" line="219"/>
+        <source>New Database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/frmAccess.py" line="170"/>
+        <source>Profile name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/frmAccess.py" line="205"/>
+        <source>Do you want to create {} database in {}?</source>
+        <translation>Quieres crear la base de datos {} en {}?</translation>
+    </message>
+    <message>
+        <location filename="../ui/frmAccess.py" line="210"/>
+        <source>Xulpymoney database already exists</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/frmAccess.py" line="222"/>
+        <source>Error conecting to {} database in {} server, after creating database</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1032,18 +1082,23 @@
         <translation>Selecciona tu deseo sobre el peso</translation>
     </message>
     <message>
-        <location filename="../ui/frmBiometricsAdd.py" line="22"/>
+        <location filename="../ui/frmBiometricsAdd.py" line="30"/>
         <source>Edit a biometrics information register</source>
         <translation>Edita un registro de información biométrica</translation>
     </message>
     <message>
-        <location filename="../ui/frmBiometricsAdd.py" line="34"/>
+        <location filename="../ui/frmBiometricsAdd.py" line="37"/>
         <source>Add a new biometrics information register</source>
         <translation>Añade un nuevo registro de información biométrica</translation>
     </message>
     <message>
-        <location filename="../ui/frmBiometricsAdd.py" line="41"/>
+        <location filename="../ui/frmBiometricsAdd.py" line="53"/>
         <source>You must select an activity and a weight wish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/frmBiometricsAdd.py" line="42"/>
+        <source>You must add your biometric data</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1157,84 +1212,6 @@
         <location filename="../ui/frmHelp.ui" line="102"/>
         <source>https://github.com/turulomio/xulpymoney/wiki</source>
         <translation>https://github.com/turulomio/xulpymoney/wiki</translation>
-    </message>
-</context>
-<context>
-    <name>frmInit</name>
-    <message>
-        <location filename="../ui/Ui_frmInit.py" line="140"/>
-        <source>Database language</source>
-        <translation>Idioma de la base de datos</translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmInit.py" line="141"/>
-        <source>Server</source>
-        <translation>Servidor</translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmInit.py" line="142"/>
-        <source>127.0.0.1</source>
-        <translation>127.0.0.1</translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmInit.py" line="143"/>
-        <source>Port</source>
-        <translation>Puerto</translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmInit.py" line="144"/>
-        <source>5432</source>
-        <translation>5432</translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmInit.py" line="145"/>
-        <source>User</source>
-        <translation>Usuario</translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmInit.py" line="146"/>
-        <source>postgres</source>
-        <translation>postgres</translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmInit.py" line="147"/>
-        <source>Password</source>
-        <translation>Contraseña</translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmInit.py" line="150"/>
-        <source>Create database</source>
-        <translation>Crear base de datos</translation>
-    </message>
-    <message>
-        <location filename="../ui/frmInit.py" line="30"/>
-        <source>Do you want to create {} database in {}?</source>
-        <translation>Quieres crear la base de datos {} en {}?</translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmInit.py" line="138"/>
-        <source>Initializating Calories Tracker database</source>
-        <translation>Iniciando la base de datos de Calories Tracker</translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmInit.py" line="139"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pressing the button below, you will create the database needed to run CaloriesTracker. It&apos;ll be created in the language selected&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pulsando el botón de abajo crearás la base de datos que se necesita para ejcutar Calories Tracker. Será creada en el idioma seleccionado&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmInit.py" line="148"/>
-        <source>Database</source>
-        <translation>Base de datos</translation>
-    </message>
-    <message>
-        <location filename="../ui/Ui_frmInit.py" line="149"/>
-        <source>caloriestracker</source>
-        <translation>caloriestracker</translation>
-    </message>
-    <message>
-        <location filename="../ui/frmInit.py" line="38"/>
-        <source>Database created. Please run Calories Tracker and login</source>
-        <translation>Base de datos creada. Por favor ejecuta Calories Tracker y autentícate</translation>
     </message>
 </context>
 <context>
@@ -1767,11 +1744,6 @@
         <translation>Selecciona los aditivos del producto</translation>
     </message>
     <message>
-        <location filename="../ui/frmProductsAdd.py" line="123"/>
-        <source>You neet to set a food type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../ui/Ui_frmProductsAdd.py" line="169"/>
         <source>Gluten free</source>
         <translation>Sin gluten</translation>
@@ -1800,6 +1772,11 @@
         <location filename="../ui/frmProductsAdd.py" line="30"/>
         <source>Calcium</source>
         <translation>Calcio</translation>
+    </message>
+    <message>
+        <location filename="../ui/frmProductsAdd.py" line="123"/>
+        <source>You need to set a food type</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1881,7 +1858,7 @@
     </message>
     <message>
         <location filename="../ui/frmProductsElaboratedAdd.py" line="114"/>
-        <source>You neet to set a food type</source>
+        <source>You need to set a food type</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2017,7 +1994,7 @@
 <context>
     <name>mem</name>
     <message>
-        <location filename="../caloriestracker.py" line="18"/>
+        <location filename="../caloriestracker.py" line="28"/>
         <source>Please login to the Calories Tracker database</source>
         <translation>Por favor autentíquese en la base de datos de Calories Tracker</translation>
     </message>
@@ -2124,7 +2101,7 @@
         <translation>Edita información biométrica</translation>
     </message>
     <message>
-        <location filename="../ui/wdgBiometrics.py" line="187"/>
+        <location filename="../ui/wdgBiometrics.py" line="190"/>
         <source>This action can&apos;t be undone.
 Do you want to delete this record?</source>
         <translation>Esta acción no puede deshacerse.
@@ -2175,21 +2152,26 @@ Do you want to delete this record?</source>
         <source>Last three years</source>
         <translation>Últimos tres años</translation>
     </message>
+    <message>
+        <location filename="../ui/wdgBiometrics.py" line="188"/>
+        <source>This is your last biometric data. You can&apos;t delete</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>wdgCuriosities</name>
     <message>
-        <location filename="../ui/wdgCuriosities.py" line="13"/>
+        <location filename="../ui/wdgCuriosities.py" line="16"/>
         <source>Since when there is data in the database?</source>
         <translation>¿Desde que fecha hay información en la base de datos?</translation>
     </message>
     <message>
-        <location filename="../ui/wdgCuriosities.py" line="20"/>
+        <location filename="../ui/wdgCuriosities.py" line="23"/>
         <source>Which is the product with highest calories in 100 gramos?</source>
         <translation>¿Cuál es el producto con el mayor número de calorías en 100 gramos?</translation>
     </message>
     <message>
-        <location filename="../ui/wdgCuriosities.py" line="28"/>
+        <location filename="../ui/wdgCuriosities.py" line="31"/>
         <source>The product with highest calories is {} with {} calories.</source>
         <translation>El producto con las calorías más alta es {} con {} calorías.</translation>
     </message>
@@ -2199,52 +2181,52 @@ Do you want to delete this record?</source>
         <translation>Curiosidades de Calories Tracker</translation>
     </message>
     <message>
-        <location filename="../ui/wdgCuriosities.py" line="46"/>
+        <location filename="../ui/wdgCuriosities.py" line="49"/>
         <source>When did I have my highest weight?</source>
         <translation>¿Cuándo tuve mi peso más alto?</translation>
     </message>
     <message>
-        <location filename="../ui/wdgCuriosities.py" line="47"/>
+        <location filename="../ui/wdgCuriosities.py" line="50"/>
         <source>My highest weight was {} at {}</source>
         <translation>Mi peso más alto fue {} en {}</translation>
     </message>
     <message>
-        <location filename="../ui/wdgCuriosities.py" line="52"/>
+        <location filename="../ui/wdgCuriosities.py" line="55"/>
         <source>When did I have my lowest weight?</source>
         <translation>¿Cuándo tuve mi peso más bajo?</translation>
     </message>
     <message>
-        <location filename="../ui/wdgCuriosities.py" line="53"/>
+        <location filename="../ui/wdgCuriosities.py" line="56"/>
         <source>My lowest weight was {} at {}</source>
         <translation>Mi peso más bajo fue {} en {}</translation>
     </message>
     <message>
-        <location filename="../ui/wdgCuriosities.py" line="58"/>
+        <location filename="../ui/wdgCuriosities.py" line="61"/>
         <source>Which is my median weight?</source>
         <translation>¿Cuál es la mediana de mi peso?</translation>
     </message>
     <message>
-        <location filename="../ui/wdgCuriosities.py" line="59"/>
+        <location filename="../ui/wdgCuriosities.py" line="62"/>
         <source>My median weight is {}</source>
         <translation>La mediana de mi peso es {}</translation>
     </message>
     <message>
-        <location filename="../ui/wdgCuriosities.py" line="32"/>
+        <location filename="../ui/wdgCuriosities.py" line="36"/>
         <source>Which is the meal with highest calories I had eaten?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/wdgCuriosities.py" line="34"/>
+        <location filename="../ui/wdgCuriosities.py" line="37"/>
         <source>The meal with the highest calories I ate was &apos;{}&apos; with &apos;{}&apos; calories. I ate at {}.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/wdgCuriosities.py" line="38"/>
+        <location filename="../ui/wdgCuriosities.py" line="41"/>
         <source>When did I take the highest calories amount in a day?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/wdgCuriosities.py" line="39"/>
+        <location filename="../ui/wdgCuriosities.py" line="42"/>
         <source>The day I took the highest amount of calories was {} and I took {}.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2296,7 +2278,7 @@ Do you want to delete this record?</source>
     <message>
         <location filename="../ui/Ui_wdgDatetime.py" line="118"/>
         <source>Sets a null value</source>
-        <translation type="unfinished"></translation>
+        <translation>Establece un valor nulo</translation>
     </message>
 </context>
 <context>
@@ -2304,13 +2286,13 @@ Do you want to delete this record?</source>
     <message>
         <location filename="../ui/wdgDatetime.py" line="196"/>
         <source>Select date and time</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecciona fecha y hora</translation>
     </message>
 </context>
 <context>
     <name>wdgManagerSelector</name>
     <message>
-        <location filename="../ui/frmSelector.py" line="146"/>
+        <location filename="../ui/frmSelector.py" line="154"/>
         <source>Object</source>
         <translation>Objeto</translation>
     </message>
@@ -2428,12 +2410,12 @@ Do you want to delete all meals from selected day?</source>
     <message>
         <location filename="../ui/Ui_wdgMeals.py" line="165"/>
         <source>Copy meal</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar comida</translation>
     </message>
     <message>
         <location filename="../ui/Ui_wdgMeals.py" line="167"/>
         <source>Paste meal</source>
-        <translation type="unfinished"></translation>
+        <translation>Pegar comida</translation>
     </message>
     <message>
         <location filename="../ui/wdgMeals.py" line="111"/>
@@ -2549,7 +2531,7 @@ Do you want to delete this record?</source>
 ¿Quieres borrar el registro?</translation>
     </message>
     <message>
-        <location filename="../ui/wdgProducts.py" line="114"/>
+        <location filename="../ui/wdgProducts.py" line="115"/>
         <source>{} products found</source>
         <translation>{} productos encontrados</translation>
     </message>
@@ -2602,21 +2584,38 @@ Do you want to delete this record?</source>
 <context>
     <name>wdgProductsDataMove</name>
     <message>
-        <location filename="../ui/wdgProductsDataMove.py" line="16"/>
+        <location filename="../ui/wdgProductsDataMove.py" line="19"/>
         <source>Moving data between products</source>
         <translation>Moviendo datos entre productos</translation>
     </message>
     <message>
-        <location filename="../ui/wdgProductsDataMove.py" line="16"/>
+        <location filename="../ui/wdgProductsDataMove.py" line="19"/>
         <source>This action can&apos;t be undone.
 Do you want to continue?</source>
         <translation>Esta acción no puede ser deshecha.
 Quieres continuar?</translation>
     </message>
     <message>
+        <location filename="../ui/Ui_wdgProductsDataMove.py" line="54"/>
+        <source>Move data from personal to system product</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../ui/Ui_wdgProductsDataMove.py" line="55"/>
-        <source>All product data will be moved from origin product to destiny one. If there are invesments created with origin product, they will be referenced to destiny product.
-If origin is a user product, you can delete afterwards, because it won&apos;t have any data</source>
+        <source>Sometimes user creates a personal product that is already created as a system product
+
+Selecting a system product you can move all data from your person product to it
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/wdgProductsDataMove.py" line="18"/>
+        <source>Moving data from personal product &apos;{}&apos; to system product &apos;{}&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/wdgProductsDataMove.py" line="24"/>
+        <source>You must select a system product</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

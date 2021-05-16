@@ -111,7 +111,7 @@ class frmProductsElaboratedAdd(QDialog, Ui_frmProductsElaboratedAdd):
     def on_bb_accepted(self):
         foodtype=None if self.cmbFoodtypes.currentIndex()==-1 else self.mem.data.foodtypes.find_by_id(self.cmbFoodtypes.itemData(self.cmbFoodtypes.currentIndex()))
         if foodtype==None:
-            qmessagebox(self.tr("You neet to set a food type"),  ":/caloriestracker/book.png")
+            qmessagebox(self.tr("You need to set a food type"),  ":/caloriestracker/book.png")
             return
  
         if self.elaboratedproduct is None:        

@@ -72,23 +72,29 @@ In Calories tracker you can add your own products and you can share them with us
 
 Changelog
 =========
+0.8.0
+  * Removed caloriestracker_init. Now you can create a new database from login.
+  * Added sugar to meals tables.
+  * Now you can move all data from a personal product to an existing system one.
+  * Fixed bugs with empty databases.
+
 0.7.0
-  * Food types are now ordered by translated name
-  * Fixed bug deleting a user
+  * Food types are now ordered by translated name.
+  * Fixed bug deleting a user.
   * Added a combobox to filter products by personal, system and elaborated types.
   * Added meals and foodtype pies.
-  * Added curiosities
-  * Added daily meal evolution chart
-  * Calcium component has been added to products
-  * Added copy and paste meals
+  * Added curiosities.
+  * Added daily meal evolution chart.
+  * Calcium component has been added to products.
+  * Added copy and paste meals.
 
 0.6.0
   * You can see all products of a company in companies list.
   * You can see a system products without editing.
-  * Update a lot files from reusingcode project
-  * Added food types
-  * Added additives
-  * Added russian translations. Thanks DankanTsar
+  * Update a lot files from reusingcode project.
+  * Added food types.
+  * Added additives.
+  * Added russian translations. Thanks DankanTsar.
   * Added product mantainer mode. Only for developers.
   * Added more products.
   * Added glutenfree field.

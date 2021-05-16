@@ -120,7 +120,7 @@ class frmProductsAdd(QDialog, Ui_frmProductsAdd):
         company=None if cmb_index==-1 else self.mem.data.companies.find_by_string_id(self.cmbCompanies.itemData(cmb_index))
         foodtype=None if self.cmbFoodtypes.currentIndex()==-1 else self.mem.data.foodtypes.find_by_id(self.cmbFoodtypes.itemData(self.cmbFoodtypes.currentIndex()))
         if foodtype==None:
-            qmessagebox(self.tr("You neet to set a food type"),  ":/caloriestracker/book.png")
+            qmessagebox(self.tr("You need to set a food type"),  ":/caloriestracker/book.png")
             return
         system_company=None if company==None else company.system_company
         if self.product==None:        
