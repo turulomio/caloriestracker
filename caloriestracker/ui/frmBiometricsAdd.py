@@ -1,3 +1,4 @@
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog, QDialogButtonBox
 from caloriestracker.ui.Ui_frmBiometricsAdd import Ui_frmBiometricsAdd
 from caloriestracker.ui.myqwidgets import qmessagebox
@@ -12,8 +13,6 @@ class frmBiometricsAdd(QDialog, Ui_frmBiometricsAdd):
         self.biometric=biometric
         self.wdgDT.show_microseconds(False)
         self.wdgDT.setLocalzone(self.mem.localzone)
-        
-        print("AHORA", self.mem.user.biometrics.last())
         
         if self.mem.user.biometrics.last() is None:#No last_biometrics no data in database
             self.wdgDT.set(datetime.now(), self.mem.localzone)
@@ -42,6 +41,14 @@ class frmBiometricsAdd(QDialog, Ui_frmBiometricsAdd):
             qmessagebox(self.tr("You must add your biometric data"))
             event.ignore()
             return
+        event.accept()
+    def keyPressEvent (self,  event):
+        print(event.key())
+        if self.mem.user.biometrics.last() is None:
+            if event.key()==Qt.Key_Escape:
+                qmessagebox(self.tr("You must add your biometric data"))
+                event.ignore()
+                return
         event.accept()
 
 
