@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QDialog
+from PyQt5.QtWidgets import QDialog, QDialogButtonBox
 from caloriestracker.ui.Ui_frmBiometricsAdd import Ui_frmBiometricsAdd
 from caloriestracker.ui.myqwidgets import qmessagebox
 from caloriestracker.objects.biometrics import Biometrics
@@ -13,18 +13,21 @@ class frmBiometricsAdd(QDialog, Ui_frmBiometricsAdd):
         self.wdgDT.show_microseconds(False)
         self.wdgDT.setLocalzone(self.mem.localzone)
         
-        if self.biometric!=None:
+        print("AHORA", self.mem.user.biometrics.last())
+        
+        if self.mem.user.biometrics.last() is None:#No last_biometrics no data in database
+            self.wdgDT.set(datetime.now(), self.mem.localzone)
+            self.bb.button(QDialogButtonBox.Cancel).setEnabled(False)
+            self.mem.data.activities.qcombobox(self.cmbActivity)
+            self.mem.data.weightwishes.qcombobox(self.cmbWeightWish)
+            self.lbl.setText(self.tr("Add a new biometrics information register"))        
+        elif self.biometric is not None: 
             self.mem.data.activities.qcombobox(self.cmbActivity, self.biometric.activity)
             self.mem.data.weightwishes.qcombobox(self.cmbWeightWish, self.biometric.weightwish)
             self.wdgDT.set(self.biometric.datetime, self.mem.localzone)
             self.spnHeight.setValue(self.biometric.height)
             self.spnWeight.setValue(self.biometric.weight)
             self.lbl.setText(self.tr("Edit a biometrics information register"))
-        elif self.mem.user.biometrics.last()==None:#No last_biometrics no data in database
-            self.wdgDT.set(datetime.now(), self.mem.localzone)
-            self.mem.data.activities.qcombobox(self.cmbActivity)
-            self.mem.data.weightwishes.qcombobox(self.cmbWeightWish)
-            self.lbl.setText(self.tr("Add a new biometrics information register"))        
         else:#Uses last data
             self.wdgDT.set(datetime.now(), self.mem.localzone)
             self.mem.data.activities.qcombobox(self.cmbActivity, self.mem.user.biometrics.last().activity)
@@ -32,6 +35,15 @@ class frmBiometricsAdd(QDialog, Ui_frmBiometricsAdd):
             self.spnHeight.setValue(self.mem.user.biometrics.last().height)
             self.spnWeight.setValue(self.mem.user.biometrics.last().weight)
             self.lbl.setText(self.tr("Add a new biometrics information register"))
+
+
+    def closeEvent (self,  event):
+        if self.mem.user.biometrics.last() is None:
+            qmessagebox(self.tr("You must add your biometric data"))
+            event.ignore()
+            return
+        event.accept()
+
 
     def on_bb_accepted(self):
         activity=self.mem.data.activities.find_by_id(self.cmbActivity.itemData(self.cmbActivity.currentIndex()))

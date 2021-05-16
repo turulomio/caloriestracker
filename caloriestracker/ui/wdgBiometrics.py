@@ -3,7 +3,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QWidget, QMenu
 from caloriestracker.objects.biometrics import BiometricsManager_in_a_month, BiometricsManager_n_last
 from caloriestracker.ui.myqcharts import VCTemporalSeries
-from caloriestracker.ui.myqwidgets import qmessagebox_question
+from caloriestracker.ui.myqwidgets import qmessagebox_question, qmessagebox
 from caloriestracker.libmanagers import DateValueManager
 from datetime import date, timedelta
 
@@ -184,6 +184,9 @@ class wdgBiometrics(QWidget, Ui_wdgBiometrics):
 
     @pyqtSlot()
     def on_actionBiometricsDelete_triggered(self):
+        if self.mem.con.cursor_one_field("select count(*) from biometrics")==1:
+            qmessagebox(self.tr("This is your last biometric data. You can't delete"))
+            return 
         if qmessagebox_question( self.tr("This action can't be undone.\nDo you want to delete this record?"))==True:
             self.tblBiometrics.selected.delete()
             self.mem.con.commit()

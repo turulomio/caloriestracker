@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import  QDialog
 from caloriestracker.ui.frmAccess import frmAccess
-from caloriestracker.mem import MemInit, MemCaloriestracker
+from caloriestracker.mem import MemCaloriestracker
 import caloriestracker.images.caloriestracker_rc #Images of frmAccess were not loaded without this
 
 from os import system, environ

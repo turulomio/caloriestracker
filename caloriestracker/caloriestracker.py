@@ -31,7 +31,6 @@ def main():
 
     if mem.frmAccess.result()==QDialog.Accepted:
         mem.con=mem.frmAccess.con
-        print(mem.con)
         mem.settings=mem.frmAccess.settings
         mem.setLocalzone()#Needs settings in mem
         if mem.args.products_maintainer==True:

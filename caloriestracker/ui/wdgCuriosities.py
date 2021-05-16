@@ -8,13 +8,16 @@ class wdgCuriosities(QWidget, Ui_wdgCuriosities):
         QWidget.__init__(self, parent)
         self.setupUi(self)
         self.mem=mem
+        
+        num_meals=self.mem.con.cursor_one_field("select count(*) from meals")
 
-        c=wdgCuriosity(self.mem)
-        c.setTitle(self.tr("Since when there is data in the database?"))
-        c.setText("The first data is from {}".format(self.mem.con.cursor_one_field("select min(datetime) from meals where users_id=%s", (self.mem.user.id, ))))
-        self.layout.addWidget(c)
+        if num_meals>0:
+            c=wdgCuriosity(self.mem)
+            c.setTitle(self.tr("Since when there is data in the database?"))
+            c.setText("The first data is from {}".format(self.mem.con.cursor_one_field("select min(datetime) from meals where users_id=%s", (self.mem.user.id, ))))
+            self.layout.addWidget(c)
 
-        self.addSeparator()
+            self.addSeparator()
 
         c=wdgCuriosity(self.mem)
         c.setTitle(self.tr("Which is the product with highest calories in 100 gramos?"))
@@ -28,16 +31,16 @@ class wdgCuriosities(QWidget, Ui_wdgCuriosities):
         c.setText(self.tr("The product with highest calories is {} with {} calories.".format(selected.fullName(), selected.component_in_100g(eProductComponent.Calories))))
         self.layout.addWidget(c)
 
-        c=wdgCuriosity(self.mem)
-        c.setTitle(self.tr("Which is the meal with highest calories I had eaten?"))
-        print(*self.query_meal_with_the_highest_calories())
-        c.setText(self.tr("The meal with the highest calories I ate was '{}' with '{}' calories. I ate at {}.").format(*self.query_meal_with_the_highest_calories()))
-        self.layout.addWidget(c)
+        if num_meals>0:
+            c=wdgCuriosity(self.mem)
+            c.setTitle(self.tr("Which is the meal with highest calories I had eaten?"))
+            c.setText(self.tr("The meal with the highest calories I ate was '{}' with '{}' calories. I ate at {}.").format(*self.query_meal_with_the_highest_calories()))
+            self.layout.addWidget(c)
 
-        c=wdgCuriosity(self.mem)
-        c.setTitle(self.tr("When did I take the highest calories amount in a day?"))
-        c.setText(self.tr("The day I took the highest amount of calories was {} and I took {}.").format(*self.query_day_i_took_the_highest_amount_of_calories()))
-        self.layout.addWidget(c)
+            c=wdgCuriosity(self.mem)
+            c.setTitle(self.tr("When did I take the highest calories amount in a day?"))
+            c.setText(self.tr("The day I took the highest amount of calories was {} and I took {}.").format(*self.query_day_i_took_the_highest_amount_of_calories()))
+            self.layout.addWidget(c)
         
         self.addSeparator()
         
