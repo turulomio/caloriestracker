@@ -26,7 +26,7 @@
         </font>
        </property>
        <property name="text">
-        <string/>
+        <string>Move data from personal to system product</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -36,8 +36,10 @@
      <item>
       <widget class="QLabel" name="lblExplanation">
        <property name="text">
-        <string>All product data will be moved from origin product to destiny one. If there are invesments created with origin product, they will be referenced to destiny product.
-If origin is a user product, you can delete afterwards, because it won't have any data</string>
+        <string>Sometimes user creates a personal product that is already created as a system product
+
+Selecting a system product you can move all data from your person product to it
+</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>

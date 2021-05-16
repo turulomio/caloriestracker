@@ -47,10 +47,11 @@ class wdgProducts(QWidget, Ui_wdgProducts):
         d.resize(self.mem.settings.value("wdgProducts/frmProductPersonalMerge_size", QSize(800, 600)))
         d.setWindowTitle(self.tr("Merge personal product into a system one"))
         lay = QVBoxLayout(d)
-        wdg=wdgProductsDataMove(self.mem, self.tblProducts.selected, None, d)
+        wdg=wdgProductsDataMove(self.mem, self.tblProducts.selected, d)
         lay.addWidget(wdg)
         d.exec_()
         self.mem.settings.setValue("wdgProducts/frmProductPersonalMerge_size", d.size())
+        self.on_cmd_pressed()
 
     @pyqtSlot() 
     def on_actionProductNew_triggered(self):
@@ -134,7 +135,10 @@ class wdgProducts(QWidget, Ui_wdgProducts):
             self.actionProductDelete.setEnabled(True)
             self.actionProductEdit.setEnabled(True)
             self.actionFormats.setEnabled(True)
-            self.actionProductPersonalMerge.setEnabled(True)
+            if self.tblProducts.selected.is_system():
+                self.actionProductPersonalMerge.setEnabled(False)
+            else:
+                self.actionProductPersonalMerge.setEnabled(True)
         menu.addMenu(self.tblProducts.qmenu())
         menu.exec_(self.tblProducts.table.mapToGlobal(pos))
       

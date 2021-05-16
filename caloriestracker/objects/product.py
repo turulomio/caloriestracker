@@ -189,7 +189,7 @@ class Product(QObject):
         
     def is_system(self):
         """Returns if the product is a system product or a user product"""
-        if self.id>=0:
+        if self.__class__.__name__=="Product":
             return True
         return False
 
@@ -541,3 +541,18 @@ def ProductAllManager_fullName_contains(manager, s,  casesensitive=False):
             if s in o.fullName().upper():
                 r.append(o)
     return r
+
+## Moves a personal product to a system product
+## If there are personal product formats will be deleted
+def move_product_personal_to_system(mem, from_personal_product,  to_system_product):
+    try:
+        mem.con.execute("update meals set products_id=%s, system_product=true where products_id=%s and system_product=false",
+            (to_system_product.id, from_personal_product.id))
+        mem.con.execute("update products_in_elaboratedproducts set products_id=%s, system_product=true where products_id=%s and system_product=false",
+            (to_system_product.id, from_personal_product.id))
+        mem.con.execute("delete from personalformats where products_id=%s and system_product=true", (from_personal_product.id, ))
+        mem.con.execute("delete from personalproducts where id=%s", (from_personal_product.id, ))
+        mem.con.commit()
+        mem.data.products.remove(from_personal_product)
+    except:
+        mem.con.rollback()

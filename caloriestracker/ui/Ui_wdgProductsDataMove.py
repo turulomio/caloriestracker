@@ -26,7 +26,6 @@ class Ui_wdgProductsDataMove(object):
         font.setBold(True)
         font.setWeight(75)
         self.lblTitle.setFont(font)
-        self.lblTitle.setText("")
         self.lblTitle.setAlignment(QtCore.Qt.AlignCenter)
         self.lblTitle.setObjectName("lblTitle")
         self.verticalLayout.addWidget(self.lblTitle)
@@ -52,7 +51,10 @@ class Ui_wdgProductsDataMove(object):
 
     def retranslateUi(self, wdgProductsDataMove):
         _translate = QtCore.QCoreApplication.translate
-        self.lblExplanation.setText(_translate("wdgProductsDataMove", "All product data will be moved from origin product to destiny one. If there are invesments created with origin product, they will be referenced to destiny product.\n"
-"If origin is a user product, you can delete afterwards, because it won\'t have any data"))
+        self.lblTitle.setText(_translate("wdgProductsDataMove", "Move data from personal to system product"))
+        self.lblExplanation.setText(_translate("wdgProductsDataMove", "Sometimes user creates a personal product that is already created as a system product\n"
+"\n"
+"Selecting a system product you can move all data from your person product to it\n"
+""))
 from caloriestracker.ui.myqtablewidget import mqtwObjects
 import caloriestracker.images.caloriestracker_rc
