@@ -28,7 +28,7 @@ If you use another distribution, you nee to install PyQtChart and PyQtWebEngine 
 Install in Windows
 ==================
 
-You just download caloriestracker-X.X.X.exe and caloriestracker_init-X.X.X.exe and execute them. They are portable apps so they took a little more time to start, be patient.
+You must download caloriestracker-X.X.X.exe and execute it. They are portable apps so they took a little more time to start, be patient.
 
 Install in Windows with Python
 ==============================
@@ -38,7 +38,7 @@ Open a CMD console
 
 `pip install caloriestracker`
 
-Now you have in the python scripts path `caloriestracker.exe` and `caloriestracker_init.exe`
+Now you have in the python scripts path `caloriestracker.exe`
 
 If you want to create a Desktop shortcut, for this commands, you can write in console
 
@@ -46,13 +46,15 @@ If you want to create a Desktop shortcut, for this commands, you can write in co
 
 How to launch Calories Tracker
 ==============================
-Calories Tracker uses PostgreSQL database as its backend. So you need to create a database and load its schema. Just type:
+Calories Tracker uses PostgreSQL database as its backend. So you need to create a database and load its schema, opening the app with:
 
-`caloriestracker_init`
+`caloriestracker` or pressing it's menu option.
 
-Once database has been created, just log into caloriestracker after typing:
+Add your connection settings to a new database and pulse 'New database'
 
-`caloriestracker`
+Once database has been created, just log into caloriestracker after typing again:
+
+`caloriestracker` or pressing it's menu option.
 
 Dependencies
 ============
