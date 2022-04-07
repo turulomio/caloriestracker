@@ -1,3 +1,7 @@
+[![PyPI](https://img.shields.io/pypi/v/caloriestracker)](https://pypi.org/project/caloriestracker/) [![PyPI - Downloads](https://img.shields.io/pypi/dm/caloriestracker)](https://pypi.org/project/caloriestracker/)
+
+[![Github](https://img.shields.io/github/stars/turulomio/caloriestracker?style=social)](https://github.com/turulomio/caloriestracker/) [![Github - Downloads](https://shields.io/github/downloads/turulomio/caloriestracker/total )](https://github.com/turulomio/caloriestracker/)
+
 Links
 =====
 * [Project web page](https://turulomio.github.io/caloriestracker/)
