@@ -3,7 +3,7 @@
 Proyect Archived
 ================
 
-This project has been archived because I've developed a web app called [django_calories_tracker (backend)](https://turulomio.github.io/django_calories_tracker/) and [calories_tracker (frontend)](https://turulomio.github.io/calories_tracker/) to replace it. These projects improve caloriestracker using vue as a SPA instead of a desktop app with PyQt5. Give it a try ;)
+This project has been archived because I've developed a web app called [django_calories_tracker (backend)](https://github.com/turulomio/django_calories_tracker/) and [calories_tracker (frontend)](https://github.com/turulomio/calories_tracker/) to replace it. These projects improve caloriestracker using vue as a SPA instead of a desktop app with PyQt5. Give it a try ;)
 
 You can still use caloriestracker, it's working fine and it's a good code repository of python with QT.
 
